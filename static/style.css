@@ -1,0 +1,933 @@
+html {
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* figures */
+
+.tick-mark {
+    position: relative;
+    display: inline-block;
+    width: 80%;
+    height: 80%;
+}
+
+.tick-mark::before {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 50%;
+    width: 3px;
+    background-color: black;
+    content: "";
+    transform: translateX(10px) rotate(-45deg);
+    transform-origin: left bottom;
+}
+
+.tick-mark::after {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 100%;
+    background-color: black;
+    content: "";
+    transform: translateX(10px) rotate(-45deg);
+    transform-origin: left bottom;
+}
+
+
+.loader {
+    border: 3.5px solid lightgrey; /* Light grey */
+    border-top: 3.5px solid black; /* Blue */
+    border-radius: 50%;
+    animation: spin 2s linear infinite;
+    position: relative;
+    display: inline-block;
+    width: 60%;
+    height: 60%;
+}
+
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.border {
+    border: 3px solid black;
+}
+
+.bubble {
+    width: 110px;
+    border: 3px solid black;
+    padding: 10px;
+    text-align: center;
+    color: black;
+    position: absolute;
+    top: -60px;
+    left: 30px;
+    border-radius: 20px;
+    animation: 0.3s linear popup;
+    background-color: lightgrey;
+}
+
+.bubble:before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border-left: 10px solid black;
+    border-right: 10px solid transparent;
+    border-top: 10px solid black;
+    border-bottom: 10px solid transparent;
+    left: 20px;
+    bottom: -23px;
+}
+  
+.bubble:after {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border-left: 10px solid lightgrey;
+    border-right: 10px solid transparent;
+    border-top: 10px solid lightgrey;
+    border-bottom: 10px solid transparent;
+    left: 24px;
+    bottom: -13px;
+}
+
+.bubble_white {
+    width: 110px;
+    border: 3px solid black;
+    padding: 10px;
+    text-align: center;
+    color: black;
+    position: absolute;
+    top: -60px;
+    left: 30px;
+    border-radius: 20px;
+    animation: 0.3s linear popup;
+}
+
+.bubble_white:before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border-left: 10px solid black;
+    border-right: 10px solid transparent;
+    border-top: 10px solid black;
+    border-bottom: 10px solid transparent;
+    left: 20px;
+    bottom: -23px;
+}
+  
+.bubble_white:after {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border-left: 10px solid white;
+    border-right: 10px solid transparent;
+    border-top: 10px solid white;
+    border-bottom: 10px solid transparent;
+    left: 24px;
+    bottom: -13px;
+}
+
+@keyframes popup {
+    0% { scale: 0; }
+    100% { scale: 100% }
+}
+
+.br_small {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.br_big {
+    display: block;
+    margin-bottom: 30px;
+}
+
+
+/* specific forms */
+
+.bold {
+    font-weight: bold;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.underline {
+    text-decoration: underline;
+    text-underline-position: under;
+}
+
+
+
+/* general types */
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 0px;
+}
+
+
+table {
+    table-layout: fixed;
+    padding: 20px;
+}
+
+button {
+    width: 120px;
+    height: 40px;
+    margin: auto;
+    cursor: pointer;
+}
+
+input[type=checkbox] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+input[type=range] {
+    width: 600px;
+}
+
+input[type=radio] {
+    margin-left: 25px;
+    margin-right: 10px;
+}
+
+select {
+    width: 140px;
+}
+
+img {
+    margin-top: 5px;
+    display: block;
+    width: 100%;
+}
+
+label {
+    cursor: pointer;
+}
+
+
+/* specific general types */
+
+.body_homepage {
+    padding: 30px 100px 30px 100px;
+}
+
+.body_homepage > h1{
+    margin-bottom: 50px;
+}
+
+.p_centered {
+    text-align: center;
+}
+
+.img_mark {
+    position: absolute;
+    width: 40px;
+    top: -40px;
+}
+
+.table_answers {
+    table-layout: fixed;
+    width: 100%;
+    line-height: 15px;
+    font-size: 15px;
+}
+
+.table_answers > td {
+    border-radius: 5px;
+}
+
+.th_name {
+    font-size: 12px;
+    width: 15%;
+    vertical-align: top;
+    height: 20px;
+}
+
+.th_summary {
+    width: 55%;
+    height: 20px;
+}
+
+.td_summary {
+    height: 30px;
+    text-align: left;
+}
+
+.td_answer {
+    border-radius: 5px;
+}
+
+.td_ans_name {
+    width: 120px;
+}
+
+.tr_margin {
+    height: 5px;
+}
+
+.p_instruction {
+    margin: 0px
+}
+
+.button_small {
+    width: 80px;
+    height: 30px;
+    font-size: 15px;
+    margin-left: 5px;
+}
+
+.button_big {
+    display: block;
+    width: 300px;
+    margin-top: 30px;
+    font-size: 18px;
+}
+
+.form_ideology {
+    text-align: left;
+    border: 1px dashed grey;
+    width: 300px;
+    border-radius: 15px;
+    padding: 5px;
+    font-size: 18px;
+    line-height: 25px;
+    padding: 10px 0px 10px 0px;
+}
+
+/* class types */
+
+.quiz_body {
+    padding: 30px 50px 30px 50px;
+}
+
+.end > h1 {
+    margin-top: 50px;
+    margin-bottom: 50px;
+}
+
+.rules {
+    padding: 10px 30px 30px 30px;
+}
+
+.status {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+
+.split {
+    height: 100%;
+    position: absolute;
+    top: 0;
+}
+
+.splits_wrap {
+    position: relative;
+}
+
+.phase_0_left {
+    width: 55%;
+    left: 0;
+    border-right: 2px solid black;
+}
+
+.phase_0_right {
+    width: 40%;
+    right: 0;
+}
+
+.phase_0_right > form {
+    text-align: center;
+}
+
+.pseudonyms_list {
+    line-height: 40px;
+    padding: 10px;
+    border: 5px dashed lightgray;
+    margin-bottom: 30px;
+}
+
+.pseudonym_choice {
+    display: inline-block;
+    padding: 5px;
+    height: 20px;
+    border: 1px solid black;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pseudonym_choice:hover {
+    scale: 1.1;
+}
+
+.pseudonym_choice > p {
+    position: relative;
+    margin: 0px;
+    top: -10px;
+}
+
+
+.avatar_choice {
+    width: 70px;
+    border-radius: 5px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    cursor: pointer;
+}
+
+.avatar_choice > img {
+    width: 100%;
+}
+
+.avatar_choice:hover {
+    scale: 1.05;
+}
+
+.identity_chosen {
+    border: 3px solid black;
+    border-radius: 10px;
+    padding-bottom: 15px;
+    width: 200px;
+    height: 225px;
+    margin: auto;
+    text-align: center;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    position: relative;
+}
+
+.identity_chosen > img {
+    height: 200px;
+}
+
+.identity_chosen > span {
+    text-align: center;
+    /* position: absolute; */
+    /* opacity: 0; */
+    font-size: 25px;
+}
+
+.identity_wrap {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    margin: auto;
+    text-align: center;
+}
+
+.avatars_list {
+    border: 5px dashed lightgray;
+    flex-flow: row wrap;
+    justify-content: space-around;
+    padding: 15px;
+    row-gap: 10px;
+    margin-bottom: 50px;
+}
+
+.wait_status {
+    width: 450px;
+}
+
+.answer_status {
+    width: 90%;
+    margin-top: 60px;
+    margin-bottom: 50px;
+}
+
+
+.labeling_wrap {
+    justify-content: space-evenly;
+    margin-top: 30px;
+}
+
+.profile_waiting {
+    width: 150px;
+    position: relative;
+    text-align: center;
+}
+
+.profile_waiting > img {
+    height: 150px;
+}
+
+.profile_labeling {
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 27%;
+    padding: 10px;
+}
+
+.profile_content {
+    height: 100%;
+    border: 2px solid black;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+
+.profile_answering {
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 30%;
+    position: relative;
+    aspect-ratio: 5 / 3;
+    max-width: 250px;
+    padding: 0px;
+}
+
+.profile_with_labels {
+    border: 0px;
+    border-radius: 10px;
+    width: 30%;
+    position: relative;
+    aspect-ratio: 5 / 3;
+    max-width: 250px;
+    padding: 0px;
+}
+
+.profile_with_labels > .status {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+}
+
+.identity_part_phase_2 {
+    width: 100%;
+    height: 100px;
+    font-size: 18px;
+    margin: auto;
+}
+
+.image_part_phase_2 {
+    width: 60px;
+    margin: auto;
+}
+
+.phase_3_wrap {
+    margin-top: 50px;
+}
+
+.evaluation {
+    padding: 0 0 35px 30px;
+    border: 1px dashed gray;
+    border-radius: 15px;
+    width: 670px;
+    margin-bottom: 40px;
+}
+
+.profile_border {
+    width: 110%;
+    height: 114%;
+    border: 3px dotted black;
+    position: absolute;
+    top: -9%;
+    left: -6%;
+    border-radius: 15px;
+}
+
+.identity_part {
+    padding: 5px;
+    position: absolute;
+    width: 30%;
+    height: 100%;
+    left: 0;
+    border-radius: 10px;
+    font-size: min(18px, 1.2vw);
+    text-align: center;
+}
+
+.identity_part_phase_4 {
+    font-size: 15px;
+    width: 40px;
+}
+
+.labels_pool {
+    text-align: left;
+    font-size: 18px;
+}
+
+.labels_part {
+    position: absolute;
+    width: 65%;
+    height: 100%;
+    right: 0;
+    border-radius: 10px;
+    text-align: left;
+    font-size: min(1.5vw, 18px);
+    line-height: min(1.2vw, 15px);
+}
+
+.labels_part > .status {
+    position: absolute;
+    bottom: 12px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+}
+
+.profile_answering > .status {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 30px;
+    height: 30px;
+}
+
+.labels_list {
+    margin: 0px;
+    padding: min(10px, 0.5vw) 5px 0px 10%;
+}
+
+.labels_list > li {
+    margin-top: 8%;
+    margin-bottom: 0;
+}
+
+.profile_to_fill {
+    position: relative;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+
+.label {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+    height: 30px;
+    padding: 5px;
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 18px;
+    cursor: move;
+}
+
+.label > p {
+    margin: 0px;
+    position: relative;
+    top: -3px;
+}
+
+.label_small {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 5px;
+    width: 80px;
+    font-size: 12px;
+    line-height: 18px;
+    margin-bottom: 7px;
+}
+
+.label:hover {
+    scale: 1.1;
+}
+
+.label_chosen {
+    cursor: pointer;
+}
+
+.label_chosen:hover {
+    scale: 1.05;
+    color: grey;
+}
+
+.label_pool {
+    margin: 20px;
+    line-height: 40px;
+    padding: 15px;
+    border: 5px dashed lightgray;
+    margin-bottom: 0;
+}
+
+.instruction {
+    text-align: center;
+    height: 50px;
+    margin: auto;
+    padding: 10px;
+    border-radius: 10px;
+    line-height: 30px;
+    margin-top: 20px;
+}
+
+.instruction_phase_0 {
+    margin-top: 10%;
+}
+
+.instruction_phase_2 {
+    text-align: left;
+    padding: 20px 50px 0px 50px;
+}
+
+.instruction_phase_3 {
+    margin-top: 10px;
+    min-height: 25px;;
+    font-size: 18px;
+}
+
+.instruction_big_margin {
+    margin-top: 12%;
+}
+
+.caption {
+    font-size: 15px;
+}
+
+.question {
+    font-size: 22px;
+    margin: auto;
+    width: 82%;
+    margin-top: 10%;
+    line-height: 25px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.question_phase_3 {
+    text-align: left;
+    margin-top: 50px;
+    font-weight: bold;
+}
+
+.operation {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.statement {
+    font-style: italic;
+    width: 75%;
+    line-height: 30px;
+    margin: auto;
+    margin-top: 30px;
+    text-align: center;
+}
+
+.statement_phase_3 {
+    font-style: italic;
+    text-align: left;
+    margin-top: 20px;
+}
+
+.left {
+    width: calc(80% - 170px);
+    left: 0;
+    border-right: 3px solid lightgrey;
+    min-height: 100%;
+    height: min-content;
+}
+  
+.right {
+    width: calc(20% + 170px);
+    right: 0;
+}
+
+.profile_split {
+    height: 100%;
+    top: 0;
+    position: absolute;
+}
+
+.profile_left {
+    width: 100px;
+    left: 0;
+}
+
+.profile_right {
+    width: 80px;
+    right: 0;
+}
+
+.answers_side {
+    height: calc(100% - 60px);
+    text-align: center;
+}
+
+.answers_side > h3 {
+    margin-top: 40px;
+    margin-bottom: 0px;
+}
+
+.tracked_input {
+    scale: 0.6;
+    position: relative;
+    left: calc(20% - 147px);
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+
+.answer_title {
+    font-size: 15px;
+}
+
+.summary {
+    font-style: italic;
+    font-size: 15px;
+}
+
+#slider_value {
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.answer_choices {
+    display: flex;
+    flex-direction: row;
+    margin: auto;
+    justify-content: space-around;
+    margin-top: 20px;
+    width: 250px;
+    padding: 15px;
+    border: 5px dashed lightgray;
+}
+
+.answer_choice {
+    border: 2px solid black;
+    font-size: 18px;
+    border-radius: 10px;
+    width: 100px;
+    position: relative;
+    height: 50px;
+    cursor: pointer;
+}
+
+.answer_choice > p {
+    text-align: center;
+    position: relative;
+    top: -3px;
+}
+
+.answer_choice:hover {
+    scale: 1.1;
+}
+
+.input {
+    width: 600px;
+    margin: auto;
+    position: relative;
+    margin-top: 55px;
+}
+
+.input_phase_4 {
+    margin-left: 0;
+}
+
+.scale {
+    position: absolute;
+    height: 9px;
+    border-left: 1px solid lightgray;
+    z-index: -1;
+}
+
+.scales {
+    position: absolute;
+    top: 0px;
+}
+
+.mark_texts {
+    position: absolute;
+    top: 25px;
+}
+
+.mark_text {
+    position: absolute;
+    line-height: 12px;
+    font-size: 12px;
+    margin: 0pt;
+    text-align: center;
+}
+
+.answers_mark {
+    position: absolute;
+    top: 0px;
+}
+
+.answer_scale {
+    position: absolute;
+    height: 22px;
+    border-left: 3px solid black;
+    left: 53px;
+    border-radius: 20px;
+}
+
+.avatar_scale_phase_4 {
+    width: 30px;
+    position: absolute;
+    bottom: 3px;
+}
+
+.pseudonym_scale_phase_4 {
+    position: absolute;
+    font-size: 15px;
+    bottom: 11px;
+    font-weight: bold;
+}
+
+.answer_text {
+    position: absolute;
+    font-size: 20px;
+    top: -22px;
+    width: 100px;
+}
+
+.radios {
+    position: relative;
+}
+
+.answering_now > .profile_content {
+    opacity: 1;
+    outline: 2px dashed black;
+    outline-offset: 10px;
+}
+
+.finish_answering {
+    outline: 2px dashed black;
+    outline-offset: 12px;
+}
+
+.finish_answering > .profile_content {
+    opacity: 0.2;
+}
+
+.not_answering_now {
+    outline: 0px;
+}
+
+.not_answering_now > .profile_content {
+    opacity: 0.2;
+}
+
+.concealed {
+    opacity: 0.3;
+}
+
+.test_wrap {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+}
+
+.attention_check {
+    padding: 50px 100px 50px 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.attention_check > div > h1 {
+    margin-bottom: 80px;
+}

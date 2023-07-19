@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en-US">
+    <head>
+        <meta charset="utf-8">
+        <title>Homepage</title>
+        <link href="{{ url_for('static', filename="style.css") }}" rel="stylesheet">
+        <script>
+            var userData = {
+                aid: '{{ aid }}',
+                quiz_type: '{{ quiz_type }}'
+            }
+        </script>
+        <script src="{{ url_for('static', filename="tools.js") }}" defer></script>
+        <script src="{{ url_for('static', filename="homepage_script.js") }}" defer></script>
+    </head>
+    <body class="body_homepage">
+        <h1>
+            Consent Form and Instructions
+        </h1>
+        <p>
+            Dear Partcipant,
+            <br><br>
+            Thank you for participating in the Interactive Survey Experiments! Please read this page carefully and check the boxes at the bottom of the page if you agree to participate. You must be 18 years old or older to participate. Please use a computer to answer all the questions. We recommend using either <i>Google Chrome</i> or <i>Firefox</i> for the best experience throughout the entire process.
+        </p>
+        <h3 class="underline">
+            Brief introduction of the experiment procedure 
+        </h3>
+
+        {% if quiz_type == 'pilot_1' %}
+            <p>
+                If you agree to participate, you will be randomly assigned with two other participants to form a group of three, and will answer 10 questions about your own attitudes towards some public issues. After answering each question, all the participants' answers will be disclosed to each other. After the experiment, you will be asked to place yourself and the other two participants on an ideology spectrum. Therefore, please be aware of the other two participants' answers. In the whole process, your identity will be kept anonymous.
+            </p>
+        {% elif quiz_type == 'pilot_2' %}
+            <p>
+                In this survey, you will be asked 27 questions on your ideology, hard facts, predictions of the future, and some potentially controversial public issues. 
+            </p>
+        {% elif quiz_type == "condition_1" %}
+            <p>
+                If you agree to participate, you will be randomly assigned to a group of three participants. You and the other two participants will answer a sequence of 6 questions on either hard facts, or future predictions, or potentially controversial issues. For each question, one participant will be randomly chosen and answer the question first. Then her/his answer, together with the question, will be disclosed to the other two participants. In the whole process, your identity will be kept anonymous.
+            </p>
+        {% else %}
+            <p>
+                If you agree to participate, you will be randomly assigned to a group of three participants. You and the other two participants will answer a sequence of about 20 questions about hard facts, predictions of future trends, personal preferences, or attitudes towards public issues. This experiment mainly consists of two phases: 
+            </p>
+            <ul>
+                <li>
+                    <p>
+                        In Phase 1, after answering each question, all the participants' answers will be disclosed to each other. After this phase, you will be asked about how you think of the other two participants. Your appraisals of the other two participants will <b>NOT</b> be disclosed to them.
+                    </p>
+                </li>
+                <li>
+                    <p>
+                        In Phase 2, for each question, one participant will be randomly chosen and answer the question first. Then her/his answer, together with the question, will be disclosed to the other two participants.
+                    </p>
+                </li>
+            </ul>
+            <p>
+                You will see detailed instructions during the experiment. In the whole process, your identity will be kept anonymous.
+            </p>
+        {% endif %}
+        
+        {% if quiz_type != 'pilot_1' and quiz_type != 'pilot_2' %}
+        <h3 class="underline">Attention checks and conditions for getting paid</h3>
+        <p>
+            We will insert three easy and straightforward attention check questions in our experiment. You will get paid if you complete the survey experiment and answer all of the attention check questions correctly.
+        </p>
+        {% endif %}
+
+        <h3 class="underline">Your participation is completely voluntary</h3>
+        <p>
+            Taking part in this study is completely voluntary. If you decided to participate, you are free to withdraw at any time and you are free to stop at any time for any reason. However, should you decide to withdraw, you will forfeit your payment.
+        </p>
+
+        <h3 class="underline">Your identity is completely anonymous</h3>
+        <p>
+            We re-emphasize that your identity and responses will be completely anonymous. We do not collect any personally identifiable information. Your test responses will be stored on an encrypted database. Only researchers involved in this study will have access to this information. The records will not contain your name or any other personal information that could be used to identify you. In any report we make public, we will only discuss group averages and will not include any individual information.
+            <br><br>
+            This study is conducted by researchers from Princeton Univeristy and Peking University: Prof. Yu Xie, Prof. Wenjun Mei, Dr. Junming Huang. If you have any questions about this survey, or difficulty in accessing the site or completing the survey, please contact Phillip Rush: philliprush@princeton.edu. This survey has been approved in accordance with Research Integrity & Assurance's survey policy at Princeton University. If you have any questions about the policy, please reach the Assistant Director at IRB through 609-258-8543.
+        </p>
+
+        <hr><br>
+        <form>
+            <input type="checkbox" id="cb_0">
+            <label for="cb_0">
+                If you agree to partcipate, please take your time and answer the questions in this survey experiment thoughtfully. Participants who do not take the time to carefully consider their answers and rush through the study may not be eligible to receive payment.
+            </label>
+            <span class="br_small"></span>
+            <input type="checkbox" id="cb_1">
+            <label for="cb_1">
+                I understand that I <b>SHOULD NOT PRESS THE BACK BUTTON OR REFRESH BUTTON</b>. This will erase your data and prevent you from being paid.
+            </label>
+            <span class="br_small"></span>
+            <input type="checkbox" id="cb_2">
+            <label for="cb_2">
+                I have read the above information and consent to take part in the study.
+            </label>
+            <button type="button" class="button_big" disabled="true">Proceed to the survey experiment</button>
+        </form>
+    </body>
+</html>

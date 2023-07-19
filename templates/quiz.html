@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+    <head>
+        <meta charset="utf-8">
+        <title>Quiz</title>
+        <link href="{{ url_for('static', filename="style.css") }}" rel="stylesheet">
+        <script>
+            var userData = {
+                aid: '{{ aid }}',
+                quiz_type: '{{ quiz_type }}'
+            }
+        </script>
+        <script src="{{ url_for('static', filename="jquery-3.6.1.min.js") }}"></script>
+        <script src="{{ url_for('static', filename="DOM.js") }}" defer></script>
+        <script src="{{ url_for('static', filename="tools.js") }}" defer></script>
+        {% if quiz_type == 'pilot_2' %}
+            <script src="{{ url_for('static', filename="script_pilot_2.js") }}" defer></script>
+        {% else %}
+            <script src="{{ url_for('static', filename="script.js") }}" defer></script>
+        {% endif %}
+    </head>
+    <body>
+        <div class="quiz_body"></div>
+
+        <div class="test_wrap">
+            <button type="button" class="test">Enter Test Mode</button>
+        </div>
+
+    </body>
+</html>
