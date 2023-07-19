@@ -2,7 +2,7 @@ const num_of_participants = 3;
 const num_of_bots = num_of_participants - 1;
 const max_num_of_labels = 3;
 
-let test_mode = false;
+const test_mode = false;
 
 const time_configurations = {
     'test': 1,
@@ -21,62 +21,87 @@ const style_configurations = {
     'agree': 'Agree √',
 };
 
-var Ans = {
-    phase: 0,
-    question_seqNum: 0,
-    values: [],
-    time_to_answer: [],
-    answers_first: -1,      // in phase 3
-    index_of_question: -1,  // index of question in phase 1 or phase 3
-};
+var each_answer = {
+    idx_of_question: -1,        // index of the question in the array of questions
+    who_answers_first: -1,
+    answers: [],
+    time_to_answer: []
+}
 
 var data = {
     identity_choices: [],
     ideologies: [],
-    labels: []
+    labels: [],
+    attention_passed: false,
+    total_time: 0,              // total time to finish the experiment
+    type_A_answers: [],         // ideological questions in phase I
+    type_B_answers: [],         // preference questions in phase I
+    type_C_answers: [],         // non-ideological questions in phase II
+    type_D_answers: [],         // post-quiz questions
 };
 
 // status
-let all_bots_timeup = false;    // whether all bots are time up
-let phase = 0;
-let temp_answers = [];
-let answers_first = -1;
-let next_question_seqNum = 0;
-let question_seqNum_in_phase = 0;   // start from 0
-let index_of_question = 0;  // in phase 1 and phase 3
-let phase_1_answers_HTML = ``;
-let pseudonyms_chosen = [], avatars_index_chosen = [];
+var all_bots_timeup = false;        // whether all bots are time up
+var phase = 0;
+var temp_answers = [];
+var answers_first = -1;
+var next_question_seqNum = 0;
+var question_seqNum_in_phase = 0;   // start from 0
+var index_of_question = 0;          // in phase 1 and phase 3
+var phase_1_answers_HTML = ``;
+var pseudonyms_chosen = []
+var avatars_index_chosen = [];
+var start_time = [];
 
+const total_start_time = Date.now();
 const timeupEvent = new Event("timeup");
 var timer;
 
 
 
 function enter_next() {
-    // track answers in phase 1
     if (phase == 1) {
+        // track answers and display them
         track_answers();
         phase_1_answers_HTML = document.querySelector(".right").innerHTML;
-    } else if (phase == 4) {
+        
+        // save answers
+        each_answer.answers = temp_answers;
+        each_answer.idx_of_question = index_of_question;
+        each_answer.who_answers_first = -1;
+        data.type_A_answers.push(each_answer);
+        each_answer = JSON.parse(JSON.stringify(each_answer));
+        // deep copy and generate a new answer object
+    }
+    
+    else if (phase == 4) {
+        answers = [];
+        split_answers = [];
+        if (userData.quiz_type == 'pilot_1') {
+            document.querySelectorAll("input[type=range]").forEach((range) => {
+                answers.push(parseFloat(range.value));
+            });
+            split_answers.push(answers.slice(0, 3));
+            split_answers.push(answers.slice(3, 5));
+            split_answers.push(answers.slice(5, 7));
+            data.type_D_answers = split_answers;
+        }
         document.querySelector(".quiz_body").removeEventListener("click", phase_4_click_handler);
     }
 
     temp_answers = [];      // restore answers
     all_bots_timeup = false;
+    start_time = [];
+    for (let i = 0; i < num_of_participants; i++)
+        start_time.push(Date.now());
 
     // is the last question in the phase
     if (question_seqNum_in_phase == get_phase_length(phase, userData.quiz_type) - 1) {
         if (phase == 4) {
             if (userData.quiz_type == "pilot_1")
                 attention_check();
-            else {
-                console.log("Ready to send the data.");
-                quiz_data = {
-                    
-                };
-                $.post( "/quiz/postmethod", { data: JSON.stringify(answers) });
+            else
                 end_quiz();
-            }
         }
         
         else {
@@ -314,14 +339,14 @@ function init_phase_1() {
     // political issue question
     if (question_seqNum_in_phase < phase_length[1][0] + phase_length[1][1]) {
         // randomly pick a question that hasn't been chosen before
-        index_of_statement = randomly_choose(phase_1_issue_index, 1, phase_1_issue_index_posted);
+        index_of_question = randomly_choose(phase_1_issue_index, 1, phase_1_issue_index_posted)[0];
         question.innerHTML = `Q${next_question_seqNum}. Do you agree with the following statement: `;
         let statement_text = "";
-        if (index_of_statement < phase_1_statements[0].length)
-            statement_index = phase_1_statements[0][index_of_statement].statement;
+        if (index_of_question < phase_1_statements[0].length)
+            statement_text = phase_1_statements[0][index_of_question].statement;
         else
-            statement_index = phase_1_statements[1][index_of_statement - phase_1_statements[0].length].statement;
-        document.querySelector(".statement").innerHTML = `"` + statement_index + `"`;
+            statement_text = phase_1_statements[1][index_of_question - phase_1_statements[0].length].statement;
+        document.querySelector(".statement").innerHTML = `"` + statement_text + `"`;
         add_ans_choices(['Agree √', 'Disagree X']);
         start_bot_timers(generate_sequence_array(1, num_of_bots), "issue");
     }
@@ -329,12 +354,12 @@ function init_phase_1() {
     // preference questions
     else {
         document.querySelector(".statement").outerHTML = ``;
-        index_of_statement = randomly_choose(phase_1_preference_index, 1, phase_1_preference_index_posted);
+        index_of_question = randomly_choose(phase_1_preference_index, 1, phase_1_preference_index_posted)[0];
         let temp_length = phase_1_statements[0].length + phase_1_statements[1].length;
-        question.innerHTML = `Q${next_question_seqNum}. ${phase_1_statements[2][index_of_statement - temp_length].statement}`;
+        question.innerHTML = `Q${next_question_seqNum}. ${phase_1_statements[2][index_of_question - temp_length].statement}`;
         add_ans_choices([
-            phase_1_statements[2][index_of_statement - temp_length].range[0],
-            phase_1_statements[2][index_of_statement - temp_length].range[1]
+            phase_1_statements[2][index_of_question - temp_length].range[0],
+            phase_1_statements[2][index_of_question - temp_length].range[1]
         ]);
         start_bot_timers(generate_sequence_array(1, num_of_bots), "preference");
     }
@@ -352,8 +377,9 @@ function init_phase_1() {
             <span class="dots"></span>
         `;
         transform_dots();
-        temp_answers.push(index_of_choice_clicked);     // track user answer
+        temp_answers.push(index_of_choice_clicked);                     // track user answer
         temp_answers = temp_answers.concat(generate_answers_for_bots());
+        each_answer.time_to_answer[0] = (Date.now() - start_time[0]) / 1000;   // track user time to answer
         
         // calculate distance, to be modified later
         if (question_seqNum_in_phase < phase_1_statements[0].length + phase_1_statements[1].length) {
@@ -729,6 +755,10 @@ function all_finish_answering() {
 
 
 function end_quiz() {
+    console.log("Ready to send the data.");
+    data.total_time = (Date.now() - total_start_time) / 1000;
+    console.log(data);
+    $.post( `/quiz/${userData.quiz_type}/${userData.aid}`, { data: JSON.stringify(data) });
     document.querySelector(".quiz_body").innerHTML = end_quiz_string;
 }
 

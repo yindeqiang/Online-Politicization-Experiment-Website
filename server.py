@@ -7,9 +7,10 @@ from itsdangerous import exc
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, JSON, Float
 
-app = Flask(__name__)
+MAX_NAME_LEN = 20
 
 # database
+app = Flask(__name__)
 app.config["DEBUG"] = True
 SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
     username="Grawi",
@@ -25,11 +26,24 @@ db = SQLAlchemy(app)
 class Pilot_1(db.Model):
     __tablename__ = "pilot_1"
     aid = Column(Integer, primary_key=True)
-    name = Column(String(20))
+    name = Column(String(MAX_NAME_LEN))
     avatar = Column(Integer)
     # attention_passed = Column(Integer)
     # phase_1_answers = Column()
     # additional_question_answers = Column(JSON)
+
+class Pilot_2(db.Model):
+    __tablename__ = "pilot_2"
+    aid = Column(Integer, primary_key=True)
+    name = Column(String(MAX_NAME_LEN))
+    avatar = Column(Integer)
+    attention_passed = Column(Integer)
+    total_time = Column(Float)
+    identity_choices = Column(JSON)
+    ideologies = Column(JSON)
+
+    ideology_answers = Column(JSON)
+    additional_answers = Column(JSON)
 
 class Pilot_3(db.Model):
     __tablename__ = "pilot_3"
@@ -76,12 +90,14 @@ def quiz(quiz_type, aid):
             db.session.commit()
 
         elif quiz_type == 'pilot_2':
-            pilot_2_data = Pilot_3(
+            pilot_2_data = Pilot_2(
                 aid=aid, 
-                time_to_answer=post_data.get('time_to_answer'),
-                attention_passed=post_data.get('attention_passed'), 
-                pilot_2_ideology_label=post_data.get('pilot_2_ideology_label'), 
-                pilot_2_answers=post_data.get('pilot_2_answers')
+                total_time=post_data.get('total_time'),
+                attention_passed=post_data.get('attention_passed'),
+                identity_choices=post_data.get('identity_choices'),
+                ideologies=post_data.get('ideologies'),
+                ideology_answers=post_data.get('type_A_answers'),
+                additional_answers=post_data.get('type_D_answers')
             )
             db.session.add(pilot_2_data)
             db.session.commit()

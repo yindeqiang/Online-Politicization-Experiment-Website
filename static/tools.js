@@ -175,13 +175,13 @@ function display_values() {
     if (phase == 1) {
         for (let index = 0; index < num_of_participants; index++) {
             let ans = '';
-            if (index_of_statement < phase_1_statements[0].length + phase_1_statements[1].length) {
+            if (index_of_question < phase_1_statements[0].length + phase_1_statements[1].length) {
                 if (temp_answers[index] == 1)
                     ans = style_configurations.disagree;
                 else
                     ans = style_configurations.agree;
             } else {
-                ans = phase_1_statements[2][index_of_statement - phase_1_statements[0].length - phase_1_statements[1].length].range[temp_answers[index]];
+                ans = phase_1_statements[2][index_of_question - phase_1_statements[0].length - phase_1_statements[1].length].range[temp_answers[index]];
             }
             
             if (temp_answers[index] != temp_answers[0]) {
@@ -273,12 +273,12 @@ function track_answers() {
         table.innerHTML += HTML;
     }
     let summary_text = "";
-    if (index_of_statement < phase_1_statements[0].length)
-        summary_text = phase_1_statements[0][index_of_statement]['summary'];
-    else if (index_of_statement < phase_1_statements[0].length + phase_1_statements[1].length)
-        summary_text = phase_1_statements[1][index_of_statement - phase_1_statements[0].length]['summary'];
+    if (index_of_question < phase_1_statements[0].length)
+        summary_text = phase_1_statements[0][index_of_question]['summary'];
+    else if (index_of_question < phase_1_statements[0].length + phase_1_statements[1].length)
+        summary_text = phase_1_statements[1][index_of_question - phase_1_statements[0].length]['summary'];
     else
-        summary_text = phase_1_statements[2][index_of_statement - phase_1_statements[0].length - phase_1_statements[1].length]['summary']
+        summary_text = phase_1_statements[2][index_of_question - phase_1_statements[0].length - phase_1_statements[1].length]['summary']
     table.innerHTML += `
         <tr>
             <td class="td_summary">
@@ -313,21 +313,21 @@ function generate_answers_for_bots() {
     if (phase == 1) {
         let ret = [];
         // issue question
-        if (index_of_statement < phase_1_statements[0].length) {
+        if (index_of_question < phase_1_statements[0].length) {
             // default answer of B is agree
             let left_answer = 1;
-            if (phase_1_statements[0][index_of_statement].left_attitude)
+            if (phase_1_statements[0][index_of_question].left_attitude)
                 left_answer = 0;
             let rand_num = Math.random();
             ret.push(left_answer, 1 - left_answer);
         }
 
         // extreme question
-        else if (index_of_statement >= phase_1_statements[0].length && index_of_statement < phase_1_statements[0].length + phase_1_statements[1].length) {
+        else if (index_of_question >= phase_1_statements[0].length && index_of_question < phase_1_statements[0].length + phase_1_statements[1].length) {
             
             // default answer of B is agree
             let left_answer = 1;
-            if (phase_1_statements[1][index_of_statement - phase_1_statements[0].length].left_attitude)
+            if (phase_1_statements[1][index_of_question - phase_1_statements[0].length].left_attitude)
                 left_answer = 0;
 
             // B's answer
@@ -481,9 +481,8 @@ function randomly_choose(choices, num_to_choose, is_chosen) {
 
 
 function start_bot_timers(index_list, type) {
-    // console.log(`Timers start for ${index_list}`)
     let wait_time = [];
-    let last_time = 0, index_of_last_time = 0;
+    let last_time = 0, index_of_last_one = 0;
     let temp_time = 0;
     for (index of index_list) {
         if (test_mode)
@@ -496,19 +495,19 @@ function start_bot_timers(index_list, type) {
         // if it's the last timer, then send the timeup event
         if (temp_time > last_time) {
             last_time = temp_time;
-            index_of_last_time = index;
+            index_of_last_one = index;
         }
     }
     let sequenced_index = 0;
     for (index of index_list) {
-        setTimeout(bot_timeup, wait_time[sequenced_index] * 1000, index, wait_time[sequenced_index], index_of_last_time);
+        setTimeout(bot_timeup, wait_time[sequenced_index] * 1000, index, index_of_last_one);
         sequenced_index += 1;
     }
 }
 
 
 
-function bot_timeup(index, time, last_bot_index) {
+function bot_timeup(index, last_bot_index) {
     let status = document.getElementById(`status_${index}`);
     if (status) {
         if (phase == 1 || phase == 3)
@@ -529,6 +528,8 @@ function bot_timeup(index, time, last_bot_index) {
         profile.classList.remove("answering_now");
         profile.classList.add("finish_answering");
     }
+
+    each_answer.time_to_answer[index] = (Date.now() - start_time[index]) / 1000;
 
     if (index == last_bot_index) {
         all_bots_timeup = true;
@@ -719,6 +720,7 @@ function attention_check_click_handler() {
     if (answers[0] == 3 && answers[1] == 1 && answers[2] == 3) {
         attention_passed = true;
     }
+    data.attention_passed = attention_passed;
 }
 
 
