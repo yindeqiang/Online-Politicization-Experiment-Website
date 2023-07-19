@@ -64,7 +64,7 @@ function enter_next() {
         // track answers and display them
         track_answers();
         phase_1_answers_HTML = document.querySelector(".right").innerHTML;
-        
+
         // save answers
         each_answer.answers = temp_answers;
         each_answer.idx_of_question = index_of_question;
@@ -73,7 +73,7 @@ function enter_next() {
         each_answer = JSON.parse(JSON.stringify(each_answer));
         // deep copy and generate a new answer object
     }
-    
+
     else if (phase == 4) {
         answers = [];
         split_answers = [];
@@ -103,7 +103,7 @@ function enter_next() {
             else
                 end_quiz();
         }
-        
+
         else {
             if (userData.quiz_type == 'pilot_1' && phase == 1) {
                 phase = 4;
@@ -127,7 +127,7 @@ function enter_next() {
             }
         }
     }
-    
+
     else {
         question_seqNum_in_phase += 1;
         next_question_seqNum += 1;
@@ -175,7 +175,7 @@ function show_instructions() {
         } else {
             rule.innerHTML = section_rule_string[phase];
         }
-        
+
         // animation
         document.addEventListener("change", after_check);
         document.querySelector("button").addEventListener("click", () => {
@@ -193,10 +193,10 @@ function show_instructions() {
 
     else if (phase == 2)
         init_phase_2();
-    
+
     else
         init_phase_4();
-    
+
 }
 
 
@@ -252,7 +252,7 @@ function wait_for_participants() {
     pseudonyms_to_choose.splice(pseudonyms_to_choose.indexOf(pseudonym_chosen), 1);
     let pseudonyms_index_chosen = randomly_choose(pseudonyms_to_choose, num_of_bots);
     pseudonyms_index_chosen.splice(0, 0, pseudonym_chosen);
-    
+
     // get avatars
     let avatars_array = generate_sequence_array(0, avatar_num);
     avatars_array.splice(avatars_array.indexOf(avatar_chosen), 1);
@@ -350,7 +350,7 @@ function init_phase_1() {
         add_ans_choices(['Agree √', 'Disagree X']);
         start_bot_timers(generate_sequence_array(1, num_of_bots), "issue");
     }
-    
+
     // preference questions
     else {
         document.querySelector(".statement").outerHTML = ``;
@@ -380,7 +380,7 @@ function init_phase_1() {
         temp_answers.push(index_of_choice_clicked);                     // track user answer
         temp_answers = temp_answers.concat(generate_answers_for_bots());
         each_answer.time_to_answer[0] = (Date.now() - start_time[0]) / 1000;   // track user time to answer
-        
+
         // calculate distance, to be modified later
         if (question_seqNum_in_phase < phase_1_statements[0].length + phase_1_statements[1].length) {
             for (let index = 0; index < num_of_bots; index++) {
@@ -528,7 +528,7 @@ function init_phase_3() {
         if (phase_3_statements[index_of_question].type == "fact") {
             if (Math.abs(min_value) >= 1) {
                 display_value.innerHTML += `
-                    Your value: 
+                    Your value:
                     <span id="slider_value">${(max_value + min_value) / 2}</span>
                 `;
             } else {
@@ -542,7 +542,7 @@ function init_phase_3() {
         generate_and_add_mark_texts();
         document.querySelector("button").addEventListener("click", () => {
             // get user's input
-            temp_answers[0] = parseFloat(slider.value); 
+            temp_answers[0] = parseFloat(slider.value);
             display_values();
             // change DOM
             slider.disabled = true;
@@ -643,7 +643,7 @@ function after_bot_input_phase_3() {
                 <button type="button" disabled="true">Submit</button>
             `;
             let display_value = document.querySelector(".display_value");
-            if (Math.abs(min_value) >= 1) { 
+            if (Math.abs(min_value) >= 1) {
                     display_value.innerHTML += `
                         Your value:
                         <span id="slider_value">${(max_value + min_value) / 2}</span>
@@ -708,7 +708,7 @@ function init_phase_4() {
         else if (type == 'warmth')
             add_mark_texts([`Extremely<br>mean`, `Very<br>mean`, `Slightly<br>mean`, `Neutral`, `Slightly<br>warm`, `Very<br>warm`, `Extremely<br>warm`], evaluation);
     }
-    
+
     display_values();
     document.querySelectorAll("input[type=range]").forEach((input) => {
         input.addEventListener('input', display_values);
@@ -744,7 +744,7 @@ function all_finish_answering() {
         else if (phase == 3) {
             let instruction = document.querySelector(".instruction_phase_3");
             instruction.innerHTML = `All of you have finished answering. Please enter the next question.`;
-            instruction.style['text-align'] = 'left';            
+            instruction.style['text-align'] = 'left';
             document.querySelector(".operation").innerHTML = `<button type="button">Next Question</button>`;
         }
 
@@ -758,7 +758,12 @@ function end_quiz() {
     console.log("Ready to send the data.");
     data.total_time = (Date.now() - total_start_time) / 1000;
     console.log(data);
-    $.post( `/quiz/${userData.quiz_type}/${userData.aid}`, { data: JSON.stringify(data) });
+    $.post({
+        url: `/quiz/${userData.quiz_type}/aid=${userData.aid}`,
+        data: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' },
+        dataType: "json"
+    });
     document.querySelector(".quiz_body").innerHTML = end_quiz_string;
 }
 

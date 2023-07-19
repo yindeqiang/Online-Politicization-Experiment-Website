@@ -28,9 +28,13 @@ class Pilot_1(db.Model):
     aid = Column(Integer, primary_key=True)
     name = Column(String(MAX_NAME_LEN))
     avatar = Column(Integer)
-    # attention_passed = Column(Integer)
-    # phase_1_answers = Column()
-    # additional_question_answers = Column(JSON)
+    attention_passed = Column(Integer)
+    total_time = Column(Float)
+    identity_choices = Column(JSON)
+    ideologies = Column(JSON)
+
+    ideology_answers = Column(JSON)
+    additional_answers = Column(JSON)
 
 class Pilot_2(db.Model):
     __tablename__ = "pilot_2"
@@ -53,10 +57,6 @@ class Pilot_3(db.Model):
     pilot_2_ideology_label = Column(Integer)
     pilot_2_answers = Column(JSON)
 
-class Test(db.Model):
-    __tablename__ = "test"
-    number = Column(Integer, primary_key=True)
-
 
 
 @app.route("/consentform/<quiz_type>/aid=<aid>")
@@ -77,21 +77,29 @@ def quiz(quiz_type, aid):
     # normal quiz webpage
     if request.method == 'GET':
         return render_template('quiz.html', quiz_type=quiz_type, aid=aid)
-    
+
     # post method after finishing the quiz
     else:
         post_data = request.get_json()
         if not post_data:
             return 'Invalid Data Submitted'
-        
+
         if quiz_type == 'pilot_1':
-            pilot_1_data = Pilot_1(aid=aid, name=post_data.name, avatar=post_data.avatar, attention_passed=post_data.attention_passed)
+            pilot_1_data = Pilot_1(
+                aid=aid,
+                total_time=post_data.get('total_time'),
+                attention_passed=post_data.get('attention_passed'),
+                identity_choices=post_data.get('identity_choices'),
+                ideologies=post_data.get('ideologies'),
+                ideology_answers=post_data.get('type_A_answers'),
+                additional_answers=post_data.get('type_D_answers')
+            )
             db.session.add(pilot_1_data)
             db.session.commit()
 
         elif quiz_type == 'pilot_2':
             pilot_2_data = Pilot_2(
-                aid=aid, 
+                aid=aid,
                 total_time=post_data.get('total_time'),
                 attention_passed=post_data.get('attention_passed'),
                 identity_choices=post_data.get('identity_choices'),
@@ -103,17 +111,3 @@ def quiz(quiz_type, aid):
             db.session.commit()
 
         return 'Valid Data Submitted'
-
-
-
-@app.route("/database_test", methods=['GET', 'POST'])
-def database_test():
-    if request.method == 'GET':
-        return render_template('database_test.html')
-    else:
-        data = request.get_json()
-        test = Test(number=data.get('a'))
-        db.session.add(test)
-        db.session.commit()
-        return 'Data submitted.'
-    
