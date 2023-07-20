@@ -1,5 +1,5 @@
-/__pycache__/
+__pycache__/
 
 test.*
 
-.DS_Store
+static/.DS_Store

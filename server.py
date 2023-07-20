@@ -26,8 +26,6 @@ db = SQLAlchemy(app)
 class Pilot_1(db.Model):
     __tablename__ = "pilot_1"
     aid = Column(Integer, primary_key=True)
-    name = Column(String(MAX_NAME_LEN))
-    avatar = Column(Integer)
     attention_passed = Column(Integer)
     total_time = Column(Float)
     identity_choices = Column(JSON)
