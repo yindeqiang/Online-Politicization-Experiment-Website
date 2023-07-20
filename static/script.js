@@ -58,7 +58,6 @@ const timeupEvent = new Event("timeup");
 var timer;
 
 
-
 function enter_next() {
     if (phase == 1) {
         // track answers and display them
@@ -217,7 +216,7 @@ function choose_identity() {
     for (let index = 0; index < avatar_num; index++) {
         avatars_list.innerHTML += `
             <div class="avatar_choice" id="avatar_${index}">
-                <img src="/static/avatar_${index}.png" alt="avatar_${index}" >
+                <img src="/static/avatars/avatar_${index}.svg" alt="avatar_${index}" >
             </div>
         `;
     }
@@ -838,3 +837,25 @@ function attention_check() {
 
 
 choose_identity();
+
+
+
+// track inactivity, 2 minutes
+const inactivityTimeout = 1000 * 120;
+let inactivityTimer;
+
+function resetInactivityTimer() {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = setTimeout(inactivityPopup, inactivityTimeout);
+}
+
+function inactivityPopup() {
+    alert("You have been inactive for a long time. To ensure the effectiveness of the experiment, please restart the quiz and finish it actively. Thank you.");
+    location.reload();
+}
+
+document.addEventListener("mousemove", resetInactivityTimer);
+document.addEventListener("mousedown", resetInactivityTimer);
+document.addEventListener("keypress", resetInactivityTimer);
+
+resetInactivityTimer();

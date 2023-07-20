@@ -150,7 +150,7 @@ const phase_0_body_string = `
                 Your identity will be displayed as: 
             </p>
             <div class="identity_chosen">
-                <img src="/static/avatar_default.png" />
+                <img src="/static/avatars/avatar_default.png" />
                 <span>Name</span>
             </div>
             <form>

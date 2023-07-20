@@ -214,7 +214,7 @@ function display_values() {
             document.querySelector(".answers_mark").innerHTML += `
                 <div>
                     <div class="answer_scale" style="left: ${dis_from_left}px"></div>
-                    <img class="img_mark" style="left: ${dis_from_left - 19}px" src="/static/avatar_${avatars_index_chosen[answers_first]}.png">
+                    <img class="img_mark" style="left: ${dis_from_left - 19}px" src="/static/avatar_${avatars_index_chosen[answers_first]}.svg">
                 </div>
             `;
         }
@@ -237,7 +237,7 @@ function display_values() {
                 input.querySelector(".answers_mark").innerHTML = `
                     <div>
                         <div class="avatar_scale_phase_4" style="left: ${dis_from_left}px">
-                            <img src="/static/avatar_${avatars_index_chosen[index]}.png" />
+                            <img src="/static/avatars/avatar_${avatars_index_chosen[index]}.svg" />
                         </div>
                         <div class="pseudonym_scale_phase_4" style="left: ${dis_from_left + 31}px">${name}</div>
                     </div>
@@ -519,7 +519,7 @@ function bot_timeup(index, last_bot_index) {
     if (phase == 0) {
         let name = pseudonyms_chosen[index];
         document.getElementById(`profile_${index}`).innerHTML = `
-            <img src="/static/avatar_${avatars_index_chosen[index]}.png" class="img_big" >
+            <img src="/static/avatars/avatar_${avatars_index_chosen[index]}.svg" class="img_big" >
             ${name}
             <div id="status_${index}" class="status">${tickmark_string}</div>
         `;
@@ -558,7 +558,7 @@ function add_identity_status() {
             if (index == 0) {
                 status.innerHTML += `
                     <div class="profile_waiting" id="profile_${index}">
-                        <img src="/static/avatar_${avatars_index_chosen[0]}.png" >
+                        <img src="/static/avatars/avatar_${avatars_index_chosen[0]}.svg" >
                         ${name}
                         <div id="status_${index}" class="status">${tickmark_string}</span>
                     </div>
@@ -566,7 +566,7 @@ function add_identity_status() {
             } else {
                 status.innerHTML += `
                     <div class="profile_waiting" id="profile_${index}">
-                        <img src="/static/avatar_default.png" >
+                        <img src="/static/avatars/avatar_default.png" >
                         <div id="status_${index}" class="status">${loader_string}</span>
                     </div>
                 `;
@@ -578,7 +578,7 @@ function add_identity_status() {
             status.innerHTML += `
                 <div id="profile_${index}" class="profile_answering">
                     <div class="identity_part">
-                        <img src="/static/avatar_${avatars_index_chosen[index]}.png" >
+                        <img src="/static/avatars/avatar_${avatars_index_chosen[index]}.svg" >
                         ${name}
                     </div>
                     <div class="labels_part"></div>
@@ -592,7 +592,7 @@ function add_identity_status() {
                 <div id="profile_${index}" class="profile_labeling">
                     <div class="identity_part_phase_2">
                         <div class="image_part_phase_2">
-                            <img src="/static/avatar_${avatars_index_chosen[index]}.png" >
+                            <img src="/static/avatars/avatar_${avatars_index_chosen[index]}.svg" >
                         </div>
                         ${name}
                     </div>
@@ -607,7 +607,7 @@ function add_identity_status() {
                 <div id="profile_${index}" class="profile_with_labels profile_labeling">
                     <div class="profile_content">
                         <div class="identity_part">
-                            <img src="/static/avatar_${avatars_index_chosen[index]}.png" >
+                            <img src="/static/avatars/avatar_${avatars_index_chosen[index]}.svg" >
                             ${name}
                         </div>
                         <div class="labels_part" id="list_${index}">
@@ -761,16 +761,16 @@ function click_pseudonym_or_avatar_handler(event) {
             if (avatar_chosen == -1) {
                 avatar_chosen = id;
                 choice.style['outline'] = '3px solid black';
-                avatar_displayed.src = `/static/avatar_${id}.png`;
+                avatar_displayed.src = `/static/avatars/avatar_${id}.svg`;
             } else if (id == avatar_chosen) {
                 avatar_chosen = -1;
                 choice.style.removeProperty("outline");
-                avatar_displayed.src = `/static/avatar_default.png`;
+                avatar_displayed.src = `/static/avatars/avatar_default.png`;
             } else {
                 document.getElementById(`avatar_${avatar_chosen}`).style.removeProperty("outline");
                 choice.style['outline'] = '3px solid black';
                 avatar_chosen = id;
-                avatar_displayed.src = `/static/avatar_${id}.png`;
+                avatar_displayed.src = `/static/avatars/avatar_${id}.svg`;
             }
         }
     });

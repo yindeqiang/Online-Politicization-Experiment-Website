@@ -61,13 +61,13 @@ class Pilot_3(db.Model):
 
 @app.route("/consentform/<quiz_type>/aid=<aid>")
 def consentform_with_aid(quiz_type, aid):
-    return render_template('homepage.html', quiz_type=quiz_type, aid=aid)
+    return render_template('consentform.html', quiz_type=quiz_type, aid=aid)
 
 
 
 @app.route("/consentform/<quiz_type>")
 def consentform_without_aid(quiz_type):
-    return render_template('homepage.html', quiz_type=quiz_type, aid=-1)
+    return render_template('consentform.html', quiz_type=quiz_type, aid=-1)
 
 
 
