@@ -77,12 +77,12 @@ html {
     width: 0px;
     height: 0px;
     position: absolute;
-    border-left: 10px solid black;
-    border-right: 10px solid transparent;
-    border-top: 10px solid black;
-    border-bottom: 10px solid transparent;
-    left: 20px;
-    bottom: -23px;
+    border-left: 9px solid black;
+    border-right: 9px solid transparent;
+    border-top: 9px solid black;
+    border-bottom: 9px solid transparent;
+    left: 20.56px;
+    bottom: -20px;
 }
   
 .bubble:after {
