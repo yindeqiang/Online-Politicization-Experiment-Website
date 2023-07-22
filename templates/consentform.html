@@ -24,6 +24,13 @@
             <br><br>
             Thank you for participating in the Interactive Survey Experiments! Please read this page carefully and check the boxes at the bottom of the page if you agree to participate. You must be <b>18 years old or older</b> to participate. Please use a computer to answer all the questions. We recommend using either <i><b>Google Chrome</b></i> or <i><b>Firefox</b></i> for the best experience throughout the entire process.
         </p>
+
+        {% if participantId != -1 %}
+            <p>Your Connect ID is <b>{{ participantId }}</b>.</p>
+        {% else %}
+            <p style="color: red"><b>We cannot get your Connect ID. Please make sure you have correctly redirected from Connect.</b></p>
+        {% endif %}
+
         <h3 class="underline">
             Brief introduction of the experiment procedure
         </h3>

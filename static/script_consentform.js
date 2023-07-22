@@ -6,5 +6,5 @@ if (userData.participantId == -1)
 
 document.addEventListener("change", after_check);
 document.querySelector("button").addEventListener("click", () =>{
-    window.location.href = '/quiz/' + userData.quiz_type + '/' + 'aid=' + userData.aid;
+    window.location.href = `${userData.quiz_type}/quiz?participantId=${userData.participantId}&assignmentId=${userData.assignmentId}&projectId=${userData.projectId}`;
 });
