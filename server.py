@@ -37,15 +37,11 @@ class Pilot_1(db.Model):
 class Pilot_2(db.Model):
     __tablename__ = "pilot_2"
     aid = Column(Integer, primary_key=True)
-    name = Column(String(MAX_NAME_LEN))
-    avatar = Column(Integer)
     attention_passed = Column(Integer)
     total_time = Column(Float)
-    identity_choices = Column(JSON)
-    ideologies = Column(JSON)
 
-    ideology_answers = Column(JSON)
-    additional_answers = Column(JSON)
+    pilot_2_answers = Column(JSON)
+    ideology_label = Column(Integer)
 
 class Pilot_3(db.Model):
     __tablename__ = "pilot_3"
@@ -100,10 +96,8 @@ def quiz(quiz_type, aid):
                 aid=aid,
                 total_time=post_data.get('total_time'),
                 attention_passed=post_data.get('attention_passed'),
-                identity_choices=post_data.get('identity_choices'),
-                ideologies=post_data.get('ideologies'),
-                ideology_answers=post_data.get('type_A_answers'),
-                additional_answers=post_data.get('type_D_answers')
+                pilot_2_answers=post_data.get('pilot_2_answers'),
+                ideology_label=post_data.get('ideology_label')
             )
             db.session.add(pilot_2_data)
             db.session.commit()

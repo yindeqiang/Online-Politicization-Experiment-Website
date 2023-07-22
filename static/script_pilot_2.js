@@ -42,6 +42,14 @@ document.querySelector("form").addEventListener("click", () => {
 let index_of_question = 0;
 document.querySelector("button").addEventListener("click", enter_next);
 
+var data = {
+    aid: parseInt(userData.aid),
+    ideology_label: 0,
+    pilot_2_answers: [],
+    total_time: 0,
+    attention_passed: 0
+};
+
 
 function enter_next() {
     quiz_body.innerHTML = phase_3_body_string;
@@ -89,15 +97,16 @@ function enter_next() {
     }
 
     document.querySelector("button").addEventListener("click", () => {
+
+        pilot_2_answers.push(parseFloat(slider.value));     // track answers
+
         if (index_of_question < phase_3_statements.length - 1) {
             index_of_question += 1;
-            pilot_2_answers.push(slider.value);     // track answers
             if (phase_3_statements[index_of_question].type == 'prediction' && phase_3_statements[index_of_question - 1].type == 'fact') {
                 attention_check();
             } else {
                 enter_next();
             }
-
         } else {
             document.querySelector(".quiz_body").innerHTML = `
                 <div class="end">
@@ -111,19 +120,17 @@ function enter_next() {
             let pilot_2_endTime = Date.now();
             let pilot_2_elapsedTime = (pilot_2_endTime - pilot_2_startTime) / 1000;     // in seconds
 
-            post_data = {
-                pilot_2_ideology_label: pilot_2_ideology_label,
-                pilot_2_answers: JSON.stringify(pilot_2_answers),
-                time: pilot_2_elapsedTime,
-                attention_passed: attention_passed,
-            };
+            data.ideology_label = pilot_2_ideology_label;
+            data.pilot_2_answers = pilot_2_answers;
+            data.total_time = pilot_2_elapsedTime;
+
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
                 url: `/quiz/${userData.quiz_type}/aid=${userData.aid}`,
-                data: JSON.stringify(post_data),
+                data: JSON.stringify(data),
                 dataType: "json"
-            })
+            });
         }
     });
 }
