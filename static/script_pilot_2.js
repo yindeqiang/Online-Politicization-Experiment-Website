@@ -43,7 +43,9 @@ let index_of_question = 0;
 document.querySelector("button").addEventListener("click", enter_next);
 
 var data = {
-    aid: parseInt(userData.aid),
+    participantId: parseInt(userData.participantId),
+    assignmentId: parseInt(userData.assignmentId),
+    projectId: parseInt(userData.projectId),
     ideology_label: 0,
     pilot_2_answers: [],
     total_time: 0,
@@ -127,7 +129,7 @@ function enter_next() {
             $.ajax({
                 type: "POST",
                 contentType: "application/json",
-                url: `/quiz/${userData.quiz_type}/aid=${userData.aid}`,
+                url: `/quiz/${userData.quiz_type}`,
                 data: JSON.stringify(data),
                 dataType: "json"
             });

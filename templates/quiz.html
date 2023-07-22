@@ -7,7 +7,9 @@
         <link href="{{ url_for('static', filename="style.css") }}" rel="stylesheet">
         <script>
             var userData = {
-                aid: '{{ aid }}',
+                participantId: '{{ participantId }}',
+                assignmentId: '{{ assignmentId }}',
+                projectId: '{{ projectId }}',
                 quiz_type: '{{ quiz_type }}'
             }
         </script>
@@ -22,10 +24,5 @@
     </head>
     <body>
         <div class="quiz_body"></div>
-
-        <div class="test_wrap">
-            <button type="button" class="test">Enter Test Mode</button>
-        </div>
-
     </body>
 </html>

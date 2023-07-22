@@ -1,7 +1,7 @@
 from crypt import methods
 from email import header
 import time
-from flask import Flask, render_template, request, url_for, send_from_directory
+from flask import Flask, render_template, request, url_for, send_from_directory, redirect
 import json, os
 from itsdangerous import exc
 from flask_sqlalchemy import SQLAlchemy
@@ -23,27 +23,27 @@ app.config["SQLALCHEMY_POOL_RECYCLE"] = 299     # don't have to know about this
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
-class Pilot_1(db.Model):
-    __tablename__ = "pilot_1"
-    aid = Column(Integer, primary_key=True)
+# base database
+class Base(db.Model):
+    __abstract__ = True
+    participantId = Column(Integer, primary_key=True)
+    assignmentId = Column(Integer)
+    projectId = Column(Integer)
     attention_passed = Column(Integer)
     total_time = Column(Float)
+
+class Pilot_1(Base):
+    __tablename__ = "pilot_1"
     identity_choices = Column(JSON)
     ideologies = Column(JSON)
-
     ideology_answers = Column(JSON)
     additional_answers = Column(JSON)
 
-class Pilot_2(db.Model):
-    __tablename__ = "pilot_2"
-    aid = Column(Integer, primary_key=True)
-    attention_passed = Column(Integer)
-    total_time = Column(Float)
-
+class Pilot_2(Base):
     pilot_2_answers = Column(JSON)
     ideology_label = Column(Integer)
 
-class Pilot_3(db.Model):
+class Pilot_3(Base):
     __tablename__ = "pilot_3"
     aid = Column(Integer, primary_key=True)
     attention_passed = Column(Integer)
@@ -53,24 +53,31 @@ class Pilot_3(db.Model):
 
 
 
-@app.route("/consentform/<quiz_type>/aid=<aid>")
-def consentform_with_aid(quiz_type, aid):
-    return render_template('consentform.html', quiz_type=quiz_type, aid=aid)
+# default webpage, condition 2
+@app.route("/")
+def homepage():
+    return redirect('/condition_2')
 
 
 
-@app.route("/consentform/<quiz_type>")
-def consentform_without_aid(quiz_type):
-    return render_template('consentform.html', quiz_type=quiz_type, aid=-1)
+@app.route("/<string:quiz_type>")
+def consentform(quiz_type):
+    participantId = request.args.get('participantId', default=-1)
+    assignmentId = request.args.get('assignmentId', default=-1)
+    projectId = request.args.get('projectId', default=-1)
+    return render_template('consentform.html', quiz_type=quiz_type, participantId=participantId, assignmentId=assignmentId, projectId=projectId)
 
 
 
-@app.route("/quiz/<quiz_type>/aid=<aid>", methods=['POST', 'GET'])
-def quiz(quiz_type, aid):
+@app.route('/<string:quiz_type>/quiz', methods=['POST', 'GET'])
+def quiz(quiz_type):
 
     # normal quiz webpage
     if request.method == 'GET':
-        return render_template('quiz.html', quiz_type=quiz_type, aid=aid)
+        participantId = request.args.get('participantId', default=-1)
+        assignmentId = request.args.get('assignmentId', default=-1)
+        projectId = request.args.get('projectId', default=-1)
+        return render_template('quiz.html', quiz_type=quiz_type, participantId=participantId, assignmentId=assignmentId, projectId=projectId)
 
     # post method after finishing the quiz
     else:
@@ -80,7 +87,9 @@ def quiz(quiz_type, aid):
 
         if quiz_type == 'pilot_1':
             pilot_1_data = Pilot_1(
-                aid=aid,
+                participantId=post_data.get('participantId'),
+                assignmentId=post_data.get('assignmentId'),
+                projectId=post_data.get('projectId'),
                 total_time=post_data.get('total_time'),
                 attention_passed=post_data.get('attention_passed'),
                 identity_choices=post_data.get('identity_choices'),
@@ -93,7 +102,9 @@ def quiz(quiz_type, aid):
 
         elif quiz_type == 'pilot_2':
             pilot_2_data = Pilot_2(
-                aid=aid,
+                participantId=post_data.get('participantId'),
+                assignmentId=post_data.get('assignmentId'),
+                projectId=post_data.get('projectId'),
                 total_time=post_data.get('total_time'),
                 attention_passed=post_data.get('attention_passed'),
                 pilot_2_answers=post_data.get('pilot_2_answers'),

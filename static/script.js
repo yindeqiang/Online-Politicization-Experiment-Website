@@ -202,7 +202,6 @@ function show_instructions() {
 
 function choose_identity() {
     document.querySelector(".quiz_body").innerHTML = phase_0_body_string;
-    add_test();
     adjust_button_size(document.querySelector(".button_checked"));
     let avatars_list = document.querySelector(".avatars_list");
     let pseudonyms_list = document.querySelector(".pseudonyms_list");
@@ -229,7 +228,7 @@ function choose_identity() {
 function wait_for_participants() {
     document.querySelector(".splits_wrap").removeEventListener("click", click_pseudonym_or_avatar_handler);
     document.querySelector("button").removeEventListener("click", wait_for_participants);
-    document.querySelector(".test_wrap").innerHTML = ``;
+    // document.querySelector(".test_wrap").innerHTML = ``;
     document.querySelector(".quiz_body").innerHTML = `
         <div class="instruction instruction_phase_0">
             Please wait for other participants to join
@@ -266,27 +265,27 @@ function wait_for_participants() {
     data.ideologies = [0, generate_random_answer(-2, -1, 1), generate_random_answer(1, 2, 1)];
 
     // Debug
-    for (let index = 0; index < num_of_participants; index++) {
-        console.log(`${pseudonyms_chosen[index]}: `);
-        switch(data.ideologies[index]) {
-            case -2:
-                console.log("Extremely liberal");
-                break;
-            case -1:
-                console.log("Mildly liberal");
-                break;
-            case 0:
-                console.log("Unkown");
-                break;
-            case 1:
-                console.log("Mildly conservative");
-                break;
-            case 2:
-                console.log("Extremely conservative");
-                break;
-        }
-        console.log("\n");
-    }
+    // for (let index = 0; index < num_of_participants; index++) {
+        // console.log(`${pseudonyms_chosen[index]}: `);
+        // switch(data.ideologies[index]) {
+        //     case -2:
+        //         console.log("Extremely liberal");
+        //         break;
+        //     case -1:
+        //         console.log("Mildly liberal");
+        //         break;
+        //     case 0:
+        //         console.log("Unkown");
+        //         break;
+        //     case 1:
+        //         console.log("Mildly conservative");
+        //         break;
+        //     case 2:
+        //         console.log("Extremely conservative");
+        //         break;
+        // }
+        // console.log("\n");
+    // }
     add_identity_status();
     start_bot_timers(generate_sequence_array(1, num_of_participants - 1), 'wait');
     document.addEventListener("timeup", all_timeup);
@@ -758,7 +757,7 @@ function end_quiz() {
     data.total_time = (Date.now() - total_start_time) / 1000;
     console.log(data);
     $.post({
-        url: `/quiz/${userData.quiz_type}/aid=${userData.aid}`,
+        url: `/quiz/${userData.quiz_type}/participantId=${userData.participantId}?assignmentId=${userData.assignmentId}&projectId=${userData.projectId}`,
         data: JSON.stringify(data),
         headers: { 'Content-Type': 'application/json' },
         dataType: "json"
