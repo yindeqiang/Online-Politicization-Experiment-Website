@@ -7,7 +7,7 @@ from itsdangerous import exc
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, JSON, Float
 
-MAX_NAME_LEN = 20
+MAX_ID_LEN = 100
 
 # database
 app = Flask(__name__)
@@ -26,9 +26,9 @@ db = SQLAlchemy(app)
 # base database
 class Base(db.Model):
     __abstract__ = True
-    participantId = Column(Integer, primary_key=True)
-    assignmentId = Column(Integer)
-    projectId = Column(Integer)
+    participantId = Column(String(MAX_ID_LEN), primary_key=True)
+    assignmentId = Column(String(MAX_ID_LEN))
+    projectId = Column(String(MAX_ID_LEN))
     attention_passed = Column(Integer)
     total_time = Column(Float)
 
@@ -40,16 +40,10 @@ class Pilot_1(Base):
     additional_answers = Column(JSON)
 
 class Pilot_2(Base):
+    __tablename__ = "pilot_2"
     pilot_2_answers = Column(JSON)
     ideology_label = Column(Integer)
 
-class Pilot_3(Base):
-    __tablename__ = "pilot_3"
-    aid = Column(Integer, primary_key=True)
-    attention_passed = Column(Integer)
-    time_to_answer = Column(Float)
-    pilot_2_ideology_label = Column(Integer)
-    pilot_2_answers = Column(JSON)
 
 
 
@@ -62,10 +56,16 @@ def homepage():
 
 @app.route("/<string:quiz_type>")
 def consentform(quiz_type):
-    participantId = request.args.get('participantId', default=-1)
-    assignmentId = request.args.get('assignmentId', default=-1)
-    projectId = request.args.get('projectId', default=-1)
-    return render_template('consentform.html', quiz_type=quiz_type, participantId=participantId, assignmentId=assignmentId, projectId=projectId)
+    participantId = request.args.get('participantId', default="")
+    assignmentId = request.args.get('assignmentId', default="")
+    projectId = request.args.get('projectId', default="")
+    idExisted = False
+    if quiz_type == 'pilot_1':
+        idExisted = Pilot_1.query.filter_by(participantId=participantId).first() is not None
+    elif quiz_type == 'pilot_2':
+        idExisted = Pilot_2.query.filter_by(participantId=participantId).first() is not None
+
+    return render_template('consentform.html', quiz_type=quiz_type, participantId=participantId, assignmentId=assignmentId, projectId=projectId, idExisted=idExisted)
 
 
 
@@ -74,10 +74,16 @@ def quiz(quiz_type):
 
     # normal quiz webpage
     if request.method == 'GET':
-        participantId = request.args.get('participantId', default=-1)
-        assignmentId = request.args.get('assignmentId', default=-1)
-        projectId = request.args.get('projectId', default=-1)
-        return render_template('quiz.html', quiz_type=quiz_type, participantId=participantId, assignmentId=assignmentId, projectId=projectId)
+        participantId = request.args.get('participantId', default="")
+        assignmentId = request.args.get('assignmentId', default="")
+        projectId = request.args.get('projectId', default="")
+        idExisted = False
+        if quiz_type == 'pilot_1':
+            idExisted = Pilot_1.query.filter_by(participantId=participantId).first() is not None
+        elif quiz_type == 'pilot_2':
+            idExisted = Pilot_2.query.filter_by(participantId=participantId).first() is not None
+
+        return render_template('quiz.html', quiz_type=quiz_type, participantId=participantId, assignmentId=assignmentId, projectId=projectId, idExisted=idExisted)
 
     # post method after finishing the quiz
     else:

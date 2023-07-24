@@ -10,7 +10,12 @@
                 assignmentId: '{{ assignmentId }}',
                 projectId: '{{ projectId }}',
                 quiz_type: '{{ quiz_type }}'
-            }
+            };
+            var idExisted = '{{ idExisted }}';
+            if (idExisted == 'True')
+                idExisted = true;
+            else
+                idExisted = false;
         </script>
         <script src="{{ url_for('static', filename="tools.js") }}" defer></script>
         <script src="{{ url_for('static', filename="script_consentform.js") }}" defer></script>
@@ -22,10 +27,10 @@
         <p>
             Dear Partcipant,
             <br><br>
-            Thank you for participating in the Interactive Survey Experiments! Please read this page carefully and check the boxes at the bottom of the page if you agree to participate. You must be <b>18 years old or older</b> to participate. Please use a computer to answer all the questions. We recommend using either <i><b>Google Chrome</b></i> or <i><b>Firefox</b></i> for the best experience throughout the entire process.
+            Thank you for participating in the Interactive Survey Experiments! Please read this page carefully and check the boxes at the bottom of the page if you agree to participate. You must be <b>18 years old or older</b> to participate. Please use a computer to answer all the questions. We recommend using either <i><b>Google Chrome</b></i> or <i><b>Firefox</b></i> for the best experience throughout the entire process. Please avoid using outdated browsers like Internet Explorer (IE), as the experiment may not function correctly with them.
         </p>
 
-        {% if participantId != -1 %}
+        {% if participantId != '' %}
             <p>Your Connect ID is <b>{{ participantId }}</b>.</p>
         {% else %}
             <p style="color: red"><b>We cannot get your Connect ID. Please make sure you have correctly redirected from Connect.</b></p>

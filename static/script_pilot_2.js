@@ -43,9 +43,9 @@ let index_of_question = 0;
 document.querySelector("button").addEventListener("click", enter_next);
 
 var data = {
-    participantId: parseInt(userData.participantId),
-    assignmentId: parseInt(userData.assignmentId),
-    projectId: parseInt(userData.projectId),
+    participantId: userData.participantId,
+    assignmentId: userData.assignmentId,
+    projectId: userData.projectId,
     ideology_label: 0,
     pilot_2_answers: [],
     total_time: 0,
@@ -116,7 +116,7 @@ function enter_next() {
                     <p>
                         Thank you for finishing in this survey! By clicking “Finish”, you will be redirected back to the Connect platform and get your rewards.
                     </p>
-                    <button type="button" class="button_big">Finish</button>
+                    <button type="button" class="button_big" disabled="true">Finish</button>
                 </div>
             `;
             let pilot_2_endTime = Date.now();
@@ -126,13 +126,21 @@ function enter_next() {
             data.pilot_2_answers = pilot_2_answers;
             data.total_time = pilot_2_elapsedTime;
 
-            $.ajax({
-                type: "POST",
-                contentType: "application/json",
-                url: `/quiz/${userData.quiz_type}`,
-                data: JSON.stringify(data),
-                dataType: "json"
-            });
+            if (!idExisted) {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: `/${userData.quiz_type}/quiz`,
+                    data: JSON.stringify(data),
+                    dataType: "json"
+                });
+                let button = document.querySelector("button");
+                button.disabled = false;
+                button.addEventListener("click", () => {
+                    window.location.href = redirect_url;
+                })
+            }
+
         }
     });
 }

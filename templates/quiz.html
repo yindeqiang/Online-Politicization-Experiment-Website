@@ -11,7 +11,12 @@
                 assignmentId: '{{ assignmentId }}',
                 projectId: '{{ projectId }}',
                 quiz_type: '{{ quiz_type }}'
-            }
+            };
+            var idExisted = '{{ idExisted }}';
+            if (idExisted == 'True')
+                idExisted = true;
+            else
+                idExisted = false;
         </script>
         <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
         <script src="{{ url_for('static', filename="DOM.js") }}" defer></script>

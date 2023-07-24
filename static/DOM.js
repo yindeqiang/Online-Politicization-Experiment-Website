@@ -1,3 +1,5 @@
+const redirect_url = 'https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete';
+
 const pseudonyms = [
     "Alice", "Alex", "Betty", "Bob", "Catherine", "Charlie", "Emily", "David", "Grace", "Edward",
     "Jane", "Frank", "Laura", "Henry", "Maria", "John", "Nicole", "Kevin", "Sandra", "Michael"
@@ -8,7 +10,7 @@ const phase_length = [1, [6, 4, 3], 1, 6, 1];
 const avatar_num = 6;
 
 const labels = [
-    'Radically liberal', 
+    'Radically liberal',
     'Mildly liberal',
     'Mildly conservative',
     'Radically conservative',
@@ -27,9 +29,9 @@ const loader_string = `<div class="loader"></div>`;
 
 const section_rule_string = [
     ``,
-    
+
     {
-        "pilot_1": 
+        "pilot_1":
             `In what follows, you will be asked 10 questions on public issues.
             <span class="br_small"></span>
             <input type="checkbox" id="checkbox_1">
@@ -41,7 +43,7 @@ const section_rule_string = [
             <label for="checkbox_2">
                 After answering each question, all the participants' answers will be shown to each other.
             </label>`,
-        
+
         "default":
             `In what follows, you will be asked 10-13 questions on either public issues or personal preferences.
             <span class="br_small"></span>
@@ -58,9 +60,9 @@ const section_rule_string = [
             <input type="checkbox" id="checkbox_3">
             <label for="checkbox_3">
                 After Phase I, you will be asked to pick 1-3 labels that best describe how you think of yourself and the other two participants respectively. So <b>please be aware of their answers in this phase</b>. The other two participants will <b>NOT</b> see the labels you pick.
-            </label>`, 
+            </label>`,
     },
-    
+
 
     ``,
 
@@ -147,7 +149,7 @@ const phase_0_body_string = `
         </div>
         <div class="split phase_0_right">
             <p class="p_centered">
-                Your identity will be displayed as: 
+                Your identity will be displayed as:
             </p>
             <div class="identity_chosen">
                 <img src="/static/avatars/avatar_default.png" />
@@ -321,13 +323,13 @@ const end_quiz_string = `
     <div class="end">
         <h1>For Your Information</h1>
         <p>
-            Thank you for finishing in this survey! 
+            Thank you for finishing in this survey!
             <span class="br_small"></span>
-            At the end of this survey, we would like to inform you that we took a deceptive measure in our experiment. Now we are revealing to you the true experiment set-up: Among the three participants, you are the only human. The other two are bots whose behavior is pre-programmed by us. We sincerely ask for your pardon and hope you understand that this is a necessary measure to achieve the objective of our study. 
+            At the end of this survey, we would like to inform you that we took a deceptive measure in our experiment. Now we are revealing to you the true experiment set-up: Among the three participants, you are the only human. The other two are bots whose behavior is pre-programmed by us. We sincerely ask for your pardon and hope you understand that this is a necessary measure to achieve the objective of our study.
             <span class="br_small"></span>
             Thanks again for your participation. By clicking “Finish”, you will be redirected back to the Connect platform and get your rewards.
         </p>
-        <button type="button" class="button_big">Finish</button>
+        <button type="button" class="button_big" disabled="true">Finish</button>
     </div>
 `;
 
@@ -376,7 +378,7 @@ const phase_1_statements = [
             'extreme': false
         }
     ],
-    
+
     [
         {
             'statement': `The so-called 'global warming' is a hoax.`,

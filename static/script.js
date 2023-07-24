@@ -29,6 +29,9 @@ var each_answer = {
 }
 
 var data = {
+    participantId: userData.participantId,
+    assignmentId: userData.assignmentId,
+    projectId: userData.projectId,
     identity_choices: [],
     ideologies: [],
     labels: [],
@@ -258,7 +261,7 @@ function wait_for_participants() {
     avatars_index_chosen.splice(0, 0, avatar_chosen);
     for (let index = 0; index < num_of_participants; index++) {
         pseudonyms_chosen.push(pseudonyms[pseudonyms_index_chosen[index]]);
-        data.identity_choices.push([pseudonyms_index_chosen[index], avatars_index_chosen[index]]);
+        data.identity_choices.push([pseudonyms_index_chosenx[index], avatars_index_chosen[index]]);
     }
 
     // generate ideologies for bots
@@ -753,16 +756,24 @@ function all_finish_answering() {
 
 
 function end_quiz() {
-    console.log("Ready to send the data.");
     data.total_time = (Date.now() - total_start_time) / 1000;
-    console.log(data);
-    $.post({
-        url: `/quiz/${userData.quiz_type}/participantId=${userData.participantId}?assignmentId=${userData.assignmentId}&projectId=${userData.projectId}`,
-        data: JSON.stringify(data),
-        headers: { 'Content-Type': 'application/json' },
-        dataType: "json"
-    });
+    if (!idExisted) {
+        console.log("Ready to send the data.");
+        $.post({
+            url: `/${userData.quiz_type}/quiz`,
+            data: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json' },
+            dataType: "json"
+        });
+    }
     document.querySelector(".quiz_body").innerHTML = end_quiz_string;
+    if (!idExisted) {
+        let button = document.querySelector("button");
+        button.disabled = "false";
+        button.addEventListener('click', () => {
+            window.location.href = redirect_url;
+        });
+    }
 }
 
 
