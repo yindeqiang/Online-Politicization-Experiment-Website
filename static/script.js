@@ -261,7 +261,7 @@ function wait_for_participants() {
     avatars_index_chosen.splice(0, 0, avatar_chosen);
     for (let index = 0; index < num_of_participants; index++) {
         pseudonyms_chosen.push(pseudonyms[pseudonyms_index_chosen[index]]);
-        data.identity_choices.push([pseudonyms_index_chosenx[index], avatars_index_chosen[index]]);
+        data.identity_choices.push([pseudonyms_index_chosen[index], avatars_index_chosen[index]]);
     }
 
     // generate ideologies for bots
