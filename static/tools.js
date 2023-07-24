@@ -183,7 +183,7 @@ function display_values() {
             } else {
                 ans = phase_1_statements[2][index_of_question - phase_1_statements[0].length - phase_1_statements[1].length].range[temp_answers[index]];
             }
-            
+
             if (temp_answers[index] != temp_answers[0]) {
                 document.getElementById(`profile_${index}`).innerHTML += `
                     <div class="bubble_white" id="bubble_${index}">
@@ -199,11 +199,11 @@ function display_values() {
             }
         }
     }
-    
+
     else if (phase == 3) {
         let value = temp_answers[answers_first];
         let min = -3, max = 3;
-        
+
         // slider
         if (answers_first != 0) {
             if (phase_3_statements[index_of_question].type == 'fact') {
@@ -214,7 +214,7 @@ function display_values() {
             document.querySelector(".answers_mark").innerHTML += `
                 <div>
                     <div class="answer_scale" style="left: ${dis_from_left}px"></div>
-                    <img class="img_mark" style="left: ${dis_from_left - 19}px" src="/static/avatar_${avatars_index_chosen[answers_first]}.svg">
+                    <img class="img_mark" style="left: ${dis_from_left - 19}px" src="/static/avatars/avatar_${avatars_index_chosen[answers_first]}.svg">
                 </div>
             `;
         }
@@ -324,7 +324,7 @@ function generate_answers_for_bots() {
 
         // extreme question
         else if (index_of_question >= phase_1_statements[0].length && index_of_question < phase_1_statements[0].length + phase_1_statements[1].length) {
-            
+
             // default answer of B is agree
             let left_answer = 1;
             if (phase_1_statements[1][index_of_question - phase_1_statements[0].length].left_attitude)
@@ -489,7 +489,7 @@ function start_bot_timers(index_list, type) {
             temp_time = 1;
         else
             temp_time = time_configurations[type][0] + Math.random() * time_configurations[type][1];
-            
+
         wait_time.push(temp_time);
 
         // if it's the last timer, then send the timeup event
@@ -543,7 +543,7 @@ function add_identity_status() {
     let status = document.querySelector(".identity_wrap");
     for (let index = 0; index < num_of_participants; index ++) {
         let name = pseudonyms_chosen[index];
-    
+
         // add br for user's name
         if (index == 0) {
             if (phase == 4) {
@@ -573,7 +573,7 @@ function add_identity_status() {
             }
 
         }
-  
+
         else if (phase == 1) {
             status.innerHTML += `
                 <div id="profile_${index}" class="profile_answering">
@@ -601,7 +601,7 @@ function add_identity_status() {
                 </div>
             `;
         }
-        
+
         else if (phase == 3) {
             status.innerHTML += `
                 <div id="profile_${index}" class="profile_with_labels profile_labeling">
@@ -656,7 +656,7 @@ function check_handler(event) {
         if (data.labels[participant_id].length == 0)
             button.disabled = true;
     }
-    
+
     // if the action is clicking
     else {
         if (data.labels[participant_id].length == 3)
@@ -729,7 +729,7 @@ let pseudonym_chosen = -1;
 let avatar_chosen = -1;
 
 function click_pseudonym_or_avatar_handler(event) {
-    
+
     let name_displayed = document.querySelector(".identity_chosen > span");
     let avatar_displayed = document.querySelector(".identity_chosen > img");
 
@@ -807,7 +807,7 @@ function get_phase_length(phase) {
             for (let len of phase_length[phase])
                 sum += len;
         }
-        return sum; 
+        return sum;
     }
 }
 

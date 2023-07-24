@@ -126,7 +126,7 @@ function enter_next() {
             data.pilot_2_answers = pilot_2_answers;
             data.total_time = pilot_2_elapsedTime;
 
-            if (!idExisted) {
+            if (!idExisted && userData.participantId != '') {
                 $.ajax({
                     type: "POST",
                     contentType: "application/json",
@@ -137,7 +137,7 @@ function enter_next() {
                 let button = document.querySelector("button");
                 button.disabled = false;
                 button.addEventListener("click", () => {
-                    window.location.href = redirect_url;
+                    window.location.href = "https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete";
                 })
             }
 

@@ -1,5 +1,3 @@
-const redirect_url = 'https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete';
-
 const pseudonyms = [
     "Alice", "Alex", "Betty", "Bob", "Catherine", "Charlie", "Emily", "David", "Grace", "Edward",
     "Jane", "Frank", "Laura", "Henry", "Maria", "John", "Nicole", "Kevin", "Sandra", "Michael"

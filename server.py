@@ -91,6 +91,13 @@ def quiz(quiz_type):
         if not post_data:
             return 'Invalid Data Submitted'
 
+        with open(f'data/{quiz_type}.json', 'r') as file:
+            existing_data = json.load(file)
+            existing_data.append(post_data)
+
+        with open(f'data/{quiz_type}.json', 'w') as file:
+            json.dump(existing_data, file, indent=4)
+
         if quiz_type == 'pilot_1':
             pilot_1_data = Pilot_1(
                 participantId=post_data.get('participantId'),

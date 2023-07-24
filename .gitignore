@@ -4,4 +4,4 @@ test.*
 
 static/.DS_Store
 
-data.sql
+data/

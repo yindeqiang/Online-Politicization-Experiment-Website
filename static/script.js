@@ -113,7 +113,7 @@ function enter_next() {
                 show_instructions();
             } else if (userData.quiz_type == 'condition_1' && phase == 0) {
                 phase = 3;
-                question_seqNum_in_phase = 0;
+                question_seqNum_in_phase = 1;
                 data.labels = [[], [], []];
                 init_phase_3();
             } else if (userData.quiz_type == 'condition_1' && phase == 3) {
@@ -757,7 +757,7 @@ function all_finish_answering() {
 
 function end_quiz() {
     data.total_time = (Date.now() - total_start_time) / 1000;
-    if (!idExisted) {
+    if (!idExisted && userData.participantId != '') {
         console.log("Ready to send the data.");
         $.post({
             url: `/${userData.quiz_type}/quiz`,
@@ -767,15 +767,23 @@ function end_quiz() {
         });
     }
     document.querySelector(".quiz_body").innerHTML = end_quiz_string;
-    if (!idExisted) {
+    if (!idExisted && userData.participantId != '') {
         let button = document.querySelector("button");
-        button.disabled = "false";
+        button.disabled = false;
         button.addEventListener('click', () => {
-            window.location.href = redirect_url;
+            if (userData.quiz_type == 'pilot_1')
+                window.location.href = "";
+            else if (userData.quiz_type == 'pilot_2')
+                window.location.href = "https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete";
+            else if (userData.quiz_type == 'condition_1')
+                window.location.href = "";
+            else if (userData.quiz_type == 'condition_2')
+                window.location.href = "";
+            else
+                window.location.href = "";
         });
     }
 }
-
 
 
 function clear_status(p) {
