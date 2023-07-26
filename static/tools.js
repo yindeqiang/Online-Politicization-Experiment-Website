@@ -714,6 +714,7 @@ function attention_check_click_handler() {
         }
         index_of_question += 1;
     }
+    console.log(answers)
     if (answers[0] != -1 && answers[1] != -1 && answers[2] != -1) {
         document.querySelector("button").disabled = false;
     }
