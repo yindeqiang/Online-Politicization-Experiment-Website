@@ -1,7 +1,7 @@
 from crypt import methods
 from email import header
 import time
-from flask import Flask, render_template, request, url_for, send_from_directory, redirect
+from flask import Flask, render_template, request, url_for, send_from_directory, redirect, jsonify
 import json, os
 from itsdangerous import exc
 from flask_sqlalchemy import SQLAlchemy
@@ -87,43 +87,41 @@ def quiz(quiz_type):
 
     # post method after finishing the quiz
     else:
-        post_data = request.get_json()
-        if not post_data:
-            return 'Invalid Data Submitted'
+        try:
+            post_data = request.get_json()
 
-        # with open(f'data/{quiz_type}.json', 'r') as file:
-        #     existing_data = json.load(file)
-        #     existing_data.append(post_data)
+            if quiz_type == 'pilot_1':
+                pilot_1_data = Pilot_1(
+                    participantId=post_data.get('participantId'),
+                    assignmentId=post_data.get('assignmentId'),
+                    projectId=post_data.get('projectId'),
+                    total_time=post_data.get('total_time'),
+                    attention_passed=post_data.get('attention_passed'),
+                    identity_choices=post_data.get('identity_choices'),
+                    ideologies=post_data.get('ideologies'),
+                    ideology_answers=post_data.get('type_A_answers'),
+                    additional_answers=post_data.get('type_D_answers')
+                )
+                db.session.add(pilot_1_data)
+                db.session.commit()
 
-        # with open(f'data/{quiz_type}.json', 'w') as file:
-        #     json.dump(existing_data, file, indent=4)
+            elif quiz_type == 'pilot_2':
+                pilot_2_data = Pilot_2(
+                    participantId=post_data.get('participantId'),
+                    assignmentId=post_data.get('assignmentId'),
+                    projectId=post_data.get('projectId'),
+                    total_time=post_data.get('total_time'),
+                    attention_passed=post_data.get('attention_passed'),
+                    pilot_2_answers=post_data.get('pilot_2_answers'),
+                    ideology_label=post_data.get('ideology_label')
+                )
+                db.session.add(pilot_2_data)
+                db.session.commit()
 
-        if quiz_type == 'pilot_1':
-            pilot_1_data = Pilot_1(
-                participantId=post_data.get('participantId'),
-                assignmentId=post_data.get('assignmentId'),
-                projectId=post_data.get('projectId'),
-                total_time=post_data.get('total_time'),
-                attention_passed=post_data.get('attention_passed'),
-                identity_choices=post_data.get('identity_choices'),
-                ideologies=post_data.get('ideologies'),
-                ideology_answers=post_data.get('type_A_answers'),
-                additional_answers=post_data.get('type_D_answers')
-            )
-            db.session.add(pilot_1_data)
-            db.session.commit()
+            return jsonify({'message':'Valid Data Submitted'}), 200
 
-        elif quiz_type == 'pilot_2':
-            pilot_2_data = Pilot_2(
-                participantId=post_data.get('participantId'),
-                assignmentId=post_data.get('assignmentId'),
-                projectId=post_data.get('projectId'),
-                total_time=post_data.get('total_time'),
-                attention_passed=post_data.get('attention_passed'),
-                pilot_2_answers=post_data.get('pilot_2_answers'),
-                ideology_label=post_data.get('ideology_label')
-            )
-            db.session.add(pilot_2_data)
-            db.session.commit()
-
-        return 'Valid Data Submitted'
+        except Exception as e:
+            raw_data = request.get_data(as_text=True)
+            with open(f'data/{quiz_type}.txt', 'a') as file:
+                file.write(raw_data + '\n')
+            return jsonify({'error': 'Invalid Data Submitted'}), 400

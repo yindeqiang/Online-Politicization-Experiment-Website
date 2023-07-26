@@ -700,7 +700,7 @@ function phase_4_click_handler() {
 let attention_passed = false;
 
 function attention_check_click_handler() {
-    let answers = [-1, -1, -1];
+    let temp_answers = [-1, -1, -1];
     const names = ['question_1', 'question_2', 'question_3'];
     let index_of_question = 0
     for (let name of names) {
@@ -708,17 +708,16 @@ function attention_check_click_handler() {
         index_of_choice = 0;
         for (let input of inputs) {
             if (input.checked) {
-                answers[index_of_question] = index_of_choice;
+                temp_answers[index_of_question] = index_of_choice;
             }
             index_of_choice += 1;
         }
         index_of_question += 1;
     }
-    console.log(answers)
-    if (answers[0] != -1 && answers[1] != -1 && answers[2] != -1) {
+    if (temp_answers[0] != -1 && temp_answers[1] != -1 && temp_answers[2] != -1) {
         document.querySelector("button").disabled = false;
     }
-    if (answers[0] == 3 && answers[1] == 1 && answers[2] == 3) {
+    if (temp_answers[0] == 3 && temp_answers[1] == 1 && temp_answers[2] == 3) {
         attention_passed = true;
     }
     data.attention_passed = attention_passed;

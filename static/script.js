@@ -759,11 +759,12 @@ function end_quiz() {
     data.total_time = (Date.now() - total_start_time) / 1000;
     document.querySelector(".quiz_body").innerHTML = end_quiz_string;
     if (!idExisted && userData.participantId != '') {
-        //set redirect url
+
+        // redirection enabled
         let button = document.querySelector("button");
         button.disabled = false;
         button.addEventListener('click', () => {
-            
+
             // send data
             console.log("Ready to send the data.");
             $.post({
@@ -771,19 +772,23 @@ function end_quiz() {
                 data: JSON.stringify(data),
                 headers: { 'Content-Type': 'application/json' },
                 dataType: "json"
+            })
+            .done(function(response) {
+                // redirect
+                if (userData.quiz_type == 'pilot_1')
+                    window.location.href = "https://connect.cloudresearch.com/participant/project/f4ab53a4e1e34db0808d3aa985531f78/complete";
+                else if (userData.quiz_type == 'pilot_2')
+                    window.location.href = "https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete";
+                else if (userData.quiz_type == 'condition_1')
+                    window.location.href = "";
+                else if (userData.quiz_type == 'condition_2')
+                    window.location.href = "";
+                else
+                    window.location.href = "";
+            })
+            .fail(function(error) {
+                console.error("Error while sending data:", error);
             });
-
-            // redirect
-            if (userData.quiz_type == 'pilot_1')
-                window.location.href = "https://connect.cloudresearch.com/participant/project/f4ab53a4e1e34db0808d3aa985531f78/complete";
-            else if (userData.quiz_type == 'pilot_2')
-                window.location.href = "https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete";
-            else if (userData.quiz_type == 'condition_1')
-                window.location.href = "";
-            else if (userData.quiz_type == 'condition_2')
-                window.location.href = "";
-            else
-                window.location.href = "";
         });
     }
 }
