@@ -9,7 +9,7 @@ import os
 import sys
 current_dir = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(current_dir))
-from server import Base, Pilot_1, Pilot_2
+from server import Base, Pilot_2
 
 SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
     username="Grawi",
@@ -34,13 +34,23 @@ translator = {
     'Conservative': 3
 }
 
-platform_ideology = df['Political Ideology'].map(translator).to_numpy()
-experiment_ideology = session.query(Pilot_2.ideology_label).all()
-experiment_ideology = np.array([ideology[0] for ideology in experiment_ideology])
-print(experiment_ideology)
-# print(platform_ideology[:10], experiment_ideology[:10], sep='\n\n')
+valid_df['Political Ideology'] = valid_df['Political Ideology'].map(translator).to_list()
 
-difference = np.abs(experiment_ideology - platform_ideology)
+len = 0
+correct = 0
+reverse = 0
 
-precision = np.sum(difference <= 0.5) / len(difference)
-print(f"Precision: {precision}")
+for _, row in valid_df.iterrows():
+    participantId = row['ParticipantId']
+    platform_ideology = row['Political Ideology']
+    result = Pilot_2.query.filter_by(participantId=participantId).all()
+    if result:
+        len += 1
+        experiment_ideology = result[0].ideology_label
+        if abs(platform_ideology - experiment_ideology) <= 0.5:
+            correct += 1
+        if platform_ideology > 1.5 and experiment_ideology < 1.5 or platform_ideology < 1.5 and experiment_ideology > 1.5:
+            reverse += 1
+
+
+print(f"Precision: {correct / len}, Reversed: {reverse / len}")
