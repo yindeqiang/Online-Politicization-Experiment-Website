@@ -3,7 +3,7 @@ import pandas as pd
 from sqlalchemy import create_engine, Column, String, Integer, Float, JSON
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
-from server import Base, Pilot_1, Pilot_2
+from ..server import Base, Pilot_1, Pilot_2
 import numpy as np
 import math
 
