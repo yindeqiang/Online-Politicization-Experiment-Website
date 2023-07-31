@@ -9,9 +9,10 @@ from sqlalchemy import Column, Integer, String, JSON, Float
 
 MAX_ID_LEN = 100
 
-# database
 app = Flask(__name__)
 app.config["DEBUG"] = True
+
+# database connection configuration
 SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
     username="Grawi",
     password="david2202087",
@@ -24,25 +25,27 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 db = SQLAlchemy(app)
 
 # base database
-class Base(db.Model):
-    __abstract__ = True
-    participantId = Column(String(MAX_ID_LEN), primary_key=True)
-    assignmentId = Column(String(MAX_ID_LEN))
-    projectId = Column(String(MAX_ID_LEN))
-    attention_passed = Column(Integer)
-    total_time = Column(Float)
+if not app.config["DEBUG"]:
+    class Base(db.Model):
+        __abstract__ = True
+        participantId = Column(String(MAX_ID_LEN), primary_key=True)
+        assignmentId = Column(String(MAX_ID_LEN))
+        projectId = Column(String(MAX_ID_LEN))
+        attention_passed = Column(Integer)
+        total_time = Column(Float)
+        bot_detected = Column(Integer)
 
-class Pilot_1(Base):
-    __tablename__ = "pilot_1"
-    identity_choices = Column(JSON)
-    ideologies = Column(JSON)
-    ideology_answers = Column(JSON)
-    additional_answers = Column(JSON)
+    class Pilot_1(Base):
+        __tablename__ = "pilot_1"
+        identity_choices = Column(JSON)
+        ideologies = Column(JSON)
+        ideology_answers = Column(JSON)
+        additional_answers = Column(JSON)
 
-class Pilot_2(Base):
-    __tablename__ = "pilot_2"
-    pilot_2_answers = Column(JSON)
-    ideology_label = Column(Integer)
+    class Pilot_2(Base):
+        __tablename__ = "pilot_2"
+        pilot_2_answers = Column(JSON)
+        ideology_label = Column(Integer)
 
 
 
@@ -60,10 +63,11 @@ def consentform(quiz_type):
     assignmentId = request.args.get('assignmentId', default="")
     projectId = request.args.get('projectId', default="")
     idExisted = False
-    if quiz_type == 'pilot_1':
-        idExisted = Pilot_1.query.filter_by(participantId=participantId).first() is not None
-    elif quiz_type == 'pilot_2':
-        idExisted = Pilot_2.query.filter_by(participantId=participantId).first() is not None
+    if not app.config["DEBUG"]:
+        if quiz_type == 'pilot_1':
+            idExisted = Pilot_1.query.filter_by(participantId=participantId).first() is not None
+        elif quiz_type == 'pilot_2':
+            idExisted = Pilot_2.query.filter_by(participantId=participantId).first() is not None
 
     return render_template('consentform.html', quiz_type=quiz_type, participantId=participantId, assignmentId=assignmentId, projectId=projectId, idExisted=idExisted)
 
@@ -78,15 +82,16 @@ def quiz(quiz_type):
         assignmentId = request.args.get('assignmentId', default="")
         projectId = request.args.get('projectId', default="")
         idExisted = False
-        if quiz_type == 'pilot_1':
-            idExisted = Pilot_1.query.filter_by(participantId=participantId).first() is not None
-        elif quiz_type == 'pilot_2':
-            idExisted = Pilot_2.query.filter_by(participantId=participantId).first() is not None
+        if not app.config["DEBUG"]:
+            if quiz_type == 'pilot_1':
+                idExisted = Pilot_1.query.filter_by(participantId=participantId).first() is not None
+            elif quiz_type == 'pilot_2':
+                idExisted = Pilot_2.query.filter_by(participantId=participantId).first() is not None
 
         return render_template('quiz.html', quiz_type=quiz_type, participantId=participantId, assignmentId=assignmentId, projectId=projectId, idExisted=idExisted)
 
     # post method after finishing the quiz
-    else:
+    elif not app.config["DEBUG"]:
         try:
             post_data = request.get_json()
 
@@ -100,7 +105,8 @@ def quiz(quiz_type):
                     identity_choices=post_data.get('identity_choices'),
                     ideologies=post_data.get('ideologies'),
                     ideology_answers=post_data.get('type_A_answers'),
-                    additional_answers=post_data.get('type_D_answers')
+                    additional_answers=post_data.get('type_D_answers'),
+                    bot_detected=post_data.get('bot_detected')
                 )
                 db.session.add(pilot_1_data)
                 db.session.commit()
@@ -113,7 +119,8 @@ def quiz(quiz_type):
                     total_time=post_data.get('total_time'),
                     attention_passed=post_data.get('attention_passed'),
                     pilot_2_answers=post_data.get('pilot_2_answers'),
-                    ideology_label=post_data.get('ideology_label')
+                    ideology_label=post_data.get('ideology_label'),
+                    bot_detected=post_data.get('bot_detected')
                 )
                 db.session.add(pilot_2_data)
                 db.session.commit()

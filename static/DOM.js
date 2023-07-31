@@ -128,6 +128,19 @@ const slider_string = `
     <div class="mark_texts"></div>
 `;
 
+const slider_string_short = `
+    <input type="range" max="2" min="-2" step="0.1" oninput="get_slider_value(this)">
+    <div class="answers_mark"></div>
+    <div class="scales">
+        <div class="scale" style="left: 10px"></div>
+        <div class="scale" style="left: 155.75px"></div>
+        <div class="scale" style="left: 301px"></div>
+        <div class="scale" style="left: 446px"></div>
+        <div class="scale" style="left: 591px"></div>
+    </div>
+    <div class="mark_texts"></div>
+`;
+
 const input_select_string = `
     <div class="question"></div>
     <div class="statement"></div>
@@ -231,7 +244,7 @@ const phase_4_body_string = `
         <div id="evaluation_competence" class="evaluation"></div>
     </div>
     <div class="question_phase_4" id="question_3">
-        <p>Q3. How warm do you think the other participants are?
+        <p>Q3. Do you think the other participants would be friendly to you?
         <div id="evaluation_warmth" class="evaluation"></div>
     </div>
     <div class="question_phase_4" id="question_4">
@@ -324,6 +337,17 @@ const end_quiz_string = `
             Thank you for finishing in this survey!
             <span class="br_small"></span>
             At the end of this survey, we would like to inform you that we took a deceptive measure in our experiment. Now we are revealing to you the true experiment set-up: Among the three participants, you are the only human. The other two are bots whose behavior is pre-programmed by us. We sincerely ask for your pardon and hope you understand that this is a necessary measure to achieve the objective of our study.
+            <form class="form_ideology form_detection">
+                <label for="no">
+                    <input type="radio" id="no" value="0" name="radioGroup">
+                    I wasn't aware that they are bots.
+                </label>
+                <br>
+                <label for="yes">
+                    <input type="radio" id="yes" value="1" name="radioGroup">
+                    I did suspect that they are bots.
+                </label>
+            </form>
             <span class="br_small"></span>
             Thanks again for your participation. By clicking “Finish”, you will be redirected back to the Connect platform and get your rewards.
         </p>
@@ -379,7 +403,8 @@ const phase_1_statements = [
 
     [
         {
-            'statement': `The so-called 'global warming' is a hoax.`,
+            // 'statement': `The so-called 'global warming' is a hoax.`,
+            'statement': 'Schools should not impose any form of vaccine mandate.',
             'type': 'issue',
             'summary': 'Global warming is a hoax.',
             'left_attitude': false,

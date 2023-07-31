@@ -119,30 +119,53 @@ function generate_form(name_list) {
     ret += `</div></form>`;
     return ret;
 }
-
+ 
 
 
 function add_mark_texts(name_list, area = document) {
     let all_marks = area.querySelectorAll(".mark_texts");
-    all_marks.forEach((marks) => {
-        if (name_list.length == 2)
-            name_list = [name_list[0], null, null, 'Neutral', null, null, name_list[1]];
-        let index = 0;
-        for (let name of name_list) {
-            if (name) {
+    if (name_list.length == 2 || name_list.length == 7) {
+        all_marks.forEach((marks) => {
+            if (name_list.length == 2)
+                name_list = [name_list[0], null, null, 'Neutral', null, null, name_list[1]];
+            let index = 0;
+            for (let name of name_list) {
+                if (name) {
+                    let len = 0;
+                    for (let char of name) {
+                        if (char != '<')
+                            len++;
+                        else
+                            break;
+                    }
+                    let dis_from_left = 10 + 97 * index - len * 2.4;
+                    marks.innerHTML += `<div class="mark_text" id="text_${index}" style="left: ${dis_from_left}px">${name}</div>`;
+                }
+                index++;
+            }
+        });
+    }
+
+    else if (name_list.length == 5) {
+        all_marks.forEach((marks) => {
+            let index = 0;
+            for (let name of name_list) {
                 let len = 0;
                 for (let char of name) {
-                    if (char != '<')
+                    if (char == '<')
+                        len = 0;
+                    else if (char != '>')
                         len++;
-                    else
-                        break;
                 }
-                let dis_from_left = 10 + 97 * index - len * 2.4;
+                let initial_offset = 12;
+                let range_len = 145.5;
+                let len_coef = 2.5;
+                let dis_from_left = initial_offset + index * range_len - len * len_coef;
                 marks.innerHTML += `<div class="mark_text" id="text_${index}" style="left: ${dis_from_left}px">${name}</div>`;
+                index++;
             }
-            index++;
-        }
-    });
+        });
+    }
 }
 
 

@@ -310,6 +310,14 @@ label {
     padding: 10px 0px 10px 0px;
 }
 
+.form_detection {
+    width: 400px;
+    line-height: 28px;
+    font-weight: bold;
+    margin: 20px;
+}
+
+
 /* class types */
 
 .quiz_body {

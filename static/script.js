@@ -9,7 +9,7 @@ const time_configurations = {
     'wait': [0, 5],
     'phase_3_question': [4, 8],
     'preference': [1, 4],
-    'issue': [3, 5],
+    'issue': [3.5, 6],
     'lag': 1,
     'confirm': [10, 10],
 };
@@ -36,6 +36,7 @@ var data = {
     ideologies: [],
     labels: [],
     attention_passed: false,
+    bot_detected: false,
     total_time: 0,              // total time to finish the experiment
     type_A_answers: [],         // ideological questions in phase I
     type_B_answers: [],         // preference questions in phase I
@@ -699,15 +700,22 @@ function init_phase_4() {
 
         for (let index = start_index; index < num_of_participants; index++) {
             evaluation.innerHTML += `
-                <div id="input_${type}_${index}" class="input input_phase_4">${slider_string}</div>
+                <div id="input_${type}_${index}" class="input input_phase_4">${slider_string_short}</div>
             `;
         }
-        if (type == 'ideology')
-            add_mark_texts([`Extremely<br>liberal`, `Strongly<br>liberal`, 'Mildly<br>liberal', `Neutral`, `Mildly<br>conservative`, `Strongly<br>conservative`, `Extremely<br>conservative`], evaluation);
-        else if (type == 'competence')
-            add_mark_texts([`Extremely<br>incompetent`, `Very<br>incompetent`, `Slightly<br>incompetent`, `Neutral`, `Slightly<br>competent`, `Very<br>competent`, 'Extremely<br>competent'], evaluation);
-        else if (type == 'warmth')
-            add_mark_texts([`Extremely<br>mean`, `Very<br>mean`, `Slightly<br>mean`, `Neutral`, `Slightly<br>warm`, `Very<br>warm`, `Extremely<br>warm`], evaluation);
+        if (type == 'ideology') {
+            add_mark_texts([`Liberal`, 'Somewhat<br>Liberal', `Neutral`, `Somewhat<br>Conservative`, `Conservative`], evaluation);
+            // add_mark_texts([`Extremely<br>liberal`, `Strongly<br>liberal`, 'Mildly<br>liberal', `Neutral`, `Mildly<br>conservative`, `Strongly<br>conservative`, `Extremely<br>conservative`], evaluation);
+        
+        }
+        else if (type == 'competence') {
+            add_mark_texts([`Very<br>Incompetent`, `Slightly<br>Incompetent`, `Neutral`, `Slightly<br>Competent`, `Very<br>Competent`], evaluation);
+            // add_mark_texts([`Extremely<br>incompetent`, `Very<br>incompetent`, `Slightly<br>incompetent`, `Neutral`, `Slightly<br>competent`, `Very<br>competent`, 'Extremely<br>competent'], evaluation);
+        }
+        else if (type == 'warmth') {
+            add_mark_texts([`Very<br>Unfriendly`, `Slightly<br>Unfriendly`, `Neutral`, `Slightly<br>Friendly`, `Very<br>Friendly`], evaluation);
+            // add_mark_texts([`Extremely<br>mean`, `Very<br>mean`, `Slightly<br>mean`, `Neutral`, `Slightly<br>warm`, `Very<br>warm`, `Extremely<br>warm`], evaluation);
+        }
     }
 
     display_values();
@@ -755,42 +763,55 @@ function all_finish_answering() {
 
 
 
+function answer_detection_question() {
+    const radioInputs = document.querySelectorAll("input[type=radio]");
+    let index = 0;
+    for (const radio of radioInputs) {
+        if (radio.checked) {
+            if (index == 0)
+                data.bot_detected = false;
+            else
+                data.bot_detected = true;
+            if (!idExisted && userData.participantId != '') {
+                // redirection enabled
+                let button = document.querySelector("button");
+                button.disabled = false;
+                button.addEventListener('click', () => {
+                    // send data
+                    console.log("Ready to send the data.");
+                    $.post({
+                        url: `/${userData.quiz_type}/quiz`,
+                        data: JSON.stringify(data),
+                        headers: { 'Content-Type': 'application/json' },
+                        dataType: "json"
+                    })
+                    .done(function(response) {
+                        // redirect
+                        if (userData.quiz_type == 'pilot_1')
+                            window.location.href = "https://connect.cloudresearch.com/participant/project/f4ab53a4e1e34db0808d3aa985531f78/complete";
+                        else if (userData.quiz_type == 'pilot_2')
+                            window.location.href = "https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete";
+                        else if (userData.quiz_type == 'condition_1')
+                            window.location.href = "";
+                        else if (userData.quiz_type == 'condition_2')
+                            window.location.href = "";
+                        else
+                            window.location.href = "";
+                    })
+                    .fail(function(error) {
+                        console.error("Error while sending data:", error);
+                    });
+                });
+            }
+        }
+        index++;
+    }
+}
+
 function end_quiz() {
     data.total_time = (Date.now() - total_start_time) / 1000;
     document.querySelector(".quiz_body").innerHTML = end_quiz_string;
-    if (!idExisted && userData.participantId != '') {
-
-        // redirection enabled
-        let button = document.querySelector("button");
-        button.disabled = false;
-        button.addEventListener('click', () => {
-
-            // send data
-            console.log("Ready to send the data.");
-            $.post({
-                url: `/${userData.quiz_type}/quiz`,
-                data: JSON.stringify(data),
-                headers: { 'Content-Type': 'application/json' },
-                dataType: "json"
-            })
-            .done(function(response) {
-                // redirect
-                if (userData.quiz_type == 'pilot_1')
-                    window.location.href = "https://connect.cloudresearch.com/participant/project/f4ab53a4e1e34db0808d3aa985531f78/complete";
-                else if (userData.quiz_type == 'pilot_2')
-                    window.location.href = "https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete";
-                else if (userData.quiz_type == 'condition_1')
-                    window.location.href = "";
-                else if (userData.quiz_type == 'condition_2')
-                    window.location.href = "";
-                else
-                    window.location.href = "";
-            })
-            .fail(function(error) {
-                console.error("Error while sending data:", error);
-            });
-        });
-    }
+    document.querySelector(".form_detection").addEventListener("click", answer_detection_question);
 }
 
 

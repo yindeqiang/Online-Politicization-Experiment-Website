@@ -35,8 +35,10 @@ session = Session()
 
 valid_data = session.query(Pilot_1).all()
 additional_answers = [data.additional_answers[0][0] for data in valid_data]
-df = pd.read_csv('data_pilot_1.csv', usecols=['ParticipantId', 'Political Ideology'])
+df = pd.read_csv('data/data_pilot_1.csv', usecols=['ParticipantId', 'Political Ideology'])
 df['Political Ideology'] = df['Political Ideology'].map(translator)
+
+
 
 length = 0
 match = 0
@@ -61,6 +63,10 @@ ideology_distances = []
 kindness = []
 competence = []
 num_correct_classifications = 0
+ans_differences_of_ideology = [[], []]
+ideology_distances_of_ideology = [[], []]
+kindness_of_ideology = [[], []]
+competence_of_ideology = [[], []]
 
 experiments_answers = [data.ideology_answers for data in valid_data]
 additional_answers = [data.additional_answers for data in valid_data]
@@ -74,22 +80,45 @@ for idx, experiment_answers in enumerate(experiments_answers):
     for question_answers in questions_answers:
         for i in range(2):
             distance_sum[i] += abs(question_answers[0] - question_answers[i + 1])
+    
+    if additional_answers[idx][0][0] >= -3 and additional_answers[idx][0][0] < 0:
+        ans_differences_of_ideology[0].append(distance_sum[0])
+        ans_differences_of_ideology[1].append(distance_sum[1])
+    elif additional_answers[idx][0][0] > 0 and additional_answers[idx][0][0] <= 3:
+        ans_differences_of_ideology[0].append(distance_sum[0])
+        ans_differences_of_ideology[1].append(distance_sum[1])
+
     distance_sums.append(distance_sum[0])
     distance_sums.append(distance_sum[1])
 
 
     for i in range(2):
         ideology_distances.append(abs(additional_answers[idx][0][i + 1] - additional_answers[idx][0][0]))
-
         kindness.append(additional_answers[idx][1][i])
         competence.append(additional_answers[idx][2][i])
         if ideologies[idx][i + 1] * additional_answers[idx][0][i + 1] > 0:
             num_correct_classifications += 1
 
-print("ideology distance and answer differences", np.corrcoef(distance_sums, ideology_distances)[0, 1])
-print("kindness", np.corrcoef(ideology_distances, kindness)[0, 1], np.corrcoef(distance_sums, kindness)[0, 1])
-print("competence", np.corrcoef(ideology_distances, competence)[0, 1], np.corrcoef(distance_sums, competence)[0, 1])
-print(f"Correct Classfication Ratio: {num_correct_classifications / (2 * len(ideologies))}")
+        if additional_answers[idx][0][0] >= -3 and additional_answers[idx][0][0] < 0:
+            kindness_of_ideology[0].append(additional_answers[idx][1][i])
+            competence_of_ideology[0].append(additional_answers[idx][2][i])
+        elif additional_answers[idx][0][0] > 0 and additional_answers[idx][0][0] <= 3:
+            kindness_of_ideology[1].append(additional_answers[idx][1][i])
+            competence_of_ideology[1].append(additional_answers[idx][2][i])
+
+print("Correlation between ideology distance and answer differences:")
+print("For all:", np.corrcoef(distance_sums, ideology_distances)[0, 1])
+print("For conservative:", np.corrcoef(ans_differences_of_ideology[0], ideology_distances_of_ideology[0])[0, 1])
+print("For liberal: ", np.corrcoef(ans_differences_of_ideology[1], ideology_distances_of_ideology[1])[0, 1])
+print("Correlattion between kindness and ideology distance:")
+print("For all:", np.corrcoef(ideology_distances, kindness)[0, 1])
+print("For conservative:", np.corrcoef(ideology_distances_of_ideology[0], kindness_of_ideology[0])[0, 1])
+print("For liberal:", np.corrcoef(ideology_distances_of_ideology[1], kindness_of_ideology[1])[0, 1])
+print("Competence:")
+print("For all:", np.corrcoef(ideology_distances, competence)[0, 1])
+print("For conservative:", np.corrcoef(ideology_distances_of_ideology[0], competence_of_ideology[0])[0, 1])
+print("For liberal:", np.corrcoef(ideology_distances_of_ideology[1], competence_of_ideology[1])[0, 1])
+print(f"Overall ratio of correct classfications: {num_correct_classifications / (2 * len(ideologies))}")
 
 
 # plt.scatter(distance_sums, ideology_distances)
@@ -122,7 +151,7 @@ for experiment_answers in experiments_answers:
 human_time_to_answer /= (9 * len(experiments_answers))
 bot_time_to_answer /= (2 * 9 * len(experiments_answers))
 
-print("Time for human and bot", human_time_to_answer, bot_time_to_answer)
+print("Time for human, and for bot:", human_time_to_answer, bot_time_to_answer)
 
 nums_of_agrees = []
 num_of_participants = [0, 0, 0, 0]
@@ -146,12 +175,9 @@ for idx, experiment_answers in enumerate(experiments_answers):
         if answer_data['answers'][0] == 0:
             nums_of_agrees[answer_data['idx_of_question']][target] += 1
 
-print("num_of_participants", num_of_participants)
 for num_of_agrees in nums_of_agrees:
     for i in range(3):
 
         num_of_agrees[i] /= num_of_participants[i]
 
-for num_of_agrees in nums_of_agrees:
-    print(num_of_agrees)
 
