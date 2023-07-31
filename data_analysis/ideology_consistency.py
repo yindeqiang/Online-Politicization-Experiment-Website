@@ -46,6 +46,8 @@ for _, row in valid_df.iterrows():
     result = Pilot_2.query.filter_by(participantId=participantId).all()
     if result:
         len += 1
+        print(result)
+        break
         experiment_ideology = result[0].ideology_label
         if abs(platform_ideology - experiment_ideology) <= 0.5:
             correct += 1
