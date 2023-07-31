@@ -35,7 +35,7 @@ session = Session()
 
 valid_data = session.query(Pilot_1).all()
 additional_answers = [data.additional_answers[0][0] for data in valid_data]
-df = pd.read_csv('data/data_pilot_1.csv', usecols=['ParticipantId', 'Political Ideology'])
+df = pd.read_csv('connect_data/pilot_1.csv', usecols=['ParticipantId', 'Political Ideology'])
 df['Political Ideology'] = df['Political Ideology'].map(translator)
 
 
