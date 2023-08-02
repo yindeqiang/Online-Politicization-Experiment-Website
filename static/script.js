@@ -706,7 +706,7 @@ function init_phase_4() {
         if (type == 'ideology') {
             add_mark_texts([`Liberal`, 'Somewhat<br>Liberal', `Neutral`, `Somewhat<br>Conservative`, `Conservative`], evaluation);
             // add_mark_texts([`Extremely<br>liberal`, `Strongly<br>liberal`, 'Mildly<br>liberal', `Neutral`, `Mildly<br>conservative`, `Strongly<br>conservative`, `Extremely<br>conservative`], evaluation);
-        
+
         }
         else if (type == 'competence') {
             add_mark_texts([`Very<br>Incompetent`, `Slightly<br>Incompetent`, `Neutral`, `Slightly<br>Competent`, `Very<br>Competent`], evaluation);
@@ -762,6 +762,7 @@ function all_finish_answering() {
 }
 
 
+let bot_detected_answered = false;
 
 function answer_detection_question() {
     const radioInputs = document.querySelectorAll("input[type=radio]");
@@ -772,39 +773,39 @@ function answer_detection_question() {
                 data.bot_detected = false;
             else
                 data.bot_detected = true;
-            if (!idExisted && userData.participantId != '') {
-                // redirection enabled
-                let button = document.querySelector("button");
-                button.disabled = false;
-                button.addEventListener('click', () => {
-                    // send data
-                    console.log("Ready to send the data.");
-                    $.post({
-                        url: `/${userData.quiz_type}/quiz`,
-                        data: JSON.stringify(data),
-                        headers: { 'Content-Type': 'application/json' },
-                        dataType: "json"
-                    })
-                    .done(function(response) {
-                        // redirect
-                        if (userData.quiz_type == 'pilot_1')
-                            window.location.href = "https://connect.cloudresearch.com/participant/project/f4ab53a4e1e34db0808d3aa985531f78/complete";
-                        else if (userData.quiz_type == 'pilot_2')
-                            window.location.href = "https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete";
-                        else if (userData.quiz_type == 'condition_1')
-                            window.location.href = "";
-                        else if (userData.quiz_type == 'condition_2')
-                            window.location.href = "";
-                        else
-                            window.location.href = "";
-                    })
-                    .fail(function(error) {
-                        console.error("Error while sending data:", error);
-                    });
-                });
-            }
+            bot_detected_answered = true;
         }
         index++;
+    }
+    // redirection enabled
+    if (bot_detected_answered && userData.participantId != '' && !idExisted) {
+        let button = document.querySelector("button");
+        button.disabled = false;
+        button.addEventListener('click', () => {
+            // send data
+            console.log("Ready to send the data.");
+            $.post({
+                url: `/${userData.quiz_type}/quiz`,
+                data: JSON.stringify(data),
+                headers: { 'Content-Type': 'application/json' },
+                dataType: "json"
+            })
+            .done(function(response) {
+                if (userData.quiz_type == 'pilot_1')
+                    window.location.href = "https://connect.cloudresearch.com/participant/project/f4ab53a4e1e34db0808d3aa985531f78/complete";
+                else if (userData.quiz_type == 'pilot_2')
+                    window.location.href = "https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete";
+                else if (userData.quiz_type == 'condition_1')
+                    window.location.href = "";
+                else if (userData.quiz_type == 'condition_2')
+                    window.location.href = "";
+                else
+                    window.location.href = "";
+            })
+            .fail(function(error) {
+                console.error("Error while sending data:", error);
+            });
+        });
     }
 }
 
@@ -876,10 +877,18 @@ function add_test() {
 function attention_check() {
     document.querySelector(".quiz_body").innerHTML = attention_check_string;
     document.querySelector(".attention_check").addEventListener("change", attention_check_click_handler);
-    if (userData.quiz_type == 'pilot_1' || userData.quiz_type == 'condition_1')
-        document.querySelector("button").addEventListener("click", end_quiz);
-    else if (userData.quiz_type == 'condition_2' || userData.quiz_type == 'condition_3')
-        document.querySelector("button").addEventListener("click", enter_next);
+    if (userData.quiz_type == 'pilot_1' || userData.quiz_type == 'condition_1') {
+        document.querySelector("button").addEventListener("click",() => {
+            document.querySelector(".attention_check").removeEventListener("change", attention_check_click_handler);
+            end_quiz();
+        });
+    }
+    else if (userData.quiz_type == 'condition_2' || userData.quiz_type == 'condition_3') {
+        document.querySelector("button").addEventListener("click", () => {
+              document.querySelector(".attention_check").removeEventListener("change", attention_check_click_handler);
+              enter_next();
+        });
+    }
 }
 
 

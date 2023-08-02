@@ -72,20 +72,33 @@ experiments_answers = [data.ideology_answers for data in valid_data]
 additional_answers = [data.additional_answers for data in valid_data]
 ideologies = [data.ideologies for data in valid_data]
 
+num_of_each_ideology = [0, 0, 0]
+for each_additional_answers in additional_answers:
+    ideology = each_additional_answers[0][0]
+    if ideology > -3 and ideology < 0:
+        num_of_each_ideology[0] += 1
+    elif ideology == 0:
+        num_of_each_ideology[1] += 1
+    else:
+        num_of_each_ideology[2] += 1
+print("Number of participants of each ideology:", num_of_each_ideology)
+
+
 for idx, experiment_answers in enumerate(experiments_answers):
     questions_answers = [answer_data['answers'] for answer_data in experiment_answers]
     distance_sum = [0, 0]
+    ideology = additional_answers[idx][0][0]
 
     # iterate all questions for one participant
     for question_answers in questions_answers:
         for i in range(2):
             distance_sum[i] += abs(question_answers[0] - question_answers[i + 1])
-    
-    if additional_answers[idx][0][0] >= -3 and additional_answers[idx][0][0] < 0:
+
+    if ideology >= -3 and ideology < 0:
         ans_differences_of_ideology[0].append(distance_sum[0])
-        ans_differences_of_ideology[1].append(distance_sum[1])
-    elif additional_answers[idx][0][0] > 0 and additional_answers[idx][0][0] <= 3:
-        ans_differences_of_ideology[0].append(distance_sum[0])
+        ans_differences_of_ideology[0].append(distance_sum[1])
+    elif ideology > 0 and ideology <= 3:
+        ans_differences_of_ideology[1].append(distance_sum[0])
         ans_differences_of_ideology[1].append(distance_sum[1])
 
     distance_sums.append(distance_sum[0])
@@ -100,9 +113,11 @@ for idx, experiment_answers in enumerate(experiments_answers):
             num_correct_classifications += 1
 
         if additional_answers[idx][0][0] >= -3 and additional_answers[idx][0][0] < 0:
+            ideology_distances_of_ideology[0].append(abs(additional_answers[idx][0][i + 1] - additional_answers[idx][0][0]))
             kindness_of_ideology[0].append(additional_answers[idx][1][i])
             competence_of_ideology[0].append(additional_answers[idx][2][i])
         elif additional_answers[idx][0][0] > 0 and additional_answers[idx][0][0] <= 3:
+            ideology_distances_of_ideology[1].append(abs(additional_answers[idx][0][i + 1] - additional_answers[idx][0][0]))
             kindness_of_ideology[1].append(additional_answers[idx][1][i])
             competence_of_ideology[1].append(additional_answers[idx][2][i])
 
@@ -121,11 +136,12 @@ print("For liberal:", np.corrcoef(ideology_distances_of_ideology[1], competence_
 print(f"Overall ratio of correct classfications: {num_correct_classifications / (2 * len(ideologies))}")
 
 
-# plt.scatter(distance_sums, ideology_distances)
-# plt.xlabel('Number of Different Answers')
-# plt.ylabel('Distance of Perceived Ideology')
-# plt.savefig('Ideology Distance.jpg')
-# plt.close()
+plt.scatter(ans_differences_of_ideology[0], ideology_distances_of_ideology[0], c='blue', label='Conservative')
+plt.scatter(ans_differences_of_ideology[1], ideology_distances_of_ideology[1], c='red', label='Liberal')
+plt.xlabel('Number of Different Answers')
+plt.ylabel('Distance of Perceived Ideology')
+plt.savefig('figure/ideology.jpg')
+plt.close()
 # plt.scatter(ideology_distances, kindness)
 # plt.xlabel('Ideology Distance')
 # plt.ylabel('Warmth')
@@ -137,6 +153,7 @@ print(f"Overall ratio of correct classfications: {num_correct_classifications / 
 # plt.ylabel('Competence')
 # plt.title('Scatter Plot of Competence')
 # plt.savefig('conpetence.jpg')
+# plt.close()
 
 human_time_to_answer = 0
 bot_time_to_answer = 0

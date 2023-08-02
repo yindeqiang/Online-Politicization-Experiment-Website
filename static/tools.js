@@ -119,7 +119,7 @@ function generate_form(name_list) {
     ret += `</div></form>`;
     return ret;
 }
- 
+
 
 
 function add_mark_texts(name_list, area = document) {
@@ -244,7 +244,7 @@ function display_values() {
     }
 
     else if (phase == 4) {
-        let min = -3, max = 3;
+        let min = -2, max = 2;
         const evaluation_types = ['ideology', 'competence', 'warmth'];
         for (let type of evaluation_types) {
             let start_index = 1;

@@ -5,12 +5,13 @@ from flask import Flask, render_template, request, url_for, send_from_directory,
 import json, os
 from itsdangerous import exc
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, Integer, String, JSON, Float
+from sqlalchemy import Column, Integer, String, JSON, Float, DateTime
+from datetime import datetime
 
 MAX_ID_LEN = 100
 
 app = Flask(__name__)
-app.config["DEBUG"] = True
+app.config["DEBUG"] = False
 
 # database connection configuration
 SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
@@ -34,6 +35,7 @@ if not app.config["DEBUG"]:
         attention_passed = Column(Integer)
         total_time = Column(Float)
         bot_detected = Column(Integer)
+        submit_time=Column(DateTime)
 
     class Pilot_1(Base):
         __tablename__ = "pilot_1"
@@ -92,9 +94,14 @@ def quiz(quiz_type):
 
     # post method after finishing the quiz
     elif not app.config["DEBUG"]:
+
         try:
             post_data = request.get_json()
 
+        except ValueError:
+            return jsonify({'message': 'Cannot extract json data'}), 400
+
+        try:
             if quiz_type == 'pilot_1':
                 pilot_1_data = Pilot_1(
                     participantId=post_data.get('participantId'),
@@ -106,7 +113,8 @@ def quiz(quiz_type):
                     ideologies=post_data.get('ideologies'),
                     ideology_answers=post_data.get('type_A_answers'),
                     additional_answers=post_data.get('type_D_answers'),
-                    bot_detected=post_data.get('bot_detected')
+                    bot_detected=post_data.get('bot_detected'),
+                    submit_time=datetime.now()
                 )
                 db.session.add(pilot_1_data)
                 db.session.commit()
@@ -120,15 +128,16 @@ def quiz(quiz_type):
                     attention_passed=post_data.get('attention_passed'),
                     pilot_2_answers=post_data.get('pilot_2_answers'),
                     ideology_label=post_data.get('ideology_label'),
-                    bot_detected=post_data.get('bot_detected')
+                    bot_detected=post_data.get('bot_detected'),
+                    submit_time=datetime.now()
                 )
                 db.session.add(pilot_2_data)
                 db.session.commit()
 
-            return jsonify({'message':'Valid Data Submitted'}), 200
+            return jsonify({'message':'Valid data submitted'}), 200
 
         except Exception as e:
             raw_data = request.get_data(as_text=True)
             with open(f'data/{quiz_type}.txt', 'a') as file:
                 file.write(raw_data + '\n')
-            return jsonify({'error': 'Invalid Data Submitted'}), 400
+            return jsonify({'error': f'Cannot write data to database, {str(e)}'}), 400

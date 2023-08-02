@@ -406,7 +406,8 @@ const phase_1_statements = [
             // 'statement': `The so-called 'global warming' is a hoax.`,
             'statement': 'Schools should not impose any form of vaccine mandate.',
             'type': 'issue',
-            'summary': 'Global warming is a hoax.',
+            // 'summary': 'Global warming is a hoax.',
+            'summary': 'No vaccine mandate.',
             'left_attitude': false,
             'extreme': true
         },
