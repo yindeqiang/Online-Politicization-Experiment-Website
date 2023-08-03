@@ -330,6 +330,12 @@ const ideology_matters_string = `
     </form>
 `;
 
+const reason_wrap_string = `
+    If you perceived them as bots, could you please share what led you to this conclusion? Your insights are invaluable in enhancing our experiment effectiveness.
+    <span class="br_small"></span>
+    <textarea id="reason" name="reason" rows="4" cols="80" style="resize: none; font-family: Arial, Helvetica, sans-serif;", placeholder="response time, answer pattern, etc." max_length="500"></textarea>
+`;
+
 const end_quiz_string = `
     <div class="end">
         <h1>For Your Information</h1>
@@ -340,15 +346,21 @@ const end_quiz_string = `
             <form class="form_ideology form_detection">
                 <label for="no">
                     <input type="radio" id="no" value="0" name="radioGroup">
-                    I wasn't aware that they are bots.
+                    I was completely unaware that they are bots.
+                </label>
+                <br>
+                <label for="suspect">
+                    <input type="radio" id="suspect" value="1" name="radioGroup">
+                    I did suspect that they are bots.
                 </label>
                 <br>
                 <label for="yes">
-                    <input type="radio" id="yes" value="1" name="radioGroup">
-                    I did suspect that they are bots.
+                    <input type="radio" id="yes" value="2" name="radioGroup">
+                    I was pretty sure that they are bots.
                 </label>
             </form>
-            <span class="br_small"></span>
+            <div class="reason_wrap"></div>
+            <span class="br_big"></span>
             Thanks again for your participation. By clicking “Finish”, you will be redirected back to the Connect platform and get your rewards.
         </p>
         <button type="button" class="button_big" disabled="true">Finish</button>

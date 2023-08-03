@@ -36,7 +36,8 @@ var data = {
     ideologies: [],
     labels: [],
     attention_passed: false,
-    bot_detected: false,
+    bot_detected: 0,
+    reason: "",
     total_time: 0,              // total time to finish the experiment
     type_A_answers: [],         // ideological questions in phase I
     type_B_answers: [],         // preference questions in phase I
@@ -729,7 +730,6 @@ function init_phase_4() {
     } else {
         body.addEventListener("click", phase_4_click_handler);
     }
-
     document.querySelector("button").addEventListener("click", enter_next);
 }
 
@@ -769,10 +769,12 @@ function answer_detection_question() {
     let index = 0;
     for (const radio of radioInputs) {
         if (radio.checked) {
-            if (index == 0)
-                data.bot_detected = false;
+            data.bot_detected = index;
+            let reason_wrap = document.querySelector(".reason_wrap");
+            if (index != 0)
+                reason_wrap.innerHTML = reason_wrap_string;
             else
-                data.bot_detected = true;
+                reason_wrap.innerHTML = ``;
             bot_detected_answered = true;
         }
         index++;
@@ -782,6 +784,11 @@ function answer_detection_question() {
         let button = document.querySelector("button");
         button.disabled = false;
         button.addEventListener('click', () => {
+            // get the reason
+            if (data.bot_detected != 0) {
+                let reason = document.querySelector(".reason");
+                data.bot_detected_reason = reason.value;
+            }
             // send data
             console.log("Ready to send the data.");
             $.post({
