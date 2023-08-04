@@ -786,8 +786,8 @@ function answer_detection_question() {
         button.addEventListener('click', () => {
             // get the reason
             if (data.bot_detected != 0) {
-                let reason = document.querySelector(".reason");
-                data.bot_detected_reason = reason.value;
+                let reason = document.querySelector(".reason_wrap");
+                data.reason = reason.value;
             }
             // send data
             console.log("Ready to send the data.");

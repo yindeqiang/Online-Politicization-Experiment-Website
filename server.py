@@ -9,7 +9,6 @@ from sqlalchemy import Column, Integer, String, JSON, Float, DateTime
 from datetime import datetime
 
 MAX_ID_LEN = 100
-MAX_REASON_LEN = 501
 
 app = Flask(__name__)
 app.config["DEBUG"] = False
@@ -36,7 +35,6 @@ if not app.config["DEBUG"]:
         attention_passed = Column(Integer)
         total_time = Column(Float)
         bot_detected = Column(Integer)
-        reason = Column(String(MAX_REASON_LEN))
         submit_time=Column(DateTime)
 
     class Pilot_1(Base):
@@ -45,6 +43,7 @@ if not app.config["DEBUG"]:
         ideologies = Column(JSON)
         ideology_answers = Column(JSON)
         additional_answers = Column(JSON)
+        reason = Column(String(501))
 
     class Pilot_2(Base):
         __tablename__ = "pilot_2"
@@ -132,7 +131,6 @@ def quiz(quiz_type):
                     pilot_2_answers=post_data.get('pilot_2_answers'),
                     ideology_label=post_data.get('ideology_label'),
                     bot_detected=post_data.get('bot_detected'),
-                    reason = post_data.get('reason'),
                     submit_time=datetime.now()
                 )
                 db.session.add(pilot_2_data)
