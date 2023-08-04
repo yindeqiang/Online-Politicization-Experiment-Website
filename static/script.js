@@ -689,7 +689,7 @@ function init_phase_4() {
     body.innerHTML = phase_4_body_string;
 
     if (userData.quiz_type == "pilot_1") {
-        document.getElementById("question_4").innerHTML = ``;
+        document.getElementById("question_5").innerHTML = ``;
     }
 
     const evaluation_types = ['ideology', 'competence', 'warmth'];
@@ -723,14 +723,14 @@ function init_phase_4() {
     document.querySelectorAll("input[type=range]").forEach((input) => {
         input.addEventListener('input', display_values);
     });
-    if (userData.quiz_type == 'pilot_1') {
-        body.addEventListener("input", () => {
-            document.querySelector("button").disabled = false;
-        })
-    } else {
+    if (userData.quiz_type == 'pilot_1')
+        document.querySelector(".form_detection").addEventListener("click", phase_4_click_handler);
+    else
         body.addEventListener("click", phase_4_click_handler);
-    }
-    document.querySelector("button").addEventListener("click", enter_next);
+    document.querySelector("button").addEventListener("click", () => {
+        data.reason = document.querySelector("textarea").value;
+        enter_next();
+    });
 }
 
 
@@ -762,64 +762,40 @@ function all_finish_answering() {
 }
 
 
-let bot_detected_answered = false;
-
-function answer_detection_question() {
-    const radioInputs = document.querySelectorAll("input[type=radio]");
-    let index = 0;
-    for (const radio of radioInputs) {
-        if (radio.checked) {
-            data.bot_detected = index;
-            let reason_wrap = document.querySelector(".reason_wrap");
-            if (index != 0)
-                reason_wrap.innerHTML = reason_wrap_string;
-            else
-                reason_wrap.innerHTML = ``;
-            bot_detected_answered = true;
-        }
-        index++;
-    }
-    // redirection enabled
-    if (bot_detected_answered && userData.participantId != '' && !idExisted) {
-        let button = document.querySelector("button");
-        button.disabled = false;
-        button.addEventListener('click', () => {
-            // get the reason
-            if (data.bot_detected != 0) {
-                let reason = document.querySelector(".reason_wrap");
-                data.reason = reason.value;
-            }
-            // send data
-            console.log("Ready to send the data.");
-            $.post({
-                url: `/${userData.quiz_type}/quiz`,
-                data: JSON.stringify(data),
-                headers: { 'Content-Type': 'application/json' },
-                dataType: "json"
-            })
-            .done(function(response) {
-                if (userData.quiz_type == 'pilot_1')
-                    window.location.href = "https://connect.cloudresearch.com/participant/project/f4ab53a4e1e34db0808d3aa985531f78/complete";
-                else if (userData.quiz_type == 'pilot_2')
-                    window.location.href = "https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete";
-                else if (userData.quiz_type == 'condition_1')
-                    window.location.href = "";
-                else if (userData.quiz_type == 'condition_2')
-                    window.location.href = "";
-                else
-                    window.location.href = "";
-            })
-            .fail(function(error) {
-                console.error("Error while sending data:", error);
-            });
-        });
-    }
-}
 
 function end_quiz() {
     data.total_time = (Date.now() - total_start_time) / 1000;
     document.querySelector(".quiz_body").innerHTML = end_quiz_string;
-    document.querySelector(".form_detection").addEventListener("click", answer_detection_question);
+    let button = document.querySelector("button");
+    if (userData.participantId != '' && !idExisted) {
+        button.disabled = false;
+    }
+    button.addEventListener('click', () => {
+        // send data
+        console.log(data);
+        console.log("Ready to send the data.");
+        $.post({
+            url: `/${userData.quiz_type}/quiz`,
+            data: JSON.stringify(data),
+            headers: { 'Content-Type': 'application/json' },
+            dataType: "json"
+        })
+        .done(function(response) {
+            if (userData.quiz_type == 'pilot_1')
+                window.location.href = "https://connect.cloudresearch.com/participant/project/f4ab53a4e1e34db0808d3aa985531f78/complete";
+            else if (userData.quiz_type == 'pilot_2')
+                window.location.href = "https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete";
+            else if (userData.quiz_type == 'condition_1')
+                window.location.href = "";
+            else if (userData.quiz_type == 'condition_2')
+                window.location.href = "";
+            else
+                window.location.href = "";
+        })
+        .fail(function(error) {
+            console.error("Error while sending data:", error);
+        });
+    });
 }
 
 

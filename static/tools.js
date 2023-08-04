@@ -702,21 +702,28 @@ function check_handler(event) {
 
 
 function phase_4_click_handler() {
-    let flag = true;
-    document.querySelectorAll("select").forEach((select) => {
-        if (select.value == "none") {
-            flag = false;
-        }
-    });
-    if (flag) {
-        flag = false;
-        document.querySelectorAll("input[type=radio]").forEach((radio) => {
-            if (radio.checked)
+    let flag = false;
+    let radios = document.querySelectorAll("input[type=radio]");
+    if (radios.length == 0) {
+        flag = true;
+    } else {
+        let reason_wrap = document.querySelector(".reason_wrap");
+        let index = 0;
+        radios.forEach((radio) => {
+            if (radio.checked) {
                 flag = true;
-        })
-        if (flag)
-            document.querySelector("button").disabled = false;
+                if (userData.quiz_type == 'pilot_1') {
+                    if (index != 0)
+                        reason_wrap.innerHTML = reason_wrap_string;
+                    else
+                        reason_wrap.innerHTML = ``;
+                }
+            }
+            index++;
+        });
     }
+    if (flag)
+        document.querySelector("button").disabled = false;
 }
 
 

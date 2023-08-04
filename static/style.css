@@ -311,10 +311,11 @@ label {
 }
 
 .form_detection {
-    width: 500px;
-    line-height: 28px;
-    font-weight: bold;
-    margin: 20px;
+    border: 1px dashed grey;
+    padding: 10px;
+    border-radius: 15px;
+    width: 800px;
+    line-height: 30px;
 }
 
 

@@ -248,7 +248,27 @@ const phase_4_body_string = `
         <div id="evaluation_warmth" class="evaluation"></div>
     </div>
     <div class="question_phase_4" id="question_4">
-        <p>Q4. How much does ideology matter to you when you form your attitudes towards public issues?</p>
+        <p>Q4. Do you think the other participants are humans or bots?</p>
+        <form class="form_detection">
+            <label for="0">
+                <input type="radio" id="0" value="0" name="radioGroup">
+                I think they are humans.
+            </label>
+            <br>
+            <label for="1">
+                <input type="radio" id="1" value="1" name="radioGroup">
+                I didn't think of this question during the experiment but now I think they are bots.
+            </label>
+            <br>
+            <label for="2">
+                <input type="radio" id="2" value="2" name="radioGroup">
+                I did suspect that they are bots during the experiment.
+            </label>
+        </form>
+        <div class="reason_wrap"></div>
+    </div>
+    <div class="question_phase_4" id="question_5">
+        <p>Q5. How much does ideology matter to you when you form your attitudes towards public issues?</p>
         <form class="form_ideology">
             <input type="radio" id="A" value="1" name="preference"/>
             <label for="A">It matters a lot.</label>
@@ -262,6 +282,7 @@ const phase_4_body_string = `
             <input type="radio" id="D" value="4" name="preference" />
             <label for="D">Not at all.</label>
         </form>
+        <div class="reason_wrap"></div>
     </div>
     <button type="button" class="button_big" disabled="true">Submit</button>
 `;
@@ -331,7 +352,8 @@ const ideology_matters_string = `
 `;
 
 const reason_wrap_string = `
-    If you perceived them as bots, could you please share what led you to this conclusion? Your insights are invaluable in enhancing our experiment effectiveness.
+    <span class="br_small"></span>
+    <p>If you perceived them as bots, could you please share what led you to this conclusion? Your insights are invaluable in enhancing our experiment effectiveness.</p>
     <span class="br_small"></span>
     <textarea id="reason" name="reason" rows="4" cols="80" style="resize: none; font-family: Arial, Helvetica, sans-serif;", placeholder="response time, answer pattern, etc." max_length="500"></textarea>
 `;
@@ -343,23 +365,6 @@ const end_quiz_string = `
             Thank you for finishing in this survey!
             <span class="br_small"></span>
             At the end of this survey, we would like to inform you that we took a deceptive measure in our experiment. Now we are revealing to you the true experiment set-up: Among the three participants, you are the only human. The other two are bots whose behavior is pre-programmed by us. We sincerely ask for your pardon and hope you understand that this is a necessary measure to achieve the objective of our study.
-            <form class="form_ideology form_detection">
-                <label for="no">
-                    <input type="radio" id="no" value="0" name="radioGroup">
-                    I was completely unaware that they are bots.
-                </label>
-                <br>
-                <label for="suspect">
-                    <input type="radio" id="suspect" value="1" name="radioGroup">
-                    I did suspect that they are bots.
-                </label>
-                <br>
-                <label for="yes">
-                    <input type="radio" id="yes" value="2" name="radioGroup">
-                    I was pretty sure that they are bots.
-                </label>
-            </form>
-            <div class="reason_wrap"></div>
             <span class="br_big"></span>
             Thanks again for your participation. By clicking “Finish”, you will be redirected back to the Connect platform and get your rewards.
         </p>
