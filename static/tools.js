@@ -718,6 +718,7 @@ function phase_4_click_handler() {
                     else
                         reason_wrap.innerHTML = ``;
                 }
+                data.bot_detected = index;
             }
             index++;
         });

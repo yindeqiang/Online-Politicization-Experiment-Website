@@ -728,7 +728,9 @@ function init_phase_4() {
     else
         body.addEventListener("click", phase_4_click_handler);
     document.querySelector("button").addEventListener("click", () => {
-        data.reason = document.querySelector("textarea").value;
+        let textarea = document.querySelector("textarea");
+        if (textarea)
+            data.reason = textarea.value;
         enter_next();
     });
 }
