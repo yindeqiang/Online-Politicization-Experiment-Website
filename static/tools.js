@@ -510,8 +510,14 @@ function start_bot_timers(index_list, type) {
     for (index of index_list) {
         if (test_mode)
             temp_time = 1;
-        else
-            temp_time = time_configurations[type][0] + Math.random() * time_configurations[type][1];
+        else {
+            if (type != 'issue')
+                temp_time = time_configurations[type][0] + Math.random() * time_configurations[type][1];
+            else {
+                temp_time = issue_answer_time[index_of_question] + 2 * (Math.random() * time_configurations['issue'] - 0.5 * time_configurations['issue']);
+                temp_time = max(temp_time, 3);
+            }
+        }
 
         wait_time.push(temp_time);
 

@@ -4,12 +4,14 @@ const max_num_of_labels = 3;
 
 const test_mode = false;
 
+const issue_answer_time = [8.103063157894741, 6.618499999999999, 6.054199999999997, 7.566473684210525, 8.115181818181819, 5.204784313725493, 6.32694, 5.685673076923079, 7.071762376237626, 6.577291666666668]
+
 const time_configurations = {
     'test': 1,
     'wait': [0, 5],
     'phase_3_question': [4, 8],
     'preference': [1, 4],
-    'issue': [3.5, 6],
+    'issue': 5,
     'lag': 1,
     'confirm': [10, 10],
 };
@@ -911,7 +913,7 @@ document.addEventListener("keypress", resetInactivityTimer);
 
 resetInactivityTimer();
 
-phase = 4;
-avatars_index_chosen = [0, 1, 2];
-pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
-init_phase_4();
+// phase = 4;
+// avatars_index_chosen = [0, 1, 2];
+// pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
+// init_phase_4();
