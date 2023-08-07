@@ -37,7 +37,6 @@ var data = {
     labels: [],
     attention_passed: false,
     bot_detected: 0,
-    reason: "",
     total_time: 0,              // total time to finish the experiment
     type_A_answers: [],         // ideological questions in phase I
     type_B_answers: [],         // preference questions in phase I
@@ -89,6 +88,18 @@ function enter_next() {
             split_answers.push(answers.slice(3, 5));
             split_answers.push(answers.slice(5, 7));
             data.type_D_answers = split_answers;
+            
+            let detection_answers = [0, 0];
+            for (let i = 0; i <= 1; i++) {
+                for (let j = 0; j < 6; j++) {
+                    const input = document.getElementById(`detection_${i}_${j}`);
+                    if (input.checked) {
+                        detection_answers[i] = j;
+                        break;
+                    }
+                }
+            }
+            data.bot_detected = (detection_answers[0] == 3) + (detection_answers[1] == 3);
         }
         document.querySelector(".quiz_body").removeEventListener("click", phase_4_click_handler);
     }
@@ -690,6 +701,10 @@ function init_phase_4() {
 
     if (userData.quiz_type == "pilot_1") {
         document.getElementById("question_5").innerHTML = ``;
+        document.getElementById("detection_name_0").innerHTML = pseudonyms_chosen[1];
+        document.getElementById("detection_name_1").innerHTML = pseudonyms_chosen[2];
+        document.getElementById("detection_img_0").src = `/static/avatars/avatar_${avatars_index_chosen[1]}.svg`;
+        document.getElementById("detection_img_1").src = `/static/avatars/avatar_${avatars_index_chosen[2]}.svg`;
     }
 
     const evaluation_types = ['ideology', 'competence', 'warmth'];
@@ -724,15 +739,10 @@ function init_phase_4() {
         input.addEventListener('input', display_values);
     });
     if (userData.quiz_type == 'pilot_1')
-        document.querySelector(".form_detection").addEventListener("click", phase_4_click_handler);
+        document.querySelector(".detection_wrap").addEventListener("click", phase_4_click_handler);
     else
         body.addEventListener("click", phase_4_click_handler);
-    document.querySelector("button").addEventListener("click", () => {
-        let textarea = document.querySelector("textarea");
-        if (textarea)
-            data.reason = textarea.value;
-        enter_next();
-    });
+    document.querySelector("button").addEventListener("click", enter_next);
 }
 
 
@@ -900,3 +910,8 @@ document.addEventListener("mousedown", resetInactivityTimer);
 document.addEventListener("keypress", resetInactivityTimer);
 
 resetInactivityTimer();
+
+phase = 4;
+avatars_index_chosen = [0, 1, 2];
+pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
+init_phase_4();

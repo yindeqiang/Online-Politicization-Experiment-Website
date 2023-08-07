@@ -248,24 +248,59 @@ const phase_4_body_string = `
         <div id="evaluation_warmth" class="evaluation"></div>
     </div>
     <div class="question_phase_4" id="question_4">
-        <p>Q4. Do you think the other participants are humans or bots?</p>
-        <form class="form_detection">
-            <label for="0">
-                <input type="radio" id="0" value="0" name="radioGroup">
-                I think they are humans.
-            </label>
-            <br>
-            <label for="1">
-                <input type="radio" id="1" value="1" name="radioGroup">
-                I didn't think of this question during the experiment but now I think they are bots.
-            </label>
-            <br>
-            <label for="2">
-                <input type="radio" id="2" value="2" name="radioGroup">
-                I did suspect that they are bots during the experiment.
-            </label>
-        </form>
-        <div class="reason_wrap"></div>
+        <p>Q4. Which one do you think best describe the reactions of the other participants?</p>
+        <div class="detection_wrap">
+            <div class="each_detection">
+                <img src="/static/avatars/avatar_default.png" id="detection_img_0"/>
+                <div class="name_in_detection" id="detection_name_0">Name</div>
+                <form>
+                    <input type="radio" id="detection_0_0" value="0" name="detection_0">
+                    <label for="detection_0_0">Wanderer</label>
+                    <br>
+                    <input type="radio" id="detection_0_1" value="1" name="detection_0">
+                    <label for="detection_0_1">Lawyer</label>
+                    <br>
+                    <input type="radio" id="detection_0_2" value="2" name="detection_0">
+                    <label for="detection_0_2">Artist</label>
+                    <br>
+                    <input type="radio" id="detection_0_3" value="3" name="detection_0">
+                    <label for="detection_0_3">Bot</label>
+                    <br>
+                    <input type="radio" id="detection_0_4" value="4" name="detection_0">
+                    <label for="detection_0_4">Entrepreneur</label>
+                    <br>
+                    <input type="radio" id="detection_0_5" value="5" name="detection_0">
+                    <label for="detection_0_5">Blue-Collar Worker</label>
+                    <br>
+                </form>
+            </div class="each_detection">
+
+            <div class="each_detection">
+                <img src="/static/avatars/avatar_default.png" id="detection_img_1"/>
+                <div class="name_in_detection" id="detection_name_1">Name</div>
+                <form>
+                    <input type="radio" id="detection_1_0" value="0" name="detection_1">
+                    <label for="detection_1_0">Wanderer</label>
+                    <br>
+                    <input type="radio" id="detection_1_1" value="1" name="detection_1">
+                    <label for="detection_1_1">Lawyer</label>
+                    <br>
+                    <input type="radio" id="detection_1_2" value="2" name="detection_1">
+                    <label for="detection_1_2">Artist</label>
+                    <br>
+                    <input type="radio" id="detection_1_3" value="3" name="detection_1">
+                    <label for="detection_1_3">Bot</label>
+                    <br>
+                    <input type="radio" id="detection_1_4" value="4" name="detection_1">
+                    <label for="detection_1_4">Entrepreneur</label>
+                    <br>
+                    <input type="radio" id="detection_1_5" value="5" name="detection_1">
+                    <label for="detection_1_5">Blue-Collar Worker</label>
+                    <br>
+                </form>
+            </div class="each_detection">
+
+        </div>
     </div>
     <div class="question_phase_4" id="question_5">
         <p>Q5. How much does ideology matter to you when you form your attitudes towards public issues?</p>

@@ -43,13 +43,11 @@ if not app.config["DEBUG"]:
         ideologies = Column(JSON)
         ideology_answers = Column(JSON)
         additional_answers = Column(JSON)
-        reason = Column(String(501))
 
     class Pilot_2(Base):
         __tablename__ = "pilot_2"
         pilot_2_answers = Column(JSON)
         ideology_label = Column(Integer)
-
 
 
 
@@ -115,7 +113,6 @@ def quiz(quiz_type):
                     ideology_answers=post_data.get('type_A_answers'),
                     additional_answers=post_data.get('type_D_answers'),
                     bot_detected=post_data.get('bot_detected'),
-                    reason = post_data.get('reason'),
                     submit_time=datetime.now()
                 )
                 db.session.add(pilot_1_data)

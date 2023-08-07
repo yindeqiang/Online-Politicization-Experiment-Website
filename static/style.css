@@ -310,15 +310,6 @@ label {
     padding: 10px 0px 10px 0px;
 }
 
-.form_detection {
-    border: 1px dashed grey;
-    padding: 10px;
-    border-radius: 15px;
-    width: 800px;
-    line-height: 30px;
-}
-
-
 /* class types */
 
 .quiz_body {
@@ -939,4 +930,34 @@ label {
 
 .attention_check > div > h1 {
     margin-bottom: 80px;
+}
+
+.detection_wrap {
+    border: 1px dashed grey;
+    padding: 10px;
+    border-radius: 15px;
+    width: 680px;
+    line-height: 30px;
+    display: flex;
+    justify-content: center;
+}
+
+.each_detection {
+    margin: 0px 50px 0px 50px;
+}
+
+.each_detection > img {
+    width: 50px;
+    margin: auto;
+}
+
+.each_detection > form {
+    margin-top: 10px;
+}
+
+.name_in_detection {
+    text-align: center;
+    font-size: 15px;
+    line-height: 15px;
+    font-weight: bold;
 }

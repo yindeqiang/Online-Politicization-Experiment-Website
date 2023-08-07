@@ -702,28 +702,17 @@ function check_handler(event) {
 
 
 function phase_4_click_handler() {
-    let flag = false;
-    let radios = document.querySelectorAll("input[type=radio]");
-    if (radios.length == 0) {
-        flag = true;
-    } else {
-        let reason_wrap = document.querySelector(".reason_wrap");
-        let index = 0;
-        radios.forEach((radio) => {
-            if (radio.checked) {
-                flag = true;
-                if (userData.quiz_type == 'pilot_1') {
-                    if (index != 0)
-                        reason_wrap.innerHTML = reason_wrap_string;
-                    else
-                        reason_wrap.innerHTML = ``;
-                }
-                data.bot_detected = index;
+    let flag = [false, false];
+    for (let i = 0; i <= 1; i++) {
+        for (let j = 0; j < 6; j++) {
+            const input = document.getElementById(`detection_${i}_${j}`);
+            if (input.checked) {
+                flag[i] = true;
+                break;
             }
-            index++;
-        });
+        }
     }
-    if (flag)
+    if (flag[0] && flag[1])
         document.querySelector("button").disabled = false;
 }
 
