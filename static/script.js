@@ -8,7 +8,7 @@ const issue_answer_time = [8.103063157894741, 6.618499999999999, 6.0541999999999
 
 const time_configurations = {
     'test': 1,
-    'wait': [0, 5],
+    'wait': [0, 10],
     'phase_3_question': [4, 8],
     'preference': [1, 4],
     'issue': 5,
@@ -90,7 +90,7 @@ function enter_next() {
             split_answers.push(answers.slice(3, 5));
             split_answers.push(answers.slice(5, 7));
             data.type_D_answers = split_answers;
-            
+
             let detection_answers = [0, 0];
             for (let i = 0; i <= 1; i++) {
                 for (let j = 0; j < 6; j++) {

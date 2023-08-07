@@ -515,7 +515,7 @@ function start_bot_timers(index_list, type) {
                 temp_time = time_configurations[type][0] + Math.random() * time_configurations[type][1];
             else {
                 temp_time = issue_answer_time[index_of_question] + 2 * (Math.random() * time_configurations['issue'] - 0.5 * time_configurations['issue']);
-                temp_time = max(temp_time, 3);
+                temp_time = Math.max(temp_time, 3);
             }
         }
 
