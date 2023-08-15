@@ -1,6 +1,8 @@
 const num_of_participants = 3;
 const num_of_bots = num_of_participants - 1;
 const max_num_of_labels = 3;
+const human_index = 1;
+const phase_1_special_question_index = 3;
 
 const test_mode = false;
 
@@ -8,7 +10,7 @@ const issue_answer_time = [8.103063157894741, 6.618499999999999, 6.0541999999999
 
 const time_configurations = {
     'test': 1,
-    'wait': [0, 5],
+    'wait': [0, 10],
     'phase_3_question': [4, 8],
     'preference': [1, 4],
     'issue': 5,
@@ -45,6 +47,9 @@ var data = {
     type_C_answers: [],         // non-ideological questions in phase II
     type_D_answers: [],         // post-quiz questions
 };
+
+let firstBotIndex = (human_index == 0) ? 1 : 0;
+let lastBotIndex = (human_index == num_of_participants - 1) ? num_of_participants - 2 : num_of_participants - 1;
 
 // status
 var all_bots_timeup = false;        // whether all bots are time up
@@ -246,7 +251,6 @@ function choose_identity() {
 function wait_for_participants() {
     document.querySelector(".splits_wrap").removeEventListener("click", click_pseudonym_or_avatar_handler);
     document.querySelector("button").removeEventListener("click", wait_for_participants);
-    // document.querySelector(".test_wrap").innerHTML = ``;
     document.querySelector(".quiz_body").innerHTML = `
         <div class="instruction instruction_phase_0">
             Please wait for other participants to join
@@ -267,45 +271,24 @@ function wait_for_participants() {
     }
     pseudonyms_to_choose.splice(pseudonyms_to_choose.indexOf(pseudonym_chosen), 1);
     let pseudonyms_index_chosen = randomly_choose(pseudonyms_to_choose, num_of_bots);
-    pseudonyms_index_chosen.splice(0, 0, pseudonym_chosen);
+    pseudonyms_index_chosen.splice(human_index, 0, pseudonym_chosen);
 
     // get avatars
     let avatars_array = generate_sequence_array(0, avatar_num);
     avatars_array.splice(avatars_array.indexOf(avatar_chosen), 1);
     avatars_index_chosen = randomly_choose(avatars_array, num_of_bots);
-    avatars_index_chosen.splice(0, 0, avatar_chosen);
+    avatars_index_chosen.splice(human_index, 0, avatar_chosen);
     for (let index = 0; index < num_of_participants; index++) {
         pseudonyms_chosen.push(pseudonyms[pseudonyms_index_chosen[index]]);
+
+        // store data
         data.identity_choices.push([pseudonyms_index_chosen[index], avatars_index_chosen[index]]);
     }
 
     // generate ideologies for bots
-    data.ideologies = [0, generate_random_answer(-2, -1, 1), generate_random_answer(1, 2, 1)];
-
-    // Debug
-    // for (let index = 0; index < num_of_participants; index++) {
-        // console.log(`${pseudonyms_chosen[index]}: `);
-        // switch(data.ideologies[index]) {
-        //     case -2:
-        //         console.log("Extremely liberal");
-        //         break;
-        //     case -1:
-        //         console.log("Mildly liberal");
-        //         break;
-        //     case 0:
-        //         console.log("Unkown");
-        //         break;
-        //     case 1:
-        //         console.log("Mildly conservative");
-        //         break;
-        //     case 2:
-        //         console.log("Extremely conservative");
-        //         break;
-        // }
-        // console.log("\n");
-    // }
-    add_identity_status();
-    start_bot_timers(generate_sequence_array(1, num_of_participants - 1), 'wait');
+    data.ideologies = [generate_random_answer(-2, -1, 1), generate_random_answer(1, 2, 1)];
+    data.ideologies.splice(human_index, 0, 0);
+    wait_for_participants_to_join();
     document.addEventListener("timeup", all_timeup);
 }
 
@@ -350,7 +333,7 @@ function init_phase_1() {
     add_identity_status();
     document.querySelectorAll(".status").forEach((status) => {
         status.innerHTML = loader_string;
-    })
+    });
 
     // political issue question
     if (question_seqNum_in_phase < phase_length[1][0] + phase_length[1][1]) {
@@ -364,7 +347,18 @@ function init_phase_1() {
             statement_text = phase_1_statements[1][index_of_question - phase_1_statements[0].length].statement;
         document.querySelector(".statement").innerHTML = `"` + statement_text + `"`;
         add_ans_choices(['Agree √', 'Disagree X']);
-        start_bot_timers(generate_sequence_array(1, num_of_bots), "issue");
+
+        // for the ith question, pretend that the last participant is offline for some time
+        if (question_seqNum_in_phase == phase_1_special_question_index) {
+            let offlineBotIndex = (human_index == num_of_participants - 1) ? num_of_participants - 2 : num_of_participants - 1;
+            let index_array = generate_bot_array(num_of_participants, human_index);
+            index_array.splice(index_array.indexOf(offlineBotIndex), 1);
+            start_bot_timers(index_array, 'issue');
+        }
+        
+        // else, start timers for all bots
+        else
+            start_bot_timers(generate_bot_array(num_of_participants, human_index), "issue");
     }
 
     // preference questions
@@ -377,7 +371,7 @@ function init_phase_1() {
             phase_1_statements[2][index_of_question - temp_length].range[0],
             phase_1_statements[2][index_of_question - temp_length].range[1]
         ]);
-        start_bot_timers(generate_sequence_array(1, num_of_bots), "preference");
+        start_bot_timers(generate_bot_array(num_of_participants, human_index), "preference");
     }
 
     // animation of the flex
@@ -387,29 +381,57 @@ function init_phase_1() {
     document.querySelector("button").addEventListener("click", () => {
         answer_choices.removeEventListener("click", click_on_choice);
         answer_choices.style.opacity = style_configurations.finish_opacity;
-        document.getElementById("status_0").innerHTML = ``;
+        document.getElementById(`status_${human_index}`).innerHTML = ``;
         document.querySelector(".instruction").innerHTML = `
             Please wait for other participants to choose
             <span class="dots"></span>
         `;
         transform_dots();
-        temp_answers.push(index_of_choice_clicked);                     // track user answer
-        temp_answers = temp_answers.concat(generate_answers_for_bots());
-        each_answer.time_to_answer[0] = (Date.now() - start_time[0]) / 1000;   // track user time to answer
+        temp_answers = generate_answers_for_bots();
+        temp_answers.splice(human_index, 0, index_of_choice_clicked);                               // track user answer 
+        each_answer.time_to_answer[human_index] = (Date.now() - start_time[human_index]) / 1000;    // track user time to answer
 
         // calculate distance, to be modified later
         if (question_seqNum_in_phase < phase_1_statements[0].length + phase_1_statements[1].length) {
-            for (let index = 0; index < num_of_bots; index++) {
-                phase_1_distances[index] += Math.abs(temp_answers[0] - temp_answers[index + 1]);
-            }
+            for (let index = 0; index < num_of_participants; index++)
+                phase_1_distances[index] += Math.abs(temp_answers[human_index] - temp_answers[index]);
         }
 
-        if (all_bots_timeup) {
-            all_finish_answering();
-        } else {
-            document.addEventListener("timeup", all_finish_answering);
+        // for the special question, wait for the last participant after the human participant finishes answering.
+        if (question_seqNum_in_phase == phase_1_special_question_index) {
+            if (all_bots_timeup)
+                bot_get_offline();
+            else
+                document.addEventListener("timeup", bot_get_offline);
+        }
+        else {
+            if (all_bots_timeup)
+                all_finish_answering();
+            else
+                document.addEventListener("timeup", all_finish_answering);
         }
     });
+}
+
+
+
+function bot_get_offline() {
+    document.removeEventListener("timeup", bot_get_offline);
+    let offlineBotIndex = (human_index == num_of_participants - 1) ? num_of_participants - 2 : num_of_participants - 1;
+    let body = document.querySelector(".quiz_body");
+    let offline_instruction = document.querySelector(".offline_instruction");
+    setTimeout(() => {
+        body.style.opacity = 0.1;
+        offline_instruction.textContent = `
+            One participant appears to be offline at the moment. Kindly wait a little while for their return. If they don't rejoin shortly, we will match another participant.
+        `;
+        setTimeout(() => {
+            body.style.opacity = 1;
+            offline_instruction.textContent = ``;
+            document.getElementById(`status_${offlineBotIndex}`).innerHTML = ``;
+            all_finish_answering();
+        }, 5000);
+    }, 10000);
 }
 
 
@@ -703,23 +725,20 @@ function init_phase_4() {
 
     if (userData.quiz_type == "pilot_1") {
         document.getElementById("question_5").innerHTML = ``;
-        document.getElementById("detection_name_0").innerHTML = pseudonyms_chosen[1];
-        document.getElementById("detection_name_1").innerHTML = pseudonyms_chosen[2];
-        document.getElementById("detection_img_0").src = `/static/avatars/avatar_${avatars_index_chosen[1]}.svg`;
-        document.getElementById("detection_img_1").src = `/static/avatars/avatar_${avatars_index_chosen[2]}.svg`;
+        document.getElementById("detection_name_0").innerHTML = pseudonyms_chosen[firstBotIndex];
+        document.getElementById("detection_name_1").innerHTML = pseudonyms_chosen[lastBotIndex];
+        document.getElementById("detection_img_0").src = `/static/avatars/avatar_${avatars_index_chosen[firstBotIndex]}.svg`;
+        document.getElementById("detection_img_1").src = `/static/avatars/avatar_${avatars_index_chosen[lastBotIndex]}.svg`;
     }
 
     const evaluation_types = ['ideology', 'competence', 'warmth'];
     for (let type of evaluation_types) {
         evaluation = document.getElementById(`evaluation_${type}`);
-        let start_index = 1;
-        if (type == 'ideology')
-            start_index = 0;
 
-        for (let index = start_index; index < num_of_participants; index++) {
-            evaluation.innerHTML += `
-                <div id="input_${type}_${index}" class="input input_phase_4">${slider_string_short}</div>
-            `;
+        for (let index = 0; index < num_of_participants; index++) {
+            if (type == 'ideology' || index != human_index) {
+                evaluation.innerHTML += `<div id="input_${type}_${index}" class="input input_phase_4">${slider_string_short}</div>`;
+            }
         }
         if (type == 'ideology') {
             add_mark_texts([`Liberal`, 'Somewhat<br>Liberal', `Neutral`, `Somewhat<br>Conservative`, `Conservative`], evaluation);
@@ -915,5 +934,6 @@ resetInactivityTimer();
 
 // phase = 4;
 // avatars_index_chosen = [0, 1, 2];
+// data.ideologies = [-1, 0, 1];
 // pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
 // init_phase_4();

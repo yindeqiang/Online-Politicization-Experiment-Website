@@ -17,6 +17,17 @@ function generate_zero_array(num) {
 
 
 
+function generate_bot_array(num_of_participants, human_index) {
+    let ret = [];
+    for (let i = 0; i < num_of_participants; i++) {
+        if (i != human_index)
+            ret.push(i);
+    }
+    return ret;
+}
+
+
+
 var get_ranks = (arr) => arr.map((x, y, z) => z.filter((w) => w > x).length + 1);
 
 
@@ -207,7 +218,7 @@ function display_values() {
                 ans = phase_1_statements[2][index_of_question - phase_1_statements[0].length - phase_1_statements[1].length].range[temp_answers[index]];
             }
 
-            if (temp_answers[index] != temp_answers[0]) {
+            if (temp_answers[index] != temp_answers[human_index]) {
                 document.getElementById(`profile_${index}`).innerHTML += `
                     <div class="bubble_white" id="bubble_${index}">
                         ${ans}
@@ -247,15 +258,14 @@ function display_values() {
         let min = -2, max = 2;
         const evaluation_types = ['ideology', 'competence', 'warmth'];
         for (let type of evaluation_types) {
-            let start_index = 1;
-            if (type == "ideology")
-                start_index = 0;
-            for (let index = start_index; index < num_of_participants; index++) {
+            for (let index = 0; index < num_of_participants; index++) {
+                if (type != 'ideology' && index == human_index)
+                    continue;
                 let input = document.querySelector(`#input_${type}_${index}`);
                 let value = input.querySelector(`input[type=range]`).value;
                 let dis_from_left = -3 + 97 * (value - min) / ((max - min) / 6);
                 let name = pseudonyms_chosen[index];
-                if (index == 0)
+                if (index == human_index)
                     name += '<b>(You)</b>';
                 input.querySelector(".answers_mark").innerHTML = `
                     <div>
@@ -281,7 +291,7 @@ function track_answers() {
     if (index == 0) {
         let HTML = `<tr><th class="th_summary"></th>`;
         for (let index = 0; index < num_of_participants; index ++) {
-            if (index == 0)
+            if (index == human_index)
                 HTML += `
                     <th class="th_name">
                         ${pseudonyms_chosen[index]}
@@ -325,7 +335,7 @@ function track_answers() {
         else
             block.innerHTML = `X`;
         // if the answer is the same as the user's
-        if (temp_answers[i] == temp_answers[0])
+        if (temp_answers[i] == temp_answers[human_index])
             block.style['background-color'] = 'lightgrey';
     }
 }
@@ -341,7 +351,6 @@ function generate_answers_for_bots() {
             let left_answer = 1;
             if (phase_1_statements[0][index_of_question].left_attitude)
                 left_answer = 0;
-            let rand_num = Math.random();
             ret.push(left_answer, 1 - left_answer);
         }
 
@@ -354,7 +363,7 @@ function generate_answers_for_bots() {
                 left_answer = 0;
 
             // B's answer
-            switch (data.ideologies[1]) {
+            switch (data.ideologies[firstBotIndex]) {
                 case -1:
                     ret.push(1);
                     break;
@@ -366,7 +375,7 @@ function generate_answers_for_bots() {
             }
 
             // C's answer
-            switch (data.ideologies[2]) {
+            switch (data.ideologies[lastBotIndex]) {
                 case 1:
                     ret.push(1);
                     break;
@@ -383,9 +392,9 @@ function generate_answers_for_bots() {
             let ranks = get_ranks(phase_1_distances);
             for (let index = 0; index < num_of_bots; index++) {
                 // from the farthest to the nearest
-                if (ranks[index] == 1) {
+                if (ranks[index] == firstBotIndex) {
                     ret.push(user_value);
-                } else if (ranks[index] == 2) {
+                } else if (ranks[index] == lastBotIndex) {
                     ret.push(1 - user_value);
                 }
             }
@@ -515,10 +524,9 @@ function start_bot_timers(index_list, type) {
                 temp_time = time_configurations[type][0] + Math.random() * time_configurations[type][1];
             else {
                 temp_time = issue_answer_time[index_of_question] + 2 * (Math.random() * time_configurations['issue'] - 0.5 * time_configurations['issue']);
-                temp_time = max(temp_time, 3);
+                temp_time = Math.max(temp_time, 3);
             }
         }
-
         wait_time.push(temp_time);
 
         // if it's the last timer, then send the timeup event
@@ -568,13 +576,89 @@ function bot_timeup(index, last_bot_index) {
 
 
 
+function wait_for_participants_to_join() {
+    let firstWaitingIndex = 0;  // the index of the bot waiting first, could be from 0 to number of participants
+    if (human_index == 0)
+        firstWaitingIndex += 1; // if the index of human is 0, then the first waiting bot takes 1
+
+    // When the user enters, a bot has already been waiting. Before the other bot enters, that first bot will leave.
+    let hisNameIndex = 0;
+    let hisAvatarIndex = 0;
+
+    // get the first name and avatar that isn't the same with all participants (include human)
+    while (true) {
+        let flag = true;
+        for (let i = 0; i < num_of_participants; i++) {
+            if (pseudonyms_chosen[i] == pseudonyms[hisNameIndex]) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag)
+            break;
+        hisNameIndex++;
+    }
+    while (true) {
+        let flag = true;
+        for (let i = 0; i < num_of_participants; i++) {
+            if (avatars_index_chosen[i] == hisAvatarIndex) {
+                flag = false;
+                break;
+            }
+        }
+        if (flag)
+            break;
+        hisAvatarIndex++;
+    }
+
+    let status = document.querySelector(".identity_wrap");
+    for (let index = 0; index < num_of_participants; index++) {
+        if (index == firstWaitingIndex) {
+            status.innerHTML += `
+                <div class="profile_waiting" id="profile_${index}">
+                    <img src="/static/avatars/avatar_${hisAvatarIndex}.svg" >
+                    ${pseudonyms[hisNameIndex]}
+                    <div id="status_${index}" class="status">${tickmark_string}</span>
+                </div>
+            `;
+        } else if (index == human_index) {
+            status.innerHTML += `
+                <div class="profile_waiting" id="profile_${index}">
+                    <img src="/static/avatars/avatar_${avatars_index_chosen[index]}.svg" >
+                    ${pseudonyms_chosen[human_index]} <b>(You)</b>
+                    <div id="status_${index}" class="status">${tickmark_string}</span>
+                </div>
+            `;
+        } else {
+            status.innerHTML += `
+                <div class="profile_waiting" id="profile_${index}">
+                    <img src="/static/avatars/avatar_default.png" >
+                    <div id="status_${index}" class="status">${loader_string}</span>
+                </div>
+            `;
+        }
+    }
+
+    setTimeout(() => {
+        document.getElementById(`profile_${firstWaitingIndex}`).innerHTML = `
+            <img src="/static/avatars/avatar_default.png" >
+            <div id="status_${index}" class="status">${loader_string}</span>
+        `;
+        let index_array = generate_bot_array(0, num_of_participants);
+        index_array.splice(human_index, 1)
+        start_bot_timers(index_array, 'wait');
+    }, 5000);
+}
+
+
+
 function add_identity_status() {
     let status = document.querySelector(".identity_wrap");
     for (let index = 0; index < num_of_participants; index ++) {
         let name = pseudonyms_chosen[index];
 
-        // add br for user's name
-        if (index == 0) {
+        // add '(You)' for user's displayed name
+        if (index == human_index) {
             if (phase == 4) {
                 continue;
             } else if (phase == 2 || phase == 0) {
@@ -583,27 +667,7 @@ function add_identity_status() {
                 name += '<br><b>(You)</b>';
         }
 
-        if (phase == 0) {
-            if (index == 0) {
-                status.innerHTML += `
-                    <div class="profile_waiting" id="profile_${index}">
-                        <img src="/static/avatars/avatar_${avatars_index_chosen[0]}.svg" >
-                        ${name}
-                        <div id="status_${index}" class="status">${tickmark_string}</span>
-                    </div>
-                `;
-            } else {
-                status.innerHTML += `
-                    <div class="profile_waiting" id="profile_${index}">
-                        <img src="/static/avatars/avatar_default.png" >
-                        <div id="status_${index}" class="status">${loader_string}</span>
-                    </div>
-                `;
-            }
-
-        }
-
-        else if (phase == 1) {
+        if (phase == 1) {
             status.innerHTML += `
                 <div id="profile_${index}" class="profile_answering">
                     <div class="identity_part">
