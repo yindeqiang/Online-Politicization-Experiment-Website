@@ -95,7 +95,7 @@ function enter_next() {
             split_answers.push(answers.slice(3, 5));
             split_answers.push(answers.slice(5, 7));
             data.type_D_answers = split_answers;
-            
+
             let detection_answers = [0, 0];
             for (let i = 0; i <= 1; i++) {
                 for (let j = 0; j < 6; j++) {

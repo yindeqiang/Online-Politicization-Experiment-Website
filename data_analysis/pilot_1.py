@@ -170,6 +170,26 @@ bot_time_to_answer /= (2 * 9 * len(experiments_answers))
 
 print("Time for human, and for bot:", human_time_to_answer, bot_time_to_answer)
 
+question_average_time = []
+question_answer_times = []
+times_for_question_0 = []
+
+for i in range(10):
+    question_average_time.append(0)
+    question_answer_times.append(0)
+for experiment_answers in experiments_answers:
+    for idx, answer_data in enumerate(experiment_answers):
+        if idx != 0:
+            question_average_time[answer_data['idx_of_question']] += answer_data['time_to_answer'][0]
+            question_answer_times[answer_data['idx_of_question']] += 1
+            if answer_data['idx_of_question'] == 0:
+                times_for_question_0.append(answer_data['time_to_answer'][0])
+for i in range(10):
+    question_average_time[i] /= question_answer_times[i]
+
+print("Average time for each question:", question_average_time)
+print("Std of answering time for quesiton 0:", np.std(times_for_question_0))
+
 nums_of_agrees = []
 num_of_participants = [0, 0, 0, 0]
 for _ in range(10):
