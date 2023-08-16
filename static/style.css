@@ -84,7 +84,7 @@ html {
     left: 20.56px;
     bottom: -20px;
 }
-  
+
 .bubble:after {
     content: "";
     width: 0px;
@@ -123,7 +123,7 @@ html {
     left: 20px;
     bottom: -23px;
 }
-  
+
 .bubble_white:after {
     content: "";
     width: 0px;
@@ -729,7 +729,7 @@ label {
     min-height: 100%;
     height: min-content;
 }
-  
+
 .right {
     width: calc(20% + 170px);
     right: 0;
