@@ -46,6 +46,7 @@ var data = {
     type_B_answers: [],         // preference questions in phase I
     type_C_answers: [],         // non-ideological questions in phase II
     type_D_answers: [],         // post-quiz questions
+    reason: ""
 };
 
 let firstBotIndex = (human_index == 0) ? 1 : 0;
@@ -805,7 +806,8 @@ function end_quiz() {
     }
     button.addEventListener('click', () => {
         // send data
-        console.log(data);
+        data.reason = document.getElementById(`reason`).value;
+        // console.log(data);
         console.log("Ready to send the data.");
         $.post({
             url: `/${userData.quiz_type}/quiz`,
@@ -932,8 +934,8 @@ document.addEventListener("keypress", resetInactivityTimer);
 
 resetInactivityTimer();
 
-// phase = 4;
-// avatars_index_chosen = [0, 1, 2];
-// data.ideologies = [-1, 0, 1];
-// pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
-// init_phase_4();
+phase = 4;
+avatars_index_chosen = [0, 1, 2];
+data.ideologies = [-1, 0, 1];
+pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
+init_phase_4();

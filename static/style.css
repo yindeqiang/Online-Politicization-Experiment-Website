@@ -972,3 +972,9 @@ label {
     line-height: 60px;
     margin-top: 15%;
 }
+
+#reason {
+    width: 80%;
+    height: 100px;
+    resize: none;
+}

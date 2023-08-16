@@ -644,8 +644,7 @@ function wait_for_participants_to_join() {
             <img src="/static/avatars/avatar_default.png" >
             <div id="status_${index}" class="status">${loader_string}</span>
         `;
-        let index_array = generate_bot_array(0, num_of_participants);
-        index_array.splice(human_index, 1)
+        let index_array = generate_bot_array(num_of_participants, human_index);
         start_bot_timers(index_array, 'wait');
     }, 5000);
 }

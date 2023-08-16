@@ -399,9 +399,12 @@ const end_quiz_string = `
         <p>
             Thank you for finishing in this survey!
             <span class="br_small"></span>
-            At the end of this survey, we would like to inform you that we took a deceptive measure in our experiment. Now we are revealing to you the true experiment set-up: Among the three participants, you are the only human. The other two are bots whose behavior is pre-programmed by us. We sincerely ask for your pardon and hope you understand that this is a necessary measure to achieve the objective of our study.
+            <p>At the end of this survey, we would like to inform you that we took a deceptive measure in our experiment. Now we are revealing to you the true experiment set-up: Among the three participants, you are the only human. The other two are bots whose behavior is pre-programmed by us. We sincerely ask for your pardon and hope you understand that this is a necessary measure to achieve the objective of our study.</p>
+            <span clas="br_big"></span>
+            <p>If you've selected 'bot' to describe other participants, it would be greatly appreciated if you could share your reasoning below. Your feedback will greatly contribute to improving the effectiveness of our experiment.</p>
+            <textarea id="reason" maxlength="100"></textarea>
             <span class="br_big"></span>
-            Thanks again for your participation. By clicking “Finish”, you will be redirected back to the Connect platform and get your rewards.
+            <p>Thanks again for your participation. By clicking “Finish”, you will be redirected back to the Connect platform and get your rewards.</p>
         </p>
         <button type="button" class="button_big" disabled="true">Finish</button>
     </div>

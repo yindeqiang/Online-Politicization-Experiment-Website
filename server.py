@@ -9,6 +9,7 @@ from sqlalchemy import Column, Integer, String, JSON, Float, DateTime
 from datetime import datetime
 
 MAX_ID_LEN = 100
+MAX_REASON_LEN = 200
 
 app = Flask(__name__)
 app.config["DEBUG"] = False
@@ -43,6 +44,7 @@ if not app.config["DEBUG"]:
         ideologies = Column(JSON)
         ideology_answers = Column(JSON)
         additional_answers = Column(JSON)
+        reason = Column(String(MAX_REASON_LEN))
 
     class Pilot_2(Base):
         __tablename__ = "pilot_2"
