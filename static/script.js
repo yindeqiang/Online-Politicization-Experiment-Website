@@ -13,7 +13,7 @@ const time_configurations = {
     'wait': [0, 10],
     'phase_3_question': [4, 8],
     'preference': [1, 4],
-    'issue': 5,
+    'issue': 7,
     'lag': 1,
     'confirm': [10, 10],
 };
@@ -356,7 +356,7 @@ function init_phase_1() {
             index_array.splice(index_array.indexOf(offlineBotIndex), 1);
             start_bot_timers(index_array, 'issue');
         }
-        
+
         // else, start timers for all bots
         else
             start_bot_timers(generate_bot_array(num_of_participants, human_index), "issue");
@@ -389,7 +389,7 @@ function init_phase_1() {
         `;
         transform_dots();
         temp_answers = generate_answers_for_bots();
-        temp_answers.splice(human_index, 0, index_of_choice_clicked);                               // track user answer 
+        temp_answers.splice(human_index, 0, index_of_choice_clicked);                               // track user answer
         each_answer.time_to_answer[human_index] = (Date.now() - start_time[human_index]) / 1000;    // track user time to answer
 
         // calculate distance, to be modified later
