@@ -13,7 +13,7 @@ const time_configurations = {
     'wait': [0, 10],
     'phase_3_question': [4, 8],
     'preference': [1, 4],
-    'issue': 7,
+    'issue': 5,
     'lag': 1,
     'confirm': [10, 10],
 };
