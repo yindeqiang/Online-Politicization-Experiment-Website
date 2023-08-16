@@ -32,10 +32,16 @@ engine = create_engine(SQLALCHEMY_DATABASE_URI)
 Session = sessionmaker(bind=engine)
 session = Session()
 
+experiment_date = '2023-08-16'
 
-valid_data = session.query(Pilot_1).all()
+valid_data = session.query(Pilot_1).filter(
+    Pilot_1.submit_time >= experiment_date,
+    Pilot_1.attention_passed == 1,
+).all()
+
+connect_file_name = 'connect_data/pilot_1_2.csv'
 additional_answers = [data.additional_answers[0][0] for data in valid_data]
-df = pd.read_csv('connect_data/pilot_1.csv', usecols=['ParticipantId', 'Political Ideology'])
+df = pd.read_csv(connect_file_name, usecols=['ParticipantId', 'Political Ideology'])
 df['Political Ideology'] = df['Political Ideology'].map(translator)
 
 
