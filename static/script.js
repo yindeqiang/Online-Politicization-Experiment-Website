@@ -934,8 +934,8 @@ document.addEventListener("keypress", resetInactivityTimer);
 
 resetInactivityTimer();
 
-phase = 4;
-avatars_index_chosen = [0, 1, 2];
-data.ideologies = [-1, 0, 1];
-pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
-init_phase_4();
+// phase = 4;
+// avatars_index_chosen = [0, 1, 2];
+// data.ideologies = [-1, 0, 1];
+// pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
+// init_phase_4();
