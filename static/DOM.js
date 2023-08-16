@@ -481,7 +481,7 @@ const phase_1_statements = [
             'extreme': true
         },
         {
-            'statement': `Abortion, which is essentially murder, should be banned in most cases.`,
+            'statement': `Abortion, which is essentially murder, should not be allowed under any circumstance.`,
             'type': 'issue',
             'summary': 'Ban abortion.',
             'left_attitude': false,

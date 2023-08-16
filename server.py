@@ -115,7 +115,8 @@ def quiz(quiz_type):
                     ideology_answers=post_data.get('type_A_answers'),
                     additional_answers=post_data.get('type_D_answers'),
                     bot_detected=post_data.get('bot_detected'),
-                    submit_time=datetime.now()
+                    submit_time=datetime.now(),
+                    reason=post_data.get("reason")
                 )
                 db.session.add(pilot_1_data)
                 db.session.commit()
