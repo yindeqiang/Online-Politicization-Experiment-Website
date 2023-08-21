@@ -487,23 +487,23 @@ function init_phase_3() {
     // choose a participant to answer first
     while (true) {
         answers_first = Math.floor(Math.random() * num_of_participants);
-        // ensure that the user answers the first question first
+        // ensure that the user answers the first question first to make an example
         if (question_seqNum_in_phase == 0)
-            answers_first = 0;
+            answers_first = human_index;
         if (phase_3_answer_times[answers_first] < 2) {
             phase_3_answer_times[answers_first] += 1
             break;
         }
     }
-    if (answers_first == 0) {
+    if (answers_first == human_index) {
         instruction.innerHTML = `<b>You</b> are picked to answer this question first. Choose your answer by sliding the button on the scrollbar.`;
-        instruction.style["text-align"] = "left";
+        instruction.style["text-align"] = "center";
     } else {
         instruction.innerHTML = `
             <b>${pseudonyms_chosen[answers_first]}</b> is picked to answer this question first.
         `;
-        if (answers_first == 1)
-            instruction.style["text-align"] = "center";
+        if (answers_first == 0)
+            instruction.style["text-align"] = "left";
         else
             instruction.style["text-align"] = "right";
     }
@@ -518,7 +518,7 @@ function init_phase_3() {
         }
     }
 
-    // select a statement that hasn't been chosen before, and meet '1 facts, 2 predictions, 2 issues'
+    // select a statement that hasn't been chosen before, and meet '2 facts, 2 predictions, 2 issues'
     let statement_index = 0;
     let temp_statement = ``;
     while (true) {
@@ -563,7 +563,10 @@ function init_phase_3() {
     let display_value = document.querySelector(".display_value");
 
     // if the user answers first
-    if (answers_first == 0) {
+    if (answers_first == human_index) {
+        pseudonyms_left = JSON.parse(JSON.stringify(pseudonyms_chosen));;
+        pseudonyms_left.splice(human_index, 1);
+
         if (phase_3_statements[index_of_question].type == "fact") {
             if (Math.abs(min_value) >= 1) {
                 display_value.innerHTML += `
@@ -581,21 +584,20 @@ function init_phase_3() {
         generate_and_add_mark_texts();
         document.querySelector("button").addEventListener("click", () => {
             // get user's input
-            temp_answers[0] = parseFloat(slider.value);
+            temp_answers[human_index] = parseFloat(slider.value);
             display_values();
             // change DOM
             slider.disabled = true;
-            document.getElementById("status_0").innerHTML = ``;
-            let profile = document.getElementById("profile_0");
+            document.getElementById(`status_${human_index}`).innerHTML = ``;
+            let profile = document.getElementById(`profile_${human_index}`);
             profile.classList.remove("answering_now");
             profile.classList.add("finish_answering");
-
             document.querySelector(".operation").innerHTML = ``;
             setTimeout(() => {
                 let profiles = document.querySelectorAll(".profile_with_labels");
                 let index = 0;
                 profiles.forEach((profile) => {
-                    if (index == 0) {
+                    if (index == human_index) {
                         profile.classList.remove("finish_answering");
                         profile.classList.add("not_answering_now");
                     } else {
@@ -605,12 +607,13 @@ function init_phase_3() {
                     }
                     index++;
                     instruction.innerHTML = `
-                        Now it is <b>${pseudonyms_chosen[1]}</b>'s and <b>${pseudonyms_chosen[2]}</b>'s turn to answer this question. Please wait
+                        Now it's <b>${pseudonyms_left[0]}</b>'s and <b>${pseudonyms_left[1]}</b>'s turn to answer this question. Please wait
                         <span class="dots"></span>
                     `;
+                    instruction.style["text-align"] = "left";
                     transform_dots();
                 });
-                start_bot_timers(generate_sequence_array(1, num_of_bots), "phase_3_question");
+                start_bot_timers(generate_bot_array(num_of_participants, human_index), "phase_3_question");
                 document.addEventListener("timeup", all_finish_answering);
             }, time_configurations['lag'] * 1000)
         });
@@ -672,8 +675,10 @@ function after_bot_input_phase_3() {
         document.querySelector("button").style.opacity = '1';
 
         // deal with instruction
+        index_of_bots_left = generate_bot_array(num_of_participants, human_index);
+        index_of_bots_left.splice(index_of_bots_left.indexOf(answers_first), 1);
         instruction.innerHTML = `
-            Now it is <b>YOUR</b> and <b>${pseudonyms_chosen[3 - answers_first]}</b>'s turn to answer this question. Choose your answer by sliding the button on the scrollbar.
+            Now it's <b>YOUR</b> and <b>${pseudonyms_chosen[index_of_bots_left[0]]}</b>'s turn to answer this question. Choose your answer by sliding the button on the scrollbar.
         `;
         instruction.style['text-align'] = 'left';
         if (phase_3_statements[index_of_question].type == "fact") {
@@ -695,19 +700,17 @@ function after_bot_input_phase_3() {
             }
         }
         // start_bot_timers
-        let array = generate_sequence_array(1, num_of_bots);
-        array.splice(array.indexOf(answers_first), 1);
-        start_bot_timers(array, "phase_3_question");
+        start_bot_timers(index_of_bots_left, "phase_3_question");
 
         // after the user clicks the button
         document.querySelector("button").addEventListener("click", () => {
-            let profile = document.getElementById("profile_0");
+            let profile = document.getElementById(`profile_${human_index}`);
             profile.classList.remove("answering_now");
             profile.classList.add("finish_answering");
             document.querySelector(".operation").innerHTML = ``;
             slider.disabled = true;
-            temp_answers[0] = parseFloat(slider.value);     // get user input value
-            document.getElementById(`status_0`).innerHTML = ``;
+            temp_answers[human_index] = parseFloat(slider.value);     // get user input value
+            document.getElementById(`status_${human_index}`).innerHTML = ``;
             instruction.innerHTML = ``;
             if (all_bots_timeup)
                 all_finish_answering();
@@ -934,8 +937,13 @@ document.addEventListener("keypress", resetInactivityTimer);
 
 resetInactivityTimer();
 
-// phase = 4;
-// avatars_index_chosen = [0, 1, 2];
-// data.ideologies = [-1, 0, 1];
-// pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
-// init_phase_4();
+phase = 3;
+avatars_index_chosen = [0, 1, 2];
+data.ideologies = [-1, 0, 1];
+data.labels = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8]
+]
+pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
+init_phase_3();
