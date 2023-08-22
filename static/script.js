@@ -127,12 +127,8 @@ function enter_next() {
 
     // is the last question in the phase
     if (question_seqNum_in_phase == get_phase_length(phase) - 1) {
-        if (phase == 4) {
-            if (userData.quiz_type == "pilot_1")
-                attention_check();
-            else
-                end_quiz();
-        }
+        if (phase == 4)
+            attention_check();
 
         else {
             if (userData.quiz_type == 'pilot_1' && phase == 1) {
@@ -141,7 +137,7 @@ function enter_next() {
                 show_instructions();
             } else if (userData.quiz_type == 'condition_1' && phase == 0) {
                 phase = 3;
-                question_seqNum_in_phase = 1;
+                question_seqNum_in_phase = 0;
                 next_question_seqNum = 1;
                 data.labels = [[], [], []];
                 init_phase_3();
@@ -494,7 +490,7 @@ function init_phase_3() {
     while (true) {
         answers_first = Math.floor(Math.random() * num_of_participants);
         // ensure that the user answers the first question first to make an example
-        if (question_seqNum_in_phase == 0 || question_seqNum_in_phase == 1 && userData.quiz_type == 'condition_1')
+        if (question_seqNum_in_phase == 0)
             answers_first = human_index;
         if (phase_3_answer_times[answers_first] < 2) {
             phase_3_answer_times[answers_first] += 1
