@@ -147,10 +147,10 @@ def quiz(quiz_type):
                     projectId=post_data.get('projectId'),
                     total_time=post_data.get('total_time'),
                     attention_passed=post_data.get('attention_passed'),
-                    non_ideology_answers=post_data.get('non_ideology_answers'),
-                    additional_answers=post_data.get('additional_answers'),
+                    non_ideology_answers=post_data.get('type_B_answers'),
+                    additional_answers=post_data.get('type_D_answers'),
                     submit_time=datetime.now(),
-                    bot_detected=0
+                    bot_detected=0,
                 )
                 db.session.add(condition_1_data)
 

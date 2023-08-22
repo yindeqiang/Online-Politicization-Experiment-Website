@@ -104,7 +104,7 @@ function enter_next() {
             split_answers.push(answers.slice(5, 7));
         }
         data.type_D_answers = split_answers;
-        
+
         if (userData.quiz_type != 'condition_1') {
             let detection_answers = [0, 0];
             for (let i = 0; i <= 1; i++) {
@@ -747,7 +747,7 @@ function init_phase_4() {
         evaluation_types = ['ideology', 'competence', 'warmth'];
     else if (userData.quiz_type == 'condition_1')
         evaluation_types = ['ideology']
-    
+
     // change DOM
     let body = document.querySelector(".quiz_body")
     body.innerHTML = phase_4_body_string;
@@ -828,8 +828,10 @@ function end_quiz() {
     }
     button.addEventListener('click', () => {
         // send data
-        data.reason = document.getElementById(`reason`).value;
-        // console.log(data);
+        let reason = document.getElementById(`reason`);
+        if (reason)
+            data.reason = reason.value;
+        console.log(data);
         console.log("Ready to send the data.");
         $.post({
             url: `/${userData.quiz_type}/quiz`,
