@@ -71,32 +71,41 @@ var timer;
 
 
 function enter_next() {
+    // deal with data
     if (phase == 1) {
         // track answers and display them
         track_answers();
         phase_1_answers_HTML = document.querySelector(".right").innerHTML;
-
         // save answers
         each_answer.answers = temp_answers;
         each_answer.idx_of_question = index_of_question;
         each_answer.who_answers_first = -1;
         data.type_A_answers.push(each_answer);
+        each_answer = JSON.parse(JSON.stringify(each_answer));      // deep copy and generate a new answer object
+    }
+
+    else if (phase == 3) {
+        each_answer.answers = temp_answers;
+        each_answer.idx_of_question = index_of_question;
+        each_answer.who_answers_first = answers_first;
+        data.type_B_answers.push(each_answer);
         each_answer = JSON.parse(JSON.stringify(each_answer));
-        // deep copy and generate a new answer object
     }
 
     else if (phase == 4) {
         answers = [];
         split_answers = [];
+        document.querySelectorAll("input[type=range]").forEach((range) => {
+            answers.push(parseFloat(range.value));
+        });
+        split_answers.push(answers.slice(0, 3));
         if (userData.quiz_type == 'pilot_1') {
-            document.querySelectorAll("input[type=range]").forEach((range) => {
-                answers.push(parseFloat(range.value));
-            });
-            split_answers.push(answers.slice(0, 3));
             split_answers.push(answers.slice(3, 5));
             split_answers.push(answers.slice(5, 7));
-            data.type_D_answers = split_answers;
-
+        }
+        data.type_D_answers = split_answers;
+        
+        if (userData.quiz_type != 'condition_1') {
             let detection_answers = [0, 0];
             for (let i = 0; i <= 1; i++) {
                 for (let j = 0; j < 6; j++) {
@@ -115,11 +124,9 @@ function enter_next() {
     temp_answers = [];      // restore answers
     all_bots_timeup = false;
     start_time = [];
-    for (let i = 0; i < num_of_participants; i++)
-        start_time.push(Date.now());
 
     // is the last question in the phase
-    if (question_seqNum_in_phase == get_phase_length(phase, userData.quiz_type) - 1) {
+    if (question_seqNum_in_phase == get_phase_length(phase) - 1) {
         if (phase == 4) {
             if (userData.quiz_type == "pilot_1")
                 attention_check();
@@ -135,12 +142,10 @@ function enter_next() {
             } else if (userData.quiz_type == 'condition_1' && phase == 0) {
                 phase = 3;
                 question_seqNum_in_phase = 1;
+                next_question_seqNum = 1;
                 data.labels = [[], [], []];
                 init_phase_3();
-            } else if (userData.quiz_type == 'condition_1' && phase == 3) {
-                attention_check();
-            }
-            else {
+            } else {
                 question_seqNum_in_phase = 0;
                 phase += 1;
                 // for phase 0, do not increase index of the next question
@@ -335,6 +340,7 @@ function init_phase_1() {
     document.querySelectorAll(".status").forEach((status) => {
         status.innerHTML = loader_string;
     });
+    each_answer.time_to_answer[human_index] = Date.now();
 
     // political issue question
     if (question_seqNum_in_phase < phase_length[1][0] + phase_length[1][1]) {
@@ -488,13 +494,14 @@ function init_phase_3() {
     while (true) {
         answers_first = Math.floor(Math.random() * num_of_participants);
         // ensure that the user answers the first question first to make an example
-        if (question_seqNum_in_phase == 0)
+        if (question_seqNum_in_phase == 0 || question_seqNum_in_phase == 1 && userData.quiz_type == 'condition_1')
             answers_first = human_index;
         if (phase_3_answer_times[answers_first] < 2) {
             phase_3_answer_times[answers_first] += 1
             break;
         }
     }
+    start_time[answers_first] = Date.now();
     if (answers_first == human_index) {
         instruction.innerHTML = `<b>You</b> are picked to answer this question first. Choose your answer by sliding the button on the scrollbar.`;
         instruction.style["text-align"] = "center";
@@ -564,7 +571,7 @@ function init_phase_3() {
 
     // if the user answers first
     if (answers_first == human_index) {
-        pseudonyms_left = JSON.parse(JSON.stringify(pseudonyms_chosen));;
+        pseudonyms_left = JSON.parse(JSON.stringify(pseudonyms_chosen));
         pseudonyms_left.splice(human_index, 1);
 
         if (phase_3_statements[index_of_question].type == "fact") {
@@ -584,7 +591,9 @@ function init_phase_3() {
         generate_and_add_mark_texts();
         document.querySelector("button").addEventListener("click", () => {
             // get user's input
-            temp_answers[human_index] = parseFloat(slider.value);
+            each_answer.time_to_answer[human_index] = (Date.now() - start_time[human_index]) / 1000;
+            for (let i = 0; i < num_of_participants; i++)
+                temp_answers[i] = (i == human_index) ? parseFloat(slider.value) : -100;
             display_values();
             // change DOM
             slider.disabled = true;
@@ -613,7 +622,10 @@ function init_phase_3() {
                     instruction.style["text-align"] = "left";
                     transform_dots();
                 });
-                start_bot_timers(generate_bot_array(num_of_participants, human_index), "phase_3_question");
+                bots_index = generate_bot_array(num_of_participants, human_index);
+                for (const index of bots_index)
+                    start_time[index] = Date.now();
+                start_bot_timers(bots_index, "phase_3_question");
                 document.addEventListener("timeup", all_finish_answering);
             }, time_configurations['lag'] * 1000)
         });
@@ -701,6 +713,7 @@ function after_bot_input_phase_3() {
         }
         // start_bot_timers
         start_bot_timers(index_of_bots_left, "phase_3_question");
+        start_time[human_index] = Date.now();
 
         // after the user clicks the button
         document.querySelector("button").addEventListener("click", () => {
@@ -709,7 +722,13 @@ function after_bot_input_phase_3() {
             profile.classList.add("finish_answering");
             document.querySelector(".operation").innerHTML = ``;
             slider.disabled = true;
-            temp_answers[human_index] = parseFloat(slider.value);     // get user input value
+            for (let i = 0; i < num_of_participants; i++) {
+                if (i == human_index)
+                    temp_answers[i] = parseFloat(slider.value);
+                else if (i != answers_first)
+                    temp_answers[i] = -100;
+            }
+            each_answer.time_to_answer[human_index] = (Date.now() - start_time[human_index]) / 1000;
             document.getElementById(`status_${human_index}`).innerHTML = ``;
             instruction.innerHTML = ``;
             if (all_bots_timeup)
@@ -721,44 +740,42 @@ function after_bot_input_phase_3() {
 };
 
 
+var evaluation_types = [];
 
 function init_phase_4() {
+    if (userData.quiz_type == "pilot_1")
+        evaluation_types = ['ideology', 'competence', 'warmth'];
+    else if (userData.quiz_type == 'condition_1')
+        evaluation_types = ['ideology']
+    
     // change DOM
     let body = document.querySelector(".quiz_body")
     body.innerHTML = phase_4_body_string;
 
+    if (userData.quiz_type != "pilot_1")
+        document.querySelector(".pilot_1_additional_questions").innerHTML = ``;
+
     if (userData.quiz_type == "pilot_1") {
-        document.getElementById("question_5").innerHTML = ``;
         document.getElementById("detection_name_0").innerHTML = pseudonyms_chosen[firstBotIndex];
         document.getElementById("detection_name_1").innerHTML = pseudonyms_chosen[lastBotIndex];
         document.getElementById("detection_img_0").src = `/static/avatars/avatar_${avatars_index_chosen[firstBotIndex]}.svg`;
         document.getElementById("detection_img_1").src = `/static/avatars/avatar_${avatars_index_chosen[lastBotIndex]}.svg`;
     }
 
-    const evaluation_types = ['ideology', 'competence', 'warmth'];
     for (let type of evaluation_types) {
         evaluation = document.getElementById(`evaluation_${type}`);
-
         for (let index = 0; index < num_of_participants; index++) {
             if (type == 'ideology' || index != human_index) {
                 evaluation.innerHTML += `<div id="input_${type}_${index}" class="input input_phase_4">${slider_string_short}</div>`;
             }
         }
-        if (type == 'ideology') {
+        if (type == 'ideology')
             add_mark_texts([`Liberal`, 'Somewhat<br>Liberal', `Neutral`, `Somewhat<br>Conservative`, `Conservative`], evaluation);
-            // add_mark_texts([`Extremely<br>liberal`, `Strongly<br>liberal`, 'Mildly<br>liberal', `Neutral`, `Mildly<br>conservative`, `Strongly<br>conservative`, `Extremely<br>conservative`], evaluation);
-
-        }
-        else if (type == 'competence') {
+        else if (type == 'competence')
             add_mark_texts([`Very<br>Incompetent`, `Slightly<br>Incompetent`, `Neutral`, `Slightly<br>Competent`, `Very<br>Competent`], evaluation);
-            // add_mark_texts([`Extremely<br>incompetent`, `Very<br>incompetent`, `Slightly<br>incompetent`, `Neutral`, `Slightly<br>competent`, `Very<br>competent`, 'Extremely<br>competent'], evaluation);
-        }
-        else if (type == 'warmth') {
+        else if (type == 'warmth')
             add_mark_texts([`Very<br>Unfriendly`, `Slightly<br>Unfriendly`, `Neutral`, `Slightly<br>Friendly`, `Very<br>Friendly`], evaluation);
-            // add_mark_texts([`Extremely<br>mean`, `Very<br>mean`, `Slightly<br>mean`, `Neutral`, `Slightly<br>warm`, `Very<br>warm`, `Extremely<br>warm`], evaluation);
-        }
     }
-
     display_values();
     document.querySelectorAll("input[type=range]").forEach((input) => {
         input.addEventListener('input', display_values);
@@ -766,7 +783,7 @@ function init_phase_4() {
     if (userData.quiz_type == 'pilot_1')
         document.querySelector(".detection_wrap").addEventListener("click", phase_4_click_handler);
     else
-        body.addEventListener("click", phase_4_click_handler);
+        document.querySelector("button").disabled = false;
     document.querySelector("button").addEventListener("click", enter_next);
 }
 
@@ -803,6 +820,8 @@ function all_finish_answering() {
 function end_quiz() {
     data.total_time = (Date.now() - total_start_time) / 1000;
     document.querySelector(".quiz_body").innerHTML = end_quiz_string;
+    if (userData.quiz_type == 'condition_1')
+        document.querySelector(".bot_detection").innerHTML = ``;
     let button = document.querySelector("button");
     if (userData.participantId != '' && !idExisted) {
         button.disabled = false;
@@ -824,7 +843,7 @@ function end_quiz() {
             else if (userData.quiz_type == 'pilot_2')
                 window.location.href = "https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete";
             else if (userData.quiz_type == 'condition_1')
-                window.location.href = "";
+                window.location.href = "https://connect.cloudresearch.com/participant/project/99c5b40673e44da0afe2a36deb8b67c5/complete";
             else if (userData.quiz_type == 'condition_2')
                 window.location.href = "";
             else
@@ -937,13 +956,13 @@ document.addEventListener("keypress", resetInactivityTimer);
 
 resetInactivityTimer();
 
-phase = 3;
-avatars_index_chosen = [0, 1, 2];
-data.ideologies = [-1, 0, 1];
-data.labels = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8]
-]
-pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
-init_phase_3();
+// phase = 4;
+// avatars_index_chosen = [0, 1, 2];
+// data.ideologies = [-1, 0, 1];
+// data.labels = [
+//     [0, 1, 2],
+//     [3, 4, 5],
+//     [6, 7, 8]
+// ]
+// pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
+// init_phase_4();

@@ -12,7 +12,7 @@ MAX_ID_LEN = 100
 MAX_REASON_LEN = 200
 
 app = Flask(__name__)
-app.config["DEBUG"] = True
+app.config["DEBUG"] = False
 
 # database connection configuration
 SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
@@ -51,6 +51,10 @@ if not app.config["DEBUG"]:
         pilot_2_answers = Column(JSON)
         ideology_label = Column(Integer)
 
+    class Condition_1(Base):
+        __tablename__ = "condition_1"
+        non_ideology_answers = Column(JSON)
+        additional_answers = Column(JSON)
 
 
 # default webpage, condition 2
@@ -71,14 +75,14 @@ def consentform(quiz_type):
             idExisted = Pilot_1.query.filter_by(participantId=participantId).first() is not None
         elif quiz_type == 'pilot_2':
             idExisted = Pilot_2.query.filter_by(participantId=participantId).first() is not None
-
+        elif quiz_type == 'condition_1':
+            idExisted = Condition_1.query.filter_by(participantId=participantId).first() is not None
     return render_template('consentform.html', quiz_type=quiz_type, participantId=participantId, assignmentId=assignmentId, projectId=projectId, idExisted=idExisted)
 
 
 
 @app.route('/<string:quiz_type>/quiz', methods=['POST', 'GET'])
 def quiz(quiz_type):
-
     # normal quiz webpage
     if request.method == 'GET':
         participantId = request.args.get('participantId', default="")
@@ -90,7 +94,8 @@ def quiz(quiz_type):
                 idExisted = Pilot_1.query.filter_by(participantId=participantId).first() is not None
             elif quiz_type == 'pilot_2':
                 idExisted = Pilot_2.query.filter_by(participantId=participantId).first() is not None
-
+            elif quiz_type == 'condition_1':
+                idExisted = Condition_1.query.filter_by(participantId=participantId).first() is not None
         return render_template('quiz.html', quiz_type=quiz_type, participantId=participantId, assignmentId=assignmentId, projectId=projectId, idExisted=idExisted)
 
     # post method after finishing the quiz
@@ -119,7 +124,7 @@ def quiz(quiz_type):
                     reason=post_data.get("reason")
                 )
                 db.session.add(pilot_1_data)
-                db.session.commit()
+
 
             elif quiz_type == 'pilot_2':
                 pilot_2_data = Pilot_2(
@@ -134,8 +139,22 @@ def quiz(quiz_type):
                     submit_time=datetime.now()
                 )
                 db.session.add(pilot_2_data)
-                db.session.commit()
 
+            elif quiz_type == 'condition_1':
+                condition_1_data = Condition_1(
+                    participantId=post_data.get('participantId'),
+                    assignmentId=post_data.get('assignmentId'),
+                    projectId=post_data.get('projectId'),
+                    total_time=post_data.get('total_time'),
+                    attention_passed=post_data.get('attention_passed'),
+                    non_ideology_answers=post_data.get('non_ideology_answers'),
+                    additional_answers=post_data.get('additional_answers'),
+                    submit_time=datetime.now(),
+                    bot_detected=0
+                )
+                db.session.add(condition_1_data)
+
+            db.session.commit()
             return jsonify({'message':'Valid data submitted'}), 200
 
         except Exception as e:

@@ -232,92 +232,76 @@ const phase_4_evaluate_string = `
 const phase_4_body_string = `
     <h1>Additional questions</h1>
     <p>
-        Now you have completed the main part of this survey experiment. Before you are redirected to the Connect platform, we would like to ask you three additional questions. Your answers will <b>NOT</b> be disclosed to the other two participants. After answering these three questions, please click “Submit”. Then you will be directed to the last page of this survey.
+        Now you have completed the main part of this survey experiment. Before you are redirected to the Connect platform, we would like to ask you some additional questions. Your answers will <b>NOT</b> be disclosed to the other two participants. After answering these questions, please click “Submit”. Then you will be directed to the last page of this survey.
     </p>
     <hr>
     <div class="question_phase_4" id="question_1">
-        <p>Q1. Based on the answers in Phase I, please choose the ideology of yourself and the other participants.</p>
+        <p>Q1. Based on the previous answers, please choose the ideology of yourself and the other participants.</p>
         <div id="evaluation_ideology" class="evaluation"></div>
     </div>
-    <div class="question_phase_4" id="question_2">
-        <p>Q2. How competent do you think the other participants are?
-        <div id="evaluation_competence" class="evaluation"></div>
-    </div>
-    <div class="question_phase_4" id="question_3">
-        <p>Q3. Do you think the other participants would be friendly to you?
-        <div id="evaluation_warmth" class="evaluation"></div>
-    </div>
-    <div class="question_phase_4" id="question_4">
-        <p>Q4. Which of these identities do you think most accurately characterizes the reactions of the other participants in your opinion?</p>
-        <div class="detection_wrap">
-            <div class="each_detection">
-                <img src="/static/avatars/avatar_default.png" id="detection_img_0"/>
-                <div class="name_in_detection" id="detection_name_0">Name</div>
-                <form>
-                    <input type="radio" id="detection_0_0" value="0" name="detection_0">
-                    <label for="detection_0_0">Wanderer</label>
-                    <br>
-                    <input type="radio" id="detection_0_1" value="1" name="detection_0">
-                    <label for="detection_0_1">Lawyer</label>
-                    <br>
-                    <input type="radio" id="detection_0_2" value="2" name="detection_0">
-                    <label for="detection_0_2">Artist</label>
-                    <br>
-                    <input type="radio" id="detection_0_3" value="3" name="detection_0">
-                    <label for="detection_0_3">Bot</label>
-                    <br>
-                    <input type="radio" id="detection_0_4" value="4" name="detection_0">
-                    <label for="detection_0_4">Entrepreneur</label>
-                    <br>
-                    <input type="radio" id="detection_0_5" value="5" name="detection_0">
-                    <label for="detection_0_5">Blue-Collar Worker</label>
-                    <br>
-                </form>
-            </div class="each_detection">
-
-            <div class="each_detection">
-                <img src="/static/avatars/avatar_default.png" id="detection_img_1"/>
-                <div class="name_in_detection" id="detection_name_1">Name</div>
-                <form>
-                    <input type="radio" id="detection_1_0" value="0" name="detection_1">
-                    <label for="detection_1_0">Wanderer</label>
-                    <br>
-                    <input type="radio" id="detection_1_1" value="1" name="detection_1">
-                    <label for="detection_1_1">Lawyer</label>
-                    <br>
-                    <input type="radio" id="detection_1_2" value="2" name="detection_1">
-                    <label for="detection_1_2">Artist</label>
-                    <br>
-                    <input type="radio" id="detection_1_3" value="3" name="detection_1">
-                    <label for="detection_1_3">Bot</label>
-                    <br>
-                    <input type="radio" id="detection_1_4" value="4" name="detection_1">
-                    <label for="detection_1_4">Entrepreneur</label>
-                    <br>
-                    <input type="radio" id="detection_1_5" value="5" name="detection_1">
-                    <label for="detection_1_5">Blue-Collar Worker</label>
-                    <br>
-                </form>
-            </div class="each_detection">
-
+    <div class="pilot_1_additional_questions">
+        <div class="question_phase_4" id="question_2">
+            <p>Q2. How competent do you think the other participants are?
+            <div id="evaluation_competence" class="evaluation"></div>
         </div>
-    </div>
-    <div class="question_phase_4" id="question_5">
-        <p>Q5. How much does ideology matter to you when you form your attitudes towards public issues?</p>
-        <form class="form_ideology">
-            <input type="radio" id="A" value="1" name="preference"/>
-            <label for="A">It matters a lot.</label>
-            <br>
-            <input type="radio" id="B" value="2" name="preference" />
-            <label for="B">It matters.</label>
-            <br>
-            <input type="radio" id="C" value="3" name="preference" />
-            <label for="C">It matters only a little bit.</label>
-            <br>
-            <input type="radio" id="D" value="4" name="preference" />
-            <label for="D">Not at all.</label>
-        </form>
-        <div class="reason_wrap"></div>
+        <div class="question_phase_4" id="question_3">
+            <p>Q3. Do you think the other participants would be friendly to you?
+            <div id="evaluation_warmth" class="evaluation"></div>
+        </div>
+        <div class="question_phase_4" id="question_4">
+            <p>Q4. Which of these identities do you think most accurately characterizes the reactions of the other participants in your opinion?</p>
+            <div class="detection_wrap">
+                <div class="each_detection">
+                    <img src="/static/avatars/avatar_default.png" id="detection_img_0"/>
+                    <div class="name_in_detection" id="detection_name_0">Name</div>
+                    <form>
+                        <input type="radio" id="detection_0_0" value="0" name="detection_0">
+                        <label for="detection_0_0">Wanderer</label>
+                        <br>
+                        <input type="radio" id="detection_0_1" value="1" name="detection_0">
+                        <label for="detection_0_1">Lawyer</label>
+                        <br>
+                        <input type="radio" id="detection_0_2" value="2" name="detection_0">
+                        <label for="detection_0_2">Artist</label>
+                        <br>
+                        <input type="radio" id="detection_0_3" value="3" name="detection_0">
+                        <label for="detection_0_3">Bot</label>
+                        <br>
+                        <input type="radio" id="detection_0_4" value="4" name="detection_0">
+                        <label for="detection_0_4">Entrepreneur</label>
+                        <br>
+                        <input type="radio" id="detection_0_5" value="5" name="detection_0">
+                        <label for="detection_0_5">Blue-Collar Worker</label>
+                        <br>
+                    </form>
+                </div class="each_detection">
+
+                <div class="each_detection">
+                    <img src="/static/avatars/avatar_default.png" id="detection_img_1"/>
+                    <div class="name_in_detection" id="detection_name_1">Name</div>
+                    <form>
+                        <input type="radio" id="detection_1_0" value="0" name="detection_1">
+                        <label for="detection_1_0">Wanderer</label>
+                        <br>
+                        <input type="radio" id="detection_1_1" value="1" name="detection_1">
+                        <label for="detection_1_1">Lawyer</label>
+                        <br>
+                        <input type="radio" id="detection_1_2" value="2" name="detection_1">
+                        <label for="detection_1_2">Artist</label>
+                        <br>
+                        <input type="radio" id="detection_1_3" value="3" name="detection_1">
+                        <label for="detection_1_3">Bot</label>
+                        <br>
+                        <input type="radio" id="detection_1_4" value="4" name="detection_1">
+                        <label for="detection_1_4">Entrepreneur</label>
+                        <br>
+                        <input type="radio" id="detection_1_5" value="5" name="detection_1">
+                        <label for="detection_1_5">Blue-Collar Worker</label>
+                        <br>
+                    </form>
+                </div class="each_detection">
+            </div>
+        </div>
     </div>
     <button type="button" class="button_big" disabled="true">Submit</button>
 `;
@@ -371,19 +355,23 @@ const attention_check_string = `
 `;
 
 const ideology_matters_string = `
-    <form class="form_ideology">
-        <input type="radio" id="A" value="1" name="preference" checked/>
-        <label for="A">It matters a lot.</label>
-        <br>
-        <input type="radio" id="B" value="2" name="preference" />
-        <label for="B">It matters.</label>
-        <br>
-        <input type="radio" id="C" value="3" name="preference" />
-        <label for="C">It matters only a little bit.</label>
-        <br>
-        <input type="radio" id="D" value="4" name="preference" />
-        <label for="D">Not at all.</label>
-    </form>
+    <div class="question_phase_4" id="question_5">
+        <p>Q5. How much does ideology matter to you when you form your attitudes towards public issues?</p>
+        <form class="form_ideology">
+            <input type="radio" id="A" value="1" name="preference"/>
+            <label for="A">It matters a lot.</label>
+            <br>
+            <input type="radio" id="B" value="2" name="preference" />
+            <label for="B">It matters.</label>
+            <br>
+            <input type="radio" id="C" value="3" name="preference" />
+            <label for="C">It matters only a little bit.</label>
+            <br>
+            <input type="radio" id="D" value="4" name="preference" />
+            <label for="D">Not at all.</label>
+        </form>
+        <div class="reason_wrap"></div>
+    </div>
 `;
 
 const reason_wrap_string = `
@@ -401,9 +389,11 @@ const end_quiz_string = `
             <span class="br_small"></span>
             <p>At the end of this survey, we would like to inform you that we took a deceptive measure in our experiment. Now we are revealing to you the true experiment set-up: Among the three participants, you are the only human. The other two are bots whose behavior is pre-programmed by us. We sincerely ask for your pardon and hope you understand that this is a necessary measure to achieve the objective of our study.</p>
             <span clas="br_big"></span>
-            <p>If you've selected 'bot' to describe other participants, it would be greatly appreciated if you could share your reasoning below. Your feedback will greatly contribute to improving the effectiveness of our experiment.</p>
-            <textarea id="reason" maxlength="100"></textarea>
-            <span class="br_big"></span>
+            <div class="bot_detection">
+                <p>If you've selected 'bot' to describe other participants, it would be greatly appreciated if you could share your reasoning below. Your feedback will greatly contribute to improving the effectiveness of our experiment.</p>
+                <textarea id="reason" maxlength="100"></textarea>
+                <span class="br_big"></span>
+            </div>
             <p>Thanks again for your participation. By clicking “Finish”, you will be redirected back to the Connect platform and get your rewards.</p>
         </p>
         <button type="button" class="button_big" disabled="true">Finish</button>

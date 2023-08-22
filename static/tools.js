@@ -239,7 +239,7 @@ function display_values() {
         let min = -3, max = 3;
 
         // slider
-        if (answers_first != 0) {
+        if (answers_first != human_index) {
             if (phase_3_statements[index_of_question].type == 'fact') {
                 min = phase_3_statements[index_of_question].range[0];
                 max = phase_3_statements[index_of_question].range[1];
@@ -256,7 +256,6 @@ function display_values() {
 
     else if (phase == 4) {
         let min = -2, max = 2;
-        const evaluation_types = ['ideology', 'competence', 'warmth'];
         for (let type of evaluation_types) {
             for (let index = 0; index < num_of_participants; index++) {
                 if (type != 'ideology' && index == human_index)
@@ -517,6 +516,7 @@ function start_bot_timers(index_list, type) {
     let last_time = 0, index_of_last_one = 0;
     let temp_time = 0;
     for (index of index_list) {
+        start_time[index] = Date.now();
         if (test_mode)
             temp_time = 1;
         else {
