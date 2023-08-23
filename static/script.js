@@ -108,15 +108,15 @@ function enter_next() {
         if (userData.quiz_type != 'condition_1') {
             let detection_answers = [0, 0];
             for (let i = 0; i <= 1; i++) {
-                for (let j = 0; j < 6; j++) {
-                    const input = document.getElementById(`detection_${i}_${j}`);
+                let identity_choice_seqNum = 0;
+                while (input = document.getElementById(`detection_${i}_${identity_choice_seqNum}`)) {
                     if (input.checked) {
-                        detection_answers[i] = j;
-                        break;
+                        detection_answers[i] = identity_choice_seqNum;
                     }
+                    identity_choice_seqNum += 1;
                 }
             }
-            data.bot_detected = (detection_answers[0] == 3) + (detection_answers[1] == 3);
+            data.bot_detected = detection_answers[0] * 10 + detection_answers[1];
         }
         document.querySelector(".quiz_body").removeEventListener("click", phase_4_click_handler);
     }
@@ -966,13 +966,13 @@ document.addEventListener("keypress", resetInactivityTimer);
 
 resetInactivityTimer();
 
-// phase = 4;
-// avatars_index_chosen = [0, 1, 2];
-// data.ideologies = [-1, 0, 1];
-// data.labels = [
-//     [0, 1, 2],
-//     [3, 4, 5],
-//     [6, 7, 8]
-// ]
-// pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
-// init_phase_4();
+phase = 4;
+avatars_index_chosen = [0, 1, 2];
+data.ideologies = [-1, 0, 1];
+data.labels = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8]
+]
+pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
+init_phase_4();

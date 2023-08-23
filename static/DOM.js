@@ -249,7 +249,7 @@ const phase_4_body_string = `
             <div id="evaluation_warmth" class="evaluation"></div>
         </div>
         <div class="question_phase_4" id="question_4">
-            <p>Q4. Which of these identities do you think most accurately characterizes the reactions of the other participants in your opinion?</p>
+            <p>Q4. Which of these identities do you think most accurately characterizes the reactions of the other participants?</p>
             <div class="detection_wrap">
                 <div class="each_detection">
                     <img src="/static/avatars/avatar_default.png" id="detection_img_0"/>
@@ -271,7 +271,10 @@ const phase_4_body_string = `
                         <label for="detection_0_4">Entrepreneur</label>
                         <br>
                         <input type="radio" id="detection_0_5" value="5" name="detection_0">
-                        <label for="detection_0_5">Blue-Collar Worker</label>
+                        <label for="detection_0_5">Blue-Collar worker</label>
+                        <br>
+                        <input type="radio" id="detection_0_6" value="6" name="detection_0">
+                        <label for="detection_0_6">I have no clue</label>
                         <br>
                     </form>
                 </div class="each_detection">
@@ -296,7 +299,10 @@ const phase_4_body_string = `
                         <label for="detection_1_4">Entrepreneur</label>
                         <br>
                         <input type="radio" id="detection_1_5" value="5" name="detection_1">
-                        <label for="detection_1_5">Blue-Collar Worker</label>
+                        <label for="detection_1_5">Blue-Collar worker</label>
+                        <br>
+                        <input type="radio" id="detection_1_6" value="6" name="detection_1">
+                        <label for="detection_1_6">I have no clue</label>
                         <br>
                     </form>
                 </div class="each_detection">
@@ -407,7 +413,8 @@ const phase_1_statements = [
             'type': 'issue',
             'summary': "Business regulation is necessary.",
             'left_attitude': true,
-            'extreme': false
+            'extreme': false,
+            'random': true,
         },
         {
             'statement': "Immigrants today strengthen our country because of their hard work and talents.",
@@ -442,7 +449,8 @@ const phase_1_statements = [
             'type': 'issue',
             'summary': 'Homosexuality is acceptable.',
             'left_attitude': true,
-            'extreme': false
+            'extreme': false,
+            'random': true,
         }
     ],
 

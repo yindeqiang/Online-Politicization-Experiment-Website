@@ -350,7 +350,21 @@ function generate_answers_for_bots() {
             let left_answer = 1;
             if (phase_1_statements[0][index_of_question].left_attitude)
                 left_answer = 0;
-            ret.push(left_answer, 1 - left_answer);
+
+            if (!(phase_1_statements[0][index_of_question]).random) {
+                ret.push(left_answer, 1 - left_answer);
+            } else {
+                let rand_num = Math.random();
+                if (rand_num <= 0.3)
+                    ret.push(1 - left_answer);
+                else
+                    ret.push(left_answer);
+                rand_num = Math.random();
+                if (rand_num <= 0.3)
+                    ret.push(left_answer);
+                else
+                    ret.push(1 - left_answer);
+            }
         }
 
         // extreme question
@@ -773,12 +787,13 @@ function check_handler(event) {
 function phase_4_click_handler() {
     let flag = [false, false];
     for (let i = 0; i <= 1; i++) {
-        for (let j = 0; j < 6; j++) {
-            const input = document.getElementById(`detection_${i}_${j}`);
+        let identity_choice_seqNum = 0;
+        while (input = document.getElementById(`detection_${i}_${identity_choice_seqNum}`)) {
             if (input.checked) {
                 flag[i] = true;
                 break;
             }
+            identity_choice_seqNum += 1;
         }
     }
     if (flag[0] && flag[1])
