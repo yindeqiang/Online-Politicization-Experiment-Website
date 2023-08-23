@@ -588,8 +588,15 @@ function init_phase_3() {
         document.querySelector("button").addEventListener("click", () => {
             // get user's input
             each_answer.time_to_answer[human_index] = (Date.now() - start_time[human_index]) / 1000;
-            for (let i = 0; i < num_of_participants; i++)
-                temp_answers[i] = (i == human_index) ? parseFloat(slider.value) : -100;
+            for (let i = 0; i < num_of_participants; i++) {
+                if (i == human_index) {
+                    temp_answers[i] = parseFloat(slider.value);
+                    if (phase_3_statements[index_of_question].type == 'fact')       // convert it to [-3, 3]
+                        temp_answers[i] = -3 + (temp_answers[i] - min_value) / (max_value - min_value) * 6;
+                } else 
+                    temp_answers[i] = -100;
+            }
+
             display_values();
             // change DOM
             slider.disabled = true;
@@ -658,6 +665,8 @@ function after_bot_input_phase_3() {
     // register bot value
     temp_answers[answers_first] = generate_answers_for_bots();
     display_values();
+    if (phase_3_statements[index_of_question].type == 'fact')       // convert it to [-3, 3]
+        temp_answers[answers_first] = -3 + (temp_answers[answers_first] - min_value) / (max_value - min_value) * 6;
 
     // change DOM
     setTimeout(() => {
@@ -719,8 +728,11 @@ function after_bot_input_phase_3() {
             document.querySelector(".operation").innerHTML = ``;
             slider.disabled = true;
             for (let i = 0; i < num_of_participants; i++) {
-                if (i == human_index)
+                if (i == human_index) {
                     temp_answers[i] = parseFloat(slider.value);
+                    if (phase_3_statements[index_of_question].type == 'fact')       // convert it to [-3, 3]
+                        temp_answers[i] = -3 + (temp_answers[i] - min_value) / (max_value - min_value) * 6;
+                }
                 else if (i != answers_first)
                     temp_answers[i] = -100;
             }
