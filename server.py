@@ -35,13 +35,13 @@ if not app.config["DEBUG"]:
         projectId = Column(String(MAX_ID_LEN))
         attention_passed = Column(Integer)
         total_time = Column(Float)
+        identity_choices = Column(JSON)
+        ideologies = Column(JSON)
         bot_detected = Column(Integer)
         submit_time=Column(DateTime)
 
     class Pilot_1(Base):
         __tablename__ = "pilot_1"
-        identity_choices = Column(JSON)
-        ideologies = Column(JSON)
         ideology_answers = Column(JSON)
         additional_answers = Column(JSON)
         reason = Column(String(MAX_REASON_LEN))
@@ -150,6 +150,7 @@ def quiz(quiz_type):
                     non_ideology_answers=post_data.get('type_B_answers'),
                     additional_answers=post_data.get('type_D_answers'),
                     submit_time=datetime.now(),
+                    identity_choices=post_data.get("identity_choices"),
                     bot_detected=0,
                 )
                 db.session.add(condition_1_data)
