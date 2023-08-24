@@ -252,7 +252,7 @@ const phase_4_body_string = `
     </div>
 
     <div class="question_phase_4" id="question_4">
-        <p>Q. Which of these identities do you think most accurately characterizes the reactions of the other participants?</p>
+        <p>Q. Which of these identities do you think most accurately characterize the reactions of the other participants?</p>
         <div class="detection_wrap">
             <div class="each_detection">
                 <img src="/static/avatars/avatar_default.png" id="detection_img_0"/>
