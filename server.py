@@ -39,12 +39,12 @@ if not app.config["DEBUG"]:
         ideologies = Column(JSON)
         bot_detected = Column(Integer)
         submit_time=Column(DateTime)
+        reason = Column(String(MAX_REASON_LEN))
 
     class Pilot_1(Base):
         __tablename__ = "pilot_1"
         ideology_answers = Column(JSON)
         additional_answers = Column(JSON)
-        reason = Column(String(MAX_REASON_LEN))
 
     class Pilot_2(Base):
         __tablename__ = "pilot_2"
