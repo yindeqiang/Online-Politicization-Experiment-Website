@@ -274,7 +274,7 @@ const phase_4_body_string = `
                         <label for="detection_0_5">Blue-Collar worker</label>
                         <br>
                         <input type="radio" id="detection_0_6" value="6" name="detection_0">
-                        <label for="detection_0_6">I have no clue</label>
+                        <label for="detection_0_6">I have no idea</label>
                         <br>
                     </form>
                 </div class="each_detection">
@@ -302,7 +302,7 @@ const phase_4_body_string = `
                         <label for="detection_1_5">Blue-Collar worker</label>
                         <br>
                         <input type="radio" id="detection_1_6" value="6" name="detection_1">
-                        <label for="detection_1_6">I have no clue</label>
+                        <label for="detection_1_6">I have no idea</label>
                         <br>
                     </form>
                 </div class="each_detection">
