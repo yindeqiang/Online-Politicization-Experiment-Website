@@ -151,7 +151,7 @@ def quiz(quiz_type):
                     additional_answers=post_data.get('type_D_answers'),
                     submit_time=datetime.now(),
                     identity_choices=post_data.get("identity_choices"),
-                    bot_detected=0,
+                    bot_detected=post_data.get("bot_detected"),
                 )
                 db.session.add(condition_1_data)
 

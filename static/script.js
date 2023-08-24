@@ -763,12 +763,10 @@ function init_phase_4() {
     if (userData.quiz_type != "pilot_1")
         document.querySelector(".pilot_1_additional_questions").innerHTML = ``;
 
-    if (userData.quiz_type == "pilot_1") {
-        document.getElementById("detection_name_0").innerHTML = pseudonyms_chosen[firstBotIndex];
-        document.getElementById("detection_name_1").innerHTML = pseudonyms_chosen[lastBotIndex];
-        document.getElementById("detection_img_0").src = `/static/avatars/avatar_${avatars_index_chosen[firstBotIndex]}.svg`;
-        document.getElementById("detection_img_1").src = `/static/avatars/avatar_${avatars_index_chosen[lastBotIndex]}.svg`;
-    }
+    document.getElementById("detection_name_0").innerHTML = pseudonyms_chosen[firstBotIndex];
+    document.getElementById("detection_name_1").innerHTML = pseudonyms_chosen[lastBotIndex];
+    document.getElementById("detection_img_0").src = `/static/avatars/avatar_${avatars_index_chosen[firstBotIndex]}.svg`;
+    document.getElementById("detection_img_1").src = `/static/avatars/avatar_${avatars_index_chosen[lastBotIndex]}.svg`;
 
     for (let type of evaluation_types) {
         evaluation = document.getElementById(`evaluation_${type}`);
@@ -788,10 +786,7 @@ function init_phase_4() {
     document.querySelectorAll("input[type=range]").forEach((input) => {
         input.addEventListener('input', display_values);
     });
-    if (userData.quiz_type == 'pilot_1')
-        document.querySelector(".detection_wrap").addEventListener("click", phase_4_click_handler);
-    else
-        document.querySelector("button").disabled = false;
+    document.querySelector(".detection_wrap").addEventListener("click", phase_4_click_handler);
     document.querySelector("button").addEventListener("click", enter_next);
 }
 
@@ -855,71 +850,14 @@ function end_quiz() {
             else if (userData.quiz_type == 'condition_1')
                 window.location.href = "https://connect.cloudresearch.com/participant/project/99c5b40673e44da0afe2a36deb8b67c5/complete";
             else if (userData.quiz_type == 'condition_2')
-                window.location.href = "";
-            else
-                window.location.href = "";
+                window.location.href = "https://connect.cloudresearch.com/participant/project/0cbdab43426f43b6824c5f54a33e2095/complete";
+            else if (userData.quiz_type == 'condition_3')
+                window.location.href = "https://connect.cloudresearch.com/participant/project/3679dedff7bf4c258a4eb15939a47712/complete";
         })
         .fail(function(error) {
             console.error("Error while sending data:", error);
         });
     });
-}
-
-
-function clear_status(p) {
-    if (p >= 1) {
-        pseudonyms_chosen = ['name1', 'name2', 'name3'];
-        avatars_index_chosen = [0, 1, 2];
-        data.ideologies = [-1, -1, 1];
-    }
-
-    if (p >= 3)
-        data.labels = [['test1'], ['test2', 'test3'], ['test4', 'test5', 'test6']];
-
-    question_seqNum_in_phase = 0;
-    phase = p;
-    next_question_seqNum = 0;
-    for (let index = 0; index < p; index++) {
-        next_question_seqNum += get_phase_length(index);
-    }
-}
-
-
-
-function add_test() {
-    let button = document.querySelector(".test");
-    button.addEventListener("click", () => {
-        test_mode = true;
-        if (userData.quiz_type == "condition_2" || userData.quiz_type == "condition_3") {
-            document.querySelector(".test_wrap").innerHTML = test_string;
-            document.getElementById(`phase_0`).addEventListener("click", () => {
-                clear_status(0);
-                choose_identity();
-            });
-            document.getElementById(`phase_1`).addEventListener("click", () => {
-                clear_status(1);
-                show_instructions();
-            });
-            document.getElementById(`phase_2`).addEventListener("click", () => {
-                clear_status(2);
-                show_instructions();
-            });
-            document.getElementById(`phase_3`).addEventListener("click", () => {
-                clear_status(3);
-                show_instructions();
-            });
-            document.getElementById(`phase_4`).addEventListener("click", () => {
-                clear_status(4);
-                show_instructions();
-            });
-            document.getElementById("phase_end").addEventListener("click", () => {
-                clear_status(5);
-                end_quiz();
-            });
-        } else {
-            document.querySelector(".test_wrap").innerHTML = ``;
-        }
-    })
 }
 
 
@@ -942,8 +880,18 @@ function attention_check() {
 }
 
 
-choose_identity();
+// choose_identity();
 
+phase = 4;
+avatars_index_chosen = [0, 1, 2];
+data.ideologies = [-1, 0, 1];
+data.labels = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8]
+]
+pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
+init_phase_4();
 
 
 // track inactivity, 2 minutes
@@ -965,14 +913,3 @@ document.addEventListener("mousedown", resetInactivityTimer);
 document.addEventListener("keypress", resetInactivityTimer);
 
 resetInactivityTimer();
-
-// phase = 4;
-// avatars_index_chosen = [0, 1, 2];
-// data.ideologies = [-1, 0, 1];
-// data.labels = [
-//     [0, 1, 2],
-//     [3, 4, 5],
-//     [6, 7, 8]
-// ]
-// pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
-// init_phase_4();
