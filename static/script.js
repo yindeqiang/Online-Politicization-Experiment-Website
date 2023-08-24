@@ -821,8 +821,6 @@ function all_finish_answering() {
 function end_quiz() {
     data.total_time = (Date.now() - total_start_time) / 1000;
     document.querySelector(".quiz_body").innerHTML = end_quiz_string;
-    if (userData.quiz_type == 'condition_1')
-        document.querySelector(".bot_detection").innerHTML = ``;
     let button = document.querySelector("button");
     if (userData.participantId != '' && !idExisted) {
         button.disabled = false;
@@ -832,7 +830,6 @@ function end_quiz() {
         let reason = document.getElementById(`reason`);
         if (reason)
             data.reason = reason.value;
-        console.log(data);
         console.log("Ready to send the data.");
         $.post({
             url: `/${userData.quiz_type}/quiz`,
