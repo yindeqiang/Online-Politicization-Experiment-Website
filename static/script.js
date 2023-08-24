@@ -105,19 +105,17 @@ function enter_next() {
         }
         data.type_D_answers = split_answers;
 
-        if (userData.quiz_type != 'condition_1') {
-            let detection_answers = [0, 0];
-            for (let i = 0; i <= 1; i++) {
-                let identity_choice_seqNum = 0;
-                while (input = document.getElementById(`detection_${i}_${identity_choice_seqNum}`)) {
-                    if (input.checked) {
-                        detection_answers[i] = identity_choice_seqNum;
-                    }
-                    identity_choice_seqNum += 1;
+        let detection_answers = [0, 0];
+        for (let i = 0; i <= 1; i++) {
+            let identity_choice_seqNum = 0;
+            while (input = document.getElementById(`detection_${i}_${identity_choice_seqNum}`)) {
+                if (input.checked) {
+                    detection_answers[i] = identity_choice_seqNum;
                 }
+                identity_choice_seqNum += 1;
             }
-            data.bot_detected = detection_answers[0] * 10 + detection_answers[1];
         }
+        data.bot_detected = detection_answers[0] * 10 + detection_answers[1];
         document.querySelector(".quiz_body").removeEventListener("click", phase_4_click_handler);
     }
 
@@ -593,7 +591,7 @@ function init_phase_3() {
                     temp_answers[i] = parseFloat(slider.value);
                     if (phase_3_statements[index_of_question].type == 'fact')       // convert it to [-3, 3]
                         temp_answers[i] = -3 + (temp_answers[i] - min_value) / (max_value - min_value) * 6;
-                } else 
+                } else
                     temp_answers[i] = -100;
             }
 
