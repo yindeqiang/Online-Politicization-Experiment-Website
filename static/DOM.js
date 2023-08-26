@@ -411,7 +411,8 @@ const phase_1_statements = [
             'type': 'issue',
             'summary': "Ensure peace via military.",
             'left_attitude': false,
-            'extreme': false
+            'extreme': false,
+            'random': true,
         },
         {
             'statement': `Racial discrimination is the main reason why many black people can't get ahead these days.`,

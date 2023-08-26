@@ -355,15 +355,10 @@ function generate_answers_for_bots() {
                 ret.push(left_answer, 1 - left_answer);
             } else {
                 let rand_num = Math.random();
-                if (rand_num <= 0.3)
-                    ret.push(1 - left_answer);
+                if (rand_num <= 0.5)
+                    ret.push(left_answer, left_answer);
                 else
-                    ret.push(left_answer);
-                rand_num = Math.random();
-                if (rand_num <= 0.3)
-                    ret.push(left_answer);
-                else
-                    ret.push(1 - left_answer);
+                    ret.push(left_answer, 1 - left_answer);
             }
         }
 
