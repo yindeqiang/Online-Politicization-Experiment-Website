@@ -5,14 +5,13 @@ phase_1_statements = [
         'summary': "Business regulation is necessary.",
         'left_attitude': True,
         'extreme': False,
-        'random': True,
     },
     {
         'statement': "Immigrants today strengthen our country because of their hard work and talents.",
         'type': 'issue',
         'summary': 'Immigrants strengthen our country.',
         'left_attitude': True,
-        'extreme': False
+        'extreme': False,
     },
     {
         'statement': "The best way to ensure peace is through military strength.",
@@ -20,7 +19,6 @@ phase_1_statements = [
         'summary': "Ensure peace via military.",
         'left_attitude': False,
         'extreme': False
-        'random': True,
     },
     {
         'statement': "Racial discrimination is the main reason why many black people can't get ahead these days.",
@@ -42,7 +40,6 @@ phase_1_statements = [
         'summary': 'Homosexuality is acceptable.',
         'left_attitude': True,
         'extreme': False,
-        'random': True,
     },
     {
         'statement': 'Schools should not impose any form of vaccine mandate.',

@@ -397,7 +397,6 @@ const phase_1_statements = [
             'summary': "Business regulation is necessary.",
             'left_attitude': true,
             'extreme': false,
-            'random': true,
         },
         {
             'statement': "Immigrants today strengthen our country because of their hard work and talents.",
@@ -412,7 +411,6 @@ const phase_1_statements = [
             'summary': "Ensure peace via military.",
             'left_attitude': false,
             'extreme': false,
-            'random': true,
         },
         {
             'statement': `Racial discrimination is the main reason why many black people can't get ahead these days.`,
@@ -434,7 +432,6 @@ const phase_1_statements = [
             'summary': 'Homosexuality is acceptable.',
             'left_attitude': true,
             'extreme': false,
-            'random': true,
         }
     ],
 

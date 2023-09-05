@@ -344,54 +344,21 @@ function track_answers() {
 function generate_answers_for_bots() {
     if (phase == 1) {
         let ret = [];
+
         // issue question
-        if (index_of_question < phase_1_statements[0].length) {
-            // default answer of B is agree
-            let left_answer = 1;
-            if (phase_1_statements[0][index_of_question].left_attitude)
-                left_answer = 0;
-
-            if (!(phase_1_statements[0][index_of_question]).random) {
-                ret.push(left_answer, 1 - left_answer);
-            } else {
-                let rand_num = Math.random();
-                if (rand_num <= 0.5)
-                    ret.push(left_answer, left_answer);
-                else
-                    ret.push(left_answer, 1 - left_answer);
-            }
-        }
-
-        // extreme question
-        else if (index_of_question >= phase_1_statements[0].length && index_of_question < phase_1_statements[0].length + phase_1_statements[1].length) {
-
-            // default answer of B is agree
-            let left_answer = 1;
-            if (phase_1_statements[1][index_of_question - phase_1_statements[0].length].left_attitude)
-                left_answer = 0;
-
-            // B's answer
-            switch (data.ideologies[firstBotIndex]) {
-                case -1:
-                    ret.push(1);
-                    break;
-
-                case -2:
-                    ret.push(left_answer);
-                    break;
-
-            }
-
-            // C's answer
-            switch (data.ideologies[lastBotIndex]) {
-                case 1:
-                    ret.push(1);
-                    break;
-
-                case 2:
-                    ret.push(1 - left_answer);
-                    break;
-            }
+        if (index_of_question < phase_1_statements[0].length + phase_1_statements[1].length) {
+            let randValue = Math.random();
+            // console.log(phase_1_probability[data.ideologies[firstBotIndex.toString()]][index_of_question], phase_1_probability[data.ideologies[lastBotIndex.toString()]][index_of_question]);
+            if (randValue <= phase_1_probability[data.ideologies[firstBotIndex.toString()]][index_of_question])
+                ret.push(1);
+            else
+                ret.push(0);
+            randValue = Math.random();
+            if (randValue <= phase_1_probability[data.ideologies[lastBotIndex.toString()]][index_of_question])
+                ret.push(1);
+            else
+                ret.push(0);
+            return ret;
         }
 
         // preference question
