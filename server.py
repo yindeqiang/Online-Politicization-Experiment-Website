@@ -152,6 +152,7 @@ def quiz(quiz_type):
                     submit_time=datetime.now(),
                     identity_choices=post_data.get("identity_choices"),
                     bot_detected=post_data.get("bot_detected"),
+                    reason=post_data.get("reason"),
                 )
                 db.session.add(condition_1_data)
 

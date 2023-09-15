@@ -341,7 +341,7 @@ function init_phase_1() {
     document.querySelectorAll(".status").forEach((status) => {
         status.innerHTML = loader_string;
     });
-    each_answer.time_to_answer[human_index] = Date.now();
+    start_time[human_index] = Date.now();
 
     // political issue question
     if (question_seqNum_in_phase < phase_length[1][0] + phase_length[1][1]) {
