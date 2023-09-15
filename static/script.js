@@ -467,10 +467,7 @@ function init_phase_2() {
     // button check
     document.querySelector("button").addEventListener("click", () => {
         document.querySelector(".labeling_wrap").removeEventListener("change", check_handler);
-        if (userData.quiz_type == 'condition_2' || userData.quiz_type == 'condition_3')
-            attention_check();
-        else
-            enter_next();
+        enter_next();
     });
 }
 
