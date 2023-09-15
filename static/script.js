@@ -467,7 +467,10 @@ function init_phase_2() {
     // button check
     document.querySelector("button").addEventListener("click", () => {
         document.querySelector(".labeling_wrap").removeEventListener("change", check_handler);
-        enter_next();
+        if (userData.quiz_type == 'condition_2' || userData.quiz_type == 'condition_3')
+            attention_check();
+        else
+            enter_next();
     });
 }
 
@@ -863,18 +866,10 @@ function end_quiz() {
 function attention_check() {
     document.querySelector(".quiz_body").innerHTML = attention_check_string;
     document.querySelector(".attention_check").addEventListener("change", attention_check_click_handler);
-    if (userData.quiz_type == 'pilot_1' || userData.quiz_type == 'condition_1') {
-        document.querySelector("button").addEventListener("click",() => {
-            document.querySelector(".attention_check").removeEventListener("change", attention_check_click_handler);
-            end_quiz();
-        });
-    }
-    else if (userData.quiz_type == 'condition_2' || userData.quiz_type == 'condition_3') {
-        document.querySelector("button").addEventListener("click", () => {
-              document.querySelector(".attention_check").removeEventListener("change", attention_check_click_handler);
-              enter_next();
-        });
-    }
+    document.querySelector("button").addEventListener("click",() => {
+        document.querySelector(".attention_check").removeEventListener("change", attention_check_click_handler);
+        end_quiz();
+    });
 }
 
 
