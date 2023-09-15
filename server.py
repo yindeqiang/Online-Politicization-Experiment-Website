@@ -12,7 +12,7 @@ MAX_ID_LEN = 100
 MAX_REASON_LEN = 200
 
 app = Flask(__name__)
-app.config["DEBUG"] = True
+app.config["DEBUG"] = False
 
 # database connection configuration
 SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
