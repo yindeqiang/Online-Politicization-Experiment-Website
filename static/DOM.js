@@ -8,16 +8,16 @@ const phase_length = [1, [6, 4, 3], 1, 6, 1];
 const avatar_num = 6;
 
 const labels = [
-    'Radically liberal',
-    'Mildly liberal',
-    'Mildly conservative',
-    'Radically conservative',
-    'Sympathetic',
+    'Liberal',
+    'Somewhat liberal',
+    'Conservative',
+    'Somewhat conservative',
+    'Kind',
     'Indifferent',
     'Mature',
     'Naive',
     'Competent',
-    'Incompetent'
+    'Incompetent',
 ];
 
 const num_of_identity_choices = pseudonyms.length;

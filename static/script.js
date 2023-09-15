@@ -50,8 +50,7 @@ var data = {
     bot_detected: 0,
     total_time: 0,              // total time to finish the experiment
     type_A_answers: [],         // ideological questions in phase I
-    type_B_answers: [],         // preference questions in phase I
-    type_C_answers: [],         // non-ideological questions in phase II
+    type_B_answers: [],         // non-ideological questions in phase II
     type_D_answers: [],         // post-quiz questions
     reason: ""
 };
@@ -758,8 +757,8 @@ var evaluation_types = [];
 function init_phase_4() {
     if (userData.quiz_type == "pilot_1")
         evaluation_types = ['ideology', 'competence', 'warmth'];
-    else if (userData.quiz_type == 'condition_1')
-        evaluation_types = ['ideology']
+    else if (userData.quiz_type == 'condition_1' || userData.quiz_type == 'condition_2' || userData.quiz_type == 'condition_3')
+        evaluation_types = ['ideology'];
 
     // change DOM
     let body = document.querySelector(".quiz_body")
@@ -884,16 +883,18 @@ function attention_check() {
 
 choose_identity();
 
-// phase = 4;
-// avatars_index_chosen = [0, 1, 2];
-// data.ideologies = [-1, 0, 1];
+phase = 2;
+avatars_index_chosen = [0, 1, 2];
+
+data.ideologies = [-1, 0, 1];
 // data.labels = [
 //     [0, 1, 2],
 //     [3, 4, 5],
 //     [6, 7, 8]
-// ]
-// pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
-// init_phase_4();
+// ];
+
+pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
+init_phase_2();
 
 
 // track inactivity, 2 minutes

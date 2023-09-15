@@ -12,7 +12,7 @@ MAX_ID_LEN = 100
 MAX_REASON_LEN = 200
 
 app = Flask(__name__)
-app.config["DEBUG"] = False
+app.config["DEBUG"] = True
 
 # database connection configuration
 SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
@@ -55,6 +55,20 @@ if not app.config["DEBUG"]:
         __tablename__ = "condition_1"
         non_ideology_answers = Column(JSON)
         additional_answers = Column(JSON)
+    
+    class Condition_2(Base):
+        __tablename__ = "condition_2"
+        ideology_answers = Column(JSON)
+        non_ideology_answers = Column(JSON)
+        additional_answers = Column(JSON)
+        labels = Column(JSON)
+        
+    class Condition_3(Base):
+        __tablename__ = "condition_3"
+        ideology_answers = Column(JSON)
+        non_ideology_answers = Column(JSON)
+        additional_answers = Column(JSON)
+        labels = Column(JSON)
 
 
 # default webpage, condition 2
@@ -77,6 +91,10 @@ def consentform(quiz_type):
             idExisted = Pilot_2.query.filter_by(participantId=participantId).first() is not None
         elif quiz_type == 'condition_1':
             idExisted = Condition_1.query.filter_by(participantId=participantId).first() is not None
+        elif quiz_type == 'condition_2':
+            idExisted = Condition_2.query.filter_by(participantId=participantId).first() is not None
+        else:
+            idExisted = Condition_3.query.filter_by(participantId=participantId).first() is not None
     return render_template('consentform.html', quiz_type=quiz_type, participantId=participantId, assignmentId=assignmentId, projectId=projectId, idExisted=idExisted)
 
 
@@ -96,6 +114,10 @@ def quiz(quiz_type):
                 idExisted = Pilot_2.query.filter_by(participantId=participantId).first() is not None
             elif quiz_type == 'condition_1':
                 idExisted = Condition_1.query.filter_by(participantId=participantId).first() is not None
+            elif quiz_type == 'condition_2':
+                idExisted = Condition_2.query.filter_by(participantId=participantId).first() is not None
+            elif quiz_type == 'condition_3':
+                idExisted = Condition_3.query.filter_by(participantId=participantId).first() is not None
         return render_template('quiz.html', quiz_type=quiz_type, participantId=participantId, assignmentId=assignmentId, projectId=projectId, idExisted=idExisted)
 
     # post method after finishing the quiz
@@ -124,7 +146,6 @@ def quiz(quiz_type):
                     reason=post_data.get("reason")
                 )
                 db.session.add(pilot_1_data)
-
 
             elif quiz_type == 'pilot_2':
                 pilot_2_data = Pilot_2(
@@ -155,6 +176,42 @@ def quiz(quiz_type):
                     reason=post_data.get("reason"),
                 )
                 db.session.add(condition_1_data)
+            
+            elif quiz_type == 'condition_2':
+                condition_2_data = Condition_2(
+                    participantId=post_data.get('participantId'),
+                    assignmentId=post_data.get('assignmentId'),
+                    projectId=post_data.get('projectId'),
+                    total_time=post_data.get('total_time'),
+                    attention_passed=post_data.get('attention_passed'),
+                    ideology_answers=post_Data.get("type_A_answers"),
+                    non_ideology_answers=post_data.get('type_B_answers'),
+                    additional_answers=post_data.get('type_D_answers'),
+                    labels=post_data.get("labels"),
+                    submit_time=datetime.now(),
+                    identity_choices=post_data.get("identity_choices"),
+                    bot_detected=post_data.get("bot_detected"),
+                    reason=post_data.get("reason"),
+                )
+                db.session.add(condition_2_data)
+            
+            else:
+                condition_3_data = Condition_3(
+                    participantId=post_data.get('participantId'),
+                    assignmentId=post_data.get('assignmentId'),
+                    projectId=post_data.get('projectId'),
+                    total_time=post_data.get('total_time'),
+                    attention_passed=post_data.get('attention_passed'),
+                    ideology_answers=post_Data.get("type_A_answers"),
+                    non_ideology_answers=post_data.get('type_B_answers'),
+                    additional_answers=post_data.get('type_D_answers'),
+                    labels=post_data.get("labels"),
+                    submit_time=datetime.now(),
+                    identity_choices=post_data.get("identity_choices"),
+                    bot_detected=post_data.get("bot_detected"),
+                    reason=post_data.get("reason"),
+                )
+                db.session.add(condition_3_data)
 
             db.session.commit()
             return jsonify({'message':'Valid data submitted'}), 200
