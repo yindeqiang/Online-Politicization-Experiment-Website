@@ -397,7 +397,6 @@ function init_phase_1() {
         let human_answer = index_of_choice_clicked;
         let bot_answers = generate_answers_for_bots(human_answer);
         temp_answers = [bot_answers[0], human_answer, bot_answers[1]];
-        console.log(temp_answers);
         each_answer.time_to_answer[human_index] = (Date.now() - start_time[human_index]) / 1000;    // track user time to answer
 
         // calculate distance, to be modified later
