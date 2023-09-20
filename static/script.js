@@ -394,8 +394,9 @@ function init_phase_1() {
             <span class="dots"></span>
         `;
         transform_dots();
-        temp_answers = generate_answers_for_bots();
-        temp_answers.splice(human_index, 0, index_of_choice_clicked);                               // track user answer
+        temp_answers.splice(human_index, 0, index_of_choice_clicked);
+        temp_answers = generate_answers_for_bots();                                                 // track user answer
+        console.log(temp_answers);
         each_answer.time_to_answer[human_index] = (Date.now() - start_time[human_index]) / 1000;    // track user time to answer
 
         // calculate distance, to be modified later

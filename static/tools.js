@@ -363,17 +363,18 @@ function generate_answers_for_bots() {
 
         // preference question
         else {
-            let user_value = temp_answers[0];
+            let user_value = temp_answers[human_index];
             let ranks = get_ranks(phase_1_distances);
             for (let index = 0; index < num_of_bots; index++) {
                 // from the farthest to the nearest
                 if (ranks[index] == firstBotIndex) {
-                    ret.push(user_value);
+                    ret[firstBotIndex] = user_value;
                 } else if (ranks[index] == lastBotIndex) {
-                    ret.push(1 - user_value);
+                    ret[lastBotIndex] = 1 - user_value;
                 }
             }
         }
+        ret[human_index] = temp_answers[human_index];
         return ret;
     }
 
