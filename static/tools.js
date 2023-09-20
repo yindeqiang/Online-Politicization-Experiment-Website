@@ -341,14 +341,12 @@ function track_answers() {
 
 
 
-function generate_answers_for_bots() {
+function generate_answers_for_bots(human_answer) {
     if (phase == 1) {
         let ret = [];
-
         // issue question
         if (index_of_question < phase_1_statements[0].length + phase_1_statements[1].length) {
             let randValue = Math.random();
-            // console.log(phase_1_probability[data.ideologies[firstBotIndex.toString()]][index_of_question], phase_1_probability[data.ideologies[lastBotIndex.toString()]][index_of_question]);
             if (randValue <= phase_1_probability[data.ideologies[firstBotIndex.toString()]][index_of_question])
                 ret.push(1);
             else
@@ -363,18 +361,15 @@ function generate_answers_for_bots() {
 
         // preference question
         else {
-            let user_value = temp_answers[human_index];
             let ranks = get_ranks(phase_1_distances);
             for (let index = 0; index < num_of_bots; index++) {
                 // from the farthest to the nearest
-                if (ranks[index] == firstBotIndex) {
-                    ret[firstBotIndex] = user_value;
-                } else if (ranks[index] == lastBotIndex) {
-                    ret[lastBotIndex] = 1 - user_value;
-                }
+                if (ranks[index] == 1)
+                    ret.push(human_answer);
+                else if (ranks[index] == 2)
+                    ret.push(1 - human_answer);
             }
         }
-        ret[human_index] = temp_answers[human_index];
         return ret;
     }
 

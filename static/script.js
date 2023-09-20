@@ -394,15 +394,17 @@ function init_phase_1() {
             <span class="dots"></span>
         `;
         transform_dots();
-        temp_answers.splice(human_index, 0, index_of_choice_clicked);
-        temp_answers = generate_answers_for_bots();                                                 // track user answer
+        let human_answer = index_of_choice_clicked;
+        let bot_answers = generate_answers_for_bots(human_answer);
+        temp_answers = [bot_answers[0], human_answer, bot_answers[1]];
         console.log(temp_answers);
         each_answer.time_to_answer[human_index] = (Date.now() - start_time[human_index]) / 1000;    // track user time to answer
 
         // calculate distance, to be modified later
         if (question_seqNum_in_phase < phase_1_statements[0].length + phase_1_statements[1].length) {
-            for (let index = 0; index < num_of_participants; index++)
-                phase_1_distances[index] += Math.abs(temp_answers[human_index] - temp_answers[index]);
+            // hard-coding
+            phase_1_distances[0] += Math.abs(temp_answers[0] - temp_answers[1]);
+            phase_1_distances[1] += Math.abs(temp_answers[2] - temp_answers[1]);
         }
 
         // for the special question, wait for the last participant after the human participant finishes answering.
