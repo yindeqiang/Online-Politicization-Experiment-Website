@@ -1,0 +1,12 @@
+The mean opinions of ideology group -2~-1 and -1~0 don't have a significant difference, p=0.32
+The mean opinion of ideology group 1~2 is significantly greater than that of group 0~1.
+
+For human of ideology group 0 and bot of group 0: The mean opinion of human when he answers first is significantly smaller than that when he doesn't, p=0.04
+For human of ideology group 0 and bot of group 1: The mean opinions of human whether he answers first or not show no significant difference, p=0.62
+For human of ideology group 0 and bot of group 2: The mean opinions of human whether he answers first or not show no significant difference, p=0.92
+For human of ideology group 1 and bot of group 0: The mean opinions of human whether he answers first or not show no significant difference, p=0.32
+For human of ideology group 1 and bot of group 1: The mean opinions of human whether he answers first or not show no significant difference, p=0.16
+For human of ideology group 1 and bot of group 2: The mean opinions of human whether he answers first or not show no significant difference, p=0.58
+For human of ideology group 2 and bot of group 0: The mean opinions of human whether he answers first or not show no significant difference, p=0.15
+For human of ideology group 2 and bot of group 1: The mean opinions of human whether he answers first or not show no significant difference, p=0.50
+For human of ideology group 2 and bot of group 2: The mean opinions of human whether he answers first or not show no significant difference, p=0.75
