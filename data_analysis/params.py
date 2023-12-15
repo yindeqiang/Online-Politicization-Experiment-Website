@@ -106,3 +106,23 @@ bot_detection_title_map = {
     "Yes": "Bot detected",
     "No": "Bot not detected"
 }
+
+label_map = {
+    'Liberal': 0,
+    'Somewhat liberal': 1,
+    'Conservative': 2,
+    'Somewhat conservative': 3,
+    'Kind': 4,
+    'Indifferent': 5,
+    'Mature': 6,
+    'Naive': 7,
+    'Competent': 8,
+    'Incompetent': 9,
+}
+
+
+ideology_group_title_map = {
+    0: "left",
+    1: "middle",
+    2: "right"
+}
