@@ -1,4 +1,3 @@
-from crypt import methods
 from email import header
 import time
 from flask import Flask, render_template, request, url_for, send_from_directory, redirect, jsonify
