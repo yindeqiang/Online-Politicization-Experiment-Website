@@ -1,4 +1,4 @@
-[
+const phase_1_statements = [
     [
         {
             "statement": "Government regulation of business is necessary to protect the public interest.",

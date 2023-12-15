@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <title>Homepage</title>
-        <link href="{{ url_for('static', filename="style.css") }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename="css/style.css") }}" rel="stylesheet">
         <script>
             var userData = {
                 participantId: '{{ participantId }}',
@@ -17,8 +17,8 @@
             else
                 idExisted = false;
         </script>
-        <script src="{{ url_for('static', filename="tools.js") }}" defer></script>
-        <script src="{{ url_for('static', filename="script_consentform.js") }}" defer></script>
+        <script src="{{ url_for('static', filename="js/utils.js") }}" defer></script>
+        <script src="{{ url_for('static', filename="js/script_consentform.js") }}" defer></script>
     </head>
     <body class="body_homepage">
         <h1>
@@ -46,7 +46,7 @@
             </p>
         {% elif quiz_type == 'pilot_2' %}
             <p>
-                In this survey, you will be asked 27 questions on your ideology, hard facts, predictions of the future, and some potentially controversial public issues.
+                In this survey, you will be asked 11 questions on your ideology, hard facts, predictions of the future, and some potentially controversial public issues.
             </p>
         {% elif quiz_type == "condition_1" %}
             <p>

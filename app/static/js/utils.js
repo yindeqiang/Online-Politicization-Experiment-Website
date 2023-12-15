@@ -98,12 +98,12 @@ function get_slider_value(eSlider) {
             slider_value.innerHTML = parseFloat(eSlider.value).toFixed(1);
         }
         else {
-            let step = phase_3_statements[index_of_question].step;
+            let step = question_wrap.step;
             let fix_num = Math.max(-Math.floor(Math.log10(step)), 0);
-            if (phase_3_statements[index_of_question].type != 'fact')
+            if (question_wrap.type != 'fact')
                 slider_value.innerHTML = parseFloat(eSlider.value).toFixed(2);
             else {
-                if (phase_3_statements[index_of_question].percentage)
+                if (question_wrap.percentage)
                     slider_value.innerHTML = `${parseFloat(eSlider.value * 100).toFixed(Math.max(fix_num - 2, 0))}%`;
                 else
                     slider_value.innerHTML = parseFloat(eSlider.value).toFixed(fix_num);
@@ -182,14 +182,13 @@ function add_mark_texts(name_list, area = document) {
 
 
 function generate_and_add_mark_texts() {
-    let index = index_of_question;
-    if (phase_3_statements[index].type == 'issue')
+    if (question_wrap["type"] == 'issue')
         add_mark_texts(mark_texts.issue);
-    else if (phase_3_statements[index].type == 'prediction')
+    else if (question_wrap["type"] == 'prediction')
         add_mark_texts(mark_texts.prediction);
     else {
-        let min = phase_3_statements[index].range[0];
-        let max = phase_3_statements[index].range[1];
+        let min = question_wrap["range"][0];
+        let max = question_wrap["range"][1];
         let mark_texts = [];
         for (let i = 0; i <= 6; i++) {
             let number = min + (max - min) / 6 * i;
@@ -240,9 +239,9 @@ function display_values() {
 
         // slider
         if (answers_first != human_index) {
-            if (phase_3_statements[index_of_question].type == 'fact') {
-                min = phase_3_statements[index_of_question].range[0];
-                max = phase_3_statements[index_of_question].range[1];
+            if (phase_2_statements[index_of_question].type == 'fact') {
+                min = phase_2_statements[index_of_question].range[0];
+                max = phase_2_statements[index_of_question].range[1];
             }
             let dis_from_left = 10 + 97 * (value - min) / ((max - min) / 6);
             document.querySelector(".answers_mark").innerHTML += `
@@ -375,10 +374,10 @@ function generate_answers_for_bots(human_answer) {
 
     else if (phase == 3) {
         let max = 3, min = -3, step = 0.1;
-        if (phase_3_statements[index_of_question].type == 'fact') {
-            max = phase_3_statements[index_of_question].range[1];
-            min = phase_3_statements[index_of_question].range[0];
-            step = phase_3_statements[index_of_question].step;
+        if (phase_2_statements[index_of_question].type == 'fact') {
+            max = phase_2_statements[index_of_question].range[1];
+            min = phase_2_statements[index_of_question].range[0];
+            step = phase_2_statements[index_of_question].step;
         }
         return generate_random_answer(min, max, step);
     }

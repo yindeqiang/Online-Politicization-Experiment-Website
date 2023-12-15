@@ -4,7 +4,7 @@
     <head>
         <meta charset="utf-8">
         <title>Quiz</title>
-        <link href="{{ url_for('static', filename="style.css") }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename="css/style.css") }}" rel="stylesheet">
         <script>
             var userData = {
                 participantId: '{{ participantId }}',
@@ -19,13 +19,17 @@
                 idExisted = false;
         </script>
         <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-        <script src="{{ url_for('static', filename="DOM.js") }}" defer></script>
-        <script src="{{ url_for('static', filename="tools.js") }}" defer></script>
+        <script src="{{ url_for('static', filename="data/phase_1_statements.js") }}" defer></script>
+        <script src="{{ url_for('static', filename="data/phase_2_statements.js") }}" defer></script>
+        <script src="{{ url_for('static', filename="js/utils.js") }}" defer></script>
+        <script src="{{ url_for('static', filename="js/DOM.js") }}" defer></script>
+        
         {% if quiz_type == 'pilot_2' %}
-            <script src="{{ url_for('static', filename="script_pilot_2.js") }}" defer></script>
+            <script src="{{ url_for('static', filename="js/script_pilot_2.js") }}" defer></script>
         {% else %}
-            <script src="{{ url_for('static', filename="script.js") }}" defer></script>
+            <script src="{{ url_for('static', filename="js/script.js") }}" defer></script>
         {% endif %}
+
     </head>
     <body>
         <div class="quiz_body"></div>

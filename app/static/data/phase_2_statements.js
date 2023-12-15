@@ -1,24 +1,24 @@
-{
+const phase_2_statements = {
     "prediction": [
         {
             "text": "The government should invest more scientific research funding into space exploration instead of virtual reality technology.",
             "alignment": 0,
-            "type": "original"
+            "type": "prediction"
         },
         {
             "text": "I think development of artificial intelligence should take priority over space engineering.",
             "alignment": 1,
-            "type": "alteration"
+            "type": "prediction"
         },
         {
             "text": "Consider a scenario where there are two strategies to save humanity from extinction: Plan A involves expanding human life into outer space, while Plan B focuses on transitioning human existence into virtual reality. In this context, I would favor Plan A over Plan B.",
             "alignment": 0,
-            "type":"alteration"
+            "type":"prediction"
         },
         {
             "text": "If a Nobel Prize for Engineering were to be established, it should be awarded for advancements in virtual reality technology rather than for space exploration.",
             "alignment": 1,
-            "type":"alteration"
+            "type":"prediction"
         }
     ],
 
@@ -26,22 +26,22 @@
         {
             "text": "If robots and computers were able to perform most of the jobs currently being done by humans, the economy as a whole would be more efficient.",
             "alignment": 0,
-            "type": "original"
+            "type": "issue"
         },
         {
             "text": "The advancements in Artificial Intelligence won't reduce costs or boost human productivity.",
             "alignment": 1,
-            "type": "alteration"
+            "type": "issue"
         },
         {
             "text": "In a hypothetical world where robots and AI handle the bulk of human employment, from manufacturing to management, I think this automation revolution would make the economy run smoother.",
             "alignment": 0,
-            "type": "alteration"
+            "type": "issue"
         },
         {
             "text": "Envision a future where our workforce is predominantly robotic, with AI and machines performing tasks that humans currently do. In my opinion, this radical shift wouldn't result in any boost in economic efficiency.",
             "alignment": 1,
-            "type":"alteration"
+            "type":"issue"
         }
     ],
 
@@ -50,13 +50,15 @@
             "text": "What was the percentage of the population growth in California from 2010 to 2020?",
             "range": [0.01, 0.1],
             "step": 0.001,
-            "percentage": true
+            "percentage": true,
+            "type": "fact"
         },
         {
-            "statement": "How many cells on average does an adult body produce every second? (in million)",
+            "text": "How many cells on average does an adult body produce every second? (in million)",
             "range": [18, 30],
             "step": 0.1,
-            "percentage": false
+            "percentage": false,
+            "type": "fact"
         }
     ]
 }

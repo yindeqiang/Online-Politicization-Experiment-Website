@@ -392,20 +392,20 @@ const end_quiz_string = `
 
 const phase_3_types_first_index = [-1, -1, -1];
 
-let index = 0;
-for (let statement_wrap of phase_3_statements) {
-    if (statement_wrap.type == "fact") {
-        if (phase_3_types_first_index[0] == -1)
-            phase_3_types_first_index[0] = index;
-    } else if (statement_wrap.type == "prediction") {
-        if (phase_3_types_first_index[1] == -1)
-            phase_3_types_first_index[1] = index;
-    } else {
-        if (phase_3_types_first_index[2] == -1)
-            phase_3_types_first_index[2] = index;
-    }
-    index++;
-}
+// let index = 0;
+// for (let statement_wrap of phase_2_statements) {
+//     if (statement_wrap.type == "fact") {
+//         if (phase_3_types_first_index[0] == -1)
+//             phase_3_types_first_index[0] = index;
+//     } else if (statement_wrap.type == "prediction") {
+//         if (phase_3_types_first_index[1] == -1)
+//             phase_3_types_first_index[1] = index;
+//     } else {
+//         if (phase_3_types_first_index[2] == -1)
+//             phase_3_types_first_index[2] = index;
+//     }
+//     index++;
+// }
 
 const mark_texts = {
     'issue': [
