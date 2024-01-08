@@ -140,9 +140,13 @@ function enter_next() {
     }
 
     document.querySelector("button").addEventListener("click", () => {
+        question_info = phase_2_statements[question_type][type_index]
+        each_answer.idx_of_question = question_info.index;
+        let answer = parseFloat(slider.value);
+        if (question_type == "fact")
+            answer = -3 + (answer - question_info["range"][0]) / (question_info["range"][1] - question_info["range"][0]) * 6;
+        each_answer.answer = answer;
 
-        each_answer.idx_of_question = phase_2_statements[question_type][type_index].index;
-        each_answer.answer = parseFloat(slider.value)
         pilot_2_answers.push(each_answer);
         each_answer = JSON.parse(JSON.stringify(each_answer));
 
