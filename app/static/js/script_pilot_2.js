@@ -3,7 +3,7 @@ let quiz_body = document.querySelector(".quiz_body");
 let pilot_2_currentTime = new Date();
 let pilot_2_startTime = Date.now();
 let pilot_2_ideology_label = 0;     // answer to the first questions
-let pilot_2_answers = [];           // answers from the second questions
+let pilot_2_answers = [];
 let num_of_questions = 11;
 
 quiz_body.innerHTML = `
@@ -48,7 +48,12 @@ let index_of_question = 0;
 let type_index = 0;
 document.querySelector("button").addEventListener("click", enter_next);
 
-var data = {
+let each_answer = {
+    idx_of_question: 0,
+    answer: 0
+};
+
+let data = {
     participantId: userData.participantId,
     assignmentId: userData.assignmentId,
     projectId: userData.projectId,
@@ -136,7 +141,10 @@ function enter_next() {
 
     document.querySelector("button").addEventListener("click", () => {
 
-        pilot_2_answers.push(parseFloat(slider.value));     // track answers
+        each_answer.idx_of_question = phase_2_statements[question_type][type_index].index;
+        each_answer.answer = parseFloat(slider.value)
+        pilot_2_answers.push(each_answer);
+        each_answer = JSON.parse(JSON.stringify(each_answer));
 
         if (index_of_question < 9) {
             index_of_question += 1;
@@ -163,18 +171,19 @@ function enter_next() {
             data.total_time = pilot_2_elapsedTime;
 
             if (!idExisted && userData.participantId != '') {
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    url: `/${userData.quiz_type}/quiz`,
-                    data: JSON.stringify(data),
-                    dataType: "json"
-                });
-                let button = document.querySelector("button");
-                button.disabled = false;
-                button.addEventListener("click", () => {
-                    window.location.href = "https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete";
-                })
+                console.log(data);
+                // $.ajax({
+                //     type: "POST",
+                //     contentType: "application/json",
+                //     url: `/${userData.quiz_type}/quiz`,
+                //     data: JSON.stringify(data),
+                //     dataType: "json"
+                // });
+                // let button = document.querySelector("button");
+                // button.disabled = false;
+                // button.addEventListener("click", () => {
+                //     window.location.href = "https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete";
+                // })
             }
 
         }
