@@ -171,19 +171,18 @@ function enter_next() {
             data.total_time = pilot_2_elapsedTime;
 
             if (!idExisted && userData.participantId != '') {
-                console.log(data);
-                // $.ajax({
-                //     type: "POST",
-                //     contentType: "application/json",
-                //     url: `/${userData.quiz_type}/quiz`,
-                //     data: JSON.stringify(data),
-                //     dataType: "json"
-                // });
-                // let button = document.querySelector("button");
-                // button.disabled = false;
-                // button.addEventListener("click", () => {
-                //     window.location.href = "https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete";
-                // })
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: `/${userData.quiz_type}/quiz`,
+                    data: JSON.stringify(data),
+                    dataType: "json"
+                });
+                let button = document.querySelector("button");
+                button.disabled = false;
+                button.addEventListener("click", () => {
+                    window.location.href = "https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete";
+                })
             }
 
         }
