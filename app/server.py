@@ -48,7 +48,7 @@ if not app.config["DEBUG"]:
     class Pilot_2(Base):
         __tablename__ = "pilot_2"
         pilot_2_answers = Column(JSON)
-        ideology_label = Column(Integer)
+        ideology_label = Column(Float)
 
     class Condition_1(Base):
         __tablename__ = "condition_1"
