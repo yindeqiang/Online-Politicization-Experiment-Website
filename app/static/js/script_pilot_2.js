@@ -2,56 +2,9 @@ let phase = 3;
 let quiz_body = document.querySelector(".quiz_body");
 let pilot_2_currentTime = new Date();
 let pilot_2_startTime = Date.now();
-let pilot_2_ideology_label = 0;     // answer to the first questions
 let pilot_2_answers = [];
 let num_of_questions = 11;
 
-quiz_body.innerHTML = `
-    <p class="question">Q1 / ${num_of_questions}. How would you describe your political ideology?</p>
-    <form class="form_ideology" style="margin: auto; margin-top: 30px">
-        <label>
-            <input type="radio" name="ideology" value="-2">
-            Liberal
-        </label><br>
-        <label>
-            <input type="radio" name="ideology" value="-1">
-            Somewhat Liberal
-        </label><br>
-        <label>
-            <input type="radio" name="ideology" value="0">
-            Neutral
-        </label><br>
-        <label>
-            <input type="radio" name="ideology" value="1">
-            Somewhat Conservative
-        </label><br>
-        <label>
-            <input type="radio" name="ideology" value="2">
-            Conservative
-        </label><br>
-    </form>
-    <button type="button" class="button_big" style="width: 200px" disabled="true">Submit</button>
-`;
-
-document.querySelector("form").addEventListener("click", () => {
-    let index = 0;
-    document.querySelectorAll("input").forEach((input) => {
-        if (input.checked) {
-            document.querySelector("button").disabled = false;
-            pilot_2_ideology_label = index;
-        }
-        index++;
-    });
-});
-
-let index_of_question = 0;
-let type_index = 0;
-document.querySelector("button").addEventListener("click", enter_next);
-
-let each_answer = {
-    idx_of_question: 0,
-    answer: 0
-};
 
 let data = {
     participantId: userData.participantId,
@@ -63,6 +16,34 @@ let data = {
     attention_passed: 0
 };
 
+quiz_body.innerHTML = `
+    <p class="question">Q1 / ${num_of_questions}. How would you describe your political ideology?</p>
+    <div class="input">
+        <input type="range" max="2" min="-2" step="0.1" oninput="get_slider_value(this)">
+            <div class="answers_mark"></div>
+                <div class="scales">
+                    <div class="scale" style="left: 10px"></div>
+                    <div class="scale" style="left: 155.75px"></div>
+                    <div class="scale" style="left: 301px"></div>
+                    <div class="scale" style="left: 446px"></div>
+                    <div class="scale" style="left: 591px"></div>
+                </div>
+        <div class="mark_texts"></div>
+    </div>
+    <button type="button" class="button_big" style="width: 200px" disabled="true">Submit</button>
+`;
+
+add_mark_texts([`Liberal`, 'Somewhat<br>Liberal', `Neutral`, `Somewhat<br>Conservative`, `Conservative`]);
+
+let index_of_question = 0;
+let type_index = 0;
+document.querySelector("button").addEventListener("click", enter_next);
+
+let each_answer = {
+    idx_of_question: 0,
+    answer: 0
+};
+
 let question_answered = {
     "issue": [false, false, false, false],
     "prediction": [false, false, false, false],
@@ -70,6 +51,9 @@ let question_answered = {
 
 
 function enter_next() {
+
+    if (index_of_question == 0)
+        data.ideology_label = parseFloat(document.querySelector("input[type=range]").value);
     quiz_body.innerHTML = phase_3_body_string;
     let statement = document.querySelector(".statement_phase_3");
     let question = document.querySelector(".question_phase_3");
@@ -170,7 +154,6 @@ function enter_next() {
             let pilot_2_endTime = Date.now();
             let pilot_2_elapsedTime = (pilot_2_endTime - pilot_2_startTime) / 1000;     // in seconds
 
-            data.ideology_label = pilot_2_ideology_label;
             data.pilot_2_answers = pilot_2_answers;
             data.total_time = pilot_2_elapsedTime;
 
