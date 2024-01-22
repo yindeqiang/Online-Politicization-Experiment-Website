@@ -13,7 +13,7 @@ const phase_2_statements = {
             "index": 1,
         },
         {
-            "text": "Consider a scenario where there are two strategies to save humanity from extinction: Plan A involves expanding human life into outer space, while Plan B focuses on transitioning human existence into virtual reality. In this context, I would favor Plan A over Plan B.",
+            "text": "In the realm of scientific advancement, it's more crucial to channel efforts and resources into space exploration rather than the development of virtual reality technology.",
             "alignment": 0,
             "type":"prediction",
             "index": 2,
