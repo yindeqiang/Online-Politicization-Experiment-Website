@@ -197,7 +197,8 @@ label_map = {
 
 
 ideology_group_title_map = {
-    0: "left",
-    1: "middle",
-    2: "right"
+    "all": "All participants",
+    0: "Liberal participants",
+    1: "Neutral participants",
+    2: "Conservative participants"
 }

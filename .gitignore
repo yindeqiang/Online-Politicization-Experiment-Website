@@ -5,3 +5,5 @@ test.*
 static/.DS_Store
 
 .DS_Store
+
+key.py

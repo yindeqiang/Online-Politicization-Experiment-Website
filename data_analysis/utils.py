@@ -3,7 +3,9 @@ import numpy as np
 import matplotlib.pyplot
 import pandas as pd
 import datetime
-
+import MySQLdb
+import sshtunnel
+from key import *
 
 
 def sliding_average(x, y, window_half_width=0.75, window_slide=0.1):
@@ -41,13 +43,36 @@ def get_datetime_str():
 
 
 
-def load_data(conditions, path="data/"):
-    df = None
-    if isinstance(conditions, int):
-        df = pd.read_csv(path + f"condition_{conditions}.csv")
-    elif isinstance(conditions, list):
-        for condition in conditions:
-            df = pd.concat([df, pd.read_csv(path + f"condition_{condition}.csv")])
-    else:
-        raise ValueError
-    return df
+def LoadData(command):
+    sshtunnel.SSH_TIMEOUT = 5.0
+    sshtunnel.TUNNEL_TIMEOUT = 5.0
+
+    with sshtunnel.SSHTunnelForwarder(
+        ('ssh.pythonanywhere.com'),
+        ssh_username=ssh_username, ssh_password=ssh_password,
+        remote_bind_address=('Grawi.mysql.pythonanywhere-services.com', 3306)
+    ) as tunnel:
+        print("Successfully connected to Pythonanywhere")
+        connection = MySQLdb.connect(
+            user=db_user,
+            passwd=db_password,
+            host='127.0.0.1', port=tunnel.local_bind_port,
+            db='Grawi$Interactive_quiz_database',
+        )
+        print("Successfully connected to database")
+        
+        try:
+            cursor = connection.cursor()
+            query = command     # "SELECT * FROM pilot_1;"
+            df = pd.read_sql(query, connection)
+            df = df.loc[df["participantId"] != "testId"]
+            print(f"Data read finished, length {len(df)}")
+            return df
+
+        except Exception as e:
+            print("Error:", e)
+        
+        finally:
+            # Close the cursor and connection
+            cursor.close()
+            connection.close()
