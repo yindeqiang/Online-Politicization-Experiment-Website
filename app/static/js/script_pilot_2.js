@@ -1,10 +1,10 @@
-let phase = 3;
+const phase = 3;
 let quiz_body = document.querySelector(".quiz_body");
 let pilot_2_currentTime = new Date();
-let pilot_2_startTime = Date.now();
+const pilot_2_startTime = Date.now();
 let pilot_2_answers = [];
-let num_of_questions = 11;
-
+const num_of_questions = 25;
+const attention_check_question_index = 20;
 
 let data = {
     participantId: userData.participantId,
@@ -17,7 +17,7 @@ let data = {
 };
 
 const ideology_question_string = `
-    <p class="question">Q11 / ${num_of_questions}. How would you describe your political ideology?</p>
+    <p class="question">Q1 / ${num_of_questions + 1}. How would you describe your political ideology?</p>
     <div class="input">
         <input type="range" max="2" min="-2" step="0.1" oninput="get_slider_value(this)">
             <div class="answers_mark"></div>
@@ -33,150 +33,207 @@ const ideology_question_string = `
     <button type="button" class="button_big" style="width: 200px" disabled="true">Submit</button>
 `;
 
-let index_of_question = 0;
-let type_index = 0;
+// Sample and shuffle questions from phase_2_statements
+const allQuestionsWithTypes = Object.entries(phase_2_statements).flatMap(([type, questions]) => 
+    questions.map(question => ({
+        ...question,
+        type: type // Add the type to each question object
+    }))
+);
 
-let each_answer = {
-    idx_of_question: 0,
-    answer: 0
+function shuffle(array) {
+    let currentIndex = array.length, temporaryValue, randomIndex;
+
+    // While there remain elements to shuffle...
+    while (currentIndex !== 0) {
+        // Pick a remaining element...
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex -= 1;
+
+        // And swap it with the current element.
+        temporaryValue = array[currentIndex];
+        array[currentIndex] = array[randomIndex];
+        array[randomIndex] = temporaryValue;
+    }
+
+    return array;
+}
+
+const shuffledQuestions = shuffle([...allQuestionsWithTypes]).slice(0, 25);
+
+const questionCounts = {
+    design: 0,
+    fact: 0,
+    prediction: 0,
+    issue: 0
 };
 
-let question_answered = {
-    "issue": [false, false, false, false],
-    "prediction": [false, false, false, false],
-}
+shuffledQuestions.forEach(question => {
+    questionCounts[question.type] += 1;
+});
+
+console.log(questionCounts);
+
+let index_of_question = 0;
+
+let each_answer = {
+    index: 0,
+    type: 0,
+    answer: 0
+};
 
 enter_next();
 
 function enter_next() {
-    // change page interface
-    if (index_of_question == 10) {
-        quiz_body.innerHTML = ideology_question_string;
-        add_mark_texts([`Liberal`, 'Somewhat<br>Liberal', `Neutral`, `Somewhat<br>Conservative`, `Conservative`]);
-        document.querySelector("button").addEventListener("click", () => {
-            data.ideology_label = parseFloat(document.querySelector("input[type=range]").value);
-            document.querySelector(".quiz_body").innerHTML = `
-                <div class="end">
-                    <h1>For Your Information</h1>
-                    <p>
-                        Thank you for finishing in this survey! By clicking “Finish”, you will be redirected back to the Connect platform and get your rewards.
-                    </p>
-                    <button type="button" class="button_big" disabled="true">Finish</button>
-                </div>
-            `;
-            let pilot_2_endTime = Date.now();
-            let pilot_2_elapsedTime = (pilot_2_endTime - pilot_2_startTime) / 1000;     // in seconds
-
-            data.pilot_2_answers = pilot_2_answers;
-            data.total_time = pilot_2_elapsedTime;
-
-            if (!idExisted && userData.participantId != '') {
-                $.ajax({
-                    type: "POST",
-                    contentType: "application/json",
-                    url: `/${userData.quiz_type}/quiz`,
-                    data: JSON.stringify(data),
-                    dataType: "json"
-                });
-                let button = document.querySelector("button");
-                button.disabled = false;
-                button.addEventListener("click", () => {
-                    window.location.href = "https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete";
-                })
-            }
-        });
-    }
-
-    else {
-        quiz_body.innerHTML = phase_3_body_string;
-        let statement = document.querySelector(".statement_phase_3");
-        let question = document.querySelector(".question_phase_3");
-        let slider = document.querySelector("input[type=range]");
-        question.innerHTML = `Q${index_of_question + 1} / ${num_of_questions}. `;
-        let question_type = "";
-        if (index_of_question >= 8)
-            question_type = "fact";
-        else if (index_of_question % 2 == 0)
-            question_type = "issue";
-        else if (index_of_question % 2 == 1)
-            question_type = "prediction";
-
-        switch (question_type) {
-            case "issue":
-                question.innerHTML += `Do you agree with the following statement?`;
-                break;
-            case "prediction":
-                question.innerHTML += `How likely do you think the following prediction is to be true?`;
-                break;
-            case "fact":
-                question.innerHTML += `Select your answer to the following question:`;
-                break;
-        }
-
-        statement_text = ""
-        if (index_of_question >= 8) {
-            type_index = index_of_question - 8;
-        } else {
-            while (true) {
-                type_index = Math.floor(Math.random() * 4);
-                if (!question_answered[question_type][type_index]) {
-                    question_answered[question_type][type_index] = true;
-                    break;
-                }
-            }
-        }
-        statement_text = phase_2_statements[question_type][type_index].text;
-        statement.innerHTML = `"` + statement_text + `"`;
-        question_wrap = phase_2_statements[question_type][type_index]
-        generate_and_add_mark_texts()
-        
-        if (question_type == 'fact') {
-            min_value = phase_2_statements[question_type][type_index].range[0];
-            max_value = phase_2_statements[question_type][type_index].range[1];
-            step = phase_2_statements[question_type][type_index].step;
-            slider.min = min_value;
-            slider.max = max_value;
-            slider.step = phase_2_statements[question_type][type_index].step;
-            slider.value = (min_value + max_value) / 2;
-        }
-
-        let display_value = document.querySelector(".display_value");
-
-        if (question_type == "fact") {
-            if (Math.abs(min_value) >= 1) {
-                display_value.innerHTML += `
-                    Your value:
-                    <span id="slider_value">${(max_value + min_value) / 2}</span>
-                `;
-            } else {
-                display_value.innerHTML += `
-                    Your value:
-                    <span id="slider_value">${100 * (max_value + min_value) / 2}%</span>
-                `;
-            }
-        }
-        document.querySelector("button").addEventListener("click", () => {
-            if (index_of_question < 10) {
-                question_info = phase_2_statements[question_type][type_index]
-                each_answer.idx_of_question = question_info.index;
-                let answer = parseFloat(slider.value);
-                if (question_type == "fact")
-                    answer = -3 + (answer - question_info["range"][0]) / (question_info["range"][1] - question_info["range"][0]) * 6;
-                each_answer.answer = answer;
-                pilot_2_answers.push(each_answer);
-                each_answer = JSON.parse(JSON.stringify(each_answer));    
-                index_of_question += 1;
-                if (index_of_question == 5) {
-                    attention_check();
-                } else {
-                    enter_next();
-                }
-            }
-        });
+    if (index_of_question === 0) {
+        displayIdeologyQuestion();
+    } else if (index_of_question <= 25) {
+        each_answer.index = shuffledQuestions[index_of_question - 1].index;
+        each_answer.type = shuffledQuestions[index_of_question - 1].type;
+        displayQuestion(shuffledQuestions[index_of_question - 1]);
+    } else {
+        end_quiz();
     }
 }
 
+function displayIdeologyQuestion() {
+    quiz_body.innerHTML = ideology_question_string;
+    add_mark_texts([`Liberal`, 'Somewhat<br>Liberal', `Neutral`, `Somewhat<br>Conservative`, `Conservative`]);
+    document.querySelector("button").addEventListener("click", () => {
+        data.ideology_label = parseFloat(document.querySelector("input[type=range]").value);
+        index_of_question += 1;
+        enter_next();
+    });
+}
 
+function displayQuestion(questionInfo) {
+    let inputHTML = '';
+    switch (questionInfo.type) {
+        case "issue":
+            inputHTML = `
+                <div class="choice-container">
+                    <label class="choice-label"><input type="radio" name="choice" value="0" class="choice-radio">Agree</label>
+                </div>
+                <div class="choice-container">
+                    <label class="choice-label"><input type="radio" name="choice" value="1" class="choice-radio">Disagree</label>
+                </div>
+            `;
+            break;
+        case "prediction":
+        case "fact":
+            inputHTML = `
+                <div class="choice-container">
+                    <label class="choice-label"><input type="radio" name="choice" value="0" class="choice-radio">Yes</label>
+                </div>
+                <div class="choice-container">
+                    <label class="choice-label"><input type="radio" name="choice" value="1" class="choice-radio">No</label>
+                </div>
+            `;
+            break;
+        case "design":
+            inputHTML = `
+                <div class="choice-container">
+                    <label class="choice-label"><input type="radio" name="choice" value="0" class="choice-radio">Left</label>
+                </div>
+                <div class="choice-container">
+                    <label class="choice-label"><input type="radio" name="choice" value="1" class="choice-radio">Right</label>
+                </div>
+            `;
+            break;
+    }
+    quiz_body.innerHTML = `
+        <div class="instruction_phase_3"></div>
+        <div class="identity_wrap phase_3_wrap"></div>
+        <div class="question_phase_3"></div>
+        <div class="statement_phase_3"></div>
+        <div class="image-container"></div>
+        <div class="input">${inputHTML}</div>
+        <div class="operation">
+            <span class="display_value"></span>
+            <button type="button" disabled="true">Submit</button>
+        </div>
+    `;
+    let statement = document.querySelector(".statement_phase_3");
+    let question = document.querySelector(".question_phase_3");
+    question.innerHTML = `Q${index_of_question + 1} / ${num_of_questions + 1}. `;
+    let question_type = questionInfo.type;
+    switch (question_type) {
+        case "issue":
+            question.innerHTML += `Do you agree or disagree with the following statement?`;
+            break;
+        case "prediction":
+            question.innerHTML += `Do you think the following prediction is to be true?`;
+            break;
+        case "fact":
+            question.innerHTML += `Do you think the following statement is true?`;
+            break;
+        case "design":
+            question.innerHTML += "Which design do you prefer?";
+            break;
+    }
+    const statement_text = questionInfo.text;
+    statement.innerHTML = `"` + statement_text + `"`;
+
+    if (questionInfo.type === 'design') {
+        loadImageForDesignQuestion(questionInfo.index);
+    }
+
+    // Enable the submit button once a choice is made
+    document.querySelectorAll('input[name="choice"]').forEach(radio => {
+        radio.addEventListener('change', function() {
+            document.querySelector('button').disabled = false;
+            each_answer.answer = this.value;
+        });
+    });
+
+    document.querySelector("button").addEventListener("click", () => {
+        index_of_question += 1;
+        if (index_of_question == attention_check_question_index) {
+            attention_check();
+        } else {
+            enter_next();
+        }
+    });
+}
+
+function loadImageForDesignQuestion(index) {
+    // Load and display images for design questions
+    let imgSrcA = `/static/data/design_pictures/${index}_a.jpg`;
+    let imgSrcB = `/static/data/design_pictures/${index}_b.jpg`;
+    document.querySelector('.image-container').innerHTML = `<img src="${imgSrcA}" alt="Design A"><img src="${imgSrcB}" alt="Design B">`;
+}
+
+function end_quiz() {
+    document.querySelector(".quiz_body").innerHTML = `
+        <div class="end">
+            <h1>For Your Information</h1>
+            <p>
+                Thank you for finishing in this survey! By clicking “Finish”, you will be redirected back to the Connect platform and get your rewards.
+            </p>
+            <button type="button" class="button_big" disabled="true">Finish</button>
+        </div>
+    `;
+    let pilot_2_endTime = Date.now();
+    let pilot_2_elapsedTime = (pilot_2_endTime - pilot_2_startTime) / 1000;     // in seconds
+
+    data.pilot_2_answers = pilot_2_answers;
+    data.total_time = pilot_2_elapsedTime;
+
+    if (!idExisted && userData.participantId != '') {
+        $.ajax({
+            type: "POST",
+            contentType: "application/json",
+            url: `/${userData.quiz_type}/quiz`,
+            data: JSON.stringify(data),
+            dataType: "json"
+        });
+        let button = document.querySelector("button");
+        button.disabled = false;
+        button.addEventListener("click", () => {
+            window.location.href = "https://connect.cloudresearch.com/participant/project/27f7e6b19c1947fbb6596dbdec058264/complete";
+        })
+    }
+}
 
 function attention_check() {
     document.querySelector(".quiz_body").innerHTML = attention_check_string;

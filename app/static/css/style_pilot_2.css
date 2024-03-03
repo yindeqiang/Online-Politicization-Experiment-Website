@@ -1,0 +1,47 @@
+.choice-container {
+    border: 2px solid grey; /* Blue border */
+    border-radius: 8px; /* Rounded corners */
+    width: 200px;
+    margin: auto;
+    margin-bottom: 10px; /* Space between the choices */
+    display: block; /* Ensure each container is on a new line */
+    cursor: pointer; /* Change cursor to pointer when hovering over the choice */
+    transition: background-color 0.3s ease; /* Smooth background-color transition */
+}
+
+.choice-label {
+    display: flex; /* Use flexbox for alignment */
+    align-items: center; /* Align the radio button and text vertically */
+    gap: 10px; /* Space between the radio button and the label text */
+    cursor: pointer; /* Ensure cursor changes to pointer on the label as well */
+    padding: 10px; /* Padding inside the box */
+}
+
+.choice-radio {
+    accent-color: #007BFF; /* Change the color of the radio button (works in most modern browsers) */
+}
+
+/* Highlight the choice container when a radio button inside it is focused or hovered */
+.choice-container:hover,
+.choice-radio:focus + .choice-label {
+    background-color: #E7F1FF; /* Light blue background on hover/focus */
+}
+
+/* Styling for when a radio is checked */
+.choice-radio:checked + .choice-label .choice-container {
+    border-color: #0056b3; /* Darker blue border for selected option */
+    background-color: #D0E7FF; /* Slightly darker blue background for selected option */
+}
+
+.image-container {
+    display: flex; /* Use flexbox to layout children */
+    justify-content: center; /* Center children horizontally */
+    align-items: center; /* Align children vertically in the center */
+    gap: 25px; /* Space between the two images */
+}
+
+.image-container img {
+    width: 225px; /* Example fixed width for each image */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Cover the area without breaking aspect ratio */
+}
