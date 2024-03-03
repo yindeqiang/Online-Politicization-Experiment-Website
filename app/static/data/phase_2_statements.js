@@ -16,7 +16,7 @@ const phase_2_statements = {
             "summary": "Adult body cell production rate"
         },
         {
-            "text": "The human body contains more atoms than there are stars in the Milky Way galaxy.",
+            "text": "The human body contains more atoms than there are stars   in the Milky Way galaxy.",
             "index": 3,
             "summary": "Body atoms vs. Milky Way stars"
         },

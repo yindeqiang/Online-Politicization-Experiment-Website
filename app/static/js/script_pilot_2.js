@@ -187,7 +187,7 @@ function displayQuestion(questionInfo) {
     });
     document.querySelector("button").addEventListener("click", () => {
         index_of_question += 1;
-        pilot_2_answers.push(each_answer);
+        pilot_2_answers.push(JSON.parse(JSON.stringify(each_answer)));
         if (index_of_question == attention_check_question_index) {
             attention_check();
         } else {
