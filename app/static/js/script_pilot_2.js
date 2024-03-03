@@ -72,7 +72,7 @@ shuffledQuestions.forEach(question => {
     questionCounts[question.type] += 1;
 });
 
-console.log(questionCounts);
+// console.log(questionCounts);
 
 let index_of_question = 0;
 
@@ -185,9 +185,9 @@ function displayQuestion(questionInfo) {
             each_answer.answer = this.value;
         });
     });
-
     document.querySelector("button").addEventListener("click", () => {
         index_of_question += 1;
+        pilot_2_answers.push(each_answer);
         if (index_of_question == attention_check_question_index) {
             attention_check();
         } else {
@@ -220,6 +220,7 @@ function end_quiz() {
     data.total_time = pilot_2_elapsedTime;
 
     if (!idExisted && userData.participantId != '') {
+        // console.log(data);
         $.ajax({
             type: "POST",
             contentType: "application/json",
