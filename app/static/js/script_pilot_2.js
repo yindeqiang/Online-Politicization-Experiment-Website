@@ -123,10 +123,10 @@ function displayQuestion(questionInfo) {
         case "fact":
             inputHTML = `
                 <div class="choice-container">
-                    <label class="choice-label"><input type="radio" name="choice" value="0" class="choice-radio">Yes</label>
+                    <label class="choice-label"><input type="radio" name="choice" value="0" class="choice-radio">True</label>
                 </div>
                 <div class="choice-container">
-                    <label class="choice-label"><input type="radio" name="choice" value="1" class="choice-radio">No</label>
+                    <label class="choice-label"><input type="radio" name="choice" value="1" class="choice-radio">False</label>
                 </div>
             `;
             break;
