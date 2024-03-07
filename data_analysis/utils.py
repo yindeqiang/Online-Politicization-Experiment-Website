@@ -40,39 +40,3 @@ def plot_with_std(ax, average: pandas.Series, low: pandas.Series, high: pandas.S
 
 def get_datetime_str():
     return f'{datetime.datetime.today():%Y_%m_%d}'
-
-
-
-def LoadData(command):
-    sshtunnel.SSH_TIMEOUT = 5.0
-    sshtunnel.TUNNEL_TIMEOUT = 5.0
-
-    with sshtunnel.SSHTunnelForwarder(
-        ('ssh.pythonanywhere.com'),
-        ssh_username=ssh_username, ssh_password=ssh_password,
-        remote_bind_address=('Grawi.mysql.pythonanywhere-services.com', 3306)
-    ) as tunnel:
-        print("Successfully connected to Pythonanywhere")
-        connection = MySQLdb.connect(
-            user=db_user,
-            passwd=db_password,
-            host='127.0.0.1', port=tunnel.local_bind_port,
-            db='Grawi$Interactive_quiz_database',
-        )
-        print("Successfully connected to database")
-        
-        try:
-            cursor = connection.cursor()
-            query = command     # "SELECT * FROM pilot_1;"
-            df = pd.read_sql(query, connection)
-            df = df.loc[df["participantId"] != "testId"]
-            print(f"Data read finished, length {len(df)}")
-            return df
-
-        except Exception as e:
-            print("Error:", e)
-        
-        finally:
-            # Close the cursor and connection
-            cursor.close()
-            connection.close()
