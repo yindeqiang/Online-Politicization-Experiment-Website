@@ -6,6 +6,8 @@ let pilot_2_answers = [];
 const num_of_questions = 25;
 const attention_check_question_index = 20;
 
+const ask_ideology_first = false;
+
 let data = {
     participantId: userData.participantId,
     assignmentId: userData.assignmentId,
@@ -13,11 +15,15 @@ let data = {
     ideology_label: 0,
     pilot_2_answers: [],
     total_time: 0,
-    attention_passed: 0
+    attention_passed: 0,
+    bot_detected: 0,
 };
 
+data.bot_detected = ask_ideology_first ? 0 : 1;
+
+const ideology_question_idx = ask_ideology_first ? 1 :  num_of_questions + 1;
 const ideology_question_string = `
-    <p class="question">Q1 / ${num_of_questions + 1}. How would you describe your political ideology?</p>
+    <p class="question">Q${ideology_question_idx} / ${num_of_questions + 1}. How would you describe your political ideology?</p>
     <div class="input">
         <input type="range" max="2" min="-2" step="0.1" oninput="get_slider_value(this)">
             <div class="answers_mark"></div>
@@ -85,14 +91,27 @@ let each_answer = {
 enter_next();
 
 function enter_next() {
-    if (index_of_question === 0) {
-        displayIdeologyQuestion();
-    } else if (index_of_question <= 25) {
-        each_answer.index = shuffledQuestions[index_of_question - 1].index;
-        each_answer.type = shuffledQuestions[index_of_question - 1].type;
-        displayQuestion(shuffledQuestions[index_of_question - 1]);
+
+    if (ask_ideology_first) {
+        if (index_of_question === 0) {
+            displayIdeologyQuestion();
+        } else if (index_of_question <= 25) {
+            each_answer.index = shuffledQuestions[index_of_question - 1].index;
+            each_answer.type = shuffledQuestions[index_of_question - 1].type;
+            displayQuestion(shuffledQuestions[index_of_question - 1]);
+        } else {
+            end_quiz();
+        }
     } else {
-        end_quiz();
+        if (index_of_question <= 24) {
+            each_answer.index = shuffledQuestions[index_of_question].index;
+            each_answer.type = shuffledQuestions[index_of_question].type;
+            displayQuestion(shuffledQuestions[index_of_question]);
+        } else if (index_of_question === 25) {
+            displayIdeologyQuestion();
+        } else {
+            end_quiz();
+        }
     }
 }
 
@@ -178,7 +197,6 @@ function displayQuestion(questionInfo) {
         loadImageForDesignQuestion(questionInfo.index);
     }
 
-    // Enable the submit button once a choice is made
     document.querySelectorAll('input[name="choice"]').forEach(radio => {
         radio.addEventListener('change', function() {
             document.querySelector('button').disabled = false;
