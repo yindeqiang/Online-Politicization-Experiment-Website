@@ -6,8 +6,6 @@ let pilot_2_answers = [];
 const num_of_questions = 25;
 const attention_check_question_index = 20;
 
-const ask_ideology_first = false;
-
 let data = {
     participantId: userData.participantId,
     assignmentId: userData.assignmentId,
@@ -16,10 +14,7 @@ let data = {
     pilot_2_answers: [],
     total_time: 0,
     attention_passed: 0,
-    bot_detected: 0,
 };
-
-data.bot_detected = ask_ideology_first ? 0 : 1;
 
 const ideology_question_idx = ask_ideology_first ? 1 :  num_of_questions + 1;
 const ideology_question_string = `
@@ -257,6 +252,5 @@ function end_quiz() {
 function attention_check() {
     document.querySelector(".quiz_body").innerHTML = attention_check_string;
     document.querySelector(".attention_check").addEventListener("change", attention_check_click_handler);
-    if (userData.quiz_type == 'pilot_2')
-        document.querySelector("button").addEventListener("click", enter_next);
+    document.querySelector("button").addEventListener("click", enter_next);
 }

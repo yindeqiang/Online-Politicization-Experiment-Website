@@ -86,7 +86,7 @@ def consentform(quiz_type):
     if not app.config["DEBUG"]:
         if quiz_type == 'pilot_1':
             idExisted = Pilot_1.query.filter_by(participantId=participantId).first() is not None
-        elif quiz_type == 'pilot_2':
+        elif quiz_type == 'pilot_2' or quiz_type == "pilot_2_2":
             idExisted = Pilot_2.query.filter_by(participantId=participantId).first() is not None
         elif quiz_type == 'condition_1':
             idExisted = Condition_1.query.filter_by(participantId=participantId).first() is not None
@@ -109,7 +109,7 @@ def quiz(quiz_type):
         if not app.config["DEBUG"]:
             if quiz_type == 'pilot_1':
                 idExisted = Pilot_1.query.filter_by(participantId=participantId).first() is not None
-            elif quiz_type == 'pilot_2':
+            elif quiz_type == 'pilot_2' or quiz_type == "pilot_2_2":
                 idExisted = Pilot_2.query.filter_by(participantId=participantId).first() is not None
             elif quiz_type == 'condition_1':
                 idExisted = Condition_1.query.filter_by(participantId=participantId).first() is not None
@@ -121,7 +121,6 @@ def quiz(quiz_type):
 
     # post method after finishing the quiz
     elif not app.config["DEBUG"]:
-
         try:
             post_data = request.get_json()
 
@@ -146,7 +145,7 @@ def quiz(quiz_type):
                 )
                 db.session.add(pilot_1_data)
 
-            elif quiz_type == 'pilot_2':
+            elif quiz_type == 'pilot_2' or quiz_type == "pilot_2_2":
                 pilot_2_data = Pilot_2(
                     participantId=post_data.get('participantId'),
                     assignmentId=post_data.get('assignmentId'),
@@ -155,7 +154,7 @@ def quiz(quiz_type):
                     attention_passed=post_data.get('attention_passed'),
                     pilot_2_answers=post_data.get('pilot_2_answers'),
                     ideology_label=post_data.get('ideology_label'),
-                    bot_detected=post_data.get('bot_detected'),
+                    bot_detected=0 if quiz_type == "pilot_2" else 1,
                     submit_time=datetime.now()
                 )
                 db.session.add(pilot_2_data)
