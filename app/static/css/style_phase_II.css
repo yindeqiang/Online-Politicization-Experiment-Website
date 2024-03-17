@@ -1,0 +1,116 @@
+#answer_area_phase_II {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    margin-top: 50px;
+}
+
+#pictures_container {
+    /* display: flex; */
+    display: none;
+}
+
+.picture_phase_II {
+    width: 250px;
+    height: 250px;
+    background-color: #ccc;
+    margin: 0 30px;
+}
+
+#options_container {
+    display: flex;
+    flex-direction: row;
+    /* margin: auto; */
+    justify-content: space-around;
+    margin-top: 20px;
+    width: 250px;
+    padding: 15px;
+    border: 5px dashed lightgray;
+}
+
+.option-button {
+    border: 2px solid black;
+    font-size: 18px;
+    border-radius: 10px;
+    width: 100px;
+    position: relative;
+    height: 50px;
+    cursor: pointer;
+}
+
+.option-button.selected {
+    background-color: grey;
+}
+
+.option-button:hover {
+    scale: 1.1;
+}
+
+.option-button:disabled {
+    cursor: not-allowed;
+}
+
+.submit-button {
+    margin-top: 50px;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+.submit-button:disabled {
+    cursor: not-allowed;
+}
+
+#buttons_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.enter-next-button {
+    width: 175px;
+    height: 50px;
+    cursor: pointer;
+    margin-top: 50px;
+}
+
+.bubble_down {
+    width: 80px;
+    border: 3px solid black;
+    padding: 10px;
+    text-align: center;
+    color: black;
+    position: absolute;
+    top: 130px;
+    left: 60px;
+    border-radius: 20px;
+    animation: 0.3s linear popup;
+    background-color: lightgrey;
+  }
+
+.bubble_down::before {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border-left: 9px solid black;
+    border-right: 9px solid transparent;
+    border-top: 9px solid transparent;
+    border-bottom: 9px solid black;
+    right: 66px;
+    top: -20px;
+}
+
+.bubble_down::after {
+    content: "";
+    width: 0px;
+    height: 0px;
+    position: absolute;
+    border-left: 10px solid lightgrey;
+    border-right: 10px solid transparent;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid lightgrey;
+    right: 61px;
+    top: -13px;
+}

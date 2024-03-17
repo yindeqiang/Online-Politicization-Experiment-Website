@@ -204,7 +204,7 @@ function generate_and_add_mark_texts() {
 
 
 
-function display_values() {
+function display_values(index=null, question_type=null) {
     if (phase == 1) {
         for (let index = 0; index < num_of_participants; index++) {
             let ans = '';
@@ -234,23 +234,36 @@ function display_values() {
     }
 
     else if (phase == 3) {
-        let value = temp_answers[answers_first];
-        let min = -3, max = 3;
-
-        // slider
-        if (answers_first != human_index) {
-            if (phase_2_statements[index_of_question].type == 'fact') {
-                min = phase_2_statements[index_of_question].range[0];
-                max = phase_2_statements[index_of_question].range[1];
-            }
-            let dis_from_left = 10 + 97 * (value - min) / ((max - min) / 6);
-            document.querySelector(".answers_mark").innerHTML += `
-                <div>
-                    <div class="answer_scale" style="left: ${dis_from_left}px"></div>
-                    <img class="img_mark" style="left: ${dis_from_left - 19}px" src="/static/avatars/avatar_${avatars_index_chosen[answers_first]}.svg">
-                </div>
-            `;
+        const ans = temp_answers[index];
+        let ans_text = "";
+        switch (question_type) {
+            case "design":
+                if (ans == 0)
+                    ans_text = "Left";
+                else
+                    ans_text = "Right";
+                break;
+            case 'fact':
+            case 'prediction':
+                if (ans == 0)
+                    ans_text = "Yes";
+                else
+                    ans_text = "No";
+                break;
+            case 'issue':
+                if (ans == 0)
+                    ans_text = "Agree";
+                else
+                    ans_text = "Disagree";
+                break;
+            default:
+                break;
         }
+        document.getElementById(`profile_${index}`).innerHTML += `
+            <div class="bubble_down" id="bubble_${index}">
+                ${ans_text}
+            </div>
+        `;
     }
 
     else if (phase == 4) {
@@ -373,13 +386,9 @@ function generate_answers_for_bots(human_answer) {
     }
 
     else if (phase == 3) {
-        let max = 3, min = -3, step = 0.1;
-        if (phase_2_statements[index_of_question].type == 'fact') {
-            max = phase_2_statements[index_of_question].range[1];
-            min = phase_2_statements[index_of_question].range[0];
-            step = phase_2_statements[index_of_question].step;
-        }
-        return generate_random_answer(min, max, step);
+        let randomNumber = Math.random();
+        randomNumber = randomNumber < 0.5 ? 0 : 1;
+        return randomNumber;
     }
 }
 
@@ -583,7 +592,8 @@ function wait_for_participants_to_join() {
     }
 
     let status = document.querySelector(".identity_wrap");
-    for (let index = 0; index < num_of_participants; index++) {
+    let index = 0;
+    for (index = 0; index < num_of_participants; index++) {
         if (index == firstWaitingIndex) {
             status.innerHTML += `
                 <div class="profile_waiting" id="profile_${index}">

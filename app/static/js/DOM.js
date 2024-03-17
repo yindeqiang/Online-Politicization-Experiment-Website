@@ -3,7 +3,7 @@ const pseudonyms = [
     "Jane", "Frank", "Laura", "Henry", "Maria", "John", "Nicole", "Kevin", "Sandra", "Michael"
 ];
 
-const phase_length = [1, [6, 4, 3], 1, 6, 1];
+const phase_length = [1, [6, 4, 3], 1, 20, 1];
 
 const avatar_num = 6;
 
@@ -65,17 +65,22 @@ const section_rule_string = [
     ``,
 
     `<p class="p_instruction">
-        In what follows, you will be asked 6 questions on either hard facts, or future-trend predictions, or controversial public issues.
+        In what follows, you will be asked 4 sets of questions on either hard facts, future-trend predictions, controversial public issues or design problems. There are 5 questions in each set of questions.
     </p>
     <span class="br_small"></span>
     <input type="checkbox" id="checkbox_1">
     <label for="checkbox_1">
-        For each question, one of the three participants will be randomly nominated to answer the question first. Then the question together with her/his answer will be shown to the other two participants. The other two also need to answer the question, but their answers are <b>NOT</b> disclosed.
+        For each set of questions, one of the three participants will be randomly nominated. Then for each question in this set, she/he will be asked to answer first.
     </label>
     <span class="br_small"></span>
     <input type="checkbox" id="checkbox_2">
     <label for="checkbox_2">
-        For each question, you will know which participant is randomly picked. When it is your turn to answer the question, please pull the scrollbar to the position that represent your own attitude, and then click “Submit”.
+        After the chosen participant gives his answer, the question together with her/his answer will be shown to the other two participants. The other two also need to answer the question, but their answers are <b>NOT</b> disclosed.
+    </label>
+    <span class="br_small"></span>
+    <input type="checkbox" id="checkbox_3">
+    <label for="checkbox_3">
+        For each question, you will know which participant is randomly picked. When it is your turn to answer the question, please provide your answer by clicking on the corresponding option, and then click “Submit”.
     </label>`,
 
     `<p class="p_instruction">
@@ -201,18 +206,6 @@ const phase_2_label_string = `
         <p>Please pick at least one label for each participant. The labels you pick will remain on their name cards in the rest of this experiment. After you have finished picking labels, press "Submit" to proceed.
     </div>
     <button type="button" class="button_big" disabled="true">Submit</button>
-`;
-
-const phase_3_body_string = `
-    <div class="instruction_phase_3"></div>
-    <div class="identity_wrap phase_3_wrap"></div>
-    <div class="question_phase_3"></div>
-    <div class="statement_phase_3"></div>
-    <div class="input">${slider_string}</div>
-    <div class="operation">
-        <span class="display_value"></span>
-        <button type="button" disabled="true">Submit</button>
-    </div>
 `;
 
 const phase_4_evaluate_string = `
@@ -389,24 +382,6 @@ const end_quiz_string = `
     </div>
 `;
 
-
-const phase_3_types_first_index = [-1, -1, -1];
-
-// let index = 0;
-// for (let statement_wrap of phase_2_statements) {
-//     if (statement_wrap.type == "fact") {
-//         if (phase_3_types_first_index[0] == -1)
-//             phase_3_types_first_index[0] = index;
-//     } else if (statement_wrap.type == "prediction") {
-//         if (phase_3_types_first_index[1] == -1)
-//             phase_3_types_first_index[1] = index;
-//     } else {
-//         if (phase_3_types_first_index[2] == -1)
-//             phase_3_types_first_index[2] = index;
-//     }
-//     index++;
-// }
-
 const mark_texts = {
     'issue': [
         `Definitely<br><b>NO</b>`,
@@ -437,3 +412,121 @@ const test_string = `
     <button type="button" class="button_small" id="phase_4">Phase 4</button>
     <button type="button" class="button_small" id="phase_end">End</button>
 `;
+
+const phase_3_statements = [
+    // {
+    //     'statement': "If a robot's body, language, behavior, and emotions are no diﬀerent from human beings, then this robot should enjoy the same basic human rights as ordinary people.",
+    //     'type': 'issue'
+    // },
+    // {
+    //     'statement': "After artiﬁcial intelligence technology matures, human judges should be replaced by AI. This can better ensure the fairness of court decisions.",
+    //     'type': 'issue'
+    // },
+    // {
+    //     'statement': "If it is technically feasible to transfer part of one person's lifetime to another person, the government should allow the legalization of such life trading.",
+    //     'type': 'issue'
+    // },
+    {
+        "statement": "The government should invest more scientiﬁc research funding into space exploration instead of virtual reality technology.",
+        'type': 'issue'
+    },
+    // {
+    //     'statement': "If scientists discover that a huge asteroid is about to hit and destroy the earth in one year, the government should keep it secret from the public to avoid social panic.",
+    //     'type': 'issue'
+    // },
+    // {
+    //     'statement': "If technically feasible, adults without fertility should be allowed to adopt their own clones.",
+    //     'type': 'issue'
+    // },
+    // {
+    //     'statement': "Self-driving cars should be programmed to make life-or-death decisions that minimize total harm or death, even if that means sacriﬁcing the driver's own safety.",
+    //     'type': 'issue'
+    // },
+    {
+        'statement': "The use of cloning technology should be approved, to provide infertile couples using test-tube fertilization with more embryos to increase their chances of conceiving.",
+        'type': "issue"
+    },
+    // {
+    //     'statement': "Everyone should be allowed to use paid advertising to present their point of view on controversial public policy issues, no matter how insane it is.",
+    //     'type': "issue"
+    // },
+    // {
+    //     'statement': "If newer technologies become available in the future related to vision or sight, it is appropriate to use technologies to improve a person's normal vision to a level that is greatly beyond normal human capabilities.",
+    //     'type': "issue"
+    // },
+    // {
+    //     'statement': "How many homicides were oﬃcially registered in Chicago in 2021?",
+    //     'type': 'fact',
+    //     'range': [100, 1000],
+    //     'step': 10,
+    //     'percentage': false
+    // },
+    {
+        'statement': "What was the percentage of the population growth in California from 2010 to 2020?",
+        'type': 'fact',
+        'range': [0.01, 0.1],
+        'step': 0.001,
+        'percentage': true
+    },
+    // {
+    //     'statement': "How far on average is Mars from Earth? (in million miles)",
+    //     'type': 'fact',
+    //     'range': [100, 190],
+    //     'step': 1,
+    //     'percentage': false
+    // },
+    {
+        'statement': "How many cells on average does an adult body produce every second? (in million)",
+        'type': 'fact',
+        'range': [18, 30],
+        'step': 0.1,
+        'percentage': false
+    },
+    // {
+    //     'statement': "How many elevators are there in New York's Empire State Building?",
+    //     'type': 'fact',
+    //     'range': [68, 80],
+    //     'step': 1,
+    //     'percentage': false
+    // },
+    // {
+    //     'statement': "In 50 years, cryptocurrencies (such as Bitcoin, Ethereum, or Litecoin) will replace the US dollars and become the oﬃcial currency of the US.",
+    //     'type': 'prediction',
+    // },
+    // {
+    //     'statement': "Within 50 years, self-driving technology will be suﬃciently mature that most personal cars will no longer be equipped with a steering wheel.",
+    //     'type': 'prediction'
+    // },
+    // {
+    //     'statement': "As artificial-intelligence technology develops, most people will eventually live better lives without having to work.",
+    //     'type': 'prediction'
+    // },
+    {
+        'statement': "If scientists invented a non-invasive clinical surgery that could accurately erase people's memory of a certain period, the overall happiness of our society would be greatly improved.",
+        'type': 'prediction'
+    },
+    // {
+    //     'statement': "Within the next 100 years, human beings will have contact with intelligent life from other planets.",
+    //     'type': 'prediction'
+    // },
+    // {
+    //     'statement': "Within the next 100 years, computer scientists will develop computers with true artificial intelligence. That is, computers that can think for themselves.",
+    //     'type': 'prediction'
+    // },
+    // {
+    //     'statement': "In the future, robots and computers with advanced capabilities may be able to do most of the jobs that are currently done by humans today. Within 50 years, the job of software engineers will likely be mostly replaced by robots or computers.",
+    //     'type': "prediction"
+    // },
+    {
+        'statement': "If robots and computers were able to perform most of the jobs currently being done by humans, the economy as a whole would be more efficient.",
+        'type': "prediction"
+    },
+    // {
+    //     'statement': "Very likely, a breakthrough will occur within the next 5 years in the area of cheaper energy.",
+    //     'type': "prediction"
+    // },
+    // {
+    //     'statement': "In the next 50 years, computers will be as effective as people at creating important works of art such as music, novels, movies, or paintings.",
+    //     'type': "prediction"
+    // }
+];

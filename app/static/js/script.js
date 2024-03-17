@@ -3,16 +3,19 @@ const num_of_bots = num_of_participants - 1;
 const max_num_of_labels = 3;
 const human_index = 1;
 const phase_1_special_question_index = 3;
-
 const test_mode = false;
 
 const issue_answer_time = [8.103063157894741, 6.618499999999999, 6.054199999999997, 7.566473684210525, 8.115181818181819, 5.204784313725493, 6.32694, 5.685673076923079, 7.071762376237626, 6.577291666666668];
 
 const phase_1_probability = {
-    '-2': [0.8181818181818182, 0.9090909090909091, 0.18181818181818182, 1.0, 0.09090909090909091, 0.8181818181818182, 0.09090909090909091, 1.0, 1.0, 0.09090909090909091],
-    '-1': [0.45454545454545453, 0.36363636363636365, 0.5454545454545454, 0.9090909090909091, 0.5454545454545454, 0.7272727272727273, 0.18181818181818182, 1.0, 0.36363636363636365, 0.5454545454545454],
-    '1': [0.25, 0.05, 0.775, 0.275, 0.95, 0.225, 0.85, 0.6, 0.05, 0.875],
-    '2': [0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0]
+    // '-2': [0.8181818181818182, 0.9090909090909091, 0.18181818181818182, 1.0, 0.09090909090909091, 0.8181818181818182, 0.09090909090909091, 1.0, 1.0, 0.09090909090909091],
+    "-2": [0.1111111111111111, 0.015873015873015872, 0.9206349206349206, 0.09523809523809523, 0.9841269841269841, 0.031746031746031744, 0.8888888888888888, 0.6666666666666666, 0.015873015873015872, 1.0],
+    // '-1': [0.45454545454545453, 0.36363636363636365, 0.5454545454545454, 0.9090909090909091, 0.5454545454545454, 0.7272727272727273, 0.18181818181818182, 1.0, 0.36363636363636365, 0.5454545454545454],
+    "-1": [0.06666666666666667, 0.0, 0.9, 0.13333333333333333, 0.8666666666666667, 0.03333333333333333, 0.8, 0.8333333333333334, 0.03333333333333333, 0.9666666666666667],
+    // '1': [0.25, 0.05, 0.775, 0.275, 0.95, 0.225, 0.85, 0.6, 0.05, 0.875],
+    "1": [0.3888888888888889, 0.3888888888888889, 0.3333333333333333, 0.9444444444444444, 0.3888888888888889, 0.5555555555555556, 0.2222222222222222, 0.8888888888888888, 0.6666666666666666, 0.6111111111111112],
+    // '2': [0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0]
+    "2": [0.5531914893617021, 0.6170212765957447, 0.3404255319148936, 0.851063829787234, 0.3617021276595745, 0.7446808510638298, 0.10638297872340426, 0.9148936170212766, 0.5319148936170213, 0.23404255319148937]
 };
 
 const time_configurations = {
@@ -88,17 +91,17 @@ function enter_next() {
         each_answer.who_answers_first = -1;
         data.type_A_answers.push(each_answer);
         each_answer = JSON.parse(JSON.stringify(each_answer));      // deep copy and generate a new answer object
-    }
-
-    else if (phase == 3) {
+    } else if (phase == 3) {
         each_answer.answers = temp_answers;
-        each_answer.idx_of_question = index_of_question;
-        each_answer.who_answers_first = answers_first;
+        const set_num = Math.floor(question_seqNum_in_phase / 5);
+        const question_num = question_seqNum_in_phase % 5;
+        const set_index = phase_2_orders.set_order[set_num];
+        const question_index = phase_2_orders.question_order[set_num][question_num];
+        each_answer.idx_of_question = set_index * 20 + question_index;
+        each_answer.who_answers_first = phase_2_orders.participant_order[set_num];
         data.type_B_answers.push(each_answer);
         each_answer = JSON.parse(JSON.stringify(each_answer));
-    }
-
-    else if (phase == 4) {
+    } else if (phase == 4) {
         answers = [];
         split_answers = [];
         document.querySelectorAll("input[type=range]").forEach((range) => {
@@ -125,7 +128,8 @@ function enter_next() {
         document.querySelector(".quiz_body").removeEventListener("click", phase_4_click_handler);
     }
 
-    temp_answers = [];      // restore answers
+    // restore status
+    temp_answers = [];
     all_bots_timeup = false;
     start_time = [];
 
@@ -133,7 +137,6 @@ function enter_next() {
     if (question_seqNum_in_phase == get_phase_length(phase) - 1) {
         if (phase == 4)
             attention_check();
-
         else {
             if (userData.quiz_type == 'pilot_1' && phase == 1) {
                 phase = 4;
@@ -292,8 +295,10 @@ function wait_for_participants() {
     }
 
     // generate ideologies for bots
-    data.ideologies = [generate_random_answer(-2, -1, 1), generate_random_answer(1, 2, 1)];
-    data.ideologies.splice(human_index, 0, 0);
+    const random_number_1 = Math.random();
+    const random_number_2 = Math.random();
+    data.ideologies = [random_number_1 <= 0.75 ? -2 : -1, random_number_2 <= 0.75 ? 2 : 1];
+    data.ideologies.splice(human_index, 0, null);
     wait_for_participants_to_join();
     document.addEventListener("timeup", all_timeup);
 }
@@ -475,282 +480,6 @@ function init_phase_2() {
 
 
 
-let num_of_type_phase_2 = [0, 0, 0];
-let phase_3_statement_posted = generate_zero_array(phase_3_statements.length);
-let phase_3_answer_times = generate_zero_array(num_of_participants);
-
-function init_phase_3() {
-    // change DOM
-    document.querySelector(".quiz_body").innerHTML = phase_3_body_string;
-    let question = document.querySelector(".question_phase_3");
-    let statement = document.querySelector(".statement_phase_3");
-    let instruction = document.querySelector(".instruction_phase_3");
-    let slider = document.querySelector("input[type=range]");
-    let input = document.querySelector(".input");
-    add_identity_status();
-
-    // choose a participant to answer first
-    while (true) {
-        answers_first = Math.floor(Math.random() * num_of_participants);
-        // ensure that the user answers the first question first to make an example
-        if (question_seqNum_in_phase == 0)
-            answers_first = human_index;
-        if (phase_3_answer_times[answers_first] < 2) {
-            phase_3_answer_times[answers_first] += 1
-            break;
-        }
-    }
-    start_time[answers_first] = Date.now();
-    if (answers_first == human_index) {
-        instruction.innerHTML = `<b>You</b> are picked to answer this question first. Choose your answer by sliding the button on the scrollbar.`;
-        instruction.style["text-align"] = "center";
-    } else {
-        instruction.innerHTML = `
-            <b>${pseudonyms_chosen[answers_first]}</b> is picked to answer this question first.
-        `;
-        if (answers_first == 0)
-            instruction.style["text-align"] = "left";
-        else
-            instruction.style["text-align"] = "right";
-    }
-
-    // DOM
-    for (let index = 0; index < num_of_participants; index++) {
-        if (index == answers_first) {
-            document.getElementById(`status_${index}`).innerHTML = loader_string;
-            document.getElementById(`profile_${index}`).classList.add("answering_now");
-        } else {
-            document.getElementById(`profile_${index}`).classList.add("not_answering_now");
-        }
-    }
-
-    // select a statement that hasn't been chosen before, and meet '2 facts, 2 predictions, 2 issues'
-    let statement_index = 0;
-    let temp_statement = ``;
-    while (true) {
-        statement_index = Math.floor(Math.random() * phase_3_statements.length);
-        if (phase_3_statement_posted[statement_index])
-            continue;
-        question.innerHTML = `Q${next_question_seqNum}. `;
-        if (phase_3_statements[statement_index].type == "fact") {
-            if (num_of_type_phase_2[0] <= 1) {
-                num_of_type_phase_2[0] += 1;
-                question.innerHTML += `Select your answer to the following question:`;
-                break;
-            }
-        } else if (phase_3_statements[statement_index].type == "prediction") {
-            if (num_of_type_phase_2[1] <= 1) {
-                num_of_type_phase_2[1] += 1;
-                question.innerHTML += `How likely do you think the following prediction is to be true?`;
-                break;
-            }
-        } else {
-            if (num_of_type_phase_2[2] <= 1) {
-                num_of_type_phase_2[2] += 1;
-                question.innerHTML += `Do you agree with the following statement?`;
-                break;
-            }
-        }
-    }
-    index_of_question = statement_index;
-    phase_3_statement_posted[statement_index] = true;
-    temp_statement = `${phase_3_statements[statement_index].statement}`;
-    let max_value = 0, min_value = 0, step = 0;
-    if (phase_3_statements[index_of_question].type == 'fact') {
-        min_value = phase_3_statements[index_of_question].range[0];
-        max_value = phase_3_statements[index_of_question].range[1];
-        step = phase_3_statements[index_of_question].step;
-        slider.min = min_value;
-        slider.max = max_value;
-        slider.step = phase_3_statements[index_of_question].step;
-        slider.value = (min_value + max_value) / 2;
-    }
-
-    let display_value = document.querySelector(".display_value");
-
-    // if the user answers first
-    if (answers_first == human_index) {
-        pseudonyms_left = JSON.parse(JSON.stringify(pseudonyms_chosen));
-        pseudonyms_left.splice(human_index, 1);
-
-        if (phase_3_statements[index_of_question].type == "fact") {
-            if (Math.abs(min_value) >= 1) {
-                display_value.innerHTML += `
-                    Your value:
-                    <span id="slider_value">${(max_value + min_value) / 2}</span>
-                `;
-            } else {
-                display_value.innerHTML += `
-                    Your value:
-                    <span id="slider_value">${100 * (max_value + min_value) / 2}%</span>
-                `;
-            }
-        }
-        statement.textContent = `"` + temp_statement + `"`;
-        generate_and_add_mark_texts();
-        document.querySelector("button").addEventListener("click", () => {
-            // get user's input
-            each_answer.time_to_answer[human_index] = (Date.now() - start_time[human_index]) / 1000;
-            for (let i = 0; i < num_of_participants; i++) {
-                if (i == human_index) {
-                    temp_answers[i] = parseFloat(slider.value);
-                    if (phase_3_statements[index_of_question].type == 'fact')       // convert it to [-3, 3]
-                        temp_answers[i] = -3 + (temp_answers[i] - min_value) / (max_value - min_value) * 6;
-                } else
-                    temp_answers[i] = -100;
-            }
-
-            display_values();
-            // change DOM
-            slider.disabled = true;
-            document.getElementById(`status_${human_index}`).innerHTML = ``;
-            let profile = document.getElementById(`profile_${human_index}`);
-            profile.classList.remove("answering_now");
-            profile.classList.add("finish_answering");
-            document.querySelector(".operation").innerHTML = ``;
-            setTimeout(() => {
-                let profiles = document.querySelectorAll(".profile_with_labels");
-                let index = 0;
-                profiles.forEach((profile) => {
-                    if (index == human_index) {
-                        profile.classList.remove("finish_answering");
-                        profile.classList.add("not_answering_now");
-                    } else {
-                        profile.classList.add("answering_now");
-                        profile.classList.remove("not_answering_now");
-                        document.getElementById(`status_${index}`).innerHTML = loader_string;
-                    }
-                    index++;
-                    instruction.innerHTML = `
-                        Now it's <b>${pseudonyms_left[0]}</b>'s and <b>${pseudonyms_left[1]}</b>'s turn to answer this question. Please wait
-                        <span class="dots"></span>
-                    `;
-                    instruction.style["text-align"] = "left";
-                    transform_dots();
-                });
-                bots_index = generate_bot_array(num_of_participants, human_index);
-                for (const index of bots_index)
-                    start_time[index] = Date.now();
-                start_bot_timers(bots_index, "phase_3_question");
-                document.addEventListener("timeup", all_finish_answering);
-            }, time_configurations['lag'] * 1000)
-        });
-    }
-
-    // if the bot answers first
-    else {
-        // change DOM
-        statement.textContent = `You will see the statement after ${pseudonyms_chosen[answers_first]} submits her/his answer.`;
-        statement.classList.add("concealed");
-        input.classList.add("concealed");
-        start_bot_timers([answers_first], "phase_3_question");
-        document.addEventListener("timeup", after_bot_input_phase_3);
-        slider.disabled = true;
-        document.querySelector("button").style.opacity = '0';
-    }
-}
-
-
-
-function after_bot_input_phase_3() {
-    document.removeEventListener("timeup", after_bot_input_phase_3);
-    all_bots_timeup = false;
-    let instruction = document.querySelector(".instruction_phase_3");
-    let statement = document.querySelector(".statement_phase_3");
-    let input = document.querySelector(".input");
-    let slider = document.querySelector("input[type=range]");
-    let max_value = 0, min_value = 0, step = 0;
-    if (phase_3_statements[index_of_question].type == 'fact') {
-        min_value = phase_3_statements[index_of_question].range[0];
-        max_value = phase_3_statements[index_of_question].range[1];
-        step = phase_3_statements[index_of_question].step;
-    }
-    // register bot value
-    temp_answers[answers_first] = generate_answers_for_bots();
-    display_values();
-    if (phase_3_statements[index_of_question].type == 'fact')       // convert it to [-3, 3]
-        temp_answers[answers_first] = -3 + (temp_answers[answers_first] - min_value) / (max_value - min_value) * 6;
-
-    // change DOM
-    setTimeout(() => {
-        let profiles = document.querySelectorAll(".profile_with_labels");
-        let index = 0;
-        profiles.forEach((profile) => {
-            if (index == answers_first) {
-                profile.classList.remove("finish_answering");
-                profile.classList.add("not_answering_now");
-            } else {
-                profile.classList.add("answering_now");
-                profile.classList.remove("not_answering_now");
-                document.getElementById(`status_${index}`).innerHTML = loader_string;
-            }
-            index++;
-        });
-
-        statement.innerHTML = `"` + phase_3_statements[index_of_question]['statement'] + `"`;
-        statement.classList.remove("concealed");
-        input.classList.remove("concealed");
-        generate_and_add_mark_texts();
-        slider.disabled = false;
-        document.querySelector("button").style.opacity = '1';
-
-        // deal with instruction
-        index_of_bots_left = generate_bot_array(num_of_participants, human_index);
-        index_of_bots_left.splice(index_of_bots_left.indexOf(answers_first), 1);
-        instruction.innerHTML = `
-            Now it's <b>YOUR</b> and <b>${pseudonyms_chosen[index_of_bots_left[0]]}</b>'s turn to answer this question. Choose your answer by sliding the button on the scrollbar.
-        `;
-        instruction.style['text-align'] = 'left';
-        if (phase_3_statements[index_of_question].type == "fact") {
-            document.querySelector(".operation").innerHTML = `
-                <span class="display_value"></span>
-                <button type="button" disabled="true">Submit</button>
-            `;
-            let display_value = document.querySelector(".display_value");
-            if (Math.abs(min_value) >= 1) {
-                    display_value.innerHTML += `
-                        Your value:
-                        <span id="slider_value">${(max_value + min_value) / 2}</span>
-                    `;
-            } else {
-                display_value.innerHTML += `
-                    Your value:
-                    <span id="slider_value">${100 * (max_value + min_value) / 2}%</span>
-                `;
-            }
-        }
-        // start_bot_timers
-        start_bot_timers(index_of_bots_left, "phase_3_question");
-        start_time[human_index] = Date.now();
-
-        // after the user clicks the button
-        document.querySelector("button").addEventListener("click", () => {
-            let profile = document.getElementById(`profile_${human_index}`);
-            profile.classList.remove("answering_now");
-            profile.classList.add("finish_answering");
-            document.querySelector(".operation").innerHTML = ``;
-            slider.disabled = true;
-            for (let i = 0; i < num_of_participants; i++) {
-                if (i == human_index) {
-                    temp_answers[i] = parseFloat(slider.value);
-                    if (phase_3_statements[index_of_question].type == 'fact')       // convert it to [-3, 3]
-                        temp_answers[i] = -3 + (temp_answers[i] - min_value) / (max_value - min_value) * 6;
-                }
-                else if (i != answers_first)
-                    temp_answers[i] = -100;
-            }
-            each_answer.time_to_answer[human_index] = (Date.now() - start_time[human_index]) / 1000;
-            document.getElementById(`status_${human_index}`).innerHTML = ``;
-            instruction.innerHTML = ``;
-            if (all_bots_timeup)
-                all_finish_answering();
-            else
-                document.addEventListener("timeup", all_finish_answering);
-        });
-    }, time_configurations['lag'] * 1000);
-};
-
-
 var evaluation_types = [];
 
 function init_phase_4() {
@@ -802,21 +531,11 @@ function all_finish_answering() {
 
     // a lag before "check your answers"
     setTimeout(() => {
-        if (phase == 1) {
-            document.querySelector(".instruction").innerHTML = `
-                Please check your answers. When it's done, press
-                <button type="button" class="button_small">OK</button>
-            `;
-            display_values();
-        }
-
-        else if (phase == 3) {
-            let instruction = document.querySelector(".instruction_phase_3");
-            instruction.innerHTML = `All of you have finished answering. Please enter the next question.`;
-            instruction.style['text-align'] = 'left';
-            document.querySelector(".operation").innerHTML = `<button type="button">Next Question</button>`;
-        }
-
+        document.querySelector(".instruction").innerHTML = `
+            Please check your answers. When it's done, press
+            <button type="button" class="button_small">OK</button>
+        `;
+        display_values();
         document.querySelector("button").addEventListener('click', enter_next);
     }, time_configurations['lag'] * 1000);
 }
