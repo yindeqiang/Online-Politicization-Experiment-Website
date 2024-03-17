@@ -445,7 +445,7 @@ label {
 
 .answer_status {
     width: 90%;
-    margin-top: 60px;
+    margin-top: 50px;
     margin-bottom: 50px;
 }
 
@@ -517,10 +517,6 @@ label {
 .image_part_phase_2 {
     width: 60px;
     margin: auto;
-}
-
-.phase_3_wrap {
-    margin-top: 50px;
 }
 
 .evaluation {
@@ -673,9 +669,11 @@ label {
 }
 
 .instruction_phase_3 {
-    margin-top: 10px;
-    min-height: 25px;;
+    height: 35px;
     font-size: 18px;
+    padding: 40px 30px 20px 30px;
+    text-align: center;
+    line-height: 25px;
 }
 
 .instruction_big_margin {
@@ -690,14 +688,13 @@ label {
     font-size: 22px;
     margin: auto;
     width: 82%;
-    margin-top: 10%;
+    margin-top: 5%;
     line-height: 25px;
     font-weight: bold;
     text-align: center;
 }
 
 .question_phase_3 {
-    text-align: left;
     margin-top: 50px;
     font-weight: bold;
 }
@@ -718,7 +715,6 @@ label {
 
 .statement_phase_3 {
     font-style: italic;
-    text-align: left;
     margin-top: 20px;
 }
 

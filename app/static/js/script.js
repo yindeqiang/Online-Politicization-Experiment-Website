@@ -11,9 +11,9 @@ const phase_1_probability = {
     // '-2': [0.8181818181818182, 0.9090909090909091, 0.18181818181818182, 1.0, 0.09090909090909091, 0.8181818181818182, 0.09090909090909091, 1.0, 1.0, 0.09090909090909091],
     "-2": [0.03333333333333333, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0],
     // '-1': [0.45454545454545453, 0.36363636363636365, 0.5454545454545454, 0.9090909090909091, 0.5454545454545454, 0.7272727272727273, 0.18181818181818182, 1.0, 0.36363636363636365, 0.5454545454545454],
-    "-1": [0.03389830508474576, 0.017241379310344827, 0.7966101694915254, 0.39655172413793105, 0.9322033898305084, 0.0847457627118644, 0.9310344827586207, 0.7241379310344828, 0.03389830508474576, 0.9655172413793104],
+    "-1": [0.25, 0.05, 0.775, 0.275, 0.95, 0.225, 0.85, 0.6, 0.05, 0.875],
     // '1': [0.25, 0.05, 0.775, 0.275, 0.95, 0.225, 0.85, 0.6, 0.05, 0.875],
-    "1": [0.5084745762711864, 0.6551724137931034, 0.3050847457627119, 0.9655172413793104, 0.25862068965517243, 0.5517241379310345, 0.3050847457627119, 1.0, 0.5344827586206896, 0.6949152542372882],
+    "1": [0.45454545454545453, 0.36363636363636365, 0.5454545454545454, 0.9090909090909091, 0.5454545454545454, 0.7272727272727273, 0.18181818181818182, 1.0, 0.36363636363636365, 0.5454545454545454],
     // '2': [0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0]
     "2": [0.9166666666666666, 1.0, 0.08333333333333333, 1.0, 0.0, 0.9090909090909091, 0.0, 1.0, 1.0, 0.3333333333333333]
 };
@@ -21,7 +21,7 @@ const phase_1_probability = {
 const time_configurations = {
     'test': 1,
     'wait': [0, 10],
-    'phase_3_question': [4, 8],
+    'phase_3_question': [7, 11],
     'preference': [1, 4],
     'issue': 5,
     'lag': 1,
@@ -40,7 +40,7 @@ var each_answer = {
     who_answers_first: -1,
     answers: [],
     time_to_answer: []
-}
+};
 
 var data = {
     participantId: userData.participantId,
@@ -77,6 +77,7 @@ var start_time = [];
 const total_start_time = Date.now();
 const timeupEvent = new Event("timeup");
 var timer;
+var attention_checked = false;
 
 
 function enter_next() {
@@ -133,11 +134,18 @@ function enter_next() {
     all_bots_timeup = false;
     start_time = [];
 
+    // attention check
+    if (phase == 3 && question_seqNum_in_phase == 7 && !attention_checked) {
+        attention_check();
+        attention_checked = true;
+        return;
+    }
+
     // is the last question in the phase
     if (question_seqNum_in_phase == get_phase_length(phase) - 1) {
-        if (phase == 4)
-            attention_check();
-        else {
+        if (phase == 4) {
+            end_quiz();
+        } else {
             if (userData.quiz_type == 'pilot_1' && phase == 1) {
                 phase = 4;
                 question_seqNum_in_phase = 0;
@@ -582,11 +590,12 @@ function end_quiz() {
 
 
 function attention_check() {
+    console.log("Attention Check!");
     document.querySelector(".quiz_body").innerHTML = attention_check_string;
     document.querySelector(".attention_check").addEventListener("change", attention_check_click_handler);
     document.querySelector("button").addEventListener("click",() => {
         document.querySelector(".attention_check").removeEventListener("change", attention_check_click_handler);
-        end_quiz();
+        enter_next();
     });
 }
 

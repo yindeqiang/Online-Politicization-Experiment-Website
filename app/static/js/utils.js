@@ -676,7 +676,7 @@ function add_identity_status() {
         }
 
         else if (phase == 3) {
-            status.innerHTML += `
+            document.querySelector("#identity_wrap_phase_II").innerHTML += `
                 <div id="profile_${index}" class="profile_with_labels profile_labeling">
                     <div class="profile_content">
                         <div class="identity_part">

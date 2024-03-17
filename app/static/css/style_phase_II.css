@@ -1,7 +1,4 @@
 #answer_area_phase_II {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
     width: 100%;
     margin-top: 50px;
 }
@@ -9,6 +6,7 @@
 #pictures_container {
     /* display: flex; */
     display: none;
+    justify-content: space-evenly;
 }
 
 .picture_phase_II {
@@ -21,7 +19,7 @@
 #options_container {
     display: flex;
     flex-direction: row;
-    /* margin: auto; */
+    margin: auto;
     justify-content: space-around;
     margin-top: 20px;
     width: 250px;
@@ -52,7 +50,7 @@
 }
 
 .submit-button {
-    margin-top: 50px;
+    margin-top: 30px;
     padding: 10px 20px;
     cursor: pointer;
 }
@@ -72,7 +70,7 @@
     width: 175px;
     height: 50px;
     cursor: pointer;
-    margin-top: 50px;
+    margin-top: 0px;
 }
 
 .bubble_down {
@@ -82,7 +80,7 @@
     text-align: center;
     color: black;
     position: absolute;
-    top: 130px;
+    top: 110px;
     left: 60px;
     border-radius: 20px;
     animation: 0.3s linear popup;
@@ -113,4 +111,35 @@
     border-bottom: 10px solid lightgrey;
     right: 61px;
     top: -13px;
+}
+
+#left_part_phase_II {
+    width: calc(40%);
+    left: 0;
+    border-right: 3px solid lightgrey;
+    min-height: 100%;
+    height: min-content;
+}
+
+#right_part_phase_II {
+    width: calc(60%);
+    right: 0;
+}
+
+#right_content_phase_II {
+    height: 100%;
+    padding: 50px;
+    text-align: center;
+}
+
+#identity_wrap_phase_II {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#identity_wrap_phase_II > .profile_with_labels {
+    width: 80%;
+    margin: 0px auto 50px auto;
 }

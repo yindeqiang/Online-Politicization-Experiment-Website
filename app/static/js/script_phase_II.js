@@ -103,23 +103,29 @@ function toggle_image_display(question_index) {
 function init_phase_3() {
     // change DOM
     document.querySelector(".quiz_body").innerHTML = `
-        <div class="instruction_phase_3"></div>
-        <div class="identity_wrap phase_3_wrap"></div>
-        <div class="question_phase_3"></div>
-        <div class="statement_phase_3"></div>
+        <div class="split" id="left_part_phase_II">
+            <div class="instruction_phase_3"></div>
+            <div id="identity_wrap_phase_II"></div>
+        </div>
 
-        <div id="answer_area_phase_II">
-            <div id="pictures_container">
-            <img src="/static/data/design_pictures/default.jpg" class="picture_phase_II" id="left_picture">
-            <img src="/static/data/design_pictures/default.jpg" class="picture_phase_II" id="right_picture">
-            </div>
-            <div id="operations">
-                <div id="options_container">
-                    <button class="option-button" onclick="selectOption(0)" id="left_option">Option 1</button>
-                    <button class="option-button" onclick="selectOption(1)" id="right_option">Option 2</button>
-                </div>
-                <div id="buttons_container">
-                    <button class="submit-button" disabled>Submit</button>
+        <div class="split" id="right_part_phase_II">
+            <div id="right_content_phase_II">
+                <div class="question_phase_3"></div>
+                <div class="statement_phase_3"></div>
+                <div id="answer_area_phase_II">
+                    <div id="pictures_container">
+                        <img src="/static/data/design_pictures/default.jpg" class="picture_phase_II" id="left_picture">
+                        <img src="/static/data/design_pictures/default.jpg" class="picture_phase_II" id="right_picture">
+                    </div>
+                    <div id="operations">
+                        <div id="options_container">
+                            <button class="option-button" onclick="selectOption(0)" id="left_option">Option 1</button>
+                            <button class="option-button" onclick="selectOption(1)" id="right_option">Option 2</button>
+                        </div>
+                        <div id="buttons_container">
+                            <button class="submit-button" disabled>Submit</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -139,18 +145,13 @@ function init_phase_3() {
     const set_begin_seqNum = phase_2_starting_question_index + 5 * set_num;
     const set_end_seqNum = set_begin_seqNum + 4;
     if (answers_first == human_index) {
-        instruction.innerHTML = `For Q${set_begin_seqNum}~Q${set_end_seqNum}, <b>You</b> are picked to answer first. Please choose your answer.`;
-        instruction.style["text-align"] = "center";
+        instruction.innerHTML = `For Q${set_begin_seqNum}~Q${set_end_seqNum}, <b>You</b> are picked to answer first.\nPlease choose your answer.`;
     } else {
         instruction.innerHTML = `
             For Q${set_begin_seqNum}~Q${set_end_seqNum}, <b>${pseudonyms_chosen[answers_first]}</b> is picked to answer first. Please wait
             <span class="dots"></span>
         `;
         transform_dots();
-        if (answers_first == 0)
-            instruction.style["text-align"] = "left";
-        else
-            instruction.style["text-align"] = "right";
     }
 
     // profile
@@ -237,7 +238,6 @@ function init_phase_3() {
                         Now it's <b>${pseudonyms_left[0]}</b>'s and <b>${pseudonyms_left[1]}</b>'s turn to answer this question. Please wait
                         <span class="dots"></span>
                     `;
-                    instruction.style["text-align"] = "left";
                     transform_dots();
                 });
                 bots_index = generate_bot_array(num_of_participants, human_index);
@@ -312,7 +312,6 @@ function after_bot_input_phase_3() {
         instruction.innerHTML = `
             Now it's <b>YOUR</b> and <b>${pseudonyms_chosen[index_of_bots_left[0]]}</b>'s turn to answer this question. Please choose your answer.
         `;
-        instruction.style['text-align'] = 'left';
         // start_bot_timers
         start_bot_timers(index_of_bots_left, "phase_3_question");
         start_time[human_index] = Date.now();
@@ -351,8 +350,7 @@ function all_finish_answering_phase_3() {
     // a lag before "check your answers"
     setTimeout(() => {
         let instruction = document.querySelector(".instruction_phase_3");
-        instruction.innerHTML = `All of you have finished answering. Please enter the next question.`;
-        instruction.style['text-align'] = 'left';
+        instruction.innerHTML = `All of you have finished answering.\nPlease enter the next question.`;
         const answer_area = document.querySelector("#answer_area_phase_II");
         answer_area.innerHTML = `<button class="enter-next-button">Next Question</button>`;
         answer_area.classList.remove("concealed");
