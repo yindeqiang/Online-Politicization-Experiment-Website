@@ -35,7 +35,7 @@ class Condition_2(Base):
 例如，以上为condition 2实验对应的数据库，除了继承Base数据库的表项外，还另有4个新增的特属于该实验的表项。
 
 ### 1.1. Base数据库
-- **participantId, assignmentId, projectId**：字符串类型。这是Connect平台规定的受试者标识符。当一个受试者从Connect跳转到我们的问卷网站（e.g. www.quiz.com）时，会添加后缀为 www.quiz.com?participantId=xxx&assignmentId=xxx&projectId=xxx，我们便可以通过url获得受试者的标识符。在数据库中，我们只需要用participanId来区分受试者即可。因为我们规定同一个受试者不能同时参加我们的两个实验。
+- **participantId, assignmentId, projectId**：字符串类型。这是Connect平台规定的受试者标识符。当一个受试者从Connect跳转到我们的问卷网站（e.g. www.quiz.com ）时，会添加后缀为 www.quiz.com?participantId=xxx&assignmentId=xxx&projectId=xxx ，我们便可以通过url获得受试者的标识符。在数据库中，我们只需要用participanId来区分受试者即可。因为我们规定同一个受试者不能同时参加我们的两个实验。
 - **attention_passed**：是否通过了问卷中的attention pass，只有通过了才会被算作有效数据进入分析。通过为1，不通过为0。
 - **total_time**：完成问卷需要的总时间
 - **identity_choices**：[a, None, b]的形式，在实验中bot会被预设一个意识形态，bot_0以75%的概率选择Conservative（-2），以25%的概率选择Somewhat conservative（-1），bot_2以75%的概率选择Liberal（2），以25%的概率选择Somewhat liberal（-1）（3.17修改前的概率是50%+50%）。None表示human_1的意识形态空缺。
