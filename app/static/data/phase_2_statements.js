@@ -193,7 +193,7 @@ const phase_2_statements = {
             "enabled": false,
         },
         {
-            "text": "The city should locate the next community festival in the city center rather than at a waterfront park.",
+            "text": "Your city should locate the next community festival in the city center rather than at a waterfront park.",
             "index": 3,
             "summary": "Location of community festival",
             "enabled": true,
@@ -235,7 +235,7 @@ const phase_2_statements = {
             "enabled": false,
         },
         {
-            "text": "For a community art project, it should create a giant mosaic on a downtown building rather than a series of sculptures along the riverwalk.",
+            "text": "For an art project in your community, it should create a giant mosaic on a downtown building rather than a series of sculptures along the riverwalk.",
             "index": 10,
             "summary": "Giant mosaic vs. riverwalk sculptures",
             "enabled": true,
@@ -253,7 +253,7 @@ const phase_2_statements = {
             "enabled": false,
         },
         {
-            "text": "The city should upgrade the public library's digital resources rather than expand the physical fitness facilities in parks as the next public service improvement.",
+            "text": "Your city should upgrade the public library's digital resources rather than expand the physical fitness facilities in parks as the next public service improvement.",
             "index": 13,
             "summary": "Library digital resources vs. park fitness facilities",
             "enabled": true,
