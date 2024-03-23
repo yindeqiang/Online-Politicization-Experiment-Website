@@ -217,7 +217,7 @@ const phase_2_statements = {
             "enabled": false,
         },
         {
-            "text": "The city council should feature a natural preserve rather than a sports complex in the new park.",
+            "text": "Your city council should feature a natural preserve rather than a sports complex in the new park.",
             "index": 7,
             "summary": "Natural preserve vs. sports complex",
             "enabled": false,
@@ -247,7 +247,7 @@ const phase_2_statements = {
             "enabled": false,
         },
         {
-            "text": "The city's new recycling initiative should focus on composting organic waste rather than recycling electronic devices.",
+            "text": "Your city's new recycling initiative should focus on composting organic waste rather than recycling electronic devices.",
             "index": 12,
             "summary": "Composting organic waste vs. recycling electronics",
             "enabled": false,
@@ -259,7 +259,7 @@ const phase_2_statements = {
             "enabled": true,
         },
         {
-            "text": "For a campaign to encourage reading, the city should distribute free e-books rather than physical books.",
+            "text": "For a campaign to encourage reading, your city should distribute free e-books rather than physical books.",
             "index": 14,
             "summary": "Free e-books vs. physical books",
             "enabled": false,
