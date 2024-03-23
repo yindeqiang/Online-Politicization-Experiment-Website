@@ -3,7 +3,7 @@ const pseudonyms = [
     "Jane", "Frank", "Laura", "Henry", "Maria", "John", "Nicole", "Kevin", "Sandra", "Michael"
 ];
 
-const phase_length = [1, [6, 4, 3], 1, 20, 1];
+const phase_length = [1, [6, 4, 3], 1, 5, 1];
 
 const avatar_num = 6;
 
@@ -65,17 +65,17 @@ const section_rule_string = [
     ``,
 
     `<p class="p_instruction">
-        In what follows, you will be asked 4 sets of questions on either hard facts, future-trend predictions, controversial public issues or design problems. There are 5 questions in each set of questions.
+        In what follows, you will be asked 5 questions on either hard facts, future-trend predictions, controversial public issues or design problems.
     </p>
     <span class="br_small"></span>
     <input type="checkbox" id="checkbox_1">
     <label for="checkbox_1">
-        For each set of questions, one of the three participants will be randomly nominated. Then for each question in this set, she/he will be asked to answer first.
+        For these 5 questions, one of the three participants will be randomly nominated. Then for each question, she/he will be asked to answer first.
     </label>
     <span class="br_small"></span>
     <input type="checkbox" id="checkbox_2">
     <label for="checkbox_2">
-        After the chosen participant gives his answer, the question together with her/his answer will be shown to the other two participants. The other two also need to answer the question, but their answers are <b>NOT</b> disclosed.
+        After the chosen participant gives her/his answer, the question together with her/his answer will be shown to the other two participants. The other two also need to answer the question, but their answers are <b>NOT</b> disclosed.
     </label>
     <span class="br_small"></span>
     <input type="checkbox" id="checkbox_3">

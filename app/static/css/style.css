@@ -669,11 +669,15 @@ label {
 }
 
 .instruction_phase_3 {
-    height: 35px;
+    min-height: 50px;
     font-size: 18px;
-    padding: 40px 30px 20px 30px;
+    padding: 15px 30px 15px 30px;
     text-align: center;
     line-height: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 50px;
 }
 
 .instruction_big_margin {
@@ -695,7 +699,7 @@ label {
 }
 
 .question_phase_3 {
-    margin-top: 50px;
+    margin-top: 30px;
     font-weight: bold;
 }
 

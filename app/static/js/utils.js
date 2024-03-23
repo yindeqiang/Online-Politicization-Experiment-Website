@@ -259,11 +259,21 @@ function display_values(index=null, question_type=null) {
             default:
                 break;
         }
+        let profile_html = document.getElementById(`profile_${index}`).innerHTML;
+        let tempDiv = document.createElement('div');
+        tempDiv.innerHTML = profile_html;
+        tempDiv.classList = "profile-in-option";
+        const option_with_profile = document.getElementById(`option-with-profile-${ans}`);
+        option_with_profile.appendChild(tempDiv);
+        option_with_profile.innerHTML += `
+            <div class="arrow-down"></div>
+        `;
         document.getElementById(`profile_${index}`).innerHTML += `
             <div class="bubble_down" id="bubble_${index}">
                 ${ans_text}
             </div>
         `;
+        document.querySelector(".profile-in-option > * > * > .status").innerHTML = ``;
     }
 
     else if (phase == 4) {
@@ -498,7 +508,7 @@ function start_bot_timers(index_list, type) {
     for (index of index_list) {
         start_time[index] = Date.now();
         if (test_mode)
-            temp_time = 1;
+            temp_time = 0.5;
         else {
             if (type != 'issue')
                 temp_time = time_configurations[type][0] + Math.random() * time_configurations[type][1];

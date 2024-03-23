@@ -12,6 +12,7 @@ const set_index_to_name = {
 };
 
 const phase_2_starting_question_index = 12;
+const instruction_background_color = "#d3d3d354";
 
 
 
@@ -26,8 +27,10 @@ function shuffleArray(array) {
 
 
 function determine_phase_3_order() {
-    const num_of_sets = Object.keys(phase_2_statements).length;
-    phase_2_orders.set_order = shuffleArray([...Array(num_of_sets).keys()]);
+    // const num_of_sets = Object.keys(phase_2_statements).length;
+    const num_of_sets = 1;
+    // phase_2_orders.set_order = shuffleArray([...Array(num_of_sets).keys()]);
+    phase_2_orders.set_order = [2];
     for (const set_index of phase_2_orders.set_order) {
         const key = set_index_to_name[set_index];
         let enabled_length = 0;
@@ -52,6 +55,7 @@ determine_phase_3_order();
 
 
 function test_phase_II() {
+    test_mode = true;
     phase = 3;
     pseudonyms_chosen = ["Alice", "Alex", "Betty"];
     avatars_index_chosen = [0, 1, 2];
@@ -62,10 +66,14 @@ function test_phase_II() {
         [3, 4, 5],
         [6, 7, 8]
     ];
-    // phase_2_orders.participant_order = [1, 1, 1, 1];
+    phase_2_orders.participant_order = [2, 1, 1, 1];
     next_question_seqNum = phase_2_starting_question_index;
     init_phase_3();
 }
+
+
+
+// test_phase_II();
 
 
 
@@ -104,12 +112,15 @@ function init_phase_3() {
     // change DOM
     document.querySelector(".quiz_body").innerHTML = `
         <div class="split" id="left_part_phase_II">
-            <div class="instruction_phase_3"></div>
-            <div id="identity_wrap_phase_II"></div>
+            <div id="left_content_phase_II">
+                <div class="instruction_phase_3"></div>
+                <div id="identity_wrap_phase_II"></div>
+            </div>
         </div>
 
         <div class="split" id="right_part_phase_II">
             <div id="right_content_phase_II">
+                <div id="instruction_right_phase_II"></div>
                 <div class="question_phase_3"></div>
                 <div class="statement_phase_3"></div>
                 <div id="answer_area_phase_II">
@@ -119,8 +130,12 @@ function init_phase_3() {
                     </div>
                     <div id="operations">
                         <div id="options_container">
-                            <button class="option-button" onclick="selectOption(0)" id="left_option">Option 1</button>
-                            <button class="option-button" onclick="selectOption(1)" id="right_option">Option 2</button>
+                            <div class="option-with-profile" id="option-with-profile-0">
+                                <button class="option-button" onclick="selectOption(0)" id="left_option">Option 1</button>
+                            </div>
+                            <div class="option-with-profile" id="option-with-profile-1">
+                                <button class="option-button" onclick="selectOption(1)" id="right_option">Option 2</button>
+                            </div>
                         </div>
                         <div id="buttons_container">
                             <button class="submit-button" disabled>Submit</button>
@@ -130,10 +145,11 @@ function init_phase_3() {
             </div>
         </div>
     `;
-    let question = document.querySelector(".question_phase_3");
-    let statement = document.querySelector(".statement_phase_3");
-    let instruction = document.querySelector(".instruction_phase_3");
-    let answer_area = document.querySelector("#answer_area_phase_II");
+    const question = document.querySelector(".question_phase_3");
+    const statement = document.querySelector(".statement_phase_3");
+    const instruction = document.querySelector(".instruction_phase_3");
+    const instruction_right = document.getElementById("instruction_right_phase_II");
+    const answer_area = document.querySelector("#answer_area_phase_II");
     const set_num = Math.floor(question_seqNum_in_phase / 5);
     const question_num = question_seqNum_in_phase % 5;
     const set_index = phase_2_orders.set_order[set_num];
@@ -145,12 +161,20 @@ function init_phase_3() {
     const set_begin_seqNum = phase_2_starting_question_index + 5 * set_num;
     const set_end_seqNum = set_begin_seqNum + 4;
     if (answers_first == human_index) {
-        instruction.innerHTML = `For Q${set_begin_seqNum}~Q${set_end_seqNum}, <b>You</b> are picked to answer first.\nPlease choose your answer.`;
+        instruction_right.innerHTML = `
+            <div>
+                For Q${set_begin_seqNum}~Q${set_end_seqNum}, <b>You</b> are picked to answer first. Please choose your answer.
+            </div>
+        `;
+        instruction_right.style[`background-color`] = instruction_background_color;
     } else {
         instruction.innerHTML = `
-            For Q${set_begin_seqNum}~Q${set_end_seqNum}, <b>${pseudonyms_chosen[answers_first]}</b> is picked to answer first. Please wait
-            <span class="dots"></span>
+            <div>
+                For Q${set_begin_seqNum}~Q${set_end_seqNum}, <b>${pseudonyms_chosen[answers_first]}</b> is picked to answer first. Please wait
+                <span class="dots"></span>
+            </div>
         `;
+        instruction.style[`background-color`] = instruction_background_color;
         transform_dots();
     }
 
@@ -235,9 +259,16 @@ function init_phase_3() {
                     }
                     index++;
                     instruction.innerHTML = `
-                        Now it's <b>${pseudonyms_left[0]}</b>'s and <b>${pseudonyms_left[1]}</b>'s turn to answer this question. Please wait
-                        <span class="dots"></span>
+                        <div>
+                            Now it's <b>${pseudonyms_left[0]}</b>'s and <b>${pseudonyms_left[1]}</b>'s turn to answer this question. Please wait
+                            <span class="dots"></span>
+                        </div>
                     `;
+                    instruction.style[`background-color`] = instruction_background_color;
+                    instruction_right.innerHTML = ``;
+                    console.log("before", instruction_right.style[`background-color`])
+                    instruction_right.style[`background-color`] = "";
+                    console.log("before", instruction_right.style[`background-color`])
                     transform_dots();
                 });
                 bots_index = generate_bot_array(num_of_participants, human_index);
@@ -268,9 +299,10 @@ function init_phase_3() {
 function after_bot_input_phase_3() {
     document.removeEventListener("timeup", after_bot_input_phase_3);
     all_bots_timeup = false;
-    let instruction = document.querySelector(".instruction_phase_3");
-    let statement = document.querySelector(".statement_phase_3");
-    let answer_area = document.querySelector("#answer_area_phase_II");
+    const instruction = document.querySelector(".instruction_phase_3");
+    const instruction_right = document.getElementById("instruction_right_phase_II");
+    const statement = document.querySelector(".statement_phase_3");
+    const answer_area = document.querySelector("#answer_area_phase_II");
     const set_num = Math.floor(question_seqNum_in_phase / 5);
     const set_index = phase_2_orders.set_order[set_num];
     const question_index = phase_2_orders.question_order[set_num][question_seqNum_in_phase % 5];
@@ -309,9 +341,14 @@ function after_bot_input_phase_3() {
         // deal with instruction
         index_of_bots_left = generate_bot_array(num_of_participants, human_index);
         index_of_bots_left.splice(index_of_bots_left.indexOf(answers_first), 1);
-        instruction.innerHTML = `
-            Now it's <b>YOUR</b> and <b>${pseudonyms_chosen[index_of_bots_left[0]]}</b>'s turn to answer this question. Please choose your answer.
+        instruction.innerHTML = ``;
+        instruction.style[`background-color`] = "";
+        instruction_right.innerHTML = `
+            <div>
+                Now it's <b>YOUR</b> and <b>${pseudonyms_chosen[index_of_bots_left[0]]}</b>'s turn to answer this question. Please choose your answer.
+            </div>
         `;
+        instruction_right.style[`background-color`] = instruction_background_color;
         // start_bot_timers
         start_bot_timers(index_of_bots_left, "phase_3_question");
         start_time[human_index] = Date.now();
@@ -349,8 +386,16 @@ function all_finish_answering_phase_3() {
 
     // a lag before "check your answers"
     setTimeout(() => {
-        let instruction = document.querySelector(".instruction_phase_3");
-        instruction.innerHTML = `All of you have finished answering.\nPlease enter the next question.`;
+        const instruction_right = document.getElementById("instruction_right_phase_II");
+        const instruction = document.getElementsByClassName("instruction_phase_3")[0];
+        instruction_right.innerHTML = `
+            <div>
+                All of you have finished answering.\nPlease enter the next question.
+            </div>
+        `;
+        instruction_right.style[`background-color`] = instruction_background_color;
+        instruction.innerHTML = ``;
+        instruction.style[`background-color`] = "";
         const answer_area = document.querySelector("#answer_area_phase_II");
         answer_area.innerHTML = `<button class="enter-next-button">Next Question</button>`;
         answer_area.classList.remove("concealed");

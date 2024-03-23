@@ -1,12 +1,12 @@
 #answer_area_phase_II {
     width: 100%;
-    margin-top: 50px;
+    margin-top: 30px;
 }
 
 #pictures_container {
     /* display: flex; */
     display: none;
-    justify-content: space-evenly;
+    justify-content: center;
 }
 
 .picture_phase_II {
@@ -20,11 +20,12 @@
     display: flex;
     flex-direction: row;
     margin: auto;
-    justify-content: space-around;
-    margin-top: 20px;
-    width: 250px;
+    margin-top: auto;
+    justify-content: space-between;
+    margin-top: 110px;
+    width: 464px;
     padding: 15px;
-    border: 5px dashed lightgray;
+    border: 5px dashed lightgray
 }
 
 .option-button {
@@ -35,6 +36,7 @@
     position: relative;
     height: 50px;
     cursor: pointer;
+    margin: 0px 30px;
 }
 
 .option-button.selected {
@@ -126,9 +128,15 @@
     right: 0;
 }
 
+#left_content_phase_II {
+    /* height: 100%; */
+    padding: 4% 50px 0px 50px;
+    text-align: center;
+}
+
 #right_content_phase_II {
-    height: 100%;
-    padding: 50px;
+    /* height: 100%; */
+    padding: 0px 50px 0px 50px;
     text-align: center;
 }
 
@@ -136,10 +144,51 @@
     display: flex;
     flex-direction: column;
     text-align: center;
-    margin-top: 20px;
 }
 
 #identity_wrap_phase_II > .profile_with_labels {
     width: 80%;
     margin: 0px auto 50px auto;
+}
+
+
+.profile-in-option {
+    scale: 0.5;
+    position: absolute;
+    width: 250px;
+    top: -145px;
+    left: -47px;
+    border: 0px;
+    border-radius: 10px;
+    aspect-ratio: 5 / 3;
+    max-width: 250px;
+    padding: 0px
+}
+
+.option-with-profile {
+    position: relative;
+}
+
+.arrow-down {
+    position: absolute;
+    top: -33px;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 13px solid black;
+    transform: translateX(-50%);
+}
+
+#instruction_right_phase_II {
+    margin-top: 4%;
+    min-height: 35px;
+    font-size: 18px;
+    padding: 15px 30px 15px 30px;
+    text-align: center;
+    line-height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center
 }
