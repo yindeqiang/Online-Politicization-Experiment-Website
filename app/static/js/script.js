@@ -598,19 +598,6 @@ function attention_check() {
 
 choose_identity();
 
-// phase = 2;
-// avatars_index_chosen = [0, 1, 2];
-
-// data.ideologies = [-1, 0, 1];
-// data.labels = [
-//     [0, 1, 2],
-//     [3, 4, 5],
-//     [6, 7, 8]
-// ];
-
-// pseudonyms_chosen = ['Alice', 'Bob', 'Carol'];
-// init_phase_2();
-
 
 // track inactivity, 2 minutes
 const inactivityTimeout = 1000 * 120;

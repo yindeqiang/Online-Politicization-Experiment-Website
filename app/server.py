@@ -172,6 +172,7 @@ def quiz(quiz_type):
                     identity_choices=post_data.get("identity_choices"),
                     bot_detected=post_data.get("bot_detected"),
                     reason=post_data.get("reason"),
+                    ideologies=post_data.get('ideologies'),
                 )
                 db.session.add(condition_1_data)
             
@@ -190,6 +191,7 @@ def quiz(quiz_type):
                     identity_choices=post_data.get("identity_choices"),
                     bot_detected=post_data.get("bot_detected"),
                     reason=post_data.get("reason"),
+                    ideologies=post_data.get('ideologies'),
                 )
                 db.session.add(condition_2_data)
             
@@ -208,6 +210,7 @@ def quiz(quiz_type):
                     identity_choices=post_data.get("identity_choices"),
                     bot_detected=post_data.get("bot_detected"),
                     reason=post_data.get("reason"),
+                    ideologies=post_data.get('ideologies'),
                 )
                 db.session.add(condition_3_data)
 
