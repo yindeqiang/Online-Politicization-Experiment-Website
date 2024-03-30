@@ -57,6 +57,7 @@ class Condition_2(Base):
         "idx_of_question": 4        // 问题在问题库中的序号
     }
     ```
+    **注意**：2024年3月20日前的condition实验中每个问题的问题序号是唯一不重复的。在这之后的condition实验中，每个问题组（issue、prediction等）的问题序号都从0开始，每个问题组大概有10-15个问题。因此，"idx_of_question"被规定为问题组的序号*20+该问题组中问题的序号，这样可以保证每个问题序号的唯一。
 - **non_ideology_answers**：Phase II的答案，同样是一个列表，格式如下。对于answers字段，如果受试者先回答，则bot的回答记为-100（或None）；如果某一个bot先回答，则记录bot和人类受试者的答案，另一个bot的回答记为不存在。
     ```JSON
     {
