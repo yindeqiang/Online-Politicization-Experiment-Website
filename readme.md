@@ -57,6 +57,7 @@ class Condition_2(Base):
         "idx_of_question": 4        // 问题在问题库中的序号
     }
     ```
+    **注意**：2024年3月20日前的condition实验中每个问题的问题序号是唯一不重复的。在这之后的condition实验中，每个问题组（issue、prediction等）的问题序号都从0开始，每个问题组大概有10-15个问题。因此，"idx_of_question"被规定为问题组的序号*20+该问题组中问题的序号，这样可以保证每个问题序号的唯一。
 - **non_ideology_answers**：Phase II的答案，同样是一个列表，格式如下。对于answers字段，如果受试者先回答，则bot的回答记为-100（或None）；如果某一个bot先回答，则记录bot和人类受试者的答案，另一个bot的回答记为不存在。
     ```JSON
     {
@@ -127,7 +128,7 @@ git pull
 - **How much are you paying for this project?** 以及 **How long will it take for your project to complete (estimated minutes)?**，价格由完成时间决定。标准为每分钟0.25美元。例如需要10分钟完成则每人支付2.5美元。
 - **Demographic Targeting**：Political Ideology要设置每种20%的quota，同时Standard Demographics要添加上所有的General表项，但不设置quota，这样就可以在完成实验后从Connect平台上下载所有受试者的Demographic信息，这个数据是不同于数据库的。
 
-**通常我会先发布20个左右的实验，确认平均完成时间，同时写好数据处理的代码查看初步分析结果，确保没有问题后，再正式发布实验。正式发布实验通常选择美国时间的晚上，如果是周末则更好。**
+**通常我会先发布20个左右的实验，确认平均完成时间**(80%的受试者需要在这个时间内完成)**，同时写好数据处理的代码查看初步分析结果，确保没有问题后，再正式发布实验。正式发布实验通常选择美国时间的晚上，如果是周末则更好。**
 
 ### Step 5. Connect平台的额外处理
 Connect平台有一个额外设置是：受试者在完成实验后进入Pending状态，不会立即收到reward，在发布实验者Accept它的数据后才会付钱，当然也可以Refuse，这样就不会付钱。
