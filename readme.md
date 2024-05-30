@@ -38,7 +38,7 @@ class Condition_2(Base):
 - **participantId, assignmentId, projectId**：字符串类型。这是Connect平台规定的participant、assignment以及project标识符。
 - **attention_passed**：是否通过了问卷中的attention pass，只有通过了才会被算作有效数据进入分析。通过为1，不通过为0。
 - **total_time**：完成问卷需要的总时间
-- **identity_choices**：[a, None, b]的形式，在实验中bot会被预设一个意识形态，bot_0以75%的概率选择Conservative（-2），以25%的概率选择Somewhat conservative（-1），bot_2以75%的概率选择Liberal（2），以25%的概率选择Somewhat liberal（-1）（3.17修改前的概率是50%+50%）。None表示human_1的意识形态空缺。
+- **ideologies**：[a, None, b]的形式，在实验中bot会被预设一个意识形态，bot_0以75%的概率选择Conservative（-2），以25%的概率选择Somewhat conservative（-1），bot_2以75%的概率选择Liberal（2），以25%的概率选择Somewhat liberal（-1）（3.17修改前的概率是50%+50%）。None表示human_1的意识形态空缺。
 - **identity_choices**：3个受试者选择的头像和名字，可以忽略
 - **bot_detected**：部分实验最后问了人类受试者其他受试者的职业，第6个选项是bot，其它则是一些职业（教室、工程师等），借此来判断是否意识到了其他受试者是bot。储存的值为【bot_0的职业选项 * 10 + bot_2的职业选项】。因此如果值为56则代表bot_0不被认为是bot，bot_2被认为是bot。（其实是个完全没有必要的trick，但是现在也就不改了...）
 - **submit_time**：提交问卷的时间
