@@ -27,7 +27,7 @@
         <p>
             Dear Partcipant,
             <br><br>
-            Thank you for participating in the Interactive Survey Experiments! Please read this page carefully and check the boxes at the bottom of the page if you agree to participate. You must be <b>18 years old or older</b> to participate. Please use a computer to answer all the questions. We recommend using either <i><b>Google Chrome</b></i> or <i><b>Firefox</b></i> for the best experience throughout the entire process. Please avoid using outdated browsers like Internet Explorer (IE), as the experiment may not function correctly with them.
+            Thank you for participating in this survey experiments! Please read this page carefully and check the boxes at the bottom of the page if you agree to participate. You must be <b>18 years old or older</b> to participate. Please use a computer to answer all the questions. We recommend using either <i><b>Google Chrome</b></i> or <i><b>Firefox</b></i> for the best experience throughout the entire process. Please avoid using outdated browsers like Internet Explorer (IE), as the experiment may not function correctly with them.
         </p>
 
         {% if participantId != '' %}
@@ -42,7 +42,7 @@
 
         {% if quiz_type == 'pilot_1' %}
             <p>
-                If you agree to participate, you will be randomly assigned with two other participants to form a group of three, and will answer 10 questions about your own attitudes towards some public issues. After answering each question, all the participants' answers will be disclosed to each other. After the experiment, you will be asked to place yourself and the other two participants on an ideology spectrum. Therefore, please be aware of the other two participants' answers. In the whole process, your identity will be kept anonymous.
+                In this survey, you will be asked 10 questions on your ideology, hard facts, predictions of the future, some potentially controversial public issues and some design problems. We will <b>randomly</b> draw two previous participants from the dataset of our earlier experiments. Their answers to each question will be shown to you <b>after</b> you submit your own answer.
             </p>
         {% elif quiz_type == 'pilot_2' or quiz_type == "pilot_2_2" %}
             <p>
@@ -50,23 +50,28 @@
             </p>
         {% elif quiz_type == "condition_1" %}
             <p>
-                If you agree to participate, you will be randomly assigned to a group of three participants. You and the other two participants will answer a sequence of 6 questions on either hard facts, or future predictions, or potentially controversial issues. For each question, one participant will be randomly chosen and answer the question first. Then her/his answer, together with the question, will be disclosed to the other two participants. In the whole process, your identity will be kept anonymous.
+                In this survey, you will be asked 6 questions on your ideology, hard facts, predictions of the future, some potentially controversial public issues and some design problems. We will <b>randomly</b> draw two previous participants from the dataset of our earlier experiments. We will randomly pick one of the two previous participants, and show you her/his answer together with each question <b>before</b> you submit your answer.
             </p>
         {% else %}
             <p>
-                If you agree to participate, you will be randomly assigned to a group of three participants. You and the other two participants will answer a sequence of about 15 questions about hard facts, predictions of future trends, personal preferences, attitudes towards public issues or design problems. This experiment mainly consists of two phases:
+                This experiment consists of two phases. In each phase you will answer a set of questions about hard facts, future predictions, personal preferences, attitudes towards public issues, or design problems.
             </p>
             <ul>
                 <li>
                     <p>
-                        In Phase 1, after answering each question, all the participants' answers will be disclosed to each other. After this phase, you will be asked about how you think of the other two participants. Your appraisals of the other two participants will <b>NOT</b> be disclosed to them.
+                        Phase 1 contains 10 questions. We will <b>randomly</b> draw two previous participants from the dataset of our earlier experiments. Their answers to each question will be shown to you <b>after</b> you submit your own answer.
                     </p>
                 </li>
                 <li>
                     <p>
-                        In Phase 2, for each question, one participant will be randomly chosen and answer the question first. Then her/his answer, together with the question, will be disclosed to the other two participants.
+                        Between Phase 1 and Phase 2, you will be asked about how you think of these two previous participants. So, please be aware of their answers in Phase 1.
                     </p>
                 </li>
+                <li>
+                    <p>
+                        In Phase 2, you will be asked 6 questions. We will randomly pick one of the two previous participants, and show you her/his answer together with each question <b>before</b> you submit your answer.
+                    </p>
+                </li> 
             </ul>
             <p>
                 You will see detailed instructions during the experiment. In the whole process, your identity will be kept anonymous.
@@ -76,7 +81,7 @@
         {% if quiz_type != 'pilot_1' and quiz_type != 'pilot_2' %}
         <h3 class="underline">Attention checks and conditions for getting paid</h3>
         <p>
-            We will insert three easy and straightforward attention check questions in our experiment. You will get paid if you complete the survey experiment and answer all of the attention check questions correctly.
+            We will insert three easy and straightforward attention check questions in our experiment. You will get paid if you answer all the attention-check questions correctly and complete the survey experiment.
         </p>
         {% endif %}
 
