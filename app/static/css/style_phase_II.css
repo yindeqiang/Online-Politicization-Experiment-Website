@@ -1,10 +1,14 @@
 #answer_area_phase_II {
     width: 100%;
-    margin-top: 30px;
+    /*margin-top: 0px;/*原来是将选项上面放图片30px，现在10px即可*/
+    margin-top: 3%;
+
+    display: flex;
+    flex-direction: row;/*尝试让mention+2个operation+submit改成横向排布*/
 }
 
 #pictures_container {
-    /* display: flex; */
+    /* display: flex;只有在启用图片问答才会用到 */
     display: none;
     justify-content: center;
 }
@@ -16,27 +20,34 @@
     margin: 0 30px;
 }
 
+/*推测#pictures_container原本可能是用来包含一些图片或类似图片的元素（由.picture_phase_II类表示），
+但现在由于display: none;，这个容器是不可见的。.picture_phase_II类定义的样式则代表每个图片元素的外观和布局。如果以后需要显示这些图片，
+可能需要取消对#pictures_container的display: none;的注释，并可能还需要启用display: flex;来以flex布局方式展示图片。*/
+
 #options_container {
     display: flex;
     flex-direction: row;
     margin: auto;
     margin-top: auto;
     justify-content: space-between;
-    margin-top: 110px;
-    width: 464px;
-    padding: 15px;
-    border: 5px dashed lightgray
+    /*margin-top: 110px;*/
+    margin-top: 5px;
+    width: 400px;/*选项框宽度*/
+    /*padding: 15px;*/
+    /*border: 5px dashed lightgray*/
+    margin-right: 40px; /* 设置右边距 */
+    margin-left: 20px;
 }
 
 .option-button {
     border: 2px solid black;
     font-size: 18px;
     border-radius: 10px;
-    width: 100px;
+    width: 120px;/*按键宽度*/
     position: relative;
     height: 50px;
     cursor: pointer;
-    margin: 0px 30px;
+    margin: 0px 10px;
 }
 
 .option-button.selected {
@@ -52,7 +63,7 @@
 }
 
 .submit-button {
-    margin-top: 30px;
+    margin-top: 12px;
     padding: 10px 20px;
     cursor: pointer;
 }
@@ -88,6 +99,19 @@
     animation: 0.3s linear popup;
     background-color: lightgrey;
   }
+  /*
+  这个类定义了一个具有向下箭头效果的“气泡”样式。
+
+width: 80px;：设置元素的宽度为80像素。
+border: 3px solid black;：设置边框宽度为3像素，样式为实线，颜色为黑色。
+padding: 10px;：设置内边距为10像素。
+text-align: center;：文本居中对齐。
+color: black;：文本颜色为黑色。
+position: absolute;：设置元素的定位方式为绝对定位。
+top: 110px; 和 left: 60px;：通过绝对定位，设置元素距离其最近的已定位父元素的顶部和左侧的距离。
+border-radius: 20px;：设置边框圆角为20像素。
+animation: 0.3s linear popup;：应用一个名为 popup 的动画效果，持续时间为0.3秒，速度曲线为线性。
+background-color: lightgrey;：设置背景颜色为浅灰色。*/
 
 .bubble_down::before {
     content: "";
@@ -101,6 +125,15 @@
     right: 66px;
     top: -20px;
 }
+/*
+这个伪元素用于创建向下的箭头效果，位于 .bubble_down 元素的上方。
+
+content: "";：伪元素的内容为空。
+width: 0px; 和 height: 0px;：设置元素的宽度和高度为0，这常用于创建三角形或其他形状。
+position: absolute;：设置伪元素的定位方式为绝对定位。
+border-left: 9px solid black; 等：通过边框属性来创建三角形的形状。这里通过透明边框和不透明边框的组合，创建了一个指向下方的黑色三角形。
+right: 66px; 和 top: -20px;：通过绝对定位，设置伪元素距离 .bubble_down 元素的右侧和顶部的距离。
+*/
 
 .bubble_down::after {
     content: "";
@@ -115,22 +148,53 @@
     top: -13px;
 }
 
+/*
+这个伪元素也用于创建向下的箭头效果，但它是浅灰色的，并且位于 .bubble_down 元素的 .bubble_down::before 伪元素之上，形成箭头的层次感。
+
+content: "";：同样，伪元素的内容为空。
+width: 0px; 和 height: 0px;：宽度和高度也为0。
+position: absolute;：绝对定位。
+border-left: 10px solid lightgrey; 等：同样通过边框属性创建三角形，但这次使用浅灰色。
+right: 61px; 和 top: -13px;：设置伪元素距离 .bubble_down 元素的右侧和顶部的距离。
+通过这些样式和伪元素，.bubble_down 类可以创建出一个带有向下箭头的浅灰色气泡效果，这通常用于提示信息或用户交互界面中的某些动作。
+*/
+
 #left_part_phase_II {
-    width: calc(40%);
+    width: calc(30%);/*最高级的类，直接占据的是整个页面的宽度40%，左半边占40%宽度，下面右半部分占60%*/
     left: 0;
     border-right: 3px solid lightgrey;
     min-height: 100%;
     height: min-content;
+    display:none;/*20240626,不显示左半边*/
 }
-
+/*仅写phaseII,代表是左右两部分的一个框架*/
 #right_part_phase_II {
-    width: calc(60%);
+    width: calc(100%);/*换成右边100%*//*///////////////////////////////////////////////////////////*/
     right: 0;
 }
 
+#choose_part {
+    width: calc(100%);/*加一整个的空白页面*/
+    left: 0;
+    min-height: 100%;
+    height: min-content;
+}
+
+/*#left_part_phase_II
+
+宽度设置为父元素宽度的40%。
+左边对齐。
+右侧有一个3像素宽度的浅灰色边框。
+最小高度为父元素的100%。
+高度设置为最小内容的高度，这通常意味着它会根据其内容调整高度，但永远不会超过内容所需的最小高度。
+#right_part_phase_II
+
+宽度设置为父元素宽度的60%。
+右边对齐。*/
+
 #left_content_phase_II {
     /* height: 100%; */
-    padding: 4% 50px 0px 50px;
+    padding: 1% 50px 0px 50px;/*左半部分的内边距*/
     text-align: center;
 }
 
@@ -140,20 +204,16 @@
     text-align: center;
 }
 
-#identity_wrap_phase_II {
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-}
+/*left_content_phase_II 和 #right_content_phase_II
 
-#identity_wrap_phase_II > .profile_with_labels {
-    width: 80%;
-    margin: 0px auto 50px auto;
-}
+这两个元素都有内边距，上下左右分别为4%或0，以及50像素。
+文本居中对齐。*/
+
 
 
 .profile-in-option {
-    scale: 0.5;
+    /*scale: 0.5;*/
+    scale: 0.3;
     position: absolute;
     width: 250px;
     top: -145px;
@@ -164,12 +224,26 @@
     max-width: 250px;
     padding: 0px
 }
+/*profile-in-option
 
-.option-with-profile {
+缩放比例为0.5（缩小到原始大小的一半），在选项部分的展示是原来的一半大小
+绝对定位。
+宽度为250像素。
+顶部和左边有特定的偏移量。
+无边框，但有10像素的圆角。
+宽高比为5:3。
+最大宽度为250像素（但实际上与上面设置的固定宽度冲突，所以这个属性可能没有实际作用）。
+无内边距。*/
+
+.option-with-profile {/*基于选项位置的相对定位！！！*/
     position: relative;
 }
+/*这个类定义了一个元素的定位属性。
 
-.arrow-down {
+position: relative;：设置元素的定位方式为相对定位。
+这意味着，如果在这个元素内部有使用绝对定位的子元素，那么这些子元素的定位会相对于这个 .option-with-profile 元素而不是整个文档。*/
+
+.arrow-down {/*向下的箭头样式，在新20240423的实验里不再使用*/
     position: absolute;
     top: -33px;
     left: 50%;
@@ -180,9 +254,75 @@
     border-top: 13px solid black;
     transform: translateX(-50%);
 }
+/*这个类定义了一个向下的箭头形状，并设置了它的位置。
+
+position: absolute;：设置元素的定位方式为绝对定位。这意味着这个箭头会相对于其最近的已定位（即 position 属性不是 static）的父元素进行定位。
+top: -33px;：将箭头向上移动33像素，使其部分位于其容器元素的外部。
+left: 50%;：将箭头的左侧设置为容器宽度的50%。
+width: 0; 和 height: 0;：设置箭头的宽度和高度为0，这是创建三角形或箭头形状的一种常见技巧。
+border-left: 3px solid transparent;：设置左侧边框为3像素宽，透明色。
+border-right: 3px solid transparent;：设置右侧边框为3像素宽，透明色。
+border-top: 13px solid black;：设置顶部边框为13像素宽，黑色。通过设置上下边框为透明，左右边框为透明或特定颜色，并设置边框宽度，可以创建出三角形的视觉效果。在这个例子中，一个指向下方的黑色三角形被创建出来。
+transform: translateX(-50%);：使用CSS的变换功能将箭头在水平方向上移动其自身宽度的-50%。因为箭头的宽度是0，所以这个变换实际上是将箭头在水平方向上居中于其容器的中心。这确保了箭头无论容器的宽度如何都能保持居中。
+综合来看，.option-with-profile 类设置了一个元素的相对定位基础，而 .arrow-down 类则在这个基础上创建了一个指向下方的黑色三角形箭头，并将其垂直方向上移一部分，水平方向上居中。这样的组合通常用于在用户界面中的某个选项或元素旁边添加一个视觉指示器，比如一个下拉箭头，以提示用户可以点击或展开该选项*/
+
+
+
+.arrow-down-new {
+    position: absolute;
+    top: 20px;
+    /*下面是创建一个三角形的效果*/
+    width: 0;
+    height: 0;
+    border-left: 9px solid transparent;
+    border-right: 9px solid transparent;
+    border-top: 39px solid black;/*这里三个位置分别乘5就可以放大5倍，原来是3，3，13*/
+    
+}
+
+.arrow-left {/*向左的箭头在最右边*/
+    right: -10px;
+    transform: translateY(-50%) rotate(90deg);/*y轴居中*/
+    /*transform: translateX(-50%) rotate(90deg);沿X轴平移宽度的一半保持居中，并将向下的箭头旋转90度后向左*/
+}
+
+.mention-left{
+
+    position: absolute;
+    top: 55px;
+    left: 0px;
+
+}
+
+.mention-left,
+.mention-right {
+    font-size: 0.6em; /* 设置较小的字体大小，默认字体的80%大*/
+    /*font-weight: bold; /* 设置加粗 */
+}
+
+.mention-left div,
+.mention-right div {
+    display: inline-block; /* 确保文本节点可以独占一行 */
+}
+
+
+.arrow-right {/*向右的箭头在最左边*/
+    left: -10px;
+    transform: translateY(-50%) rotate(-90deg);/*y轴居中*/
+    /*transform: translateX(-50%) rotate(-90deg);沿X轴平移宽度的一半保持居中，并将向下箭头逆时针旋转90度后向右*/
+}
+
+.mention-right{
+    position: absolute;
+    top: 55px;
+    right: 0px;
+
+}
+
+
 
 #instruction_right_phase_II {
-    margin-top: 4%;
+    margin-top: 12%;
     min-height: 35px;
     font-size: 18px;
     padding: 15px 30px 15px 30px;
@@ -192,3 +332,776 @@
     align-items: center;
     justify-content: center
 }
+
+/*option-with-profile
+
+相对定位。这通常是为了允许其子元素（如.profile-in-option）使用绝对定位。
+.arrow-down
+
+绝对定位。
+顶部有特定的偏移量。
+水平居中。
+使用边框创建了一个向下的箭头形状，颜色为黑色。
+#instruction_right_phase_II
+
+顶部外边距为父元素高度的4%。
+最小高度为35像素。
+字体大小为18像素。
+内边距为上下左右各15像素和30像素。
+文本居中对齐。
+行高为25像素。
+使用flex布局，子元素在垂直和水平方向上都居中对齐。*/
+
+/*.label-liberal {  
+    color: red; /* 红色文字 
+}  
+  
+.label-somewhat-liberal {  
+    color: blue; /* 蓝色文字  
+}  */
+/*/////////////////////////////////////////////////////////////////////////////////////////////////////*/
+
+#identity_wrap_phase_II {/*这是3个卡片的排列方式*/
+    display: flex;/*这行代码将该元素设置为flex容器，这意味着它的直接子元素会成为flex项目，并会按照flex布局的规则来排列。*/
+    flex-direction: column;/*flex子项应该沿着垂直方向（从上到下）排列*/
+    /*flex-direction: row;*/
+    text-align: center;/*这行代码将文本内容（如果#identity_wrap_phase_II元素或其子元素包含文本的话）水平居中*/
+}
+/*dentity_wrap_phase_II
+
+这是一个flex容器，其子元素会按照列方向排列。
+文本居中对齐。*/
+
+#identity_wrap_choose {/*这是抽签环节3个卡片的排列方式，
+    可以让三个卡片堆叠在一起交替闪亮（display，但会清除原来对应部分的元素信息值）来实现在一个文本框里面出现*/
+    position: fixed;
+    top: 20%;
+    left: 40%;
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+}
+
+#identity_wrap_phase_II > .profile_with_labels {/*#identity_wrap_phase_II > .profile_with_labels 是一个选择器，专用的类选择器
+    它选择了ID为identity_wrap_phase_II的元素的直接子元素中类名为profile_with_labels的元素，这是因为.profile_with_labels有多处不同的使用*/
+    
+    scale: 1;
+    /*width: 100px; /* 调整卡片宽度,卡片的宽度为其包含块宽度的80%,下面已经订好了 */
+    /*height: 35%; /* 调整卡片高度 */
+    /* 下面是原来的样式 */
+    height: 32.5%;
+    margin: 0 auto 5px auto; 
+}
+.identity_wrap .profile_with_labels{
+    scale: 1;
+    height: 32.5%;
+    margin: 0 auto 5px auto; 
+
+}
+#identity_wrap_choose > .profile_with_labels {
+    scale: 1;
+    /*height: 50%; /* 调整卡片高度 */
+    height: 250px;
+    margin: 0 auto 5px auto; 
+    display: none; /* 初始时隐藏所有卡片 */
+}
+
+.profile_labeling {/*仅使用了一次，可以直接替换*/
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 27%;
+    padding: 10px;
+
+
+
+    /*新的纵向逻辑，上面是横向排列*/
+    /*width: 60%;/*宽度限定在27%！！！！！！！！*/
+    /*padding: 10px;/*设置元素的内边距，即元素内容与边框之间的距离。*/
+}
+
+#identity_wrap_phase_II .profile_labeling {
+    
+    width: 70%;/*宽度限定在27%！！！！！！！！*/
+    padding: 10px;/*设置元素的内边距，即元素内容与边框之间的距离。*/
+}
+
+.identity_wrap .profile_labeling {
+    
+    width: 70%;/*宽度限定在27%！！！！！！！！*/
+    padding: 10px;/*设置元素的内边距，即元素内容与边框之间的距离。*/
+}
+
+
+#identity_wrap_choose .profile_labeling {
+    
+    width: 100%;/*宽度限定在27%！！！！！！！！*/
+    padding: 10px;/*设置元素的内边距，即元素内容与边框之间的距离。*/
+}
+
+#identity_wrap_phase_II .profile_with_labels.profile_labeling .profile_content {
+    
+    height: 100%;
+    /*border: 2px solid black;*/
+    /*border-radius: 10px;*/
+    box-sizing: border-box;
+}/*相比原来没变化，可以不加...新的变化：去掉边界线,这一点需要放在老元素的后面才能生效，要不然会被覆盖！！*/
+
+#identity_wrap_choose .profile_with_labels.profile_labeling .profile_content {
+    
+    height: 100%;
+    /*border: 2px solid black;*/
+    /*border-radius: 10px;*/
+    box-sizing: border-box;
+}/*相比原来没变化，可以不加...新的变化：去掉边界线,这一点需要放在老元素的后面才能生效，要不然会被覆盖！！*/
+
+.profile_content {
+    height: 100%;
+    border: 2px solid black;
+    border-radius: 10px;
+    box-sizing: border-box;
+}
+/*可能用于为页面上的内容区域（如个人资料的主体部分）提供统一的样式，包括边框、圆角以及盒模型设置。*/
+
+#identity_wrap_phase_II .profile_with_labels.profile_labeling .profile_content .identity_part {
+    padding: 5px;/*保持10个像素的内边距*/
+    position: absolute;
+    width: 90%;
+    height: 50%;/*宽度占满，高度放一半，保证图片名字在上半区*/
+    top: 0;
+    left: 10px;
+    font-size: min(18px, 1.2vw);/*保证元素内的文本字体大小合适*/
+
+    /*flex布局使得在接下来的子元素在水平和竖直方向上居中对齐*/
+    display: flex;
+    /*justify-content: center;水平方向向左对齐*/
+    /*justify-content: flex-start; /* 将子元素向左对齐 */
+    align-items: center;/*垂直方向上居中*/
+}
+
+#identity_wrap_choose .profile_with_labels.profile_labeling .profile_content .identity_part {
+    padding: 5px;/*保持5个像素的内边距*/
+    position: absolute;
+    width: 90%;
+    height: 45%;/*宽度占满，高度放一半，保证图片名字在上半区*/
+    top: 0;
+    left: 10px;
+    font-size: min(18px, 1.2vw);/*保证元素内的文本字体大小合适*/
+
+    /*flex布局使得在接下来的子元素在水平和竖直方向上居中对齐*/
+    display: flex;
+    /*justify-content: center;水平方向向左对齐*/
+    /*justify-content: flex-start; /* 将子元素向左对齐 */
+    align-items: center;/*垂直方向上居中*/
+}
+
+
+.identity_part {/*仅用过一次，可以替换*/
+    padding: 5px;
+    position: absolute;
+    width: 30%;
+    height: 100%;
+    top :0;
+    border-radius: 10px;
+    font-size: min(18px, 1.2vw);
+    text-align: center;
+
+
+}
+/*这段 CSS 代码定义了一个类名为 .identity_part 的样式，下面是对每个属性的解释：
+
+padding: 5px;：设置元素的内边距为 5 像素，这样可以在元素内容和边界之间创建空间。
+position: absolute;：将元素的定位类型设置为绝对定位，这样元素将根据其最近的非 static 定位的父元素进行定位。
+width: 30%;：设置元素的宽度为其包含块宽度的 30%。
+height: 100%;：设置元素的高度为其包含块高度的 100%。
+left: 0;：将元素的左边缘与其包含块的左边缘对齐，即靠左定位。
+border-radius: 10px;：设置元素的边框圆角为 10 像素。
+font-size: min(18px, 1.2vw);：设置元素的字体大小为动态计算值，取其中较小的值，最小为 18 像素或视口宽度的 1.2%。
+text-align: center;：设置元素内文本的水平对齐方式为居中对齐。*/
+
+#identity_wrap_phase_II .profile_with_labels.profile_labeling .profile_content .identity_part img {
+    /*max-width: 45%;
+    max-height: 45%;
+    margin-right: 20px; /* 在子元素的右侧添加 20px 的间隔 */
+    /*width: auto; /* 让浏览器根据最大宽度和最大高度自动调整图片的宽度和高度，以保持长宽比 */
+    /*height: auto; /* 同上，保持长宽比 */
+    /*aspect-ratio: 1 / 1; /* 设置图片的长宽比为1:1 */
+
+    /*flex: 1; /* 让图片占据父容器的一半宽度 */
+    flex: 0 0 30%; /*不会伸长，不会收缩，占据父元素的33%*/
+    max-width: 30%; /* 图片最大宽度为50% */
+    width: auto; /* 让浏览器根据最大宽度和最大高度自动调整图片的宽度和高度，以保持长宽比 */
+    height: auto; /* 同上，保持长宽比 */
+    aspect-ratio: 1 / 1; /* 设置图片的长宽比为1:1 */
+}
+
+#identity_wrap_phase_II .profile_with_labels.profile_labeling .profile_content .identity_part .name {
+    flex: 0 0 70%; /*不会伸长，不会收缩，占据父元素的67%*/
+    /*margin-top: 10px;/*与上边框有10个像素的距离，字体加粗放大*/
+    font-weight: bold;
+    font-size:medium;
+    /*left: 0;
+    /*flex: 0.6; /* 让姓名占据父容器的一半宽度 */
+    /*text-align: center; /* 文本居中 */
+    text-align: left; /* 文本左对齐 */
+    margin-left: 40px; /* 图片和名字之间的间隔 */
+
+    
+}
+
+#identity_wrap_choose .profile_with_labels.profile_labeling .profile_content .identity_part img {
+    flex: 0 0 33%; /*不会伸长，不会收缩，占据父元素的33%*/
+    max-width: 33%; /* 图片最大宽度为50% */
+    width: auto; /* 让浏览器根据最大宽度和最大高度自动调整图片的宽度和高度，以保持长宽比 */
+    height: auto; /* 同上，保持长宽比 */
+    aspect-ratio: 1 / 1; /* 设置图片的长宽比为1:1 */
+}
+
+#identity_wrap_choose .profile_with_labels.profile_labeling .profile_content .identity_part .name {
+    flex: 0 0 60%; /*不会伸长，不会收缩，占据父元素的67%*/
+    /*margin-top: 10px;/*与上边框有10个像素的距离，字体加粗放大*/
+    font-weight: bold;
+    font-size: larger;
+
+    /*flex: 0.6; /* 让姓名占据父容器的一半宽度 */
+    /*text-align: center; /* 文本居中 */
+    margin-left: 30px; /* 图片和名字之间的间隔 */
+    
+}
+
+
+/* 标签部分的样式 */
+#identity_wrap_phase_II .profile_with_labels.profile_labeling .profile_content .labels_part {
+    position: absolute;
+    width: 90%;
+    left: 11px;
+    height: 55%;
+    bottom: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*justify-content: flex-start; /* 将子元素向左对齐 */
+    align-items: center;
+}
+
+
+
+.identity_wrap .profile_with_labels.profile_labeling .identity_part_phase_2 .labels_part {
+    /*position: absolute;*/
+    width: 90%;
+    left: 11px;
+    height: 55%;
+    bottom: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*justify-content: flex-start; /* 将子元素向左对齐 */
+    align-items: center;
+}
+
+#identity_wrap_choose .profile_with_labels.profile_labeling .profile_content .labels_part {
+    padding: 2px;
+    position: absolute;
+    width: 100%;
+    left: 10px;
+    height: 50%;
+    bottom: 2px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*justify-content: flex-start; /* 将子元素向左对齐 */
+    align-items: center;
+}
+
+.labels_part {/*仅用一次，可以替换使用*/
+    /*position: absolute;*/
+    width: 65%;
+    height: 100%;
+    right: 0;
+    border-radius: 10px;
+    text-align: left;
+    font-size: min(1.5vw, 18px);
+    line-height: min(1.2vw, 15px);/*原有横向逻辑*/
+
+    /*新的纵向逻辑*/
+
+    /*position: absolute;
+    width: 100%;
+    height: 50%;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;*/
+
+
+}
+
+.labels_list {/*这俩都是新的纵向逻辑*/
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+#identity_wrap_choose .profile_with_labels.profile_labeling .profile_content .labels_part ul.labels_list{/*这俩都是新的纵向逻辑*/
+    width :100%;/*这里是指定了抽签过程中的label——list应该占据所有的宽度和高度*/
+    height:100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.profile_with_labels.profile_labeling .identity_part_phase_2 .labels_part ul.labels_list{/*这俩都是新的纵向逻辑*/
+    width :100%;/*这里是指定了抽签过程中的label——list应该占据所有的宽度和高度*/
+    height:100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+
+.labels_list > li {
+    margin-top: 9px;/*该元素与其相邻元素之间将有9像素的空间，并且元素底部与其下方元素之间将有0.5像素的空间。*/
+    margin-bottom: 0.5px;
+    /*padding: 1px;*/
+    /*flex: 0 0 90%; /*不会伸长，不会收缩，占据父元素的33%*/
+    /*max-height: 15%; /* 图片最大宽度为50% */
+    /*width: auto; /* 让浏览器根据最大宽度和最大高度自动调整图片的宽度和高度，以保持长宽比 */
+    /*height: auto; /* 同上，保持长宽比 */
+    /*aspect-ratio: 1 / 1; /* 设置图片的长宽比为1:1 */
+
+}
+
+/*.labels_list > li::after {
+  content: ''; /* 添加伪元素的内容 
+  position: absolute; /* 将伪元素定位到li元素内 
+  top: 1px; /* 上方偏移量，使伪元素覆盖文本内容的上方 
+  left: 0px; /* 左侧偏移量，使伪元素覆盖文本内容的左侧 
+  width: calc(100% + 5px); /* 让伪元素的宽度比li元素的宽度大20px 
+  height: calc(100% + 2px); /* 让伪元素的高度比li元素的高度大20px 
+  background-color: inherit; /* 继承li元素的背景颜色 
+  z-index: -1; /* 将伪元素放在li元素的背面 
+}*/
+
+
+.profile-left-max {
+    scale: 0.8;
+    position: absolute;
+    /*width: 300%;*/
+    top: -100px;
+    left: -245px;
+    /*left:300%;*/
+    border: 0px;
+    border-radius: 10px;
+    /*height:300%;*/
+    width: 240px;
+    height: 200px;
+    padding: 0px
+}
+
+.profile-left {
+    scale: 0.8;
+    position: absolute;
+    /*width: 300%;*/
+    top: -60px;
+    left: -245px;
+    /*left:300%;*/
+    border: 0px;
+    border-radius: 10px;
+    /*height:300%;*/
+    width: 240px;/*240px*/
+    height:155px;/*155px;*/
+    padding: 0px
+}
+
+/*.profile-left-mention {
+    scale: 0.8;
+    position: absolute;
+    /*width: 300%;
+    top: -210px;
+    left: -245px;
+    /*left:300%;
+    border: 0px;
+    border-radius: 10px;
+    /*height:300%;
+    width: 240px;
+    height:155px;
+    padding: 0px
+}*/
+
+.profile-left .identity_part {
+    padding: 5px;/*保持5个像素的内边距*/
+    position: absolute;
+    width: 90%;
+    height: 50%;/*宽度占满，高度放一半，保证图片名字在上半区*/
+    top: 0;
+    left: 10px;
+    font-size: min(18px, 1.2vw);/*保证元素内的文本字体大小合适*/
+
+    /*flex布局使得在接下来的子元素在水平和竖直方向上居中对齐*/
+    display: flex;
+    /*justify-content: center;水平方向向左对齐*/
+    /*justify-content: flex-start; /* 将子元素向左对齐 */
+    align-items: center;/*垂直方向上居中*/
+}
+
+.profile-left .identity_part img {
+    flex: 0 0 33%; /*不会伸长，不会收缩，占据父元素的33%*/
+    max-width: 33%; /* 图片最大宽度为50% */
+    width: auto; /* 让浏览器根据最大宽度和最大高度自动调整图片的宽度和高度，以保持长宽比 */
+    height: auto; /* 同上，保持长宽比 */
+    aspect-ratio: 1 / 1; /* 设置图片的长宽比为1:1 */
+}
+
+.profile-left .identity_part .name {
+    flex: 0 0 60%; 
+    font-weight: bold;
+    font-size: larger;
+    margin-left: 10px; /* 图片和名字之间的间隔 */
+}
+
+.profile-left .labels_part {
+    position: absolute;
+    width: 95%;
+    left: 0;
+    height: 50%;
+    bottom: 2px;
+    display: flex;
+    flex-direction: column;
+    /*justify-content: center;水平方向向左对齐*/
+    /*justify-content: flex-start; /* 将子元素向左对齐 */
+    align-items: center; 
+    padding: 1px;
+}
+
+.profile-left-max .profile-left .mention {
+    position: absolute;
+    width: 95%;
+    left: 0;
+    height: 15%;
+    bottom: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    padding: 1px;
+}
+
+.profile-right {
+    /*transform-origin: left top;
+    left: auto;
+    right: -47px;*/
+    scale: 0.8;
+    position: absolute;
+    /*width: 300%;*/
+    top: -60px;
+    left: 155px;
+    /*left:200%;*/
+    border: 0px;
+    border-radius: 10px;
+    /*height: 300%;*/
+    width: 240px;
+    height: 155px;
+    padding: 0px
+}
+
+.profile-right-mention {
+    /*transform-origin: left top;
+    left: auto;
+    right: -47px;*/
+    scale: 0.8;
+    position: absolute;
+    /*width: 300%;*/
+    top: -50px;
+    left: 155px;
+    /*left:200%;*/
+    border: 0px;
+    border-radius: 10px;
+    /*height: 300%;*/
+    width: 240px;
+    height: 155px;
+    padding: 0px
+}
+
+.profile-right .identity_part {/*通过这样指定类下的样式应该是什么，可以把特定的样式复制到这里，
+    比如默认是横着，但是左边用类选择器换成纵向排列后的类如果还想用，就复制到这里即可！！*/
+    padding: 5px;/*保持5个像素的内边距*/
+    position: absolute;
+    width: 90%;
+    height: 50%;/*宽度占满，高度放一半，保证图片名字在上半区*/
+    top: 0;
+    left: 10px;
+    font-size: min(18px, 1.2vw);/*保证元素内的文本字体大小合适*/
+
+    /*flex布局使得在接下来的子元素在水平和竖直方向上居中对齐*/
+    display: flex;
+    /*justify-content: center;水平方向向左对齐*/
+    /*justify-content: flex-start; /* 将子元素向左对齐 */
+    align-items: center;/*垂直方向上居中*/
+}
+
+.profile-right .identity_part img {
+    flex: 0 0 33%; /*不会伸长，不会收缩，占据父元素的33%*/
+    max-width: 33%; /* 图片最大宽度为50% */
+    width: auto; /* 让浏览器根据最大宽度和最大高度自动调整图片的宽度和高度，以保持长宽比 */
+    height: auto; /* 同上，保持长宽比 */
+    aspect-ratio: 1 / 1; /* 设置图片的长宽比为1:1 */
+}
+
+.profile-right .identity_part .name {
+    flex: 0 0 60%; 
+    font-weight: bold;
+    font-size: larger;
+    margin-left: 10px; /* 图片和名字之间的间隔 */
+}
+
+.profile-right .labels_part {
+    position: absolute;
+    width: 95%;
+    left: 0;
+    height: 48%;
+    bottom: 2px;
+    display: flex;
+    flex-direction: column;
+    /*justify-content: center;水平方向向左对齐*/
+    /*justify-content: flex-start; /* 将子元素向左对齐 */
+    align-items: center; 
+    padding: 1px;
+}
+
+/*::before 和 ::after 是 CSS 伪元素，它们用于在元素的内容之前或之后插入生成的内容。它们的区别在于插入的位置：
+
+::before 伪元素在元素的内容之前插入生成的内容。
+::after 伪元素在元素的内容之后插入生成的内容。
+使用 ::before 和 ::after 可以很方便地添加额外的样式或内容，而不需要修改 HTML 结构。通常，它们被用来添加装饰性的内容、图标、清除浮动等*/
+  
+/*#identity_wrap_phase_II .profile_with_labels.profile_labeling .profile_content .labels_part .labels_list > li::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  
+#identity_wrap_phase_II .profile_with_labels.profile_labeling .profile_content .labels_part .labels_list > li::before {
+    content: "";
+    display: block;
+    position: absolute; /* 相对于父元素绝对定位 
+    top: 0;
+    left: 0;
+    width: 100%; /* 宽度铺满父元素 
+    height: 100%; /* 高度铺满父元素 
+    background-color: inherit; /* 继承父元素的背景色 
+    z-index: -1; /* 将伪元素放置在正常文档流下方 
+  }
+  */
+/*.labels_list {这里和下面的都是原来的横向逻辑
+    margin: 0px;
+    padding: min(10px, 0.5vw) 5px 0px 10%;
+}
+/*margin: 0px;：这行代码将 labels_list 元素的外边距设置为0。这意味着该元素不会在其周围添加额外的空间。
+padding: min(10px, 0.5vw) 5px 0px 10%;：这行代码设置了 labels_list 元素的内边距。这
+里使用了 min() 函数，它返回两个值中的较小值。因此，labels_list 的上内边距是 10px 和 0.5vw 中的较小值（vw 是视口宽度的单位，0.5vw 表示视口宽度的0.5%）。
+右内边距是 5px，下内边距是 0px，左内边距是 10% 的父元素宽度。*/
+
+/*.labels_list > li {
+    margin-top: 8%;
+    margin-bottom: 0;
+}
+/*.labels_list > li 的样式如下：
+
+margin-top: 8%;：这行代码设置了 labels_list 的直接子元素 li 的上边距为父元素（labels_list）宽度的 8%。
+这意味着每个 li 元素与其上方的元素之间将有基于父元素宽度的8%的空间。
+
+margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味着 li 元素与其下方的元素之间不会有额外的空间
+（至少在这个样式规则中是这样，除非有其他样式规则覆盖了它）。*/
+
+.custom-li-style {
+    font-weight: bold;       /* 文字加粗 */
+    text-align: center;      /* 文本居中 */
+    color: white;             /* 文字颜色白色 */
+    background-color: white; /* 背景颜色白色,以上是设置phase II中卡片的样式 */
+}
+
+.range-container {
+    position: relative;
+    width: 80%;
+    /*left:10%;*/
+    height: 50px;
+   /* margin-top: 8%;*/
+}
+
+.range-with-description {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5%;
+    align-content: center;
+
+    padding-top: 70px; /* 根据需要调整距离 */
+}
+
+.custom-range {
+    height: 5px;
+    /* 你可以调整这个值来改变横线的高度 */
+    width: 100%;
+    /* 你可以设置特定的宽度，或者让它占据父元素的全部宽度 */
+    background: linear-gradient(to right, blue, white, red);
+    /* 渐变背景 */
+    border-radius: 10px;
+    /* 可选的圆角 */
+    margin: 20px 0;
+    /* 添加一些垂直间距 */
+    position: relative;
+    /* 允许子元素使用position: absolute; */
+    overflow: hidden;
+    /* 隐藏超出容器的部分 */
+}
+
+.dot {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: transparent;
+    pointer-events: none;
+    top: -35px;
+}
+
+.name-with-dot {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 如果需要的话，可以垂直居中名字和点 */
+    margin-bottom: 10px; /* 你可以根据需要调整这个间距 */
+    transform: translateX(-50%);
+}
+
+.name {
+    position: absolute;
+    width: max-content;
+}
+
+.choice {
+    position: absolute;
+    white-space: nowrap;
+}
+
+.arrow-up-choice {
+    position: absolute;
+    top: -65px;
+    transform: scaleY(1.5);
+}
+
+.arrow-down-choice {
+    position: absolute;
+    /*font-size: 50px;*/
+    transform: scaleY(1.5);
+    top: 0px;
+
+}
+
+.padding_line_phaseII{
+    border: 2px solid black;
+    height: 320px;
+    /*margin-top:7%;*/
+    position: relative;
+
+}
+
+.legend {
+    position: absolute;
+    top: 10px; /* 调整图示距离顶部的距离 */
+    right: 10px; /* 调整图示距离右侧的距离 */
+    border: 1px dashed black; /* 虚线框 */
+    padding: 5px; /* 内边距 */
+    background-color: white; /* 背景色 */
+}
+
+.legend strong {
+    font-weight: bold; /* 加粗的“Answers:” */
+}/*这两个和上面position都是为了让图示显示在黑框的右上区域*/
+
+
+
+.padding_title{
+    margin-top:3%;
+    /*background-color: black;
+    color: white;
+    width: 40%;
+    margin-left: 30%;*/
+
+}
+
+/*下面是适配每个浏览器的滑动轴拖动效果*/
+
+/* 通用样式 */
+input[type="range"] {
+    -webkit-appearance: none; /* 清除默认样式 */
+    width: 100%; /* 根据需要调整宽度 */
+    height: 10px; /* 根据需要调整高度 */
+    outline: none; /* 去掉轮廓 */
+    opacity: 1; /* 透明度 */
+    /*transition: opacity .15s ease-in-out; /* 过渡效果 */
+    background: linear-gradient(to right, blue, white, red);
+}
+
+/*input[type="range"]:hover {
+    opacity: 1; /* 鼠标悬停时透明度 
+}*/
+
+/* Webkit 浏览器，以下两部分都是针对滑动块在不同浏览器内核下的显示效果 */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; /* 清除默认样式 */
+    appearance: none; /* 清除默认样式 */
+    width: 20px; /* 滑动块宽度 */
+    height: 20px; /* 滑动块高度 */
+    border: 2px solid black; /* 黑色边框 */
+    background: white; /* 白色背景 */
+    border-radius: 50%; /* 圆形滑动块 */
+    cursor: pointer; /* 鼠标悬停时显示为指针 */
+}
+
+/* Mozilla 浏览器 */
+input[type="range"]::-moz-range-thumb {
+    width: 20px; /* 滑动块宽度 */
+    height: 20px; /* 滑动块高度 */
+    border: 2px solid black; /* 黑色边框 */
+    background: white; /* 白色背景 */
+    border-radius: 50%; /* 圆形滑动块 */
+    cursor: pointer; /* 鼠标悬停时显示为指针 */
+}
+
+
+#choice-mention {
+    width: 100%; /* 确保容器有足够的宽度 */
+    white-space: nowrap; /* 强制文本不换行 */
+    font-weight: bold;/*字体加粗*/
+    margin-top: 20px;
+}
+
+.ideology-spectrum {
+    position: absolute;
+    bottom: 10px; /* 调整图示距离底部的距离 */
+    left: 50%; /* 水平居中 */
+    transform: translateX(-50%);
+    text-align: center;
+}
+
+.bracket {
+    display: none;/*inline-block;暂时先不展示
+    transform: rotate(270deg) scaleX(50); /* 旋转“[”符号 */
+    font-size: 24px; /* 调整大小 */
+    margin-bottom: -10px; /* 调整位置 */
+    margin-right: 30px;
+}
+
+.spectrum-text {
+    font-size: 26px; /* 放大字体 */
+    font-weight: bold; /* 加粗 */
+}/*用来显示标出这个轴是意识形态的轴*/
+
+.choices-text {
+    position: absolute;
+    top: 10px; /* 调整文本距离顶部的距离 */
+    left: 10px; /* 调整文本距离左侧的距离 */
+    font-weight: bold; /* 加粗字体 */
+    display: flex; /* 使用 flexbox 进行横向排列 */
+    gap: 5px; /* 设置文本之间的间隔 */
+}/*用来在左上角显示谁选的是什么*/
+

@@ -7,6 +7,10 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, Integer, String, JSON, Float, DateTime
 from datetime import datetime
 
+import pymysql
+ 
+pymysql.install_as_MySQLdb()
+
 MAX_ID_LEN = 100
 MAX_REASON_LEN = 200
 
@@ -14,7 +18,8 @@ app = Flask(__name__)
 app.config["DEBUG"] = False
 
 # database connection configuration
-SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
+SQLALCHEMY_DATABASE_URI = "mysql+pymysql://{username}:{password}@{hostname}/{databasename}".format(
+#SQLALCHEMY_DATABASE_URI = "mysql+mysqlconnector://{username}:{password}@{hostname}/{databasename}".format(
     username="Grawi",
     password="david2202087",
     hostname="Grawi.mysql.pythonanywhere-services.com",

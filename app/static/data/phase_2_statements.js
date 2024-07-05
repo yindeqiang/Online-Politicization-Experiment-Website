@@ -1,5 +1,63 @@
+let randomNumber_phaseII_text12 = Math.random();
+randomNumber_phaseII_text12 = randomNumber_phaseII_text12 < 0.5 ? 0 : 2;
+let randomNumber_phaseII_text34 = Math.random();
+randomNumber_phaseII_text34 = randomNumber_phaseII_text34 < 0.5 ? 0 : 2;
+let randomNumber_phaseII_text56 = Math.random();
+randomNumber_phaseII_text56 = randomNumber_phaseII_text56 < 0.5 ? 0 : 2;
+let randomNumber_phaseII_text78 = Math.random();
+randomNumber_phaseII_text78 = randomNumber_phaseII_text78 < 0.5 ? 0 : 2;
+let randomNumber_phaseII_text910 = Math.random();
+randomNumber_phaseII_text910 = randomNumber_phaseII_text910 < 0.5 ? 0 : 2;
+let text1;
+let text2;
+let text3;
+let text4;
+let text5;
+let text6;
+let text7;
+let text8;
+let text9;
+let text10;
+if(randomNumber_phaseII_text12 == 0)
+    {text1 = "space exploration";
+    text2 = "virtual reality technology";}
+else
+    {   text2 = "space exploration";
+        text1 = "virtual reality technology";}
+if(randomNumber_phaseII_text34 == 0)
+            {text3 = "agrees";
+            text4 = "disagrees";}
+else
+            {   text4 = "agrees";
+                text3 = "disagrees";}
+if(randomNumber_phaseII_text56 == 0)
+                    {text5 = "local historical figures";
+                    text6 = "natural landmarks";}
+else
+                    {   text6 = "local historical figures";
+                        text5 = "natural landmarks";}
+
+if(randomNumber_phaseII_text78 == 0)
+                            {text7 = "food vendors";
+                            text8 = "street performers";}
+else
+                            {   text8 = "food vendors";
+                                text7 = "street performers";}
+if(randomNumber_phaseII_text910 == 0)
+                                    {text9 = "agrees";
+                                    text10 = "disagrees";}
+else
+                                    {   text10 = "agrees";
+                                        text9 = "disagrees";}
+
+
+
+
+
+
+
 const phase_2_statements = {
-    "fact": [
+    "fact": [//对应0开始，0问题组
         {
             "text": "From 2010 to 2020, the percentage of population growth in California is higher than 5%.",
             "index": 0,
@@ -16,7 +74,7 @@ const phase_2_statements = {
             "text": "On average, an adult body produces more than 10 million cells per second.",
             "index": 2,
             "summary": "Adult body cell production rate",
-            "enabled": true,
+            "enabled": false,
         },
         {
             "text": "The human body contains more atoms than there are stars in the Milky Way galaxy.",
@@ -34,7 +92,7 @@ const phase_2_statements = {
             "text": "Venus rotates on its axis more slowly than Earth.",
             "index": 5,
             "summary": "Venus vs. Earth rotation speed",
-            "enabled": true,
+            "enabled": false,
         },
         {
             "text": "The first computer virus was released before the first personal computer was sold.",
@@ -82,11 +140,11 @@ const phase_2_statements = {
             "text": "The Earth gets heavier each day due to cosmic dust and meteorite particles.",
             "index": 13,
             "summary": "Earth's increasing weight from cosmic particles",
-            "enabled": true,
+            "enabled": false,
         }
     ],
 
-    "prediction": [
+    "prediction": [//对应20开始，1号组
         {
             "text": "If robots and computers were able to perform most of the jobs currently being done by humans, the economy as a whole would be more efficient.",
             "index": 0,
@@ -103,13 +161,13 @@ const phase_2_statements = {
             "text": "If scientists invented a non-invasive clinical surgery that could accurately erase people's memory of a certain period, the overall happiness of our society would be greatly improved.",
             "index": 2,
             "summary": "Memory erasure and societal happiness",
-            "enabled": true,
+            "enabled": false,
         },
         {
             "text": "As artificial-intelligence technology develops, most people will eventually live better lives without having to work.",
             "index": 3,
             "summary": "AI development and workless lives",
-            "enabled": true,
+            "enabled": false,
         },
         {
             "text": "Within the next 100 years, human beings will have contact with intelligent life from other planets.",
@@ -169,19 +227,19 @@ const phase_2_statements = {
             "text": "Within the next 100 years, advances in genetic engineering could enabled humans to adapt to previously uninhabitable environments, opening up new frontiers for colonization on Earth and beyond.",
             "index": 13,
             "summary": "Genetic engineering and colonization",
-            "enabled": true,
+            "enabled": false,
         }
     ],
 
-    "issue": [
+    "issue": [//根据enable的true来确定启用哪些问题！！，对应2
         {
-            "text": "The government should invest more scientific research funding into space exploration instead of virtual reality technology.",
+            "text": "The government should invest more scientific research funding into space exploration instead of virtual reality technology.",//20240523,变成小写了
             "index": 0,
             "summary": "Space exploration vs. virtual reality funding",
             "enabled": true,
         },
         {
-            "text": "The use of cloning technology should be approved to provide infertile couples using test-tube fertilization with more embryos, increasing their chances of conceiving.",
+            "text": "the use of cloning technology should be approved, to provide infertile couples using test-tube fertilization with more embryos to increase their chances of conceiving.",//20240523,变成小写了
             "index": 1,
             "summary": "Cloning technology for infertile couples",
             "enabled": false,
@@ -196,10 +254,10 @@ const phase_2_statements = {
             "text": "Your city should locate the next community festival in the city center rather than at a waterfront park.",
             "index": 3,
             "summary": "Location of community festival",
-            "enabled": true,
+            "enabled": false,
         },
         {
-            "text": "The local council should name a new street after a local historical figure rather than a natural landmark.",
+            "text": "the city council should name new streets after local historical figures rather than natural landmarks.",//20240523,变成小写了
             "index": 4,
             "summary": "Naming new street after historical figure",
             "enabled": false,
@@ -211,7 +269,7 @@ const phase_2_statements = {
             "enabled": false,
         },
         {
-            "text": "In drafting a new policy on public space usage, priority should be given to food vendors rather than street performers.",
+            "text": "the priority of public space usage should be given to food vendors rather than to street performers.",//20240523,变成小写了
             "index": 6,
             "summary": "Priority for food vendors in public spaces",
             "enabled": false,
@@ -223,7 +281,7 @@ const phase_2_statements = {
             "enabled": false,
         },
         {
-            "text": "The local government should prioritize recycling programs over waste-to-energy plants in changes to waste management.",
+            "text": "The local government should prioritize recycling programs over waste-to-energy plants in changes to waste management.",//20240523,变成小写了
             "index": 8,
             "summary": "Recycling vs. waste-to-energy",
             "enabled": true,
@@ -238,7 +296,7 @@ const phase_2_statements = {
             "text": "For an art project in your community, it should create a giant mosaic on a downtown building rather than a series of sculptures along the riverwalk.",
             "index": 10,
             "summary": "Giant mosaic vs. riverwalk sculptures",
-            "enabled": true,
+            "enabled": false,
         },
         {
             "text": "The new playground in the community park should have a nature-inspired theme rather than a space exploration theme.",
@@ -256,14 +314,39 @@ const phase_2_statements = {
             "text": "Your city should upgrade the public library's digital resources rather than expand the physical fitness facilities in parks as the next public service improvement.",
             "index": 13,
             "summary": "Library digital resources vs. park fitness facilities",
-            "enabled": true,
+            "enabled": false,
         },
         {
             "text": "For a campaign to encourage reading, your city should distribute free e-books rather than physical books.",
             "index": 14,
             "summary": "Free e-books vs. physical books",
             "enabled": false,
-        }
+        },
+        {
+            "text": "The average distance between Mars and Earth is larger than that between Mercury and Earth.",
+            "index": 15,
+            "summary": "Mars vs. Mercury distance to Earth",
+            "enabled": true,
+        },   
+        
+        {
+            "text": "The human body contains more atoms than there are stars in the Milky Way galaxy.",
+            "index": 16,
+            "summary": "Body atoms vs. Milky Way stars",
+            "enabled": true,
+        },
+        {
+            "text": "If robots and computers were able to perform most of the jobs currently being done by humans, the economy as a whole would be more efficient.",
+            "index": 17,
+            "summary": "Robots replacing human jobs",
+            "enabled": true,
+        },
+        {
+            "text": "Within the next 100 years, human beings will have contact with intelligent life from other planets.",
+            "index": 18,
+            "summary": "Contact with extraterrestrial life",
+            "enabled": true,
+        },
     ],
 
     "design": [

@@ -38,7 +38,8 @@ html {
 }
 
 
-.loader {
+.loader {/*.loader类定义了一个圆形边框的加载器，其中顶部边框颜色为黑色，其他边框为浅灰色，
+    这个加载器会应用一个名为spin的动画来创建旋转效果。这个类通常用于显示网页上的加载状态，通过旋转的动画来告知用户内容正在加载或处理中*/
     border: 3.5px solid lightgrey; /* Light grey */
     border-top: 3.5px solid black; /* Blue */
     border-radius: 50%;
@@ -48,6 +49,20 @@ html {
     width: 60%;
     height: 60%;
 }
+/*
+border: 3.5px solid lightgrey;设置了元素边框的宽度为3.5像素。边框样式为实线（solid）。边框颜色为浅灰色（lightgrey）。
+border-top: 3.5px solid black;单独设置了元素顶部边框的样式，覆盖了上面border属性中对于顶部的设置。顶部边框的宽度为3.5像素。
+顶部边框样式为实线。顶部边框颜色为黑色。由于其他三个边框（底部、左侧、右侧）保持为lightgrey，而顶部边框为black，这通常用于创建一个视觉上的“旋转”效果，特别是在动画中。
+
+border-radius: 50%;设置了元素的边框圆角为50%，这将使元素呈现为一个完美的圆形。
+animation: spin 2s linear infinite;为元素应用了一个名为spin的动画。动画的持续时间为2秒。动画的速度曲线是线性的（即匀速）。动画将无限次循环播放（infinite）。
+注意：这个spin动画的具体行为没有在这段代码中定义，通常它会在CSS的另一个地方（可能是在同一个文件的不同部分，或者在另一个CSS文件中）定义。
+
+position: relative;设置了元素的定位方式为相对定位。这意味着，如果元素内部有绝对定位的子元素，这些子元素将相对于这个元素进行定位。
+display: inline-block;设置元素的显示方式为内联块级元素。这意味着元素会像内联元素一样排列，但可以设置宽度和高度。
+width: 60%;设置元素的宽度为其父元素宽度的60%。
+height: 60%;设置元素的高度为其父元素高度的60%。
+*/
 
 
 @keyframes spin {
@@ -199,6 +214,9 @@ input[type=checkbox] {
 
 input[type=range] {
     width: 600px;
+    -webkit-appearance: none;
+    background: linear-gradient(to right, blue, white, red);
+
 }
 
 input[type=radio] {
@@ -292,11 +310,22 @@ label {
     margin-left: 5px;
 }
 
-.button_big {
+.button_big {/*一个固定展示的大号button*/
     display: block;
     width: 300px;
     margin-top: 30px;
     font-size: 18px;
+}
+
+.button_big_choose {/*一个固定展示的大号button,设计在抽签环节使用*/
+    display: block;
+    width: 300px;
+    font-size: 18px;
+
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 130px; /* 距离页面底部的距离 */
 }
 
 .form_ideology {
@@ -330,6 +359,10 @@ label {
     width: 20px;
     height: 20px;
 }
+/*display: inline-block;：将元素显示为内联块级元素。内联块级元素既具有块级元素的特点，又不会独占一行，可以与其他内联元素在同一行显示，并且可以设置宽度和高度等属性。
+width: 20px;：设置元素的宽度为 20 像素。
+height: 20px;：设置元素的高度为 20 像素。
+这些样式定义了一个具有 20 像素宽度和高度的内联块级元素，通常用于表示某种状态或图标的小型元素。*/
 
 .split {
     height: 100%;
@@ -362,6 +395,11 @@ label {
     border: 5px dashed lightgray;
     margin-bottom: 30px;
 }
+.avatar_notification {
+    line-height: 25px;
+    padding: 5px;
+}
+
 
 .pseudonym_choice {
     display: inline-block;
@@ -423,11 +461,12 @@ label {
 }
 
 .identity_wrap {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
+    display: flex;/*identity_wrap 类的元素是一个flex容器*/
+    flex-direction: row;/*这指定了flex容器中的子元素（flex items）应该沿着水平方向（行）排列*/
+    justify-content: space-around;/*space-around 值意味着子元素之间的空间以及子元素与容器边缘的空间都是相等的。这实际上是在子元素之间和子元素与容器边缘之间都添加了等量的空间。*/
     margin: auto;
-    text-align: center;
+    /*这设置了元素的外边距（margin）。当元素的左右外边距都设置为 auto 时（在这个例子中，由于 margin: auto; 应用于一个flex容器，它实际上会尝试在容器中水平居中，但这取决于容器的父元素是否也设置了相关的样式，比如 display: flex; 和 justify-content: center;）。但请注意，在这个特定的上下文中，margin: auto; 可能不会对flex容器本身产生太大的影响，除非它的父元素也是一个flex容器*/
+    text-align: center;/*文本居中*/
 }
 
 .avatars_list {
@@ -465,19 +504,11 @@ label {
     height: 150px;
 }
 
-.profile_labeling {
-    border: 2px solid black;
-    border-radius: 10px;
-    width: 27%;
-    padding: 10px;
-}
 
-.profile_content {
-    height: 100%;
-    border: 2px solid black;
-    border-radius: 10px;
-    box-sizing: border-box;
-}
+/*.profile_labeling类将应用于一个元素，使其具有一个黑色的实线边框、
+圆角、宽度为其父元素的27%，以及10px的内边距。这通常用于样式化如个人资料卡、标签或其他需要边框和内边距的容器元素*/
+
+
 
 .profile_answering {
     border: 2px solid black;
@@ -488,6 +519,8 @@ label {
     max-width: 250px;
     padding: 0px;
 }
+/*这个.profile_answering类可能用于为某种特定的内容容器（如一个用于回答问题的区域）提供样式。
+使用相对定位意味着该元素可能包含绝对定位的子元素，而宽高比和最大宽度的设置则确保了元素在视觉上的一致性和响应性。*/
 
 .profile_with_labels {
     border: 0px;
@@ -497,15 +530,29 @@ label {
     aspect-ratio: 5 / 3;
     max-width: 250px;
     padding: 0px;
+    
 }
+/*border: 0px;: 将元素的边框宽度设置为 0 像素，即没有边框。
+border-radius: 10px;: 设置元素的边框半径为 10 像素，使元素具有圆角边框。
+width: 30%;: 将元素的宽度设置为其父元素宽度的 30%。
+position: relative;: 将元素设置为相对定位，使其相对于其正常位置进行定位。
+aspect-ratio: 5 / 3;: 设置元素的宽高比为 5:3，这确保了元素的宽度是其高度的 5/3 倍。
+max-width: 250px;: 设置元素的最大宽度为 250 像素，以防止元素在超出指定宽度时过度放大。
+padding: 0px;: 将元素的内边距设置为 0 像素，即没有内边距。*/
 
-.profile_with_labels > .status {
+.profile_with_labels > .status {/*在相对资料卡片的右上角位置绝对定位，显示状态answering、not answering的设定*/
     position: absolute;
     top: 5px;
     right: 5px;
     width: 30px;
     height: 30px;
 }
+/*position: absolute;: 将 .status 元素设置为绝对定位，这意味着它会相对于其最近的已定位祖先元素进行定位。
+top: 5px;: 将 .status 元素的顶部边距设置为距离其包含元素顶部 5 像素的位置。
+right: 5px;: 将 .status 元素的右侧边距设置为距离其包含元素右侧 5 像素的位置。
+width: 30px;: 将 .status 元素的宽度设置为 30 像素。
+height: 30px;: 将 .status 元素的高度设置为 30 像素。
+这些样式将 .status 元素定位在其父元素 .profile_with_labels 的右上角，宽度和高度都为 30 像素。*/
 
 .identity_part_phase_2 {
     width: 100%;
@@ -537,16 +584,7 @@ label {
     border-radius: 15px;
 }
 
-.identity_part {
-    padding: 5px;
-    position: absolute;
-    width: 30%;
-    height: 100%;
-    left: 0;
-    border-radius: 10px;
-    font-size: min(18px, 1.2vw);
-    text-align: center;
-}
+
 
 .identity_part_phase_4 {
     font-size: 15px;
@@ -558,41 +596,48 @@ label {
     font-size: 18px;
 }
 
-.labels_part {
-    position: absolute;
-    width: 65%;
-    height: 100%;
-    right: 0;
-    border-radius: 10px;
-    text-align: left;
-    font-size: min(1.5vw, 18px);
-    line-height: min(1.2vw, 15px);
-}
 
-.labels_part > .status {
+
+/*.labels_part > .status {/*原来phaseII在右下角正在回答的样子，现在右上角,这是原来放在labels-part下面的样式
     position: absolute;
-    bottom: 12px;
+    /*bottom: 12px;
+    top: 5px;
     right: 5px;
+    width: 28px;
+    height: 28px;
+}*/
+
+.identity_part > .status {/*原来phaseII在右下角正在回答的样子，现在右上角，现在放到identity下的样式*/
+    position: absolute;
+    /*bottom: 12px;*/
+    top: 15px;
+    right: 10px;
     width: 30px;
     height: 30px;
 }
+/*position: absolute;：将元素的位置设定为绝对定位，相对于其最近的非 static 定位的父元素。
+width: 65%;：设置元素的宽度为其父元素宽度的 65%。
+height: 100%;：设置元素的高度为其父元素的高度。
+right: 0;：将元素的右侧边缘与其包含块的右边缘对齐。
+border-radius: 10px;：设置元素的边框圆角为 10 像素。
+text-align: left;：设置元素内文本的水平对齐方式为左对齐。
+font-size: min(1.5vw, 18px);：设置元素内文本的字体大小为动态计算值，取浏览器视口宽度的 1.5%，最小为 18px。
+line-height: min(1.2vw, 15px);：设置元素内文本的行高为动态计算值，取浏览器视口宽度的 1.2%，最小为 15px。
+对于 .labels_part > .status 类：
 
-.profile_answering > .status {
+position: absolute;：将元素的位置设定为绝对定位。
+bottom: 12px;：将元素的底部边缘与其包含块的底部边缘距离为 12 像素。
+right: 5px;：将元素的右侧边缘与其包含块的右边缘距离为 5 像素。
+width: 30px;：设置元素的宽度为 30 像素。
+height: 30px;：设置元素的高度为 30 像素。
+这些样式共同定义了一个标签部分的外观和布局。*/
+
+.profile_answering > .status {/*原来在右下角正在回答的样子，phaseI*/
     position: absolute;
     bottom: 5px;
     right: 5px;
     width: 30px;
     height: 30px;
-}
-
-.labels_list {
-    margin: 0px;
-    padding: min(10px, 0.5vw) 5px 0px 10%;
-}
-
-.labels_list > li {
-    margin-top: 8%;
-    margin-bottom: 0;
 }
 
 .profile_to_fill {
@@ -604,6 +649,8 @@ label {
 
 .label {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    /*为元素添加了一个盒子阴影效果。它实际上定义了两个阴影效果，用逗号分隔。第一个阴影的偏移量是水平0、垂直4像素，模糊半径是8像素，扩展半径是0，颜色是半透明的黑色（rgba中的0.2透明度）。
+    第二个阴影的偏移量是水平0、垂直6像素，模糊半径是20像素，扩展半径是0，颜色是稍微透明一点的黑色（rgba中的0.19透明度）。*/
     border-radius: 5px;
     height: 30px;
     padding: 5px;
@@ -612,6 +659,7 @@ label {
     font-size: 18px;
     cursor: move;
 }
+/*.label类可能用于创建一个可拖动的标签或按钮，它有一个明显的圆角边框和阴影效果，用于在用户界面上突出显示或标识某些内容。*/
 
 .label > p {
     margin: 0px;
@@ -674,11 +722,21 @@ label {
     padding: 15px 30px 15px 30px;
     text-align: center;
     line-height: 25px;
-    display: flex;
+    display: none;/*原来flex*/
     justify-content: center;
     align-items: center;
     margin-bottom: 50px;
 }
+/*min-height: 50px;：设置元素的最小高度为 50 像素。如果内容高度小于这个值，元素会被撑开至至少 50px 的高度。
+font-size: 18px;：设置元素内文本的字体大小为 18 像素。
+padding: 15px 30px 15px 30px;：设置元素的内边距（上、右、下、左），分别为 15px、30px、15px、30px。这意味着元素内容与其边框之间的空间。
+text-align: center;：设置元素内文本的水平对齐方式为居中。
+line-height: 25px;：设置元素内文本的行高为 25 像素。
+display: flex;：将元素声明为 Flexbox 容器，以便使用 Flexbox 布局。
+justify-content: center;：设置 Flexbox 容器内项目在主轴（横轴）上的对齐方式为居中。
+align-items: center;：设置 Flexbox 容器内项目在交叉轴（纵轴）上的对齐方式为居中。
+margin-bottom: 50px;：设置元素的下外边距为 50 像素。这会在元素的下方创建 50px 的空白间隔。
+这些样式一起为具有 .instruction_phase_3 类名的元素定义了一个居中对齐、垂直居中、具有一定最小高度和内边距的外观。*/
 
 .instruction_big_margin {
     margin-top: 12%;
@@ -699,8 +757,13 @@ label {
 }
 
 .question_phase_3 {
-    margin-top: 30px;
-    font-weight: bold;
+    margin-top: 5%;
+    /*定义一个元素顶部的外边距（margin），并且这个外边距的大小是相对于其父元素的宽度的百分比。
+具体来说，如果一个元素的父元素有一个已知的高度，那么设置 margin-top: 13%; 将使得这个元素的顶部外边距的大小为其父元素的高度的13%。
+如果元素的父元素没有明确设置高度，那么这个百分比将是相对于父元素的包含块的高度。*/
+    /*font-weight: bold;*/
+   /* font-size: 30px;*/
+   text-align: left; /* 左对齐 */
 }
 
 .operation {
@@ -718,9 +781,18 @@ label {
 }
 
 .statement_phase_3 {
-    font-style: italic;
-    margin-top: 20px;
+    font-style: italic;/*将文本设置成斜体*/
+    margin-top: 3%;
+    /*font-size: 30px;*/
+    text-align: left; /* 左对齐 */
 }
+
+.container_parent_phaseII_statement_answer {
+    width: 100%;
+    height: 65%;
+    position: relative;
+    /* 添加其他样式，如背景色等 */
+  }
 
 .left {
     width: calc(80% - 170px);
@@ -853,6 +925,7 @@ label {
 .answers_mark {
     position: absolute;
     top: 0px;
+    
 }
 
 .answer_scale {
@@ -871,9 +944,10 @@ label {
 
 .pseudonym_scale_phase_4 {
     position: absolute;
-    font-size: 15px;
-    bottom: 11px;
+    font-size: 16px;
+    bottom: 5px;
     font-weight: bold;
+
 }
 
 .answer_text {
@@ -888,18 +962,23 @@ label {
 }
 
 .answering_now > .profile_content {
-    opacity: 1;
-    outline: 2px dashed black;
-    outline-offset: 10px;
+    opacity: 1;/*透明度以1为标准是完全不透明*/
+/*20240515,不需要虚线！！*/
+    /*outline: 2px dashed black;/*轮廓线的宽度为 2 像素，样式为虚线，颜色为黑色*/
+    /*outline-offset: 10px;/*指定了轮廓线与边框之间的距离为 10 像素，即轮廓线将会比边框更靠外*/
+    /*现在我不需要轮廓线！！*/
 }
 
-.finish_answering {
-    outline: 2px dashed black;
-    outline-offset: 12px;
-}
+
+/*.finish_answering {
+    outline: 2px dashed black;/*轮廓线的宽度为 2 像素，样式为虚线，颜色为黑色*/
+    /*outline-offset: 12px;  20240515删除了该功能
+}*/
 
 .finish_answering > .profile_content {
-    opacity: 0.2;
+    /*opacity: 0.2;/*回答完成后的透明度变成0.2,通过透明度调整是否正在回答问题*/
+    opacity: 1;/*20240515,不希望变成浅灰色*/
+
 }
 
 .not_answering_now {
@@ -942,6 +1021,12 @@ label {
     justify-content: center;
 }
 
+.radio-group {
+    display: inline-block; /* 将每个选项包裹的 div 元素设置为内联块元素，使得它们在同一行显示 */
+    margin-right: 20px; /* 设置选项之间的间距 */
+}
+/*让选项在同一行显示*/
+
 .each_detection {
     margin: 0px 50px 0px 50px;
 }
@@ -977,4 +1062,59 @@ label {
     width: 80%;
     height: 100px;
     resize: none;
+}
+
+
+
+
+
+/*.label-Conservative {  
+    color: red; /* 红色文字 
+}  
+
+.label-Somewhat-conservative {  
+    color: rgba(255, 0, 183, 0.996); /* 蓝色文字 
+}  
+  
+.label-Liberal {  
+    color: blue; /* 蓝色文字 
+}  
+
+.label-Somewhat-liberal {  
+    color: rgb(0, 170, 255); /* 蓝色文字 
+}  
+
+.label-Kind {  
+    color: green; /* 红色文字   
+}  
+
+.label-Indifferent {  
+    color: purple; /* 蓝色文字  
+}  
+  
+.label-Mature {  
+    color: green; /* 蓝色文字 
+}  
+
+.label-Naive {  
+    color: purple; /* 蓝色文字   
+}  
+
+.label-Competent {  
+    color: green; /* 红色文字 
+}  
+
+.label-Incompetent {  
+    color: purple; /* 蓝色文字 
+}  
+  */
+  
+  .question_phase_2 {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #ccc;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
