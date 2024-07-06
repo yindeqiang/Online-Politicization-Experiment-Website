@@ -437,4 +437,39 @@ const mark_texts = {
         `Very<br>likely`,
         `Deﬁnitely`
     ]
-}
+};
+
+const phase_II_range_string = `
+    <div class="range-with-description">
+    <div style="position: relative; color: blue; margin-left: 10px;">strongly liberal</div>
+    <div class="range-container">
+        <div class="custom-range" id="custom-range1"></div>
+        <div class="spectrum"></div>
+        <div class="name-with-dot" id="name-with-dot1">
+            <div class="arrow-up-choice" id="arrow_up_1">⇧</div>
+            <div class="name" id="name1" style="font-size: 13px; font-weight: bold;">${pseudonyms_chosen[0]}
+            </div>
+            <div class="dot" id="dot1"></div>
+            <div class="arrow-down-choice" id="arrow_down_1">⇩</div>
+        </div>
+
+        <div class="name-with-dot" id="name-with-dot2">
+            <div class="arrow-up-choice" id="arrow_up_2">⇧</div>
+            <!-- <div class="choice" id="choice2"></div> -->
+            <div class="name" id="name2" style="font-size: 13px; font-weight: bold;">${pseudonyms_chosen[1]}
+            </div>
+            <div class="dot" id="dot2"></div>
+            <div class="arrow-down-choice" id="arrow_down_2">⇩</div>
+        </div>
+
+        <div class="name-with-dot" id="name-with-dot3">
+            <div class="arrow-up-choice" id="arrow_up_3">⇧</div>
+            <div class="name" id="name3" style="font-size: 13px; font-weight: bold;">${pseudonyms_chosen[2]}
+            </div>
+            <div class="dot" id="dot3"></div>
+            <div class="arrow-down-choice" id="arrow_down_3">⇩</div>
+        </div>
+    </div>
+    <div style="position: relative; color: red">strongly conservative</div>
+    </div>
+`;

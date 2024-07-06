@@ -921,7 +921,7 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
 
 .range-container {
     position: relative;
-    width: 80%;
+    width: 90%;
     /*left:10%;*/
     height: 50px;
    /* margin-top: 8%;*/
@@ -941,7 +941,32 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
     /* 你可以调整这个值来改变横线的高度 */
     width: 100%;
     /* 你可以设置特定的宽度，或者让它占据父元素的全部宽度 */
-    background: linear-gradient(to right, blue, white, red);
+    /* background: linear-gradient(to right, blue, white, red); */
+    background: linear-gradient(
+        to right,
+        #0000ff 0%, #0000ff 4.76%,
+        #1919ff 4.76%, #1919ff 9.52%,
+        #3333ff 9.52%, #3333ff 14.28%,
+        #4d4dff 14.28%, #4d4dff 19.04%,
+        #6666ff 19.04%, #6666ff 23.80%,
+        #8080ff 23.80%, #8080ff 28.56%,
+        #9999ff 28.56%, #9999ff 33.32%,
+        #b3b3ff 33.32%, #b3b3ff 38.08%,
+        #ccccff 38.08%, #ccccff 42.84%,
+        #e5e5ff 42.84%, #e5e5ff 47.60%,
+        white 47.60%, white 52.40%,
+        #ffe5e5 52.40%, #ffe5e5 57.16%,
+        #ffcccc 57.16%, #ffcccc 61.92%,
+        #ffb3b3 61.92%, #ffb3b3 66.68%,
+        #ff9999 66.68%, #ff9999 71.44%,
+        #ff8080 71.44%, #ff8080 76.20%,
+        #ff6666 76.20%, #ff6666 80.96%,
+        #ff4d4d 80.96%, #ff4d4d 85.72%,
+        #ff3333 85.72%, #ff3333 90.48%,
+        #ff1a1a 90.48%, #ff1a1a 95.24%,
+        #ff0000 95.24%, #ff0000 100%
+    );
+    
     /* 渐变背景 */
     border-radius: 10px;
     /* 可选的圆角 */
@@ -954,27 +979,30 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
 }
 
 .dot {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
+    width: 4.76%;
+    height: 100%;
     background: transparent;
     pointer-events: none;
-    top: -35px;
+    border: 0px solid black;
+    margin: auto;
+    box-shadow: inset 0 0 0 2px black;
+    position: relative;
+    bottom: 2.5px;
 }
 
 .name-with-dot {
     position: absolute;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* 如果需要的话，可以垂直居中名字和点 */
-    margin-bottom: 10px; /* 你可以根据需要调整这个间距 */
     transform: translateX(-50%);
+    width: 100%;
+    height: 100%;
+    top: 0px;
 }
 
 .name {
     position: absolute;
-    width: max-content;
+    width: 30px;
+    left: calc(50% - 15px);
+    top: 50px;
 }
 
 .choice {
@@ -984,16 +1012,18 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
 
 .arrow-up-choice {
     position: absolute;
-    top: -65px;
-    transform: scaleY(1.5);
+    top: -45px;
+    transform: scaleY(3);
+    width: 30px;
+    left: calc(50% - 15px);
 }
 
 .arrow-down-choice {
     position: absolute;
-    /*font-size: 50px;*/
-    transform: scaleY(1.5);
-    top: 0px;
-
+    top: 80px;
+    transform: scaleY(3);
+    width: 30px;
+    left: calc(50% - 15px);
 }
 
 .padding_line_phaseII{
@@ -1025,7 +1055,25 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
     color: white;
     width: 40%;
     margin-left: 30%;*/
+}
 
+.padding_title > p {
+    font-weight: bold;
+    color: white;
+    background-color: grey;
+    width: 400px;
+    margin: auto;
+    padding: 10px;
+}
+
+.spectrum {
+    position: absolute;
+    width: 100%;
+    height: 10px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    top: 160px;
 }
 
 /*下面是适配每个浏览器的滑动轴拖动效果*/

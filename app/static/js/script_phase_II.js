@@ -96,49 +96,6 @@ phase_2_orders.set_order 被硬编码为 [2]，这意味着它只考虑索引为
 随机确定一个参与者顺序，其中某些位置是固定的（例如第二个位置总是 1），而其他位置则基于生成的随机数。 */
 
 
-
-function test_phase_II() {//实验用的测试阶段，没参与具体实验当中
-    test_mode = true;
-    phase = 3;
-    pseudonyms_chosen = ["Alice", "Alex", "Betty"];
-    avatars_index_chosen = [0, 1, 2];
-    data.identity_choices = [[0, 0], [1, 1], [2, 2]];   // actually unnecessary, but identity_choices is redundant
-    data.ideologies = [-1, null, 1];
-    data.labels = [
-        [0, 1, 2],
-        [3, 4, 5],
-        [6, 7, 8]
-    ];
-    phase_2_orders.participant_order = [2, 1, 1, 1];
-    next_question_seqNum = phase_2_starting_question_index;
-    init_phase_3();
-}
-/**这段代码定义了一个名为 test_phase_II 的函数，它主要用于设置和初始化一些与“第二阶段”或“第三阶段”相关的测试数据。下面是代码的详细解释：
-
-设置全局变量或测试模式:
-
-test_mode 被设置为 true，可能表示当前处于测试模式。
-phase 被设置为 3，表示当前测试的是“第三阶段”的相关逻辑。
-设置参与者相关信息:
-
-pseudonyms_chosen 是一个数组，包含三个字符串元素："Alice", "Alex", 和 "Betty"，可能表示参与者的化名或昵称。
-avatars_index_chosen 是一个数组，包含三个数字元素：0, 1, 和 2，可能表示参与者的头像或视觉表示的选择索引。
-设置身份选择、意识形态和标签:
-
-data.identity_choices 是一个二维数组，每个子数组包含两个相同的数字。然而，从注释中可以看出这个数据实际上是冗余的，可能在代码中其他地方没有用到。
-data.ideologies 是一个数组，包含三个元素：-1, null, 和 1。这可能表示每个参与者的意识形态或某种倾向性。
-data.labels 是一个二维数组，每行包含三个数字。这些数字可能代表某种标签或分类的索引，与参与者或问题相关。
-设置参与者顺序和问题序列号:
-
-phase_2_orders.participant_order 被设置为 [2, 1, 1, 1]。这个数组可能表示参与者在某种活动或流程中的顺序。
-next_question_seqNum 被设置为 phase_2_starting_question_index 的值，即 12。这表示下一个问题的序列号或索引是 12。
-初始化第三阶段:
-
-它设置了参与者的信息、意识形态、标签，以及参与者的顺序和下一个问题的序列号。然后，它调用一个函数来初始化“第三阶段”的相关设置。这个函数可能是更大测试套件的一部分，用于验证程序的某些方面是否按预期工作。 */
-
-
-// test_phase_II();
-
 let selectedOption = null; // 记录当前选中的选项
 let optionClicked = false; // 记录是否已经点击了某个选项
 
@@ -586,7 +543,8 @@ document.querySelector("button").addEventListener("click", remove_initphase3);//
 */
 
 let statement_text;
-let choice1, choice3, overlap_1_3, overlap_1_2, overlap_2_3, overlap_1_2_3;
+let choice1 = -1, choice3 = -1;
+let overlap_1_3, overlap_1_2, overlap_2_3, overlap_1_2_3;
 let bias_for_2_arrows_left = "-50%";
 let bias_for_2_arrows_right = "50%";
 let bias_for_3_arrows_left = "-100%";
@@ -594,10 +552,32 @@ let bias_for_3_arrows_right = "100%";
 let bias_for_1line = "25px", bias_for_2line = "55px";
 
 
-//抽签也不能放在phase3初始化这里面，要不然每个题都初始化，要么就直接进入了答题环节，效果不佳！
+
+function test_phase_II() {//实验用的测试阶段，没参与具体实验当中
+    test_mode = true;
+    phase = 3;
+    pseudonyms_chosen = ["Alice", "Alex", "Betty"];
+    avatars_index_chosen = [0, 1, 2];
+    data.identity_choices = [[0, 0], [1, 1], [2, 2]];   // actually unnecessary, but identity_choices is redundant
+    data.ideologies = [-1, null, 1];
+    data.labels = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8]
+    ];
+    phase_2_orders.participant_order = [2, 1, 1, 1];
+    next_question_seqNum = phase_2_starting_question_index;
+    split_answers = [[-2.0, 0.2, 2]];     // ideology labeled after Phase I
+    init_phase_3();
+}
+
+test_phase_II();
+
+
+
 function init_phase_3() {//对应着phase II回答问题的部分，包括了选择4种主题其1等操作
     phase = 3;
-
+ 
     //没有抽签也就没有监听器了document.querySelector("button").removeEventListener("click", init_phase_3);
     // 在这里调用删除提示的函数
     // change DOM
@@ -616,60 +596,29 @@ function init_phase_3() {//对应着phase II回答问题的部分，包括了选
                 <div class="question_phase_3"></div>
 
                 <div class="statement_phase_3"></div>
-                <div class= "padding_title" id="ideology spectrum"></div> 
+                <div class="padding_title" id="ideology spectrum"></div>
 
-        <div class="padding_line_phaseII">
-                <div class="legend"> <strong>Answers:</strong> ⇧Agree ⇩Disagree </div>
-                <div class="choices-text">
-        <div id="choice1"> <strong>${pseudonyms_chosen[0]} chose </strong> </div>
-        <div id="choice3"> <strong>${pseudonyms_chosen[2]} chose </strong> </div>
-    </div>
-               
-                <div class="range-with-description">
-
-                 <div style="position: relative; color: blue; margin-left: 10px;">strongly liberal</div>
-                <div class="range-container">
-                        
-                        <div class="custom-range" id="custom-range1"></div>
-                        <div class="name-with-dot" id="name-with-dot1">
-                            <div class="arrow-up-choice" id="arrow_up_1">⇧</div>
-                            <div class="name" id="name1" style="font-size: 13px; font-weight: bold;">${pseudonyms_chosen[0]}</div>
-                            <div class="dot" id="dot1"></div>
-                            <div class="arrow-down-choice" id="arrow_down_1">⇩</div>
-                        </div>
-
-                        <div class="name-with-dot" id="name-with-dot2">
-                            <div class="arrow-up-choice" id="arrow_up_2">⇧</div>
-                            <!-- <div class="choice" id="choice2"></div> -->
-                            <div class="name" id="name2" style="font-size: 13px; font-weight: bold;">${pseudonyms_chosen[1]}</div>
-                            <div class="dot" id="dot2"></div>
-                            <div class="arrow-down-choice" id="arrow_down_2">⇩</div>
-                        </div>
-
-                        <div class="name-with-dot" id="name-with-dot3">
-                            <div class="arrow-up-choice" id="arrow_up_3">⇧</div>
-                            <div class="name" id="name3" style="font-size: 13px; font-weight: bold;">${pseudonyms_chosen[2]}</div>
-                            <div class="dot" id="dot3"></div>
-                            <div class="arrow-down-choice" id="arrow_down_3">⇩</div>
-                        </div>
-                 </div>
-                 <div style="position: relative; color: red">strongly conservative</div>
-
-                 </div>
-                <div class="ideology-spectrum">
-                    <div class="bracket">[</div>
-                    <div class="spectrum-text"><strong>Ideology spectrum</strong></div>
+                <div class="padding_line_phaseII">
+                    <div class="legend"> <strong>Answers:</strong> ⇧Agree ⇩Disagree </div>
+                    <div class="choices-text">
+                        <div id="choice1"> <strong>${pseudonyms_chosen[0]} chose </strong> </div>
+                        <div id="choice3"> <strong>${pseudonyms_chosen[2]} chose </strong> </div>
+                    </div>
+                    ${phase_II_range_string}
+                    <div class="ideology-spectrum">
+                        <div class="bracket">[</div>
+                        <div class="spectrum-text"><strong>Ideology spectrum</strong></div>
+                    </div>
                 </div>
-        </div>
 
                 <!-- <div id="choice mention"></div> -->
-                
+
                 <div id="answer_area_phase_II">
                     <div id="pictures_container">
                         <img src="/static/data/design_pictures/default.jpg" class="picture_phase_II" id="left_picture">
                         <img src="/static/data/design_pictures/default.jpg" class="picture_phase_II" id="right_picture">
                     </div>
-                    <div id="choice-mention"></div> 
+                    <div id="choice-mention"></div>
                     <div id="operations">
                         <div id="options_container">
                             <div class="option-with-profile" id="option-with-profile-0">
@@ -683,37 +632,13 @@ function init_phase_3() {//对应着phase II回答问题的部分，包括了选
                             <button class="submit-button" id="submit_button_phase2" disabled>Submit</button>  -->
                     </div>
                     <div id="buttons_container">
-                            <button class="submit-button" id="submit_button_phase2" disabled>Submit</button>
-                </div>
+                        <button class="submit-button" id="submit_button_phase2" disabled>Submit</button>
+                    </div>
                 </div>
             </div>
         </div>
     `;
-    /**这行代码通过查询 .quiz_body 类的元素，并设置其 innerHTML 属性来更改DOM的内容。它插入了一个HTML字符串，这个字符串描述了页面的新结构。
 
-页面结构分析:具体涉及到属性的部分到css部分去找
-
-左半部分 (left_part_phase_II):
-包含一个 left_content_phase_II 容器，内部有 instruction_phase_3 和 identity_wrap_phase_II 两个元素。
-右半部分 (right_part_phase_II):
-包含一个 right_content_phase_II 容器，内部有多个元素，包括:
-instruction_right_phase_II
-question_phase_3
-statement_phase_3
-answer_area_phase_II，这个容器内部又包含了图片容器和操作按钮容器。
-图片容器 (pictures_container) 包含两个默认图片，分别具有 left_picture 和 right_picture 的ID。但是并没有启用！display==none
-操作按钮容器 (operations) 包含两个选项按钮容器 (options_container) 和一个按钮容器 (buttons_container)。
-选项按钮容器内包含两个选项按钮，分别对应 Option 1 和 Option 2，点击时调用 selectOption 函数并传入相应的索引值。
-按钮容器内包含一个被禁用的 Submit 按钮。
-功能分析:
-
-页面被分为左右两部分，可能是为了展示问题和选项。
-右半部分有一个图片展示区域，用于展示两张默认图片，这两张图片可能需要根据用户的选择进行切换。
-用户可以通过点击两个选项按钮来选择不同的选项，并触发 selectOption 函数来更新图片或执行其他逻辑。
-提交按钮目前是禁用的，可能需要在满足某些条件（例如用户选择了选项）后才能启用。
-总结:
-
-这个函数似乎是一个交互式问答或测试系统的一部分，它初始化并设置了一个特定阶段（phase III）的页面结构，包括问题、选项和图片展示区域。用户可以通过点击按钮来选择不同的选项，并可能触发图片的切换或其他操作。 */
     const question = document.querySelector(".question_phase_3");
     const statement = document.querySelector(".statement_phase_3");
     const instruction = document.querySelector(".instruction_phase_3");
@@ -723,7 +648,6 @@ answer_area_phase_II，这个容器内部又包含了图片容器和操作按钮
 
     const set_num = Math.floor(question_seqNum_in_phase / 6);//20240626，换成6个问题
     //换句话说，它将问题序列号在当前阶段中的位置除以 5，并将结果向下取整，以确定当前问题所属的集合编号。
-
     /*
     将 question_seqNum_in_phase 除以 5，然后向下取整，得到的结果赋值给 set_num 常量。
     */
@@ -737,7 +661,7 @@ answer_area_phase_II，这个容器内部又包含了图片容器和操作按钮
     const ideology_spectrum = document.getElementById("ideology spectrum");
     ideology_spectrum.innerHTML = `
             <p style="font-weight: bold;">
-                Ideology positions and answers
+                Participants' ideologies and answers
             </p>
         `;
     const mention_chioce = document.getElementById("choice-mention");
@@ -749,9 +673,9 @@ answer_area_phase_II，这个容器内部又包含了图片容器和操作按钮
     let dot_pos_2 = (split_answers[0][1] + 2) / 4;
     let dot_pos_3 = (split_answers[0][2] + 2) / 4;
 
-    document.getElementById('name-with-dot1').style.left = dot_pos_1 * 100 + '%';
-    document.getElementById('name-with-dot2').style.left = dot_pos_2 * 100 + '%';
-    document.getElementById('name-with-dot3').style.left = dot_pos_3 * 100 + '%';
+    document.getElementById('name-with-dot1').style.left = (dot_pos_1) * 100 - (dot_pos_1 - 0.5) * 2.39 * 2 + '%';
+    document.getElementById('name-with-dot2').style.left = (dot_pos_2) * 100 - (dot_pos_2 - 0.5) * 2.39 * 2 + '%';
+    document.getElementById('name-with-dot3').style.left = (dot_pos_3) * 100 - (dot_pos_3 - 0.5) * 2.39 * 2 + '%';
 
     document.getElementById('dot1').style.background = interpolateColor(dot_pos_1);
     document.getElementById('dot2').style.background = interpolateColor(dot_pos_2);
