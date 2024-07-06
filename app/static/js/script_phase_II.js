@@ -97,7 +97,6 @@ phase_2_orders.set_order 被硬编码为 [2]，这意味着它只考虑索引为
 
 
 let selectedOption = null; // 记录当前选中的选项
-let optionClicked = false; // 记录是否已经点击了某个选项
 
 function selectOptionHelper(index) {
     index = 1 - index;
@@ -167,7 +166,7 @@ function selectOptionHelper(index) {
         }
     }
 
-    if(index) {
+    if (index) {
         document.getElementById('arrow_up_2').style.visibility = "visible";
         document.getElementById('arrow_down_2').style.visibility = "hidden";
     } else {
@@ -202,7 +201,7 @@ function initBotHelper() {
         document.getElementById('name-with-dot1').style.left = document.getElementById('name-with-dot2').style.left;
         document.getElementById('dot1').style.visibility = "hidden";
         document.getElementById('name2').style.left = document.getElementById('name1').style.left;
-        document.getElementById('name2').style.top = bias_for_1line;
+        document.getElementById('name2').style.top = bias_for_second_name;
         document.getElementById('arrow_down_1').style.top = bias_for_2line;
         document.getElementById('arrow_down_2').style.top = bias_for_2line;
         document.getElementById('arrow_down_3').style.top = bias_for_1line;
@@ -210,7 +209,7 @@ function initBotHelper() {
         document.getElementById('name-with-dot1').style.left = document.getElementById('name-with-dot3').style.left;
         document.getElementById('dot3').style.visibility = "hidden";
         document.getElementById('name3').style.left = document.getElementById('name1').style.left;
-        document.getElementById('name3').style.top = bias_for_1line;
+        document.getElementById('name3').style.top = bias_for_second_name;
         if (choice1 === choice3) {
             document.getElementById('arrow_up_1').style.translate = bias_for_2_arrows_left;
             document.getElementById('arrow_down_1').style.translate = bias_for_2_arrows_left;
@@ -224,7 +223,7 @@ function initBotHelper() {
         document.getElementById('name-with-dot3').style.left = document.getElementById('name-with-dot2').style.left;
         document.getElementById('dot3').style.visibility = "hidden";
         document.getElementById('name2').style.left = document.getElementById('name3').style.left;
-        document.getElementById('name2').style.top = bias_for_1line;
+        document.getElementById('name2').style.top = bias_for_second_name;
 
         document.getElementById('arrow_down_1').style.top = bias_for_1line;
         document.getElementById('arrow_down_2').style.top = bias_for_2line;
@@ -237,56 +236,32 @@ function initBotHelper() {
 
     document.getElementById('arrow_up_2').style.visibility = "hidden";
     document.getElementById('arrow_down_2').style.visibility = "hidden";
-    console.log("init_success");
 }
 
 
-function selectOption(index) {//selectOption 函数主要用于根据传入的 index 值来切换两个选项的样式，并更新一个全局数组。当 index 为 0 时，left_option 被选中；
-    //当 index 为非零值时，right_option 被选中。同时，该函数还启用了一个提交按钮，并更新了 temp_answers 数组。
-    //////////////////////20240514,用来展示被选中的样式。//////////////////////////////////////////    
+function selectOption(index) {
     const left_option = document.querySelector("#left_option");
     const right_option = document.querySelector("#right_option");
-    selectedOption = index;
-    optionClicked = true;
-    // 启用提交按钮
     document.querySelector(".submit-button").disabled = false;
-    //使用 document.querySelector 方法分别获取页面上 ID 为 left_option 和 right_option 的元素，并将它们分别赋值给 left_option 和 right_option 常量。
-    //document.querySelector(".submit-button").disabled = false;
-    //使用 document.querySelector 方法获取页面上类名为 submit-button 的元素，并将其 disabled 属性设置为 false，这意味着这个按钮将变得可以点击。
-
     selectOptionHelper(index);
-
+    document.getElementById("arrow_up_2").style.opacity = 1;
+    document.getElementById("arrow_down_2").style.opacity = 1;
     if (index == 0) {
         left_option.classList.add("selected");
-        //left_option.style.backgroundColor = color_name[1]; // 设置左侧选项的背景颜色
         left_option.style.backgroundColor = interpolateColor((split_answers[0][1] + 2) / 4);
         left_option.style.color = 'white'; // 选中时文本颜色变为白色
-        right_option.style.color = 'black';
         right_option.classList.remove("selected");
-        right_option.style.backgroundColor = 'lightgray';
-
-        // document.getElementById('choice2').innerText = "You choose \"Agree\".";20240702，现在的文字显示部分都在左上角显示
-        // document.getElementById('choice2').style.top = "-90px";
-        // document.getElementById('name2').style.top = "0px";
-
+        right_option.style.backgroundColor = 'rgb(239, 239, 239)';
+        right_option.style.color = 'black'; // 未选中时文本颜色变为黑色
         selectedOption = 0;
-
-
     } else {
-        left_option.classList.remove("selected");
-        left_option.style.backgroundColor = 'lightgray';
-        left_option.style.color = 'black';
         right_option.style.color = 'white';
         right_option.classList.add("selected");
-        //right_option.style.backgroundColor = color_name[1]; // 设置右侧选项的背景颜色
         right_option.style.backgroundColor = interpolateColor((split_answers[0][1] + 2) / 4);
-
-        //document.getElementById('choice2').innerText = "You choose \"Disagree\".";
-        //document.getElementById('choice2').style.top = "20px";
-        // document.getElementById('name2').style.top = "-60px";
-
+        left_option.classList.remove("selected");
+        left_option.style.backgroundColor = 'rgb(239, 239, 239)';
+        left_option.style.color = 'black';
         selectedOption = 1;
-
     }
 
     // 如果 index 等于 0，则给 left_option 元素添加 selected 类，并从 right_option 元素中移除 selected 类。这意味着 left_option 将显示被选中的样式，而 right_option 则不会。
@@ -297,109 +272,23 @@ function selectOption(index) {//selectOption 函数主要用于根据传入的 i
     //这里假设 temp_answers 是一个已经定义好的数组，而 human_index 是一个全局变量或在这段代码之前已经定义好的变量
 }
 
+
+
 function onMouseEnter(index) {
-    if (!optionClicked) {
-        const left_option = document.querySelector("#left_option");
-        const right_option = document.querySelector("#right_option");
-        //使用 document.querySelector 方法分别获取页面上 ID 为 left_option 和 right_option 的元素，并将它们分别赋值给 left_option 和 right_option 常量。
-        //document.querySelector(".submit-button").disabled = false;
-        //使用 document.querySelector 方法获取页面上类名为 submit-button 的元素，并将其 disabled 属性设置为 false，这意味着这个按钮将变得可以点击。
+    if (selectedOption == null) {
         selectOptionHelper(index);
-        if (index == 0) {
-
-            left_option.classList.add("selected");
-            //left_option.style.backgroundColor = color_name[1]; // 设置左侧选项的背景颜色
-            left_option.style.backgroundColor = interpolateColor((split_answers[0][1] + 2) / 4);
-            left_option.style.color = 'white'; // 选中时文本颜色变为白色
-            right_option.style.color = 'black';
-            right_option.classList.remove("selected");
-            right_option.style.backgroundColor = 'lightgray';
-
-            selectedOption = 0;
-            // document.getElementById('choice2').innerText = "You choose \"Agree\".";
-            //document.getElementById('choice2').style.top = "-90px";现在的文本统一显示在区域的左上角
-        } else {
-            left_option.classList.remove("selected");
-            left_option.style.backgroundColor = 'lightgray';
-            left_option.style.color = 'black';
-            right_option.style.color = 'white';
-            right_option.classList.add("selected");
-            //right_option.style.backgroundColor = color_name[1]; // 设置右侧选项的背景颜色
-            right_option.style.backgroundColor = interpolateColor((split_answers[0][1] + 2) / 4);
-
-            //document.getElementById('choice2').innerText = "You choose \"Disagree\".";
-            //document.getElementById('choice2').style.top = "20px";
-
-            selectedOption = 1;
-        }
+        document.getElementById("arrow_up_2").style.opacity = 0.3;
+        document.getElementById("arrow_down_2").style.opacity = 0.3;
     }
 }
+
+
 
 function onMouseLeave(index) {
-    if (!optionClicked) {
-        if (index === selectedOption) {
-            return; // 如果当前选项被选中，不撤销操作
-        }
-        const left_option = document.querySelector("#left_option");
-        const right_option = document.querySelector("#right_option");
-
-        // 重置按钮样式
-        left_option.classList.remove("selected");
-        left_option.style.backgroundColor = 'lightgray';
-        left_option.style.color = 'black';
-
-        right_option.classList.remove("selected");
-        right_option.style.backgroundColor = 'lightgray';
-        right_option.style.color = 'black';
-
-        //selectOptionHelper(index);
-
+    if (selectedOption == null) {
         initBotHelper();
-        //document.getElementById('arrow_up_2').style.visibility = "hidden";
-        //document.getElementById('arrow_down_2').style.visibility = "hidden";
-        // 禁用提交按钮
-        document.querySelector(".submit-button").disabled = true;
     }
 }
-function onClickOption() {//新页面重新启用鼠标滑动的效果
-    optionClicked = false;
-}
-//}
-/*function selectOption_phaseII_5(index) {//selectOption 函数主要用于根据传入的 index 值来切换两个选项的样式，并更新一个全局数组。当 index 为 0 时，left_option 被选中；
-    //当 index 为非零值时，right_option 被选中。同时，该函数还启用了一个提交按钮，并更新了 temp_answers 数组。
-//////////////////////20240514,用来展示被选中的样式。//////////////////////////////////////////    
-    const left_option = document.querySelector("#left_option");
-    const right_option = document.querySelector("#right_option");
-    //使用 document.querySelector 方法分别获取页面上 ID 为 left_option 和 right_option 的元素，并将它们分别赋值给 left_option 和 right_option 常量。
-    // document.querySelector(".submit-button").disabled = false;
-//使用 document.querySelector 方法获取页面上类名为 submit-button 的元素，并将其 disabled 属性设置为 false，这意味着这个按钮将变得可以点击。
-    if (index == 0) {
-        //left_option.classList.add("selected");
-        //left_option.style.backgroundColor = color_name[1]; // 设置左侧选项的背景颜色
-        left_option.style.backgroundColor = interpolateColor((split_answers[0][1] + 2) / 4);
-        left_option.style.color = 'white'; // 选中时文本颜色变为白色
-        right_option.style.color = 'black'; 
-        //right_option.classList.remove("selected");
-        right_option.style.backgroundColor = 'lightgray';
-
-
-    } else {
-        //left_option.classList.remove("selected");
-        left_option.style.backgroundColor = 'lightgray';
-        left_option.style.color = 'black';
-        right_option.style.color = 'white';  
-        //right_option.classList.add("selected");
-        //right_option.style.backgroundColor = color_name[1]; // 设置右侧选项的背景颜色
-        right_option.style.backgroundColor = interpolateColor((split_answers[0][1] + 2) / 4);
-    
-    }
-   // 如果 index 等于 0，则给 left_option 元素添加 selected 类，并从 right_option 元素中移除 selected 类。这意味着 left_option 将显示被选中的样式，而 right_option 则不会。
-
-    //如果 index 不等于 0（即等于 1 或其他非零值），则给 right_option 元素添加 selected 类，并从 left_option 元素中移除 selected 类。这意味着 right_option 将显示被选中的样式，而 left_option 则不会。
-    // temp_answers[human_index] = index;
-    //将 temp_answers 数组在 human_index 索引位置的值设置为 index。
-    //这里假设 temp_answers 是一个已经定义好的数组，而 human_index 是一个全局变量或在这段代码之前已经定义好的变量
-}*/
 
 
 
@@ -545,11 +434,12 @@ document.querySelector("button").addEventListener("click", remove_initphase3);//
 let statement_text;
 let choice1 = -1, choice3 = -1;
 let overlap_1_3, overlap_1_2, overlap_2_3, overlap_1_2_3;
-let bias_for_2_arrows_left = "-50%";
-let bias_for_2_arrows_right = "50%";
-let bias_for_3_arrows_left = "-100%";
-let bias_for_3_arrows_right = "100%";
-let bias_for_1line = "25px", bias_for_2line = "55px";
+const bias_for_2_arrows_left = "-30%";
+const bias_for_2_arrows_right = "30%";
+const bias_for_3_arrows_left = "-60%";
+const bias_for_3_arrows_right = "60%";
+const bias_for_1line = "80px", bias_for_2line = "95px";
+const bias_for_second_name = "65px"
 
 
 
@@ -567,11 +457,11 @@ function test_phase_II() {//实验用的测试阶段，没参与具体实验当�
     ];
     phase_2_orders.participant_order = [2, 1, 1, 1];
     next_question_seqNum = phase_2_starting_question_index;
-    split_answers = [[-2.0, 0.2, 2]];     // ideology labeled after Phase I
+    split_answers = [[0.2, 0.2, 0.2]];     // ideology labeled after Phase I
     init_phase_3();
 }
 
-test_phase_II();
+// test_phase_II();
 
 
 
@@ -681,12 +571,16 @@ function init_phase_3() {//对应着phase II回答问题的部分，包括了选
     document.getElementById('dot2').style.background = interpolateColor(dot_pos_2);
     document.getElementById('dot3').style.background = interpolateColor(dot_pos_3);
 
+    if (split_answers[0][0] == split_answers[0][1] && split_answers[0][1] == split_answers[0][2]) {
+        document.getElementById("name2").style.width = "max-content";
+        document.getElementById("name2").style.left = "calc(50% - 45px)";
+    }
 
     choice1 = Math.random() < 0.5 ? 0 : 1;
     choice3 = ((next_question_seqNum - 12) == num1 || (next_question_seqNum - 12) == num2) ? choice1 : 1 - choice1;
 
-    temp_answers[0] = 1-choice1;
-    temp_answers[2] = 1-choice3;
+    temp_answers[0] = 1 - choice1;
+    temp_answers[2] = 1 - choice3;
 
 
     // 1 for bot, 2 for you, 3 for bot

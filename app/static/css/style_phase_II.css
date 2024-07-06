@@ -32,7 +32,7 @@
     justify-content: space-between;
     /*margin-top: 110px;*/
     margin-top: 5px;
-    width: 400px;/*选项框宽度*/
+    width: 300px;/*选项框宽度*/
     /*padding: 15px;*/
     /*border: 5px dashed lightgray*/
     margin-right: 40px; /* 设置右边距 */
@@ -927,12 +927,19 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
    /* margin-top: 8%;*/
 }
 
+.range-border {
+    position: absolute;
+    box-shadow: inset 2px 0 black, inset -2px 0 black;
+    width: 100%;
+    height: 7.5px;
+    top: 26px;
+}
+
 .range-with-description {
     display: flex;
     flex-direction: row;
-    margin-top: 5%;
+    margin-top: 55px;
     align-content: center;
-
     padding-top: 70px; /* 根据需要调整距离 */
 }
 
@@ -1013,7 +1020,7 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
 .arrow-up-choice {
     position: absolute;
     top: -45px;
-    transform: scaleY(3);
+    transform: scaleY(2.5);
     width: 30px;
     left: calc(50% - 15px);
 }
@@ -1021,7 +1028,7 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
 .arrow-down-choice {
     position: absolute;
     top: 80px;
-    transform: scaleY(3);
+    transform: scaleY(2.5);
     width: 30px;
     left: calc(50% - 15px);
 }
@@ -1070,10 +1077,10 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
     position: absolute;
     width: 100%;
     height: 10px;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
-    border-bottom: 1px solid black;
-    top: 160px;
+    border-left: 1.5px solid black;
+    border-right: 1.5px solid black;
+    border-bottom: 1.5px solid black;
+    top: 140px;
 }
 
 /*下面是适配每个浏览器的滑动轴拖动效果*/
@@ -1140,7 +1147,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .spectrum-text {
-    font-size: 26px; /* 放大字体 */
+    font-size: 20px; /* 放大字体 */
     font-weight: bold; /* 加粗 */
 }/*用来显示标出这个轴是意识形态的轴*/
 
@@ -1152,4 +1159,3 @@ input[type="range"]::-moz-range-thumb {
     display: flex; /* 使用 flexbox 进行横向排列 */
     gap: 5px; /* 设置文本之间的间隔 */
 }/*用来在左上角显示谁选的是什么*/
-

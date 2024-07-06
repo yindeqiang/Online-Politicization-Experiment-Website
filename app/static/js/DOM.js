@@ -444,6 +444,7 @@ const phase_II_range_string = `
     <div style="position: relative; color: blue; margin-left: 10px;">strongly liberal</div>
     <div class="range-container">
         <div class="custom-range" id="custom-range1"></div>
+        <div class="range-border"></div>
         <div class="spectrum"></div>
         <div class="name-with-dot" id="name-with-dot1">
             <div class="arrow-up-choice" id="arrow_up_1">⇧</div>
