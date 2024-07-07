@@ -96,7 +96,7 @@ phase_2_orders.set_order 被硬编码为 [2]，这意味着它只考虑索引为
 随机确定一个参与者顺序，其中某些位置是固定的（例如第二个位置总是 1），而其他位置则基于生成的随机数。 */
 
 
-let selectedOption = null; // 记录当前选中的选项
+let selectedOption; // 记录当前选中的选项
 
 function selectOptionHelper(index) {
     index = 1 - index;
@@ -559,6 +559,7 @@ function init_phase_3() {//对应着phase II回答问题的部分，包括了选
                         Do you agree or disagree with the statement above?
                 `;
 
+    selectedOption = null;
     let dot_pos_1 = (split_answers[0][0] + 2) / 4;
     let dot_pos_2 = (split_answers[0][1] + 2) / 4;
     let dot_pos_3 = (split_answers[0][2] + 2) / 4;
@@ -634,8 +635,6 @@ function init_phase_3() {//对应着phase II回答问题的部分，包括了选
     rightOption.addEventListener('mouseenter', () => onMouseEnter(1));
     rightOption.addEventListener('mouseleave', () => onMouseLeave(1));//鼠标在对应区域上的效果
     //rightOption.addEventListener('click', () => onClickOption(1));
-
-    submitbutton.addEventListener('click', () => onClickOption());//每次点完submit在新的页面将鼠标滑动的功能启用
 
     //add_identity_status();//放置页面显示的labels，实质上在这里展示的头像，名字和label////////////////////////////////////////////到这里左半部分
 

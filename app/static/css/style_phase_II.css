@@ -496,7 +496,7 @@ transform: translateX(-50%);：使用CSS的变换功能将箭头在水平方向�
 
 
 .identity_part {/*仅用过一次，可以替换*/
-    padding: 5px;
+    padding: 20px;
     position: absolute;
     width: 30%;
     height: 100%;
@@ -504,8 +504,7 @@ transform: translateX(-50%);：使用CSS的变换功能将箭头在水平方向�
     border-radius: 10px;
     font-size: min(18px, 1.2vw);
     text-align: center;
-
-
+    font-size: 20px;
 }
 /*这段 CSS 代码定义了一个类名为 .identity_part 的样式，下面是对每个属性的解释：
 

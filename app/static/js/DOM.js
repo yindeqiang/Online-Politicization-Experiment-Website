@@ -83,9 +83,13 @@ const section_rule_string = [
     </p>
     <br>
     Together with each question, you will see the following information:<br>
-    1) <b>${pseudonyms_chosen[0]}</b> and <b>${pseudonyms_chosen[2]}</b>’s answers to the question;<br>
-    2) <b>${pseudonyms_chosen[0]}</b>’s and <b>${pseudonyms_chosen[2]}</b>’s and <b>your</b> positions on the ideology spectrum. <br>
+    <span class="br_small"></span>
+    1) <b>${pseudonyms_chosen[0]}</b> and <b>${pseudonyms_chosen[2]}</b>'s answers to the question;<br>
+    <span class="br_small"></span>
+    2) <b>${pseudonyms_chosen[0]}</b>'s and <b>${pseudonyms_chosen[2]}</b>'s and <b>your</b> positions on the ideology spectrum. <br>
+    <span class="br_big"></span>
     Please then choose your answer to the question being asked by clicking the option. <br>
+    <span class="br_big"></span>
     Click “Submit” when you finish answering the five questions.
     `,
 

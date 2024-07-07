@@ -198,16 +198,16 @@ attention_checked
 
 let split_answers = [];
 let num1 = [];let num2 = [];
-function enter_next() {///////////////////在进入下一阶段的操作，包括将数据回传
+
+
+
+function enter_next() {
     // attention check
-    /*if (phase == 3 && question_seqNum_in_phase == 2 && !attention_checked) {//第三阶段的第二组问题，无attentioncheck
-        attention_check();这里原有的逻辑
+    if (phase == 3 && question_seqNum_in_phase == 2 && !attention_checked) {
+        attention_check(); // 这里原有的逻辑
         attention_checked = true;
         return;
-    }*/
-    
-
-
+    }
 //这段代码检查当前是否处于第三阶段（phase == 3），并且是否是该阶段的第三个问题（question_seqNum_in_phase == 2），
 //并且之前还没有进行过注意力检查（!attention_checked）。如果这三个条件都满足，那么调用 attention_check() 函数来执行注意力检查，
 //并将 attention_checked 设置为 true 以表示已经进行了注意力检查。最后，函数返回，不再执行后续的代码。
@@ -295,7 +295,6 @@ function enter_next() {///////////////////在进入下一阶段的操作，包�
         }
         data.type_D_answers = split_answers;//传过去一个数组，数组每个元素是轴的值，存拖动轴的数值
         //240626,轴上的数据换到phase 2来保存
-        console.log("split_answers:", split_answers);
         num1 = Math.floor(Math.random() * 6);
         do {
             num2 = Math.floor(Math.random() * 6);
@@ -437,9 +436,9 @@ function show_instructions() {//1,3开始前要有一个instruction的展示
                     break;
                 case 3:
                     //init_phase_31();//在进入phase3后给出一个提示,然后开始抽签/////////////////////////////////////
-                    attention_check();
+                    // attention_check();
                     //20240509现在不要抽签，直接attention_check后进入答题//////////////////////////////////////////////
-                    //init_phase_3();
+                    init_phase_3();
                     break;
             }
         });
@@ -882,7 +881,7 @@ function init_phase_2() {//为人和bot贴标签的部分
                     color = 'rgb(125, 186, 76, 255)'; // 包含'好'的文本将显示为绿色
             } else if (labelText.includes('Competent')) {  
                     color = 'rgb(125, 186, 76, 255)'; // 包含'好'的文本将显示为绿色
-            }else if (labelText.includes('Somewhat liberal')) {  
+            } else if (labelText.includes('Somewhat liberal')) {  
                     color = 'rgb(114, 146, 213)';   
             } else if (labelText.includes('Somewhat conservative')) {  
                     color = 'rgb(232, 127, 127)'; 
@@ -1115,8 +1114,8 @@ function attention_check() {//注意力检测
     document.querySelector(".attention_check").addEventListener("change", attention_check_click_handler);
     document.querySelector("button").addEventListener("click",() => {
         document.querySelector(".attention_check").removeEventListener("change", attention_check_click_handler);
-        //enter_next();注意如果单独使用attentioncheck作为一个新的phase，这里不要enter，要直接init phase3//////////////////////////////////
-        init_phase_3();//20240509版采用这个！！////////////////////////////////////////////////////////////////////////////////////////////
+        enter_next(); // 注意如果单独使用attentioncheck作为一个新的phase，这里不要enter，要直接init phase3//////////////////////////////////
+        // init_phase_3();//20240509版采用这个！！////////////////////////////////////////////////////////////////////////////////////////////
     });
 }
 

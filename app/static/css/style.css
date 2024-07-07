@@ -80,8 +80,8 @@ height: 60%;设置元素的高度为其父元素高度的60%。
     text-align: center;
     color: black;
     position: absolute;
-    top: -60px;
-    left: 30px;
+    top: -55px;
+    left: 50px;
     border-radius: 20px;
     animation: 0.3s linear popup;
     background-color: lightgrey;
@@ -120,8 +120,8 @@ height: 60%;设置元素的高度为其父元素高度的60%。
     text-align: center;
     color: black;
     position: absolute;
-    top: -60px;
-    left: 30px;
+    top: -55px;
+    left: 50px;
     border-radius: 20px;
     animation: 0.3s linear popup;
 }
@@ -484,7 +484,7 @@ height: 20px;：设置元素的高度为 20 像素。
 
 .answer_status {
     width: 90%;
-    margin-top: 50px;
+    margin-top: 70px;
     margin-bottom: 50px;
 }
 
@@ -513,11 +513,11 @@ height: 20px;：设置元素的高度为 20 像素。
 .profile_answering {
     border: 2px solid black;
     border-radius: 10px;
-    width: 30%;
+    width: 120px;
     position: relative;
-    aspect-ratio: 5 / 3;
     max-width: 250px;
     padding: 0px;
+    height: 70px;
 }
 /*这个.profile_answering类可能用于为某种特定的内容容器（如一个用于回答问题的区域）提供样式。
 使用相对定位意味着该元素可能包含绝对定位的子元素，而宽高比和最大宽度的设置则确保了元素在视觉上的一致性和响应性。*/
@@ -633,7 +633,7 @@ height: 30px;：设置元素的高度为 30 像素。
 
 .profile_answering > .status {/*原来在右下角正在回答的样子，phaseI*/
     position: absolute;
-    bottom: 5px;
+    bottom: 15px;
     right: 5px;
     width: 30px;
     height: 30px;
@@ -749,14 +749,14 @@ margin-bottom: 50px;：设置元素的下外边距为 50 像素。这会在元�
     font-size: 22px;
     margin: auto;
     width: 82%;
-    margin-top: 5%;
+    margin-top: 10%;
     line-height: 25px;
     font-weight: bold;
     text-align: center;
 }
 
 .question_phase_3 {
-    margin-top: 5%;
+    margin-top: 3%;
     /*定义一个元素顶部的外边距（margin），并且这个外边距的大小是相对于其父元素的宽度的百分比。
 具体来说，如果一个元素的父元素有一个已知的高度，那么设置 margin-top: 13%; 将使得这个元素的顶部外边距的大小为其父元素的高度的13%。
 如果元素的父元素没有明确设置高度，那么这个百分比将是相对于父元素的包含块的高度。*/

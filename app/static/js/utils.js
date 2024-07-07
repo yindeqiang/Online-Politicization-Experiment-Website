@@ -98,8 +98,9 @@ function after_check() {
 }
 
 
+var slider_moved = [false, false, false];
 
-function get_slider_value(eSlider) {//没有使用
+function get_slider_value(eSlider) {
     let slider_value = document.querySelector('#slider_value');
     if (slider_value) {
         if (phase != 3) {
@@ -118,8 +119,17 @@ function get_slider_value(eSlider) {//没有使用
             }
         }
     }
-    if (phase != 4)
-        document.querySelector("button").disabled = false;
+    if (phase != 4) {
+        if (phase == 2) {
+            const ideology_id = eSlider.parentNode.id.charAt(eSlider.parentNode.id.length - 1);
+            slider_moved[ideology_id] = true;
+            if (slider_moved[0] && slider_moved[1] && slider_moved[2]) {
+                document.querySelector("button").disabled = false;
+            }
+        } else {
+            document.querySelector("button").disabled = false;
+        }
+    }
 }
 
 
@@ -587,13 +597,7 @@ function track_answers() {
         let HTML = `<tr><th class="th_summary"></th>`;
         for (let index = 0; index < num_of_participants; index++) {
             if (index == human_index)
-                HTML += `
-                    <th class="th_name">
-                        ${pseudonyms_chosen[index]}
-                        <br>
-                        <span style="font-size: 10px">(You)</span>
-                    </th>
-                `;
+                HTML += `<th class="th_name">You</th>`;
             else
                 HTML += `<th class="th_name">${pseudonyms_chosen[index]}</th>`;
         }
@@ -1166,6 +1170,7 @@ function add_identity_status() {
 
         if (phase == 1) {//phase1答题的时候的头像,图像现在20240414都换成了png格式!!//20240509不展示头像
             status.innerHTML += `
+                
                 <div id="profile_${index}" class="profile_answering">
                     <div class="identity_part">
                         <!-- <img src="/static/avatars/avatar_${avatars_index_chosen[index]}.png" >  -->
@@ -1584,6 +1589,7 @@ function attention_check_click_handler() {
         index_of_question += 1;
     }
     if (temp_answers[0] != -1 && temp_answers[1] != -1 && temp_answers[2] != -1) {
+        console.log(temp_answers);
         document.querySelector("button").disabled = false;
     }
     if (temp_answers[0] == 3 && temp_answers[1] == 1 && temp_answers[2] == 3) {
