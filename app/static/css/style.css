@@ -497,6 +497,19 @@ height: 20px;：设置元素的高度为 20 像素。
     width: 30%;
     position: relative;
     aspect-ratio: 5 / 3;
+    @supports not (aspect-ratio: 5 / 3) {
+        &::before {
+          float: left;
+          padding-top: 60%;
+          content: "";
+        }
+    
+        &::after {
+          display: block;
+          content: "";
+          clear: both;
+        }
+    }
     max-width: 250px;
     padding: 0px;
     
@@ -839,6 +852,19 @@ margin-bottom: 50px;：设置元素的下外边距为 50 像素。这会在元�
     font-size: 18px;
     border-radius: 10px;
     aspect-ratio: 2.25;
+    @supports not (aspect-ratio: 2.25) {
+        &::before {
+          float: left;
+          padding-top: 44.4%;
+          content: "";
+        }
+    
+        &::after {
+          display: block;
+          content: "";
+          clear: both;
+        }
+    }
     width: 120px;
     position: relative;
     cursor: pointer;
@@ -1155,7 +1181,18 @@ margin-bottom: 50px;：设置元素的下外边距为 50 像素。这会在元�
 
 .range-marker-phase-2 {
     width: calc(4.76% - 4px);
-    aspect-ratio: 1;
+
+    &::before {
+        float: left;
+        padding-top: 100%;
+        content: "";
+    };
+
+    &::after {
+        display: block;
+        content: "";
+        clear: both;
+    };
     border: 2px solid black;
     border-radius: 50%;
     position: absolute;
