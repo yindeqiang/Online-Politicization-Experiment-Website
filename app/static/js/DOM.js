@@ -191,9 +191,9 @@ const phase_0_body_string = `
         </div>
     </div>
 `;
-/* <button type="button" class="button_big button_checked" disabled="true">Proceed to Phase I</button>
-1个JS中的button，展示的类型是big button,目前是禁用的状态。
-*/
+
+
+
 const phase_1_body_string = `
     <div class="split left">
         ${input_select_string}
@@ -209,30 +209,53 @@ const phase_1_body_string = `
     </div>
 `;
 
-/*const phase_2_label_string = `
-    <div class="instruction_phase_2">
-        <p>
-            For each participant (including yourself), please pick <b>one to three</b> labels that best describe him/her.
-        </p>
-    </div>
-    <div class="identity_wrap labeling_wrap"></div>
-    <div class="instruction_phase_2">
-        <p>Please pick at least one label for each participant. The labels you pick will remain on their name cards in the rest of this experiment. After you have finished picking labels, press "Submit" to proceed.
-    </div>
-    <button type="button" class="button_big" disabled="true">Submit</button>
-`;*/
+
 
 const phase_2_label_string = `
-    
-    
-    <div class="question_phase_2" id="question_1"> 
-        <p> Below you will see three scrollbars, for the two previous participants and yourself respectively.  Based on the answers in Phase 1, please pull each scrollbar to the position that best describes the corresponding person's ideology.</p>
-        <div id="evaluation_ideology" class="evaluation"></div>
+    <p class="instruction-phase-2"> Q11. Below you will see three scrollbars, for the two previous participants and yourself respectively.  Based on the answers in Phase 1, please pull each scrollbar to the position that best describes the corresponding person's ideology.</p>
+    <div class="ranges-phase-2">
+        <div class="range-container-phase-2">
+            <p id="name_0">Alex</p>
+            <div class="custom-range" id="range_0">
+                <div class="range-marker-phase-2" id="marker_0"></div>
+                <div class="range-scale-phase-2"></div>
+                <div class="range-text-phase-2">
+                    <p>strongly<br>liberal</p>
+                    <p>mildly<br>liberal</p>
+                    <p>mildly<br>conservative</p>
+                    <p>strongly<br>conservative</p>
+                </div>
+            </div>
+        </div>
+        <div class="range-container-phase-2">
+            <p id="name_1">You</p>
+            <div class="custom-range" id="range_1">
+                <div class="range-marker-phase-2" id="marker_1"></div>
+                <div class="range-scale-phase-2"></div>
+                <div class="range-text-phase-2">
+                    <p>strongly<br>liberal</p>
+                    <p>mildly<br>liberal</p>
+                    <p>mildly<br>conservative</p>
+                    <p>strongly<br>conservative</p>
+                </div>
+            </div>
+        </div>
+        <div class="range-container-phase-2">
+            <p id="name_2">Blair</p>
+            <div class="custom-range" id="range_2">
+                <div class="range-marker-phase-2" id="marker_2"></div>
+                <div class="range-scale-phase-2"></div>
+                <div class="range-scale-phase-2"></div>
+                <div class="range-text-phase-2">
+                    <p>strongly<br>liberal</p>
+                    <p>mildly<br>liberal</p>
+                    <p>mildly<br>conservative</p>
+                    <p>strongly<br>conservative</p>
+                </div>
+            </div>
+        </div>
     </div>
-
-    
-<button type="button" class="button_big" disabled="true">Submit</button>
-
+    <button type="button" class="button_big" disabled="true">Submit</button>
 `;
 
 const phase_4_evaluate_string = `
@@ -443,7 +466,7 @@ const mark_texts = {
     ]
 };
 
-const phase_II_range_string = `
+const phase_3_range_string = `
     <div class="range-with-description">
     <div style="position: relative; color: blue; margin-left: 10px;">strongly liberal</div>
     <div class="range-container">
@@ -476,5 +499,21 @@ const phase_II_range_string = `
         </div>
     </div>
     <div style="position: relative; color: red">strongly conservative</div>
+    </div>
+`;
+
+const up_arrow_svg = `
+    <div class="arrow-container">
+        <svg class="arrow" viewBox="0 0 24 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 8v9h5v-9h3L12.5 2 7 8h3z"/>
+        </svg>
+    </div>
+`;
+
+const down_arrow_svg = `
+    <div class="arrow-container">
+        <svg class="arrow" viewBox="0 0 24 20" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 12v-9h5v9h3L12.5 18 7 12h3z"/>
+        </svg>
     </div>
 `;

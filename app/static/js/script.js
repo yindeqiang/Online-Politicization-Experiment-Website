@@ -112,8 +112,8 @@ const time_configurations = {
 const style_configurations = {
     'finish_opacity': 0.2,
     'clicked_choice_background_color': 'grey',
-    'disagree': 'Disagree X',
-    'agree': 'Agree √',
+    'disagree': 'Disagree ⇩',
+    'agree': 'Agree ⇧',
 };
 //一个对象，定义了样式配置，如完成后的透明度、点击选择后的背景颜色，以及不同意和同意的文本标签
 
@@ -196,7 +196,7 @@ attention_checked
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-let split_answers = [];
+let split_answers = [[]];
 let num1 = [];let num2 = [];
 
 
@@ -288,7 +288,7 @@ function enter_next() {
             answers.push(parseFloat(range.value));
             //console.log("answers:", answers);
         });
-        split_answers.push(answers.slice(0, 3));
+        // split_answers.push(answers.slice(0, 3));
         if (userData.quiz_type == 'pilot_1') {
             split_answers.push(answers.slice(3, 5));
             split_answers.push(answers.slice(5, 7));
@@ -731,8 +731,20 @@ function init_phase_1() {
         document.querySelector(".statement").innerHTML = `"` + statement_text + `"`;
         //设置问题的内容，并从 phase_1_statements 数组中获取对应的声明文本。
         //这个数组可能包含两组不同的声明，根据 index_of_question 的值，从其中一组或另一组中选择声明。
-        add_ans_choices(['Agree √', 'Disagree X']);
-        //调用 add_ans_choices 函数来添加“同意”和“不同意”两个答案选项的文本。
+        const answer_choices = document.querySelector(".answer_choices");
+        answer_choices.innerHTML += `
+            <div class="answer_choice" id="choice_0">
+                <p>Agree</p>
+                ${up_arrow_svg}
+            </div>
+            <div class="answer_choice" id="choice_1">
+                <p>Disagree</p>
+                ${down_arrow_svg}
+            </div?
+        `;
+        answer_choices.querySelectorAll(".arrow").forEach((arrow) => {
+            arrow.classList.add("arrow-option")
+        })
 
         // for the ith question, pretend that the last participant is offline for some time
         if (question_seqNum_in_phase == phase_1_special_question_index) {
@@ -848,94 +860,67 @@ function bot_get_offline() {//设置的一个trick,显示一个bot掉线的效�
 
 
 
-function init_phase_2() {//为人和bot贴标签的部分
+function init_phase_2() {
     document.querySelector(".quiz_body").innerHTML = phase_1_body_string;
     document.querySelector(".left").innerHTML = phase_2_label_string;
-    document.querySelector(".right").innerHTML = phase_1_answers_HTML;
-    /**这三行代码更新了页面上特定元素的内容。.quiz_body、.left 和 .right 是通过 CSS 类选择器选中的元素，
-     * 它们的 innerHTML 属性被分别设置为 phase_1_body_string、phase_2_label_string 和 phase_1_answers_HTML 变量的值。 */
-    //删去label_part,换成拖动轴的位置20240620
-    //let wrap = document.querySelector(".labeling_wrap");
-    
-    //20240620add_identity_status();//设置labels的选项
-    /**这里首先通过类选择器获取了 .labeling_wrap 元素并将其赋值给 wrap 变量。接着，调用了一个名为 add_identity_status 的函数，
-     * 这个函数的具体实现没有在这段代码中给出，但很可能是用来更新或设置某种身份状态。 */
-    //240620for (let index = 0; index < num_of_participants; index++)
-        //240620data.labels.push([]);
-    /**这个循环为 data.labels 数组中的每个元素（对应于每个参与者）添加了一个空数组。num_of_participants 变量表示参与者的数量。 */
-    /*240620let id = 0;
-    document.querySelectorAll(".labels_pool").forEach((pool) => {
-        for (let label_index = 0; label_index < labels.length; label_index++) {
-////////////////////////////////////////////////////////
-            const labelText = labels[label_index];  
-            let color; // 初始化颜色变量  
-            // 假设我们有一些简单的逻辑来决定颜色 
-           
-            if (labelText.includes('Liberal')) {  
-                color = 'rgb(0, 58, 179)'; // 包含'Liberal'的文本将显示为深蓝色  
-            } else if (labelText.includes('Conservative')) {  
-                color = 'rgb(210, 0, 0)'; // 包含'Conservative'的文本将显示为红色  
-            } else if (labelText.includes('Kind')) {  
-                    color = 'rgb(125, 186, 76, 255)'; // 包含'好'的文本将显示为绿色
-            } else if (labelText.includes('Mature')) {  
-                    color = 'rgb(125, 186, 76, 255)'; // 包含'好'的文本将显示为绿色
-            } else if (labelText.includes('Competent')) {  
-                    color = 'rgb(125, 186, 76, 255)'; // 包含'好'的文本将显示为绿色
-            } else if (labelText.includes('Somewhat liberal')) {  
-                    color = 'rgb(114, 146, 213)';   
-            } else if (labelText.includes('Somewhat conservative')) {  
-                    color = 'rgb(232, 127, 127)'; 
-            } else {  
-                color = 'rgb(0, 0, 0)'; // 其他文本将显示为黑色  
-            }  
-////////////////////////////////////////////////////////
-            pool.innerHTML += `
-                <input type="checkbox" id="${label_index}_${id}" name="labels" value="${labels[label_index]}">
-                <label for="${label_index}_${id}"style="color: ${color};">${labels[label_index]}</label>
-                <br>
-            `;
-        }
-        id++;
-    });/**这部分代码为每个 .labels_pool 元素动态创建了一系列复选框和对应的标签。labels 数组中的每个元素都被用来创建一个复选框和一个标签，
-    并且每个复选框和标签都有一个唯一的 id。循环完成后，id 会递增以用于下一个 .labels_pool 元素。 */
-    // clicking animation
-   //240620 document.querySelector(".labeling_wrap").addEventListener("change", check_handler);
-    /**为 .labeling_wrap 元素添加了一个事件监听器，当该元素或其子元素中的复选框状态改变时，会调用 check_handler 函数,用在选中或取消复选框
-     * 这个函数的具体实现没有在这段代码中给出，但很可能是用来处理复选框的选中或取消选中事件。 */
-    // button check
-    evaluation_types = ['ideology'];//对condition类的实验直接设定为ideology的形式
-    for (let type of evaluation_types) {
-        evaluation = document.getElementById(`evaluation_${type}`);
-        for (let index = 0; index < num_of_participants; index++) {
-            if (type == 'ideology' || index != human_index) {
-                evaluation.innerHTML += `<div id="input_${type}_${index}" class="input input_phase_4">${slider_string_short}</div>`;
+    document.querySelector(".right").innerHTML = phase_1_answers_HTML;  // the answer history of phase I
+    const marker = document.querySelector('.range-marker-phase-2');
+    const range = document.querySelector('.custom-range');
+    let isDragging = [false, false, false];
+    let marker_dragged = [false, false, false];
+
+    for (let marker_idx = 0; marker_idx < 3; marker_idx++) {
+        const marker = document.getElementById(`marker_${marker_idx}`);
+        marker.addEventListener('mousedown', () => {
+            isDragging[marker_idx] = true;
+            marker.style.cursor = 'grabbing';
+        });
+    }
+
+    document.addEventListener('mouseup', () => {
+        isDragging[0] = isDragging[1] = isDragging[2] = false;
+        marker.style.cursor = 'grab';
+    });
+
+    document.addEventListener('mousemove', (event) => {
+        const segment_percentage = 4.76;
+        let range_idx = -1;
+        for (let idx = 0; idx < 3; idx++) {
+            if (isDragging[idx]) {
+                range_idx = idx;
+                break; 
             }
         }
-        if (type == 'ideology')//拖动的轴
-            add_mark_texts([`Liberal`, 'Somewhat<br>Liberal', `Neutral`, `Somewhat<br>Conservative`, `Conservative`], evaluation);
-        //对condition实验而言，加入4个有意识形态的标签
-        else if (type == 'competence')
-            add_mark_texts([`Very<br>Incompetent`, `Slightly<br>Incompetent`, `Neutral`, `Slightly<br>Competent`, `Very<br>Competent`], evaluation);
-        else if (type == 'warmth')
-            add_mark_texts([`Very<br>Unfriendly`, `Slightly<br>Unfriendly`, `Neutral`, `Slightly<br>Friendly`, `Very<br>Friendly`], evaluation);
-    }
-    /**. 添加输入框:
-如果当前类型是'ideology'或当前索引不是human_index，则在页面上添加一个新的输入框。
-
-b. 添加标记文本:
-根据type的值，向对应的元素添加标记文本，这些文本可能用于描述滑块的不同位置。 */
-    display_values();
-    //调用display_values函数，可能用于显示或更新页面上某些元素的值
-    document.querySelectorAll("input[type=range]").forEach((input) => {
-        input.addEventListener('input', display_values);//对输入内容显示
-    });//这段代码的主要作用是：查找页面上的所有<input type="range">元素，
-    
-    document.querySelector("button").addEventListener("click", () => {
-        //document.querySelector(".labeling_wrap").removeEventListener("change", check_handler);
-        enter_next();
-        /**为页面上的第一个 button 元素添加了一个点击事件监听器。当按钮被点击时，首先会移除之前添加到 .labeling_wrap 元素上的 change 事件监听器，
-         * 然后调用 enter_next 函数。这个 enter_next 函数用来进入下一个阶段或执行某些操作 */
+        if (range_idx >= 0) {
+            const rect = range.getBoundingClientRect();
+            let x = event.clientX - rect.left;
+            x = Math.max(x, 0);
+            x = Math.min(x, rect.width);
+            const percentage = (x / rect.width) * 100;
+            let segmentIndex = Math.floor(percentage / segment_percentage);
+            segmentIndex = Math.min(segmentIndex, 20);
+            const marker = document.getElementById(`marker_${range_idx}`);
+            marker.style.left = `${50 + (segmentIndex - 10) * segment_percentage}%`;
+            const color = getComputedStyle(document.documentElement).getPropertyValue(`--color${segmentIndex}`);
+            marker.style.backgroundColor = color;
+            // document.getElementById(`name_${range_idx}`).style.border = `2px solid ${color}`;
+            marker_dragged[range_idx] = true;
+            split_answers[0][range_idx] = (segmentIndex - 10) / 5;
+            if (marker_dragged[0] && marker_dragged[1] && marker_dragged[2]) {
+                const button = document.querySelector("button")
+                button.disabled = false;
+                button.addEventListener("click", enter_next);
+            }
+        }
     });
+}
+
+
+
+
+function test_phase_2() {
+    phase = 2;
+    init_phase_2();
 }
 
 

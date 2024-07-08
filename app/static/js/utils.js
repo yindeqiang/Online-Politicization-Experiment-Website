@@ -261,17 +261,36 @@ min 和 max 分别从 question_wrap["range"] 数组中获取最小值和最大�
 
 function display_values(index = null, question_type = null) {///////重要！这是实际在使用的展示模块
     if (phase == 1) {
-        for (let index = 0; index < num_of_participants; index++) {
-            let ans = '';
-            if (index_of_question < phase_1_statements[0].length + phase_1_statements[1].length) {
-                if (temp_answers[index] == 1)
-                    ans = style_configurations.disagree;
-                else
-                    ans = style_configurations.agree;
-            } else {
-                ans = phase_1_statements[2][index_of_question - phase_1_statements[0].length - phase_1_statements[1].length].range[temp_answers[index]];
+        // non-preference questions
+        if (index_of_question < phase_1_statements[0].length + phase_1_statements[1].length) {
+            for (let index = 0; index < num_of_participants; index++) {
+                const profile = document.getElementById(`profile_${index}`);
+                if (temp_answers[index] == 0) {
+                    profile.innerHTML += `
+                        <div class="bubble" id="bubble_${index}">
+                            <p>Agree</p>
+                            ${up_arrow_svg}
+                        </div>
+                    `;
+                } else {
+                    profile.innerHTML += `
+                        <div class="bubble" id="bubble_${index}">
+                            <p>Disagree</p>
+                            ${down_arrow_svg}
+                        </div>
+                    `;
+                }
+                profile.querySelector(".arrow").classList.add("arrow-answer");
+                if (temp_answers[index] == temp_answers[human_index]) {
+                    const bubble = document.getElementById(`bubble_${index}`)
+                    bubble.style["background-color"] = "lightgrey";
+                    bubble.style.setProperty('--bubble-after-color', 'lightgrey');
+                }
             }
-
+        }
+        // preference-related questions
+        else {
+            const ans = phase_1_statements[2][index_of_question - phase_1_statements[0].length - phase_1_statements[1].length].range[temp_answers[index]];
             if (temp_answers[index] != temp_answers[human_index]) {
                 document.getElementById(`profile_${index}`).innerHTML += `
                     <div class="bubble_white" id="bubble_${index}">
@@ -630,9 +649,12 @@ function track_answers() {
     for (let i = 0; i < num_of_participants; i++) {
         let block = document.getElementById(`ans${index}_${i}`);
         if (temp_answers[i] == 0)
-            block.innerHTML = `√`;
+            block.innerHTML = up_arrow_svg;
         else
-            block.innerHTML = `X`;
+            block.innerHTML = down_arrow_svg;
+        block.querySelectorAll(".arrow").forEach((arrow) => {
+            arrow.classList.add("arrow-history");
+        });
         // if the answer is the same as the user's
         if (temp_answers[i] == temp_answers[human_index])
             block.style['background-color'] = 'lightgrey';
@@ -757,6 +779,8 @@ function click_on_choice(e) {
 }
 
 function interpolateColor(normalizedX) {
+    if (normalizedX == 0.5)
+        return "white";
 
     // 将颜色字符串转换为RGB对象（这里为了简单起见，我们使用固定的RGB值）
     function hexToRgb(hex) {

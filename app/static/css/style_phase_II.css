@@ -943,11 +943,8 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
 }
 
 .custom-range {
-    height: 5px;
-    /* 你可以调整这个值来改变横线的高度 */
+    height: 6px;
     width: 100%;
-    /* 你可以设置特定的宽度，或者让它占据父元素的全部宽度 */
-    /* background: linear-gradient(to right, blue, white, red); */
     background: linear-gradient(
         to right,
         #0000ff 0%, #0000ff 4.76%,
@@ -972,16 +969,9 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
         #ff1a1a 90.48%, #ff1a1a 95.24%,
         #ff0000 95.24%, #ff0000 100%
     );
-    
-    /* 渐变背景 */
     border-radius: 10px;
-    /* 可选的圆角 */
     margin: 20px 0;
-    /* 添加一些垂直间距 */
     position: relative;
-    /* 允许子元素使用position: absolute; */
-    overflow: hidden;
-    /* 隐藏超出容器的部分 */
 }
 
 .dot {

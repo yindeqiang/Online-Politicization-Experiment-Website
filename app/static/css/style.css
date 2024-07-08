@@ -76,15 +76,18 @@ height: 60%;设置元素的高度为其父元素高度的60%。
 .bubble {
     width: 110px;
     border: 3px solid black;
-    padding: 10px;
+    padding: 5px;
     text-align: center;
     color: black;
     position: absolute;
-    top: -55px;
-    left: 50px;
+    top: -75px;
+    left: 60px;
     border-radius: 20px;
     animation: 0.3s linear popup;
-    background-color: lightgrey;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    --bubble-after-color: white;
 }
 
 .bubble:before {
@@ -105,51 +108,17 @@ height: 60%;设置元素的高度为其父元素高度的60%。
     width: 0px;
     height: 0px;
     position: absolute;
-    border-left: 10px solid lightgrey;
+    border-left: 10px solid var(--bubble-after-color);
     border-right: 10px solid transparent;
-    border-top: 10px solid lightgrey;
+    border-top: 10px solid var(--bubble-after-color);
     border-bottom: 10px solid transparent;
     left: 24px;
     bottom: -13px;
 }
 
-.bubble_white {
-    width: 110px;
-    border: 3px solid black;
-    padding: 10px;
-    text-align: center;
-    color: black;
-    position: absolute;
-    top: -55px;
-    left: 50px;
-    border-radius: 20px;
-    animation: 0.3s linear popup;
-}
-
-.bubble_white:before {
-    content: "";
-    width: 0px;
-    height: 0px;
-    position: absolute;
-    border-left: 10px solid black;
-    border-right: 10px solid transparent;
-    border-top: 10px solid black;
-    border-bottom: 10px solid transparent;
-    left: 20px;
-    bottom: -23px;
-}
-
-.bubble_white:after {
-    content: "";
-    width: 0px;
-    height: 0px;
-    position: absolute;
-    border-left: 10px solid white;
-    border-right: 10px solid transparent;
-    border-top: 10px solid white;
-    border-bottom: 10px solid transparent;
-    left: 24px;
-    bottom: -13px;
+.bubble > p {
+    margin: auto 0 auto 0;
+    font-size: 18px;
 }
 
 @keyframes popup {
@@ -860,7 +829,7 @@ margin-bottom: 50px;：设置元素的下外边距为 50 像素。这会在元�
     margin: auto;
     justify-content: space-around;
     margin-top: 20px;
-    width: 250px;
+    width: 300px;
     padding: 15px;
     border: 5px dashed lightgray;
 }
@@ -869,16 +838,18 @@ margin-bottom: 50px;：设置元素的下外边距为 50 像素。这会在元�
     border: 2px solid black;
     font-size: 18px;
     border-radius: 10px;
-    width: 100px;
+    aspect-ratio: 2.25;
+    width: 120px;
     position: relative;
-    height: 50px;
     cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .answer_choice > p {
     text-align: center;
-    position: relative;
-    top: -3px;
+    margin: auto 0px auto 6px;
 }
 
 .answer_choice:hover {
@@ -1116,4 +1087,120 @@ margin-bottom: 50px;：设置元素的下外边距为 50 像素。这会在元�
     border: 1px solid #ccc;
     padding: 20px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.arrow-container {
+    margin: auto 0 auto 0;
+}
+
+.arrow {
+    stroke: black;
+    width: 40px;
+    height: 40px;
+    fill: white;
+}
+
+.arrow-history {
+    width: 30px;
+    height: 30px;
+}
+
+.arrow-option {
+    width: 40px;
+    height: 40px;
+}
+
+.arrow-answer {
+    width: 30px;
+    height: 30px;
+}
+
+.ranges-phase-2 {
+    margin-bottom: 100px;
+    -webkit-user-select: none;  /* Safari */
+    -moz-user-select: none;     /* Firefox */
+    -ms-user-select: none;      /* Internet Explorer/Edge */
+    user-select: none;          /* Standard syntax */
+}
+
+.instruction-phase-2 {
+    padding: 50px 50px 0 50px;
+    line-height: 25px;
+}
+
+.range-container-phase-2 {
+    width: 80%;
+    margin: 80px auto 0 auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: left;
+}
+
+.range-container-phase-2 > p {
+    width: 100px;
+    margin: auto;
+    text-align: center;
+    margin-right: 20px;
+}
+
+.range-scale-phase-2 {
+    position: absolute;
+    border-left: 2.5px solid black;
+    border-right: 2.5px solid black;
+    height: 15px;
+    width: 52.38%;
+    bottom: -4.5px;
+    left: calc(23.8% - 2.5px);
+}
+
+.range-marker-phase-2 {
+    width: calc(4.76% - 4px);
+    aspect-ratio: 1;
+    border: 2px solid black;
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    left: 50%;
+    top: 50%;
+    background-color: white;
+    cursor: grab;
+    z-index: 10;
+}
+
+.range-text-phase-2 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    position: relative;
+    top: 10px;
+}
+
+.range-text-phase-2 > p{
+    font-size: 13px;
+    width: 80px;
+    text-align: center;
+}
+
+:root {
+    --color0: #0000ff;
+    --color1: #1919ff;
+    --color2: #3333ff;
+    --color3: #4d4dff;
+    --color4: #6666ff;
+    --color5: #8080ff;
+    --color6: #9999ff;
+    --color7: #b3b3ff;
+    --color8: #ccccff;
+    --color9: #e5e5ff;
+    --color10: white;
+    --color11: #ffe5e5;
+    --color12: #ffcccc;
+    --color13: #ffb3b3;
+    --color14: #ff9999;
+    --color15: #ff8080;
+    --color16: #ff6666;
+    --color17: #ff4d4d;
+    --color18: #ff3333;
+    --color19: #ff1a1a;
+    --color20: #ff0000;
 }

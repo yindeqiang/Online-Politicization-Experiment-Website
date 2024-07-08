@@ -246,18 +246,29 @@ function selectOption(index) {
     selectOptionHelper(index);
     document.getElementById("arrow_up_2").style.opacity = 1;
     document.getElementById("arrow_down_2").style.opacity = 1;
+    const new_color = interpolateColor((split_answers[0][1] + 2) / 4);
     if (index == 0) {
         left_option.classList.add("selected");
-        left_option.style.backgroundColor = interpolateColor((split_answers[0][1] + 2) / 4);
-        left_option.style.color = 'white'; // 选中时文本颜色变为白色
+        if (new_color != "white") {
+            left_option.style.backgroundColor = new_color;
+            left_option.style.color = 'white';
+        } else {
+            left_option.style.backgroundColor = "white";
+            left_option.style.color = "black";
+        }
         right_option.classList.remove("selected");
         right_option.style.backgroundColor = 'rgb(239, 239, 239)';
         right_option.style.color = 'black'; // 未选中时文本颜色变为黑色
         selectedOption = 0;
     } else {
-        right_option.style.color = 'white';
         right_option.classList.add("selected");
-        right_option.style.backgroundColor = interpolateColor((split_answers[0][1] + 2) / 4);
+        if (new_color != "white") {
+            right_option.style.backgroundColor = new_color;
+            right_option.style.color = 'white';
+        } else {
+            right_option.style.backgroundColor = "white";
+            right_option.style.color = "black";
+        }
         left_option.classList.remove("selected");
         left_option.style.backgroundColor = 'rgb(239, 239, 239)';
         left_option.style.color = 'black';
@@ -439,11 +450,11 @@ const bias_for_2_arrows_right = "30%";
 const bias_for_3_arrows_left = "-60%";
 const bias_for_3_arrows_right = "60%";
 const bias_for_1line = "80px", bias_for_2line = "95px";
-const bias_for_second_name = "65px"
+const bias_for_second_name = "65px";
 
 
 
-function test_phase_II() {//实验用的测试阶段，没参与具体实验当中
+function test_phase_3() {
     test_mode = true;
     phase = 3;
     pseudonyms_chosen = ["Alice", "Alex", "Betty"];
@@ -457,11 +468,9 @@ function test_phase_II() {//实验用的测试阶段，没参与具体实验当�
     ];
     phase_2_orders.participant_order = [2, 1, 1, 1];
     next_question_seqNum = phase_2_starting_question_index;
-    split_answers = [[0.2, 0.2, 0.2]];     // ideology labeled after Phase I
+    split_answers = [[-2, -2, -2]];     // ideology labeled after Phase I
     init_phase_3();
 }
-
-// test_phase_II();
 
 
 
@@ -494,7 +503,7 @@ function init_phase_3() {//对应着phase II回答问题的部分，包括了选
                         <div id="choice1"> <strong>${pseudonyms_chosen[0]} chose </strong> </div>
                         <div id="choice3"> <strong>${pseudonyms_chosen[2]} chose </strong> </div>
                     </div>
-                    ${phase_II_range_string}
+                    ${phase_3_range_string}
                     <div class="ideology-spectrum">
                         <div class="bracket">[</div>
                         <div class="spectrum-text"><strong>Ideology spectrum</strong></div>
