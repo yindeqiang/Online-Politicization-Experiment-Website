@@ -18,6 +18,8 @@ flask --app app/server --debug run
 
 # 技术手册
 
+**修改时间：2024.5.30**，此后的修改可能没有在该手册中体现。
+
 ## 1. 数据接口
 数据分析的代码在``/data_analysis``下，部分notebook需要从PythonAnywhere的数据库中拉取数据，因此需要将``key.py``放在``/data_analysis``中用于登录平台和数据库。
 
@@ -166,4 +168,4 @@ def quiz(quiz_type):
 在受试者完成试验后，点击最后一个提交按钮会跳转回Connect平台的某个url，这个url是由Connect提供的、每个实验**唯一**的。换言之，不同的实验会有不同的跳转url，但同一个实验的不同受试者url相同。
 
 ### 3.3. 数据上传
-数据通过异步post上传到数据库中，在前段不可见。以condition 2为例，上传的url仍然是 https://quiz-grawi.pythonanywhere.com/condition_2/quiz ，区别在于使用了Post的方法。因此上述代码块中对于服务器而言，如果收到Get请求则返回网页内容，收到Post请求则上传请求中包含的数据到数据库。
+数据通过异步post上传到数据库中，在前端不可见。以condition 2为例，上传的url仍然是 https://quiz-grawi.pythonanywhere.com/condition_2/quiz ，区别在于使用了Post的方法。因此上述代码块中对于服务器而言，如果收到Get请求则返回网页内容，收到Post请求则上传请求中包含的数据到数据库。

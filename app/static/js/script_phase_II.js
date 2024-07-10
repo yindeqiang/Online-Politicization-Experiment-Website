@@ -64,7 +64,8 @@ function determine_phase_3_order() {//确定phaseII的顺序
     /*let randomNumber = Math.random();
     randomNumber = randomNumber < 0.5 ? 0 : 2;*/
     //这里的随机数random number换成了全局变量，一开始就决定好发言顺序，这样phaseII里先回答的bot就是前面掉线的bot
-    phase_2_orders.participant_order = [randomNumber, 1, 2 - randomNumber, randomNumber];
+    // phase_2_orders.participant_order = [randomNumber, 1, 2 - randomNumber, randomNumber];
+    phase_2_orders.participant_order = [null, null, null];
     //这里是随机设置的回答
     //phase_2_orders.participant_order = random_order;
 }

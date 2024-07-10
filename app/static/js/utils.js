@@ -663,30 +663,19 @@ function track_answers() {
 
 
 
-function generate_answers_for_bots(human_answer) {//给bot生成答案，注意现在要换成真实的human回答
+function generate_answers_for_bots(human_answer) {          //给bot生成答案，注意现在要换成真实的human回答
     if (phase == 1) {
-        let random_number = Math.floor(Math.random() * 10);//生成0~9的整数，floor向下取整
-        let ret = [];//存机器人答案
+        let ret = [];
         // issue question
-        if (index_of_question < phase_1_statements[0].length + phase_1_statements[1].length) {//statement类的问题
-            //let randValue = Math.random();
-            let random_number = Math.floor(Math.random() * 10);//生成0~9的整数，floor向下取整
-            //if (randValue <= phase_1_probability[data.ideologies[firstBotIndex.toString()]][index_of_question])//前一个，liberal,原来的逻辑是//生成的随机数比概率列表小的，将数值1添加到数组里，大的添加0
-            if (phase_1_liberal[random_number][index_of_question] == 1)//前一个，liberal
-                ret.push(1);
-            else
-                ret.push(0);//!!!!注意，这里的0代表左边选项，1代表右边选项！！！（按设定左边一般是同意，0）
-            //randValue = Math.random();
-            random_number = Math.floor(Math.random() * 10);//生成0~9的整数，floor向下取整
-            //if (randValue <= phase_1_probability[data.ideologies[lastBotIndex.toString()]][index_of_question])//后一个bot，conservative
-            if (phase_1_conservative[random_number][index_of_question] == 1)//前一个，liberal
-                ret.push(1);
-            else
-                ret.push(0);
-
+        if (index_of_question < phase_1_statements[0].length + phase_1_statements[1].length) {
+            if (first_bot_is_liberal) {
+                ret.push(phase_1_liberal[bots_answer_set_phase_1[0]][index_of_question]);
+                ret.push(phase_1_conservative[bots_answer_set_phase_1[1]][index_of_question]);
+            } else {
+                ret.push(phase_1_conservative[bots_answer_set_phase_1[0]][index_of_question]);
+                ret.push(phase_1_liberal[bots_answer_set_phase_1[1]][index_of_question]);
+            }
             return ret;
-
-
         }
 
         /**如果当前阶段（phase）是 1，函数会执行以下逻辑：
@@ -1550,48 +1539,6 @@ if(label_id < 4){//仅对前四个标签进行删除时变成黑色
         }
     }
 }
-/**如果事件的目标元素被选中（即用户点击了复选框），则函数首先检查 participant_id 对应的标签数组长度。
- * 如果长度已经达到3（可能表示每个参与者最多只能选择3个标签），则取消选中该复选框。
-
-如果长度小于3，函数将 label_id 添加到 participant_id 
-flag 来检查是否所有参与者都至少有一个标签。这通过遍历所有参与者的标签数组来完成，如果发现任何参与者的标签数组为空，则将 flag 设置为 false 并中断循环。
-
-最后，如果 flag 为 true（即所有参与者都有标签），则启用 button 元素。 */
-
-
-function phase_4_click_handler() {//这里还是没办法换成4个，暂时用9代表没选。
-    let detectionWraps = document.querySelectorAll(".detection_wrap");
-    let allQuestionsAnswered = true;
-
-    // 遍历每个 detection_wrap
-    detectionWraps.forEach(function (detectionWrap) {
-        let questions = detectionWrap.querySelectorAll("input[type='radio']"); // 获取当前 detection_wrap 下所有问题的 input 元素
-
-        let answered = false; // 当前 detection_wrap 是否所有问题都被回答
-
-        // 遍历每个问题
-        questions.forEach(function (question) {
-            if (question.checked) { // 如果某个问题被回答
-                answered = true; // 设置标记为已回答
-                return; // 结束当前问题的循环
-            }
-        });
-
-        // 如果当前 detection_wrap 内的所有问题都没有被回答
-        if (!answered) {
-            allQuestionsAnswered = false; // 设置标记为有问题未回答
-        }
-    });
-
-    // 如果所有 detection_wrap 内的所有问题都被回答
-    if (allQuestionsAnswered) {
-        document.querySelector("button").disabled = false; // 启用按钮
-    } else {
-        document.querySelector("button").disabled = true; // 禁用按钮
-    }
-
-
-}
 
 
 
@@ -1613,7 +1560,6 @@ function attention_check_click_handler() {
         index_of_question += 1;
     }
     if (temp_answers[0] != -1 && temp_answers[1] != -1 && temp_answers[2] != -1) {
-        console.log(temp_answers);
         document.querySelector("button").disabled = false;
     }
     if (temp_answers[0] == 3 && temp_answers[1] == 1 && temp_answers[2] == 3) {
@@ -1723,4 +1669,33 @@ function fit_text(text) {
     var textWidth = text.scrollWidth;
     var fontSize = width / textWidth * parseFloat(window.getComputedStyle(text).fontSize);
     text.style.fontSize = fontSize + "px";
+}
+
+
+
+function sample_with_prob(dict) {
+    // Extract the keys and probabilities
+    const keys = Object.keys(dict);
+    const probabilities = Object.values(dict);
+
+    // Create an array of cumulative probabilities
+    const cumulativeProbabilities = [];
+    probabilities.reduce((acc, prob, index) => {
+        acc += prob;
+        cumulativeProbabilities[index] = acc;
+        return acc;
+    }, 0);
+
+    // Generate a random number between 0 and 1
+    const random = Math.random();
+
+    // Determine which key to select based on the random number
+    for (let i = 0; i < cumulativeProbabilities.length; i++) {
+        if (random < cumulativeProbabilities[i]) {
+            return keys[i];
+        }
+    }
+
+    // In case of rounding errors, return the last key
+    return keys[keys.length - 1];
 }

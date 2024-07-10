@@ -42,7 +42,7 @@ pseudonyms_index_chosen.splice(1, 0, pseudonym_chosen);//将 pseudonym_chosen �
 
 let randomNumber = Math.random();//确定 who_answer_first的随机数////////////////////////////////////////////////
 randomNumber = randomNumber < 0.5 ? 0 : 2;
-let randomnumber_name = randomNumber/2;
+var randomnumber_name = randomNumber / 2;
 
 pseudonyms_chosen[0] = pseudonyms[randomnumber_name];
 pseudonyms_chosen[2] = pseudonyms[1-randomnumber_name];
@@ -215,7 +215,7 @@ const phase_2_label_string = `
     <p class="instruction-phase-2"> Q11. Below you will see three scrollbars, for the two previous participants and yourself respectively.  Based on the answers in Phase 1, please pull each scrollbar to the position that best describes the corresponding person's ideology.</p>
     <div class="ranges-phase-2">
         <div class="range-container-phase-2">
-            <p id="name_0">Alex</p>
+            <p id="name_0">${pseudonyms_chosen[0]}</p>
             <div class="custom-range" id="range_0">
                 <div class="range-marker-phase-2" id="marker_0"></div>
                 <div class="range-scale-phase-2"></div>
@@ -241,7 +241,7 @@ const phase_2_label_string = `
             </div>
         </div>
         <div class="range-container-phase-2">
-            <p id="name_2">Blair</p>
+            <p id="name_2">${pseudonyms_chosen[2]}</p>
             <div class="custom-range" id="range_2">
                 <div class="range-marker-phase-2" id="marker_2"></div>
                 <div class="range-scale-phase-2"></div>
@@ -299,7 +299,7 @@ const phase_4_body_string = `
     
 
 <div class="question_phase_4" id="question_4">
-    <p>Q. In phase II,to what extent were your answers influenced by the one who answered each question first?</p>
+    <p>Q1. In phase II, to what extent were your answers influenced by the one who answered each question first?</p>
     <div class="detection_wrap">
         <div class="each_detection">
             <form>
@@ -318,7 +318,7 @@ const phase_4_body_string = `
 </div>
 
 <div class="question_phase_4" id="question_5">
-    <p>Q. How important is ideology in forming your opinions on public issues?</p>
+    <p>Q2. How important is ideology in forming your opinions on public issues?</p>
     <div class="detection_wrap">
         <div class="each_detection">
             <form>
@@ -336,8 +336,7 @@ const phase_4_body_string = `
     </div>
 </div>
 
-
-    <button type="button" class="button_big" disabled="true">Submit</button>
+<button type="button" class="button_big" disabled="true">Submit</button>
 `;// phase4是结束后的addition question,后面两个是新加入的问题
 
 /**HTML结构：

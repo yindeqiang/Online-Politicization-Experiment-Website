@@ -2,25 +2,11 @@ const num_of_participants = 3;
 const num_of_bots = num_of_participants - 1;
 const max_num_of_labels = 3;
 const human_index = 1;
-const phase_1_special_question_index = 3;
+const phase_1_special_question_index = -1;
 let test_mode = false;
-/*num_of_participants: 参与者数量，设为3。
-num_of_bots: 机器人数量，根据参与者数量减1计算得出。
-max_num_of_labels: 最大标签数量，设为3。
-human_index: 人类参与者的索引，设为1。
-phase_1_special_question_index: 第一阶段特殊问题的索引，设为3。
-test_mode: 是否为测试模式，默认为false。*/
 
-//const issue_answer_time = [8.103063157894741, 6.618499999999999, 6.054199999999997, 7.566473684210525, 8.115181818181819, 5.204784313725493, 6.32694, 5.685673076923079, 7.071762376237626, 6.577291666666668];
-//const issue_answer_time = [6.103063157894741, 4.618499999999999, 4.054199999999997, 5.566473684210525, 6.115181818181819, 3.204784313725493, 4.32694, 3.685673076923079, 5.071762376237626, 4.577291666666668];
-//issue_answer_time: 一个数组，包含一系列浮点数，可能是参与者回答问题的时间,下一行是减2秒的结果
-
-
-//const issue_answer_time = [13.103063157894741, 8.618499999999999, 9.054199999999997, 9.566473684210525, 9.115181818181819, 8.204784313725493, 8.32694, 7.985673076923079, 9.071762376237626, 8.577291666666668];
-//下面是fast test,正式实验 需要换回去上面这个！！！！！
 const issue_answer_time = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-const issue_answer_time_phaseII = [0, 0, 0, 0, 0];//同理上述
-//const issue_answer_time_phaseII = [9.12, 3.03, 1.68, 2.74, 3.71];
+const issue_answer_time_phaseII = [0, 0, 0, 0, 0];
 
 let color_name_phase2_label = [];
 let label_id_for_color;
@@ -129,11 +115,11 @@ var data = {//这些数据将会记录在数据库中
     participantId: userData.participantId,
     assignmentId: userData.assignmentId,
     projectId: userData.projectId,
-    identity_choices: [],//存放了一开始进入实验的时候的昵称和头像的选择
-    ideologies: [],//bot预设的选项
-    labels: [],//记录了phase2里所选择的标签
+    identity_choices: [],
+    ideologies: [],
+    labels: [],
     attention_passed: false,
-    bot_detected: 0,//检测bot的,现在又加了两个拓展问题,在enter——next函数位置进行数据传递
+    bot_detected: null, //检测bot的,现在又加了两个拓展问题,在enter——next函数位置进行数据传递
     //influence_importance_detected: 0, //添加的两个新问题，类比bot_detect的思路。
     total_time: 0,              // total time to finish the experiment
     type_A_answers: [],         // ideological questions in phase I
@@ -141,11 +127,7 @@ var data = {//这些数据将会记录在数据库中
     type_D_answers: [],         // post-quiz questions，存拖动轴的数值
     reason: ""
 };
-//实验或应用程序的主要数据20240509///////////////////////////////////////////////////////////////////////////
-data.ideologies = [-1.5,1.5];//现在只有liberal和conservative两种人，只不过内部是6：2：2放置的
-//按0.75，0.25，0.25，0.75的比例选择bot的立场，random_number_1是liberal，random_number_2是conservative
-data.ideologies.splice(1, 0, null);//前一个liberal,后一个conservative插入意识形态预设
-////////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////
 let firstBotIndex = (human_index == 0) ? 1 : 0;
 let lastBotIndex = (human_index == num_of_participants - 1) ? num_of_participants - 2 : num_of_participants - 1;
 //这两个变量用于确定机器人参与者的索引范围。它们基于human_index（人类参与者的索引）来计算。如果人类参与者是第一个（human_index == 0），
@@ -276,10 +258,6 @@ function enter_next() {
                 identity_choice_seqNum += 1;
             }
         }
-        //data.bot_detected = detection_answers[0] * 10 + detection_answers[1];//将bot0的选项值乘1000加上bot1选项值乘100
-        data.bot_detected = detection_answers[0] * 1000 + detection_answers[1]*100 + detection_answers[2] * 10 + detection_answers[3];//将bot0的选项值乘10加上bot选项值
-
-        document.querySelector(".quiz_body").removeEventListener("click", phase_4_click_handler);
     }
     else if (phase == 2) {//保存phase2里面的拖轴的数值
         answers = [];
@@ -293,7 +271,9 @@ function enter_next() {
             split_answers.push(answers.slice(3, 5));
             split_answers.push(answers.slice(5, 7));
         }
-        data.type_D_answers = split_answers;//传过去一个数组，数组每个元素是轴的值，存拖动轴的数值
+        for (const ans of split_answers[0]) {
+            data.ideologies.push(ans / 2);   // a workaround, should be implemented more elegantly
+        }
         //240626,轴上的数据换到phase 2来保存
         num1 = Math.floor(Math.random() * 6);
         do {
@@ -391,6 +371,10 @@ function enter_next() {
 
 
 function show_instructions() {//1,3开始前要有一个instruction的展示
+
+    if (phase == 1)
+        set_bots_behavior();
+
     if (phase == 1 || phase == 3) {
         // DOM change
         document.querySelector(".quiz_body").innerHTML = rule_string;
@@ -547,8 +531,8 @@ notification_choose_identity.innerHTML += `
  // 禁止用户点击某个名字和头像
  disableFirstChoices();
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
-    document.querySelector(".splits_wrap").addEventListener("click", click_pseudonym_or_avatar_handler);
-    document.querySelector("button").addEventListener("click", wait_for_participants);//选好后进入等待环节
+document.querySelector(".splits_wrap").addEventListener("click", click_pseudonym_or_avatar_handler);
+document.querySelector("button").addEventListener("click", wait_for_participants);//选好后进入等待环节
     
     
     /* `.splits_wrap` 类的元素：当点击此元素时，会调用 `click_pseudonym_or_avatar_handler` 函数。
@@ -557,66 +541,48 @@ notification_choose_identity.innerHTML += `
 
 }
 
-/**这个函数的目的是设置一个界面，让用户从预定义的化名和头像列表中进行选择，并为相关的交互添加事件监听器。 */
 
 
-function wait_for_participants() {//等受试者和bot进入实验
-    document.querySelector(".splits_wrap").removeEventListener("click", click_pseudonym_or_avatar_handler);//进入等待后移除监听器
-    document.querySelector("button").removeEventListener("click", wait_for_participants);
-    // 在这里调用删除提示的函数
-    //removeNotification();
-    document.querySelector(".quiz_body").innerHTML = `
-        <div class="instruction instruction_phase_0">
-            Please wait for other participants to join. It usually takes a few mintues. You will get paid for the waiting time.
-            <span class="dots"></span>
-        </div>
-        <div class="identity_wrap wait_status"></div>
-        <button type="button" class="button_big" disabled="true">Enter Quiz</button>
-    `;
-    transform_dots();
-    let button = document.querySelector("button");
-    adjust_button_size(button);
 
-    // get pseudonyms
-    let gender = pseudonym_chosen % 2;  // 0 is female, 1 is male
-    let pseudonyms_to_choose = [];
-    for (let index = gender; index < pseudonyms.length; index += 2) {
-        pseudonyms_to_choose.push(index);
+var bots_answer_set_phase_1 = [null, null];
+var first_bot_is_liberal;
+
+function set_bots_behavior() {
+    // Choose bots' pseudonyms and ideologies (answer patterns in phase I)
+    let liberal_bot_liberal_score;
+    let rand_int_liberal = Math.floor(Math.random() * 10);
+    rand_int_liberal = Math.min(rand_int_liberal, 9);
+    if (rand_int_liberal == 0)
+        liberal_bot_liberal_score = 0.7;
+    else if (rand_int_liberal >= 1 && rand_int_liberal <= 2)
+        liberal_bot_liberal_score = 0.8;
+    else if (rand_int_liberal >= 3 && rand_int_liberal <= 5)
+        liberal_bot_liberal_score = 0.9;
+    else
+        liberal_bot_liberal_score = 1;
+    
+    let conservative_bot_liberal_score;
+    rand_int_conservative = Math.floor(Math.random() * 10);
+    rand_int_conservative = Math.min(rand_int_conservative, 9);
+    if (rand_int_conservative == 0)
+        conservative_bot_liberal_score = 0.4;
+    else if (rand_int_conservative >= 1 && rand_int_conservative <= 2)
+        conservative_bot_liberal_score = 0.3;
+    else if (rand_int_conservative >= 3 && rand_int_conservative <= 5)
+        conservative_bot_liberal_score = 0.2;
+    else
+        conservative_bot_liberal_score = 0.1;
+
+    const rand_num = Math.random();         // whether the first or the third participant is liberal
+    if (rand_num < 0.5) {
+        first_bot_is_liberal = true;
+        data.identity_choices = [[randomnumber_name, [liberal_bot_liberal_score, rand_int_liberal]], [null, [null, null]], [1 - randomnumber_name, [conservative_bot_liberal_score, rand_int_conservative]]];
+        bots_answer_set_phase_1 = [rand_int_liberal, rand_int_conservative];
+    } else {
+        first_bot_is_liberal = false;
+        data.identity_choices = [[randomnumber_name, [conservative_bot_liberal_score, rand_int_conservative]], [null, [null, null]], [1 - randomnumber_name, [liberal_bot_liberal_score, rand_int_liberal]]];
+        bots_answer_set_phase_1 = [rand_int_conservative, rand_int_liberal];
     }
-    pseudonyms_to_choose.splice(pseudonyms_to_choose.indexOf(pseudonym_chosen), 1);
-    //let firstbotname_choose = [6];
-    let pseudonyms_index_chosen = randomly_choose1(pseudonyms_to_choose, num_of_bots);//随机给bot的名字和头像，不含0，专门用的randomly_choose1
-    pseudonyms_index_chosen[0] = 6; //将第一个bot固定成第7个名字(下标6)
-    pseudonyms_index_chosen.splice(human_index, 0, pseudonym_chosen);//将 pseudonym_chosen 插入到 pseudonyms_index_chosen 数组的 human_index 位置，
-    //而不删除任何元素
-
-    // get avatars
-    let avatars_array = generate_sequence_array(0, avatar_num);
-    avatars_array.splice(avatars_array.indexOf(avatar_chosen), 1);
-    //let firstbot_avatar = [1];
-    avatars_index_chosen = randomly_choose1(avatars_array, num_of_bots);//进入试验阶段的选头像环节,不含0！randomly_choose1，不含1的函数名在别处用
-    avatars_index_chosen[0] = 1;//将第一个bot固定成第3个名字和第2个头像（下标1）
-    avatars_index_chosen.splice(human_index, 0, avatar_chosen);
-    for (let index = 0; index < num_of_participants; index++) {
-        pseudonyms_chosen.push(pseudonyms[pseudonyms_index_chosen[index]]);
-        //从一组可用的头像中随机选择头像（同时确保特定的一个头像被包括在内），并从一组昵称中为每个参与者随机选择一个昵称。
-        // store data
-        data.identity_choices.push([pseudonyms_index_chosen[index], avatars_index_chosen[index]]);//将选好的头像数据存起来
-    }
-
-    // generate ideologies for bots,生成bot的行为逻辑/////////////////////////////////
-    //const random_number_1 = Math.random();
-    //const random_number_2 = Math.random();
-    //data.ideologies = [random_number_1 <= 0.75 ? -2 : -1, random_number_2 <= 0.75 ? 2 : 1];
-    data.ideologies = [-1.5,1.5];//现在只有liberal和conservative两种人，只不过内部是6：2：2放置的
-    //按0.75，0.25，0.25，0.75的比例选择bot的立场，random_number_1是liberal，random_number_2是conservative
-    data.ideologies.splice(human_index, 0, null);//前一个liberal,后一个conservative插入意识形态预设
-    //////////新的实验逻辑里只有-2代表liberal，+2代表conservative，具体选择的时候按照真实的受试者数据随机选择一个！！！
-
-    wait_for_participants_to_join();//这是在utils里面的函数，和上面的不一样！！！这里也要改！！
-
-    ///
-    document.addEventListener("timeup", all_timeup);
 }
 
 
@@ -707,7 +673,7 @@ function init_phase_1() {
     //然后，设置 .instruction 元素的 innerHTML，显示一条提示信息，告诉用户选择答案并点击一个当前被禁用的“Submit”按钮。
     add_identity_status();//用来在界面上添加或更新用户或参与者的身份状态。
     document.querySelectorAll(".status").forEach((status) => {
-        status.innerHTML = loader_string;//加载转圈圈
+        status.innerHTML = ``;      // 原本是加载转圈圈，现在什么都不要
     });
     //选择所有带有 .status 类的元素，并将它们的 innerHTML 设置为 loader_string 变量的值。这可能是在答题开始前显示的一种加载状态或占位符。
     start_time[human_index] = Date.now();
@@ -917,104 +883,33 @@ function init_phase_2() {
 
 
 
-
-function test_phase_2() {
-    phase = 2;
-    init_phase_2();
-}
-
-
-
 var evaluation_types = [];
 
-function init_phase_4() {  //addition question环节,bot_detect对应的4个选项问题在enter—_next,控制选好再启用按键在utils中。
+function init_phase_4() {
     if (userData.quiz_type == "pilot_1")
         evaluation_types = ['ideology', 'competence', 'warmth'];
     else if (userData.quiz_type == 'condition_1' || userData.quiz_type == 'condition_2' || userData.quiz_type == 'condition_3')
         evaluation_types = ['ideology'];
-/**这个函数 init_phase_4 根据 userData.quiz_type 的值来设置 evaluation_types 数组的内容。
-
-如果 userData.quiz_type 的值为 "pilot_1"，则 evaluation_types 数组将被设置为包含三个字符串：'ideology', 'competence', 和 'warmth'。
-如果 userData.quiz_type 的值为 'condition_1', 'condition_2', 或 'condition_3' 中的任意一个，则 evaluation_types 数组将只包含一个字符串：'ideology'。 */
-
-    // change DOM
-    let body = document.querySelector(".quiz_body")
+    const body = document.querySelector(".quiz_body");
     body.innerHTML = phase_4_body_string;
-    /**这里，我们首先使用querySelector方法获取页面上class为quiz_body的元素，并将其内部HTML内容设置为phase_4_body_string变量的值。 */
-
-    //if (userData.quiz_type != "pilot_1")
-        //document.querySelector(".pilot_1_additional_questions").innerHTML = ``;
-    //如果userData.quiz_type不是"pilot_1"，则清空class为pilot_1_additional_questions的元素的内容。
-
-    //document.getElementById("detection_name_0").innerHTML = pseudonyms_chosen[firstBotIndex];
-    //document.getElementById("detection_name_1").innerHTML = pseudonyms_chosen[lastBotIndex];
-    
-    //!!!!!!!!!!阶段四选头像的环节//////////////////////////////////////////////////////////////////////////////
-    //document.getElementById("detection_img_0").src = `/static/avatars/avatar_${avatars_index_chosen[firstBotIndex]}.svg`;
-    //document.getElementById("detection_img_1").src = `/static/avatars/avatar_${avatars_index_chosen[lastBotIndex]}.svg`;
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-////////////////这里的头像颜色原来是跟随phaseII的，现在统一换成白色
-    /*document.getElementById("detection_img_0").src = `/static/avatars/label_${avatars_index_chosen[firstBotIndex]}_${newFirstBotAvatar}.png`;
-    document.getElementById("detection_img_1").src = `/static/avatars/label_${avatars_index_chosen[lastBotIndex]}_${newLastBotAvatar}.png`;*/
-
-    //document.getElementById("detection_img_0").src = `/static/avatars/label_${avatars_index_chosen[firstBotIndex]}_0.png`;
-    //document.getElementById("detection_img_1").src = `/static/avatars/label_${avatars_index_chosen[lastBotIndex]}_0.png`;
-
-//这两个只是换了下面选职业的两个头像，在下面的 display_values();中设置滑块的部分还有设计头像的地方！！
-/////////////////////////////20240509,不展示头像/////////////////////////////////////////////////////////////////////////////
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //这些行用于更新页面上几个特定元素的内容。它们分别设置了一些元素的内部HTML内容和图片的源地址
-    //获取了bot的名字和之前选好的头像
-//删除了phase II结束后的拖轴，打算换到phase I
-    /*for (let type of evaluation_types) {
-        evaluation = document.getElementById(`evaluation_${type}`);
-        for (let index = 0; index < num_of_participants; index++) {
-            if (type == 'ideology' || index != human_index) {
-                evaluation.innerHTML += `<div id="input_${type}_${index}" class="input input_phase_4">${slider_string_short}</div>`;
+    // document.querySelectorAll("input[type=range]").forEach((input) => {
+    //     input.addEventListener('input', display_values);
+    // });
+    const inputs = document.querySelectorAll('input[type="radio"]');
+    const button = document.querySelector('.button_big');
+    data.type_D_answers = [null, null];
+    inputs.forEach(input => {
+        input.addEventListener('change', () => {
+            if (input.name == "detection_2")
+                data.type_D_answers[0] = parseInt(input.value);
+            else
+                data.type_D_answers[1] = parseInt(input.value);
+            if (data.type_D_answers[0] !== null && data.type_D_answers[1] !== null) {
+                button.disabled = false;
             }
-        }
-        if (type == 'ideology')//拖动的轴
-            add_mark_texts([`Liberal`, 'Somewhat<br>Liberal', `Neutral`, `Somewhat<br>Conservative`, `Conservative`], evaluation);
-        //对condition实验而言，加入4个有意识形态的标签
-        else if (type == 'competence')
-            add_mark_texts([`Very<br>Incompetent`, `Slightly<br>Incompetent`, `Neutral`, `Slightly<br>Competent`, `Very<br>Competent`], evaluation);
-        else if (type == 'warmth')
-            add_mark_texts([`Very<br>Unfriendly`, `Slightly<br>Unfriendly`, `Neutral`, `Slightly<br>Friendly`, `Very<br>Friendly`], evaluation);
-    }*/
-    /**. 添加输入框:
-如果当前类型是'ideology'或当前索引不是human_index，则在页面上添加一个新的输入框。
-
-b. 添加标记文本:
-根据type的值，向对应的元素添加标记文本，这些文本可能用于描述滑块的不同位置。 */
-    /*display_values();*/
-    //调用display_values函数，可能用于显示或更新页面上某些元素的值
-    document.querySelectorAll("input[type=range]").forEach((input) => {
-        input.addEventListener('input', display_values);//对输入内容显示
-    });//这段代码的主要作用是：查找页面上的所有<input type="range">元素，
-    //并为每个元素添加一个事件监听器，以便在用户移动滑动条时调用display_values函数
-    //document.querySelector(".detection_wrap").addEventListener("click", phase_4_click_handler);//监听页面里面的选择题是不是都选了！！！
-
-// 获取所有匹配的元素
-var detectionWraps = document.querySelectorAll(".detection_wrap");
-
-// 为每个匹配的元素添加事件监听器
-detectionWraps.forEach(function(detectionWrap) {
-  detectionWrap.addEventListener("click", phase_4_click_handler);
-});
-
-
+        });
+    });
     document.querySelector("button").addEventListener("click", enter_next);
-/**这里设置了三个事件监听器：
-
-a. 为所有类型为range的输入元素添加了一个input事件监听器，当输入值改变时，会调用display_values函数。
-
-b. 为class为detection_wrap的元素添加了一个click事件监听器，当该元素被点击时，会调用phase_4_click_handler函数。
-
-c. 为页面上的第一个button元素添加了一个click事件监听器，当该按钮被点击时，会调用enter_next函数。
-
-总之，这段代码主要用于更新Web页面的内容，并根据用户的交互设置一些响应行为。 */
 }
 
 
