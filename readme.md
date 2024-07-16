@@ -9,6 +9,7 @@ This repo contains the source code for the experiment website which you can run 
 Run the following command to install dependencies for the repo:
 ```bash
 conda env create -f environment.yaml
+# If this doesn't work you may need to manually install each pacakge via pip or conda
 conda activate web_development
 ```
 Then you can start the website on your local server using the following command. The local url displayed in the info should be http://127.0.0.1:5000 (the port may be different). Use your browser to access the website. (*Chrome* or *Firefox* recommended). You can press [Ctrl + C] to terminate the process.
@@ -18,7 +19,7 @@ flask --app app/server --debug run
 
 # 技术手册
 
-**修改时间：2024.5.30**，此后的修改可能没有在该手册中体现。
+**修改时间：2024.7.15**，此后的修改可能没有在该手册中体现。
 
 ## 1. 数据接口
 数据分析的代码在``/data_analysis``下，部分notebook需要从PythonAnywhere的数据库中拉取数据，因此需要将``key.py``放在``/data_analysis``中用于登录平台和数据库。
@@ -40,11 +41,21 @@ class Condition_2(Base):
 - **participantId, assignmentId, projectId**：字符串类型。这是Connect平台规定的participant、assignment以及project标识符。
 - **attention_passed**：是否通过了问卷中的attention pass，只有通过了才会被算作有效数据进入分析。通过为1，不通过为0。
 - **total_time**：完成问卷需要的总时间
-- **ideologies**：[a, None, b]的形式，在实验中bot会被预设一个意识形态，bot_0以75%的概率选择Conservative（-2），以25%的概率选择Somewhat conservative（-1），bot_2以75%的概率选择Liberal（2），以25%的概率选择Somewhat liberal（-1）（3.17修改前的概率是50%+50%）。None表示human_1的意识形态空缺。
-- **identity_choices**：3个受试者选择的头像和名字，可以忽略
-- **bot_detected**：部分实验最后问了人类受试者其他受试者的职业，第6个选项是bot，其它则是一些职业（教室、工程师等），借此来判断是否意识到了其他受试者是bot。储存的值为【bot_0的职业选项 * 10 + bot_2的职业选项】。因此如果值为56则代表bot_0不被认为是bot，bot_2被认为是bot。（其实是个完全没有必要的trick，但是现在也就不改了...）
-- **submit_time**：提交问卷的时间
-- **reason**：部分实验在问卷结束后有询问为什么认为其他受试者是bot，答案字符串储存在这个表项里。
+- **ideologies**：
+  - ``[a, b, c]``的形式，表示人类受试者在Phase I结束后给三个受试者标注的意识形态，范围为[-1, 1]，颗粒度为0.1，因此共21个选择，越小表示越liberal。
+  - **2024.7.15前**：[a, None, b]的形式，在实验中bot会被预设一个意识形态，bot_0以75%的概率选择Conservative（-2），以25%的概率选择Somewhat conservative（-1），bot_2以75%的概率选择Liberal（2），以25%的概率选择Somewhat liberal（-1）（3.17修改前的概率是50%+50%）。None表示human_1的意识形态空缺。
+- **identity_choices**：
+  - ``[[pseudonym_index, [liberal_score, answer_set]], ...]``的形式，对于人类受试者这三个值都为``null``。
+    - ``pseudonym_index``：是指随机分配给bot的名字，有Alex（取值0）和Blair（取值1）两个选择
+    - ``liberal_score``, ``answer_set_index``：这两个变量涉及bot的意识形态。``liberal_score``越大表示bot越liberal。我们用Phase I中真人的回答（他们的``liberal_score``+他们的10个答案）来模拟bot，其中``liberal_score``表示10道题目中有多少道题作了liberal的回答。对于给定的``liberal_score``，根据真人回答采样的答案组可以在``script.js``中看到，每个分数可能对应多组答案，因此``answer_set_index``就表示最终抽取的回答组index（从0开始）。当然bot的答案也可以直接从``ideology_answers``这个表项中直接得到。
+  - **2024.7.15前**：3个受试者选择的头像和名字，基本可以忽略
+- **bot_detected**：
+  - 没有这个环节了，可以忽略
+  - **2024.7.15前**：部分实验最后问了人类受试者其他受试者的职业，第6个选项是bot，其它则是一些职业（教室、工程师等），借此来判断是否意识到了其他受试者是bot。储存的值为【bot_0的职业选项 * 10 + bot_2的职业选项】。因此如果值为56则代表bot_0不被认为是bot，bot_2被认为是bot。（其实是个完全没有必要的trick，但是现在也就不改了...）
+- **submit_time**：提交问卷的时间（是美国东海岸or西海岸的时间）
+- **reason**：
+  - 问卷结束后会告知受试者另两个参与人的真实身份，收集的文字反馈
+  - **2024.7.15前**：部分实验在问卷结束后有询问为什么认为其他受试者是bot，答案字符串储存在这个表项里。
 
 ### 1.2. Pilot_2数据库
 - **pilot_2_answers**：字典的列表，储存每道题的答案和序号。由于做过很多轮pilot_2，因此数据格式每次都略有区别。
@@ -66,11 +77,14 @@ class Condition_2(Base):
         "answers": [-100, 1.4, -100],
         "time_to_answer": [4.3, 5.6, 2.4],
         "idx_of_question": 4,
-        "who_answers_first": 1
+        "who_answers_first": 1      // 2024.7.15后，由于不再有bot，因此取值默认为null
     }
     ```
-- **labels**：人类受试者给三个人贴的标签，二维列表。元素x表示给x贴的所有标签的列表。
-- **additional_answers**：实验最后额外问的问题，例如意识形态、是否友善等等，每个实验的标注略有差异。
+- **labels**：
+  - 已经删除了这个环节
+  - **2024.7.15前**：人类受试者给三个人贴的标签，二维列表。元素x表示给x贴的所有标签的列表。
+- **additional_answers**：
+  - 实验最后额外问的问题，例如意识形态、是否友善等等，每个版本实验的问题可能有较大差异。
 
 ## 2. 如何发布实验
 
