@@ -550,20 +550,20 @@ const phase_3_range_string = `
         <div class="name-with-dot" id="name-with-dot1">
             <div class="name" id="name1" style="font-size: 18px;">${pseudonyms_chosen[0]}
             </div>
-<!--            <div class="arrow-down-name" id="arrow_down_1"></div>-->  
+            <div class="triangle-arrow" id="triangle_arrow_1"></div>
         </div>
         <div class="dot" id="dot2"></div>
         <div class="name-with-dot" id="name-with-dot2">
             <div class="name" id="name2" style="font-size: 18px;">${pseudonyms_chosen[1]}
             </div>
-<!--            <div class="arrow-down-name" id="arrow_down_2"></div>-->
+            <div class="triangle-arrow" id="triangle_arrow_2"></div>
 
         </div>
         <div class="dot" id="dot3"></div>
         <div class="name-with-dot" id="name-with-dot3">
             <div class="name" id="name3" style="font-size: 18px;">${pseudonyms_chosen[2]}
             </div>
-<!--            <div class="arrow-down-name" id="arrow_down_3"></div>-->
+            <div class="triangle-arrow" id="triangle_arrow_3"></div>
 
         </div>
 <!--        <div class="range-labels">-->

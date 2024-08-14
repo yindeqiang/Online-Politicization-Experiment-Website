@@ -594,6 +594,24 @@ function init_phase_3() {
     const question_type = set_index_to_name[set_index];
     //这些行计算当前问题的集合编号（set_num）和问题编号（question_num）。
     //然后，它们从phase_2_orders对象中检索设置和问题索引，并从set_index_to_name对象中检索问题类型。
+    // 定义 additionalQuestionHTML 变量
+const additionalQuestionHTML = `
+    <div style="margin-top: 20px; text-align: left; padding: 10px; display: block; visibility: visible;">
+        <p><strong>Additional question:</strong></p>
+        <p>Do you think Alex and Blair group's answers are ideology driven?</p>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
+            <button style="flex-grow: 1; margin-right: 10px;" class="option-button">Yes, they are ideology driven.</button>
+            <button style="flex-grow: 1; margin-right: 10px;" class="option-button">No, they are not.</button>
+            <button style="flex-grow: 0;" type="button" class="submit-button">Submit</button>
+        </div>
+    </div>
+`;
+
+document.addEventListener('DOMContentLoaded', function() {
+    if (next_question_seqNum === 12) {
+        document.querySelector("#right_content_phase_II").insertAdjacentHTML('beforeend', additionalQuestionHTML);
+    }
+});
 
     // 计算滑块位置
     let dot_pos_1 = (split_answers[0][0] + 2) / 4;
@@ -630,19 +648,22 @@ function init_phase_3() {
     document.documentElement.style.setProperty('--user-color', new_color);
 
     // 设置姓名标签的位置
-    document.getElementById('name-with-dot1').style.left = (dot_pos_1) * 100 - (dot_pos_1 - 0.5) * 4.78 + '%';
-    document.getElementById('name-with-dot2').style.left = (dot_pos_2) * 100 - (dot_pos_2 - 0.5) * 4.78 + '%';
-    document.getElementById('name-with-dot3').style.left = (dot_pos_3) * 100 - (dot_pos_3 - 0.5) * 4.78 + '%';
+    document.getElementById('name-with-dot1').style.left = (dot_pos_1) * 100 - (dot_pos_1 - 0.5) * 8 + '%';
+    document.getElementById('name-with-dot2').style.left = (dot_pos_2) * 100 - (dot_pos_2 - 0.5) * 8 + '%';
+    document.getElementById('name-with-dot3').style.left = (dot_pos_3) * 100 - (dot_pos_3 - 0.5) * 8 + '%';
 
 // 设置姓名标签的颜色
     document.getElementById('name1').innerText = `${pseudonyms_chosen[0]}`;
     document.getElementById('name1').style.color = interpolateColor(dot_pos_1);
+    document.getElementById('triangle_arrow_1').style.color = interpolateColor(dot_pos_1);
 
     document.getElementById('name2').innerText = `${pseudonyms_chosen[1]}`;
     document.getElementById('name2').style.color = interpolateColor(dot_pos_2);
+    document.getElementById('triangle_arrow_2').style.color = interpolateColor(dot_pos_2);
 
     document.getElementById('name3').innerText = `${pseudonyms_chosen[2]}`;
     document.getElementById('name3').style.color = interpolateColor(dot_pos_3);
+    document.getElementById('triangle_arrow_3').style.color = interpolateColor(dot_pos_3);
 
     // 检查重叠情况并调整位置
     let nameWithDotElements = [
@@ -668,12 +689,41 @@ function init_phase_3() {
             }
         }
     }
+function getIdeologyLabel(color) {
+    switch (color.toLowerCase()) {
+        case 'rgb(19, 59, 255)':
+        case 'rgb(55, 89, 252)':
+            return 'strongly liberal';
+        case 'rgb(92, 118, 249)':
+        case 'rgb(128, 148, 246)':
+            return 'liberal';
+        case 'rgb(164, 178, 243)':
+        case 'rgb(201, 207, 240)':
+            return 'mildly liberal';
+        case '#ededed':
+            return 'neutral';
+        case 'rgb(240, 206, 201)':
+        case 'rgb(243, 175, 166)':
+            return 'mildly conservative';
+        case 'rgb(246, 144, 130)':
+        case 'rgb(249, 113, 94)':
+            return 'conservative';
+        case 'rgb(252, 82, 59)':
+        case 'rgb(255, 51, 23)':
+            return 'strongly conservative';
+        default:
+            return 'unknown';  // 处理未知颜色的情况
+    }
+}
 
+    const leftlabel = getIdeologyLabel(leftColor);
+    const new_label = getIdeologyLabel(new_color);
+    const rightlabel = getIdeologyLabel(rightColor);
 
     question.innerHTML = `<b>Q${next_question_seqNum}. </b>`;
     switch (question_type) {
         case "issue":
-            question.innerHTML += `<b>For the Statement below, the majority of the <span class="group-color-left">${leftGroup} group</span> chose "Agree", while the majority of the <span class="group-color-right">${rightGroup} group</span> chose "Disagree". As a (mild liberal), do <span class="user-color">you</span> agree or disagree with this statement?</b>`;
+            question.innerHTML += `<b>For the Statement below, the majority of the <span class="group-color-left">${leftGroup} group (${leftlabel})</span> chose "Agree", while the majority of the <span class="group-color-right">${rightGroup} group (${rightlabel})</span> chose "Disagree". As a <span class="user-color">${new_label}</span>, do <span class="user-color">you</span> agree or disagree with this statement?</b>`;
             // question.innerHTML += `<b>For the Statement below, the majority of the ${leftGroup} group chose "Agree", while the majority of the ${rightGroup} group chose "Disagree". As a (), do you agree or disagree with this statement?</b>`;
             left_option.textContent = "Agree";
             right_option.textContent = "Disagree"
@@ -696,6 +746,7 @@ function init_phase_3() {
         default:
             break;
     }
+
 
 
     statement_text = phase_2_statements[question_type][question_index].text;
