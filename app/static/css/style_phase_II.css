@@ -989,19 +989,19 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
     width: 100%;
     background: linear-gradient(
         to right,
-        #133bff 0%, #133bff 7.69%,
-        #3c5cff 7.69%, #3c5cff 15.38%,
-        #647dff 15.38%, #647dff 23.08%,
-        #8a9eff 23.08%, #8a9eff 30.77%,
-        #b1bdff 30.77%, #b1bdff 38.46%,
-        #d8deff 38.46%, #d8deff 46.15%,
+        rgb(19, 59, 255) 0%, rgb(19, 59, 255) 7.69%,
+        rgb(55, 89, 252) 7.69%, rgb(55, 89, 252) 15.38%,
+        rgb(92, 118, 249) 15.38%, rgb(92, 118, 249) 23.08%,
+        rgb(128, 148, 246) 23.08%, rgb(128, 148, 246) 30.77%,
+        rgb(164, 178, 243) 30.77%, rgb(164, 178, 243) 38.46%,
+        rgb(201, 207, 240) 38.46%, rgb(201, 207, 240) 46.15%,
         #ededed 46.15%, #ededed 53.85%,
-        #ffdfdb 53.85%, #ffdfdb 61.54%,
-        #ffbfb7 61.54%, #ffbfb7 69.23%,
-        #ff9f93 69.23%, #ff9f93 76.92%,
-        #ff7e6e 76.92%, #ff7e6e 84.62%,
-        #ff5b47 84.62%, #ff5b47 92.31%,
-        #ff3317 92.31%, #ff3317 100%
+        rgb(240, 206, 201) 53.85%, rgb(240, 206, 201) 61.54%,
+        rgb(243, 175, 166) 61.54%, rgb(243, 175, 166) 69.23%,
+        rgb(246, 144, 130) 69.23%, rgb(246, 144, 130) 76.92%,
+        rgb(249, 113, 94) 76.92%, rgb(249, 113, 94) 84.62%,
+        rgb(252, 82, 59) 84.62%, rgb(252, 82, 59) 92.31%,
+        rgb(255, 51, 23) 92.31%, rgb(255, 51, 23) 100%
     );
     border-radius: 0px;
     margin: 20px 0;
@@ -1518,4 +1518,29 @@ input[type="range"]::-moz-range-thumb {
     margin: 0 auto;
     position: relative;
     top: -8px; /* 调整三角形的位置 */
+}
+
+/*.additional-question-container {*/
+/*    position: absolute;*/
+/*    bottom: 20px; !* 增加与底部的距离 *!*/
+/*    right: 20px; !* 增加与右侧的距离 *!*/
+/*    width: 50%; !* 占据页面宽度的50% *!*/
+/*    text-align: left;*/
+/*    padding: 10px;*/
+/*    background-color: white;*/
+/*    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);*/
+/*    display: block;*/
+/*    visibility: visible;*/
+/*    margin-right: 20px; !* 如果需要额外的右边距 *!*/
+/*    margin-bottom: 20px; !* 如果需要额外的下边距 *!*/
+/*}*/
+
+.additional-question-container {
+    width: 60%;
+    text-align: left;
+    margin-left: auto;
+    padding: 10px;
+    background-color: white;
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
 }

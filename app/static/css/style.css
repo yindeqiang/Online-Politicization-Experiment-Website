@@ -1259,17 +1259,17 @@ margin-bottom: 50px;：设置元素的下外边距为 50 像素。这会在元�
 /*}*/
 
 :root {
-    --color0: #133bff;
-    --color1: #3c5cff;
-    --color2: #647dff;
-    --color3: #8a9eff;
-    --color4: #b1bdff;
-    --color5: #d8deff;
+    --color0: rgb(19, 59, 255);
+    --color1: rgb(55, 89, 252);
+    --color2: rgb(92, 118, 249);
+    --color3: rgb(128, 148, 246);
+    --color4: rgb(164, 178, 243);
+    --color5: rgb(201, 207, 240);
     --color6: #ededed;
-    --color7: #ffdfdb;
-    --color8: #ffbfb7;
-    --color9: #ff9f93;
-    --color10: #ff7e6e;
-    --color11: #ff5b47;
-    --color12: #ff3317;
+    --color7: rgb(240, 206, 201);
+    --color8: rgb(243, 175, 166);
+    --color9: rgb(246, 144, 130);
+    --color10: rgb(249, 113, 94);
+    --color11: rgb(252, 82, 59);
+    --color12: rgb(255, 51, 23);
 }
