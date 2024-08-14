@@ -70,7 +70,7 @@ const section_rule_string = [
             </label>`,
 
         "default":
-            `In what follows, you will be asked 10-13 questions on either public issues or personal preferences. For each question, please choose your answer and then click “Submit”.<br><br>
+            `In what follows, you will be asked 10-13 questions. For each question, please choose your answer and then click “Submit”.<br><br>
 
             We have randomly drawn two previous participants from our earlier experiment dataset. They are randomly assigned alias names <b>${pseudonyms_chosen[0]}</b> and <b>${pseudonyms_chosen[2]}</b> respectively. For each question in Phase 1, their answers will be shown to you after you submit your own answer. `,
     },
@@ -79,18 +79,12 @@ const section_rule_string = [
     ``,
 
     `<p class="p_instruction">
-    In what follows, you will be asked 6 questions on either hard facts, future-trend predictions, controversial public issues or design problems.
+    In Phase 2, you will be asked 6 questions on hard facts, future predictions, or public issues. Previous experiments indicate that all of these 6 questions are controversial. Namely, for each question, approximately 50% of the previous participants were on the “Agree” side and the other 50% were on the “Disagree” side.
     </p>
-    <br>
-    Together with each question, you will see the following information:<br>
-    <span class="br_small"></span>
-    1) <b>${pseudonyms_chosen[0]}</b> and <b>${pseudonyms_chosen[2]}</b>'s answers to the question;<br>
-    <span class="br_small"></span>
-    2) <b>${pseudonyms_chosen[0]}</b>'s and <b>${pseudonyms_chosen[2]}</b>'s and <b>your</b> positions on the ideology spectrum. <br>
     <span class="br_big"></span>
-    Please then choose your answer to the question being asked by clicking the option. <br>
+    From our database, we randomly pick 10 previous participants who gave the same answers as Alex in Phase 1. We refer to these participants as <b>"Alex group"</b>. We also randomly pick 10 previous participants who gave the same answers as Blair in Phase 1. We refer to these participants as <b>"Blair group"</b>.<br>
     <span class="br_big"></span>
-    Click “Submit” when you finish answering the five questions.
+    For each question in Phase 2, we will show you Alex group and Blair group’s answers for your reference. Based on the provided information, please choose your answer to the question by clicking the option and then click “Submit”.<br>
     `,
 
     `<p class="p_instruction">
@@ -210,20 +204,76 @@ const phase_1_body_string = `
 `;
 
 
-
 const phase_2_label_string = `
     <p class="instruction-phase-2"> Q11. Below you will see three scrollbars, for the two previous participants and yourself respectively.  Based on the answers in Phase 1, please pull each scrollbar to the position that best describes the corresponding person's ideology.</p>
-    <div class="ranges-phase-2">
+    <div class="ranges-phase-2">          
         <div class="range-container-phase-2">
             <p id="name_0">${pseudonyms_chosen[0]}</p>
             <div class="custom-range" id="range_0">
+            <div class="range-labels-container">
+                    <!-- 绘制虚线 -->
+                    <div class="phase2-dotted-line" style="left: 0%; width: 46.15%;"></div>
+                    <div class="phase2-dotted-line" style="left: 53.85%; width: 46.15%;"></div>
+                
+                    <!-- 绘制短竖线 -->
+                    <div class="phase2-short-line" style="left: 0%;"></div>
+                    <div class="phase2-short-line" style="left: 15.38%;"></div>
+                    <div class="phase2-short-line" style="left: 30.77%;"></div>
+                    <div class="phase2-short-line" style="left: 46.15%;"></div>
+                    <div class="phase2-short-line" style="left: 53.85%;"></div>
+                    <div class="phase2-short-line" style="left: 69.23%;"></div>
+                    <div class="phase2-short-line" style="left: 84.62%;"></div>
+                    <div class="phase2-short-line" style="left: 100%;"></div>
+                
+                    <!-- 绘制左右箭头 -->
+                    <div class="phase2-small-arrow" style="left: 14.88%;"></div>
+                    <div class="phase2-small-arrow-left" style="left: 15.38%;"></div>
+                
+                    <div class="phase2-small-arrow" style="left: 30.27%;"></div>
+                    <div class="phase2-small-arrow-left" style="left: 30.77%;"></div>
+                
+                    <div class="phase2-small-arrow" style="left: 68.73%;"></div>
+                    <div class="phase2-small-arrow-left" style="left: 69.23%;"></div>
+                
+                    <div class="phase2-small-arrow" style="left: 84.12%;"></div>
+                    <div class="phase2-small-arrow-left" style="left: 84.62%;"></div>
+                
+                    <!-- 绘制单侧小箭头 -->
+                    <div class="phase2-small-arrow-left" style="left: 0%;"></div>
+                    <div class="phase2-small-arrow-left" style="left: 53.85%;"></div>
+                    <div class="phase2-small-arrow" style="left: 45.65%;"></div>
+                    <div class="phase2-small-arrow" style="left: 99.5%;"></div>         
+                </div>
+                
+                    <div class="phase2-label-container" style="left: 3.69%; width: 9%;">
+                        <div class="phase2-label">strongly<br>liberal</div>
+                    </div>
+                    <div class="phase2-label-container" style="left: 19.07%; width: 9%;">
+                        <div class="phase2-label">liberal</div>
+                    </div>
+                    <div class="phase2-label-container" style="left: 34.45%; width: 9%;">
+                        <div class="phase2-label">mildly<br>liberal</div>
+                    </div>
+                    <div class="phase2-label-container" style="left: 57.53%; width: 9%;">
+                        <div class="phase2-label">mildly<br>conservative</div>
+                    </div>
+                    <div class="phase2-label-container" style="left: 72.91%; width: 9%;">
+                        <div class="phase2-label">conservative</div>
+                    </div>
+                    <div class="phase2-label-container" style="left: 88.29%; width: 9%;">
+                        <div class="phase2-label">strongly<br>conservative</div>
+                    </div>
+
                 <div class="range-marker-phase-2" id="marker_0"></div>
                 <div class="range-scale-phase-2"></div>
                 <div class="range-text-phase-2">
-                    <p>strongly<br>liberal</p>
-                    <p>mildly<br>liberal</p>
-                    <p>mildly<br>conservative</p>
-                    <p>strongly<br>conservative</p>
+                    <p>-3</p>
+                    <p>-2</p>
+                    <p>-1</p>
+                    <p>0</p>
+                    <p>1</p>
+                    <p>2</p>
+                    <p>3</p>
                 </div>
             </div>
         </div>
@@ -233,10 +283,13 @@ const phase_2_label_string = `
                 <div class="range-marker-phase-2" id="marker_1"></div>
                 <div class="range-scale-phase-2"></div>
                 <div class="range-text-phase-2">
-                    <p>strongly<br>liberal</p>
-                    <p>mildly<br>liberal</p>
-                    <p>mildly<br>conservative</p>
-                    <p>strongly<br>conservative</p>
+                    <p>-3</p>
+                    <p>-2</p>
+                    <p>-1</p>
+                    <p>0</p>
+                    <p>1</p>
+                    <p>2</p>
+                    <p>3</p>
                 </div>
             </div>
         </div>
@@ -247,16 +300,20 @@ const phase_2_label_string = `
                 <div class="range-scale-phase-2"></div>
                 <div class="range-scale-phase-2"></div>
                 <div class="range-text-phase-2">
-                    <p>strongly<br>liberal</p>
-                    <p>mildly<br>liberal</p>
-                    <p>mildly<br>conservative</p>
-                    <p>strongly<br>conservative</p>
+                    <p>-3</p>
+                    <p>-2</p>
+                    <p>-1</p>
+                    <p>0</p>
+                    <p>1</p>
+                    <p>2</p>
+                    <p>3</p>
                 </div>
             </div>
         </div>
     </div>
     <button type="button" class="button_big" disabled="true">Submit</button>
 `;
+
 
 const phase_4_evaluate_string = `
     <form>
@@ -299,7 +356,7 @@ const phase_4_body_string = `
     
 
 <div class="question_phase_4" id="question_4">
-    <p>Q1. In phase II, to what extent were your answers influenced by the one who answered each question first?</p>
+    <p>Q1. In phase 2, to what extent were your answers influenced by Alex group's answers?</p>
     <div class="detection_wrap">
         <div class="each_detection">
             <form>
@@ -318,18 +375,37 @@ const phase_4_body_string = `
 </div>
 
 <div class="question_phase_4" id="question_5">
-    <p>Q2. How important is ideology in forming your opinions on public issues?</p>
+    <p>Q2. In phase 2, to what extent were your answers influenced by Blair group's answers?</p>
     <div class="detection_wrap">
         <div class="each_detection">
             <form>
                 <input type="radio" id="detection_3_0" value="0" name="detection_3">
-                <label for="detection_3_0">Very important</label>
+                <label for="detection_3_0">Strongly influenced</label>
                 <br>
                 <input type="radio" id="detection_3_1" value="1" name="detection_3">
-                <label for="detection_3_1">Moderately important</label>
+                <label for="detection_3_1">Somewhat influenced</label>
                 <br>
                 <input type="radio" id="detection_3_2" value="2" name="detection_3">
-                <label for="detection_3_2">Not important at all</label>
+                <label for="detection_3_2">Not influenced at all</label>
+                <br>
+            </form>
+        </div class="each_detection">
+    </div>
+</div>
+
+<div class="question_phase_4" id="question_6">
+    <p>Q3. How important is ideology in forming your opinions on public issues?</p>
+    <div class="detection_wrap">
+        <div class="each_detection">
+            <form>
+                <input type="radio" id="detection_4_0" value="0" name="detection_4">
+                <label for="detection_4_0">Very important</label>
+                <br>
+                <input type="radio" id="detection_4_1" value="1" name="detection_4">
+                <label for="detection_4_1">Moderately important</label>
+                <br>
+                <input type="radio" id="detection_4_2" value="2" name="detection_4">
+                <label for="detection_4_2">Not important at all</label>
                 <br>
             </form>
         </div class="each_detection">
@@ -430,8 +506,8 @@ const end_quiz_string = `
         <p>
         Thank you for completing this survey!
             <span class="br_small"></span>
-            <p>At the end of this survey, we would like to inform you that we took a deceptive measure in our experiment: <b>${pseudonyms_chosen[0]}</b> and <b>${pseudonyms_chosen[2]}</b>’s answers in Phase 1 are indeed drawn from two real persons. But their answers in Phase 2 are randomly generated by us. We sincerely ask for your pardon and hope you understand that this is a necessary measure to achieve the objective of our study.</p>
-            <span clas="br_big"></span>
+            <p>At the end of this survey, we would like to inform you that we took a deceptive measure in our experiment: <b>${pseudonyms_chosen[0]}</b> and <b>${pseudonyms_chosen[2]}</b>’s answers in Phase 1 are indeed drawn from two real persons. But the Alex group and Blair group’s answers are manipulated by us as experiment signals. We sincerely ask for your pardon and hope you understand that this is a necessary measure to achieve the objective of our study.</p>
+            <span class="br_big"></span>
             <div class="bot_detection">
                 <p>It would be greatly appreciated if you could provide some feedback below about the experiment procedure or how you feel during the experiment. Your comments will greatly contribute to improving the effectiveness of our experiment.</p>
                 <textarea id="reason" maxlength="100"></textarea>
@@ -440,6 +516,7 @@ const end_quiz_string = `
             <p>Thanks again for your participation. By clicking “Finish”, you will be redirected back to the Connect platform and get your rewards.</p>
         </p>
         <button type="button" class="button_big" disabled="true">Finish</button>
+<!--        <button type="button" class="button_big" disabled="false">Finish</button>-->
     </div>
 `;
 
@@ -467,37 +544,85 @@ const mark_texts = {
 
 const phase_3_range_string = `
     <div class="range-with-description">
-    <div style="position: relative; color: blue; margin-left: 10px;">strongly liberal</div>
     <div class="range-container">
         <div class="custom-range" id="custom-range1"></div>
-        <div class="range-border"></div>
-        <div class="spectrum"></div>
+        <div class="dot" id="dot1"></div>
         <div class="name-with-dot" id="name-with-dot1">
-            <div class="arrow-up-choice" id="arrow_up_1">⇧</div>
-            <div class="name" id="name1" style="font-size: 13px; font-weight: bold;">${pseudonyms_chosen[0]}
+            <div class="name" id="name1" style="font-size: 18px;">${pseudonyms_chosen[0]}
             </div>
-            <div class="dot" id="dot1"></div>
-            <div class="arrow-down-choice" id="arrow_down_1">⇩</div>
+<!--            <div class="arrow-down-name" id="arrow_down_1"></div>-->  
         </div>
-
+        <div class="dot" id="dot2"></div>
         <div class="name-with-dot" id="name-with-dot2">
-            <div class="arrow-up-choice" id="arrow_up_2">⇧</div>
-            <!-- <div class="choice" id="choice2"></div> -->
-            <div class="name" id="name2" style="font-size: 13px; font-weight: bold;">${pseudonyms_chosen[1]}
+            <div class="name" id="name2" style="font-size: 18px;">${pseudonyms_chosen[1]}
             </div>
-            <div class="dot" id="dot2"></div>
-            <div class="arrow-down-choice" id="arrow_down_2">⇩</div>
-        </div>
+<!--            <div class="arrow-down-name" id="arrow_down_2"></div>-->
 
-        <div class="name-with-dot" id="name-with-dot3">
-            <div class="arrow-up-choice" id="arrow_up_3">⇧</div>
-            <div class="name" id="name3" style="font-size: 13px; font-weight: bold;">${pseudonyms_chosen[2]}
-            </div>
-            <div class="dot" id="dot3"></div>
-            <div class="arrow-down-choice" id="arrow_down_3">⇩</div>
         </div>
+        <div class="dot" id="dot3"></div>
+        <div class="name-with-dot" id="name-with-dot3">
+            <div class="name" id="name3" style="font-size: 18px;">${pseudonyms_chosen[2]}
+            </div>
+<!--            <div class="arrow-down-name" id="arrow_down_3"></div>-->
+
+        </div>
+<!--        <div class="range-labels">-->
+<!--            <div class="range-label">-3</div>-->
+<!--            <div class="range-label">-2.5</div>-->
+<!--            <div class="range-label">-2</div>-->
+<!--            <div class="range-label">-1.5</div>-->
+<!--            <div class="range-label">-1</div>-->
+<!--            <div class="range-label">-0.5</div>-->
+<!--            <div class="range-label">0</div>-->
+<!--            <div class="range-label">+0.5</div>-->
+<!--            <div class="range-label">+1</div>-->
+<!--            <div class="range-label">+1.5</div>-->
+<!--            <div class="range-label">+2</div>-->
+<!--            <div class="range-label">+2.5</div>-->
+<!--            <div class="range-label">+3</div>-->
+<!--        </div>-->
+<!--        <div class="range-labels-container">-->
+<!--            &lt;!&ndash; 绘制完整的黑色横线 &ndash;&gt;-->
+<!--            <div class="full-line" style="left: 0%; width: 46.15%;"></div>-->
+<!--            <div class="full-line" style="left: 53.85%; width: 46.15%;"></div>-->
+<!--            -->
+<!--            &lt;!&ndash; 绘制短竖线 &ndash;&gt;-->
+<!--            <div class="short-line" style="left: 0%;"></div>-->
+<!--            <div class="short-line" style="left: 15.38%;"></div>-->
+<!--            <div class="short-line" style="left: 30.77%;"></div>-->
+<!--            <div class="short-line" style="left: 46.15%;"></div>-->
+<!--            <div class="short-line" style="left: 53.85%;"></div>-->
+<!--            <div class="short-line" style="left: 69.23%;"></div>-->
+<!--            <div class="short-line" style="left: 84.62%;"></div>-->
+<!--            <div class="short-line" style="left: 100%;"></div>-->
+
+<!--            &lt;!&ndash; 绘制左右箭头 &ndash;&gt;-->
+<!--            <div class="small-arrow" style="left: 14.88%;"></div>-->
+<!--            <div class="small-arrow-left" style="left: 15.38%;"></div>-->
+
+<!--            <div class="small-arrow" style="left: 30.27%;"></div>-->
+<!--            <div class="small-arrow-left" style="left: 30.77%;"></div>-->
+
+<!--            <div class="small-arrow" style="left: 68.73%;"></div>-->
+<!--            <div class="small-arrow-left" style="left: 69.23%;"></div>-->
+
+<!--            <div class="small-arrow" style="left: 84.12%;"></div>-->
+<!--            <div class="small-arrow-left" style="left: 84.62%;"></div>-->
+
+<!--            &lt;!&ndash; 绘制单侧小箭头 &ndash;&gt;-->
+<!--            <div class="small-arrow-left" style="left: 0%;"></div>-->
+<!--            <div class="small-arrow-left" style="left: 53.85%;"></div>-->
+<!--            <div class="small-arrow" style="left: 45.65%;"></div>-->
+<!--            <div class="small-arrow" style="left: 99.5%;"></div>         -->
+<!--        </div>-->
+        <div class="phase3-label blue" style="left: 0%;">Strongly liberal</div>
+        <div class="phase3-label blue" style="left: 15.38%;">Liberal</div>
+        <div class="phase3-label blue" style="left: 30.77%;">Mildly liberal</div>
+        <div class="phase3-label red" style="left: 53.85%;">Mildly conservative</div>
+        <div class="phase3-label red" style="left: 69.23%;">Conservative</div>
+        <div class="phase3-label red" style="left: 84.62%;">Strongly conservative</div>
+         
     </div>
-    <div style="position: relative; color: red">strongly conservative</div>
     </div>
 `;
 

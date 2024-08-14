@@ -83,7 +83,7 @@ height: 60%;设置元素的高度为其父元素高度的60%。
     top: -75px;
     left: 60px;
     border-radius: 20px;
-    animation: 0.3s linear popup;
+    /*animation: 0.3s linear popup;*/
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -550,7 +550,7 @@ height: 30px;: 将 .status 元素的高度设置为 30 像素。
 
 .evaluation {
     padding: 0 0 35px 30px;
-    border: 1px dashed gray;
+    border: 1px dashed;
     border-radius: 15px;
     width: 670px;
     margin-bottom: 40px;
@@ -1171,16 +1171,16 @@ margin-bottom: 50px;：设置元素的下外边距为 50 像素。这会在元�
 
 .range-scale-phase-2 {
     position: absolute;
-    border-left: 2.5px solid black;
-    border-right: 2.5px solid black;
+    /*border-left: 2.5px solid black;*/
+    /*border-right: 2.5px solid black;*/
     height: 15px;
-    width: 52.38%;
+    width: 7.69%;
     bottom: -4.5px;
-    left: calc(23.8% - 2.5px);
+    left: calc(0% - 2.5px);
 }
 
 .range-marker-phase-2 {
-    width: calc(4.76% - 4px);
+    width: calc(7.69% - 2px);
 
     &::before {
         float: left;
@@ -1199,7 +1199,7 @@ margin-bottom: 50px;：设置元素的下外边距为 50 像素。这会在元�
     transform: translate(-50%, -50%);
     left: 50%;
     top: 50%;
-    background-color: white;
+    background-color: #ededed;
     cursor: grab;
     z-index: 10;
 }
@@ -1207,37 +1207,69 @@ margin-bottom: 50px;：设置元素的下外边距为 50 像素。这会在元�
 .range-text-phase-2 {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     position: relative;
-    top: 10px;
+    top: 3px;
 }
 
-.range-text-phase-2 > p{
+.range-text-phase-2 > p {
     font-size: 13px;
-    width: 80px;
+    width: calc(100% / 13);
     text-align: center;
 }
 
+.range-labels {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    position: absolute;
+    top: 32px;
+}
+
+.range-label {
+    flex: 1;
+    font-size: 16px;
+    text-align: center;
+    position: relative;
+    /*transform: translateX(-50%);*/
+}
+
+/*:root {*/
+/*    --color0: #0000ff;*/
+/*    --color1: #1919ff;*/
+/*    --color2: #3333ff;*/
+/*    --color3: #4d4dff;*/
+/*    --color4: #6666ff;*/
+/*    --color5: #8080ff;*/
+/*    --color6: #9999ff;*/
+/*    --color7: #b3b3ff;*/
+/*    --color8: #ccccff;*/
+/*    --color9: #e5e5ff;*/
+/*    --color10: white;*/
+/*    --color11: #ffe5e5;*/
+/*    --color12: #ffcccc;*/
+/*    --color13: #ffb3b3;*/
+/*    --color14: #ff9999;*/
+/*    --color15: #ff8080;*/
+/*    --color16: #ff6666;*/
+/*    --color17: #ff4d4d;*/
+/*    --color18: #ff3333;*/
+/*    --color19: #ff1a1a;*/
+/*    --color20: #ff0000;*/
+/*}*/
+
 :root {
-    --color0: #0000ff;
-    --color1: #1919ff;
-    --color2: #3333ff;
-    --color3: #4d4dff;
-    --color4: #6666ff;
-    --color5: #8080ff;
-    --color6: #9999ff;
-    --color7: #b3b3ff;
-    --color8: #ccccff;
-    --color9: #e5e5ff;
-    --color10: white;
-    --color11: #ffe5e5;
-    --color12: #ffcccc;
-    --color13: #ffb3b3;
-    --color14: #ff9999;
-    --color15: #ff8080;
-    --color16: #ff6666;
-    --color17: #ff4d4d;
-    --color18: #ff3333;
-    --color19: #ff1a1a;
-    --color20: #ff0000;
+    --color0: #133bff;
+    --color1: #3c5cff;
+    --color2: #647dff;
+    --color3: #8a9eff;
+    --color4: #b1bdff;
+    --color5: #d8deff;
+    --color6: #ededed;
+    --color7: #ffdfdb;
+    --color8: #ffbfb7;
+    --color9: #ff9f93;
+    --color10: #ff7e6e;
+    --color11: #ff5b47;
+    --color12: #ff3317;
 }

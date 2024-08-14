@@ -1,11 +1,11 @@
-#answer_area_phase_II {
-    width: 100%;
-    /*margin-top: 0px;/*原来是将选项上面放图片30px，现在10px即可*/
-    margin-top: 3%;
+/*#answer_area_phase_II {*/
+/*    width: 100%;*/
+/*    !*margin-top: 0px;!*原来是将选项上面放图片30px，现在10px即可*!*/
+/*    margin-top: 3%;*/
 
-    display: flex;
-    flex-direction: row;/*尝试让mention+2个operation+submit改成横向排布*/
-}
+/*    display: flex;*/
+/*    flex-direction: row;!*尝试让mention+2个operation+submit改成横向排布*!*/
+/*}*/
 
 #pictures_container {
     /* display: flex;只有在启用图片问答才会用到 */
@@ -24,30 +24,68 @@
 但现在由于display: none;，这个容器是不可见的。.picture_phase_II类定义的样式则代表每个图片元素的外观和布局。如果以后需要显示这些图片，
 可能需要取消对#pictures_container的display: none;的注释，并可能还需要启用display: flex;来以flex布局方式展示图片。*/
 
+/*#options_container {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    margin: auto;*/
+/*    margin-top: auto;*/
+/*    justify-content: space-between;*/
+/*    !*margin-top: 110px;*!*/
+/*    margin-top: 5px;*/
+/*    width: 300px;!*选项框宽度*!*/
+/*    !*padding: 15px;*!*/
+/*    !*border: 5px dashed lightgray*!*/
+/*    margin-right:20px; !* 设置右边距 *!*/
+/*    margin-left: 20px;*/
+/*}*/
+
 #options_container {
     display: flex;
     flex-direction: row;
-    margin: auto;
-    margin-top: auto;
+    justify-content: flex-start; /* 使选项按钮向左对齐 */
     justify-content: space-between;
-    /*margin-top: 110px;*/
-    margin-top: 5px;
-    width: 300px;/*选项框宽度*/
-    /*padding: 15px;*/
-    /*border: 5px dashed lightgray*/
-    margin-right: 40px; /* 设置右边距 */
-    margin-left: 20px;
+    margin: auto;
+    width: 500px; /* 调整总宽度以适应三个按钮 */
+    margin-top: 10px;
+}
+
+
+/*.option-button {*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    padding: 20px;*/
+/*    border: none; !* 无边框 *!*/
+/*    border-radius: 0; !* 无圆角 *!*/
+/*    width: 300px; !* 设置按钮宽度 *!*/
+/*    height: 20px; !* 设置按钮高度 *!*/
+/*    cursor: pointer;*/
+/*    position: relative;*/
+/*    margin: 0 60px; !* 增加按钮之间的间距 *!*/
+/*}*/
+
+.option-text {
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: white; /* 默认白色字体 */
+    text-align: center; /* 水平居中 */
 }
 
 .option-button {
-    border: 2px solid black;
+    border: none; /* 无边框 */
+    border-radius: 0; /* 无圆角 */
     font-size: 18px;
-    border-radius: 10px;
-    width: 120px;/*按键宽度*/
+    font-weight: bold;
+    width: 130px;/*按键宽度*/
     position: relative;
     height: 50px;
     cursor: pointer;
-    margin: 0px 10px;
+    margin: 0px 30px;
 }
 
 .option-button.selected {
@@ -62,15 +100,18 @@
     cursor: not-allowed;
 }
 
-.submit-button {
+/*.submit-button {
     margin-top: 12px;
     padding: 10px 20px;
     cursor: pointer;
-}
+    font-size: 15px;
+}*/
 
 .submit-button:disabled {
     cursor: not-allowed;
 }
+
+
 
 #buttons_container {
     display: flex;
@@ -277,7 +318,7 @@ transform: translateX(-50%);：使用CSS的变换功能将箭头在水平方向�
     border-left: 9px solid transparent;
     border-right: 9px solid transparent;
     border-top: 39px solid black;/*这里三个位置分别乘5就可以放大5倍，原来是3，3，13*/
-    
+
 }
 
 .arrow-left {/*向左的箭头在最右边*/
@@ -365,7 +406,8 @@ transform: translateX(-50%);：使用CSS的变换功能将箭头在水平方向�
     display: flex;/*这行代码将该元素设置为flex容器，这意味着它的直接子元素会成为flex项目，并会按照flex布局的规则来排列。*/
     flex-direction: column;/*flex子项应该沿着垂直方向（从上到下）排列*/
     /*flex-direction: row;*/
-    text-align: center;/*这行代码将文本内容（如果#identity_wrap_phase_II元素或其子元素包含文本的话）水平居中*/
+
+    /*text-align: center;!*这行代码将文本内容（如果#identity_wrap_phase_II元素或其子元素包含文本的话）水平居中*!*/
 }
 /*dentity_wrap_phase_II
 
@@ -920,10 +962,9 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
 
 .range-container {
     position: relative;
-    width: 90%;
-    /*left:10%;*/
-    height: 50px;
-   /* margin-top: 8%;*/
+    width: 120%; /* 占据父容器的 80% */
+    height: 5px;
+    /*left: 5%;*/
 }
 
 .range-border {
@@ -940,43 +981,38 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
     margin-top: 55px;
     align-content: center;
     padding-top: 70px; /* 根据需要调整距离 */
+    position: relative; /* 为绝对定位的子元素提供参考 */
 }
 
 .custom-range {
-    height: 6px;
+    height: 10px;
     width: 100%;
     background: linear-gradient(
         to right,
-        #0000ff 0%, #0000ff 4.76%,
-        #1919ff 4.76%, #1919ff 9.52%,
-        #3333ff 9.52%, #3333ff 14.28%,
-        #4d4dff 14.28%, #4d4dff 19.04%,
-        #6666ff 19.04%, #6666ff 23.80%,
-        #8080ff 23.80%, #8080ff 28.56%,
-        #9999ff 28.56%, #9999ff 33.32%,
-        #b3b3ff 33.32%, #b3b3ff 38.08%,
-        #ccccff 38.08%, #ccccff 42.84%,
-        #e5e5ff 42.84%, #e5e5ff 47.60%,
-        white 47.60%, white 52.40%,
-        #ffe5e5 52.40%, #ffe5e5 57.16%,
-        #ffcccc 57.16%, #ffcccc 61.92%,
-        #ffb3b3 61.92%, #ffb3b3 66.68%,
-        #ff9999 66.68%, #ff9999 71.44%,
-        #ff8080 71.44%, #ff8080 76.20%,
-        #ff6666 76.20%, #ff6666 80.96%,
-        #ff4d4d 80.96%, #ff4d4d 85.72%,
-        #ff3333 85.72%, #ff3333 90.48%,
-        #ff1a1a 90.48%, #ff1a1a 95.24%,
-        #ff0000 95.24%, #ff0000 100%
+        #133bff 0%, #133bff 7.69%,
+        #3c5cff 7.69%, #3c5cff 15.38%,
+        #647dff 15.38%, #647dff 23.08%,
+        #8a9eff 23.08%, #8a9eff 30.77%,
+        #b1bdff 30.77%, #b1bdff 38.46%,
+        #d8deff 38.46%, #d8deff 46.15%,
+        #ededed 46.15%, #ededed 53.85%,
+        #ffdfdb 53.85%, #ffdfdb 61.54%,
+        #ffbfb7 61.54%, #ffbfb7 69.23%,
+        #ff9f93 69.23%, #ff9f93 76.92%,
+        #ff7e6e 76.92%, #ff7e6e 84.62%,
+        #ff5b47 84.62%, #ff5b47 92.31%,
+        #ff3317 92.31%, #ff3317 100%
     );
-    border-radius: 10px;
+    border-radius: 0px;
     margin: 20px 0;
     position: relative;
 }
 
 .dot {
-    width: 4.76%;
+    display: none; /* 隐藏滑块 */
+    width: 7.69%;
     height: 100%;
+    left: 5%;
     background: transparent;
     pointer-events: none;
     border: 0px solid black;
@@ -984,21 +1020,6 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
     box-shadow: inset 0 0 0 2px black;
     position: relative;
     bottom: 2.5px;
-}
-
-.name-with-dot {
-    position: absolute;
-    transform: translateX(-50%);
-    width: 100%;
-    height: 100%;
-    top: 0px;
-}
-
-.name {
-    position: absolute;
-    width: 30px;
-    left: calc(50% - 15px);
-    top: 50px;
 }
 
 .choice {
@@ -1024,7 +1045,7 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
 
 .padding_line_phaseII{
     border: 2px solid black;
-    height: 320px;
+    height: 270px;
     /*margin-top:7%;*/
     position: relative;
 
@@ -1042,8 +1063,6 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
 .legend strong {
     font-weight: bold; /* 加粗的“Answers:” */
 }/*这两个和上面position都是为了让图示显示在黑框的右上区域*/
-
-
 
 .padding_title{
     margin-top:3%;
@@ -1071,6 +1090,97 @@ margin-bottom: 0;：这行代码将 li 元素的下边距设置为0。这意味�
     border-bottom: 1.5px solid black;
     top: 140px;
 }
+
+/*.ideology-spectrum-container {*/
+/*    position: relative;*/
+/*    width: 100%;*/
+/*    text-align: center;*/
+/*}*/
+
+.ideology-spectrum-container {
+    position: absolute; /* 绝对定位 */
+    top: 70%; /* 顶部位置设置为父容器的一半 */
+    transform: translateY(-20%); /* 垂直居中对齐 */
+    width: 100%;
+    text-align: center;
+}
+
+.ideology-spectrum {
+    background-color: #424242;
+    color: white;
+    font-weight: bold;
+    display: inline-block;
+    padding: 5px 10px;
+    position: absolute;
+    bottom: 10px;
+    left: 92.5%;
+    transform: translateX(-50%);
+}
+
+/* 短竖线样式 */
+.phase2-short-line {
+    position: absolute;
+    width: 1px;
+    height: 20px;
+    background-color: black;
+    top: -80px;
+    left: -0.5px;
+}
+
+/* 虚线样式 */
+.phase2-dotted-line {
+    position: absolute;
+    height: 1.5px;
+    top: -70px; /* 确保横线与标签在同一水平轴上 */
+    border-top: 1.5px dashed black; /* 虚线 */
+    width: 46.15%; /* 对应长度 */
+    z-index: -1; /* 确保横线在竖线后面 */
+}
+
+/* 小箭头样式 */
+.phase2-small-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 2.5px solid transparent;
+    border-bottom: 2.5px solid transparent;
+    border-left: 5px solid black;
+    top: -71px; /* 根据需要调整 */
+}
+
+.phase2-small-arrow-left {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 2.5px solid transparent;
+    border-bottom: 2.5px solid transparent;
+    border-right: 5px solid black; /* 改为右箭头 */
+    top: -71px; /* 根据需要调整 */
+}
+
+/* 标签容器样式 */
+.phase2-label-container {
+    position: absolute;
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    text-align: center;
+    width: 9%;
+    top: -90px; /* 与虚线对齐 */
+    background-color: white;
+    height: 40px; /* 设置固定高度 */
+}
+
+/* 标签样式 */
+.phase2-label {
+    font-size: 12px; /* 字体大小 */
+    color: black; /* 字体颜色 */
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    height: 100%; /* 确保标签占满容器的高度 */
+}
+
 
 /*下面是适配每个浏览器的滑动轴拖动效果*/
 
@@ -1119,14 +1229,6 @@ input[type="range"]::-moz-range-thumb {
     margin-top: 20px;
 }
 
-.ideology-spectrum {
-    position: absolute;
-    bottom: 10px; /* 调整图示距离底部的距离 */
-    left: 50%; /* 水平居中 */
-    transform: translateX(-50%);
-    text-align: center;
-}
-
 .bracket {
     display: none;/*inline-block;暂时先不展示
     transform: rotate(270deg) scaleX(50); /* 旋转“[”符号 */
@@ -1134,11 +1236,6 @@ input[type="range"]::-moz-range-thumb {
     margin-bottom: -10px; /* 调整位置 */
     margin-right: 30px;
 }
-
-.spectrum-text {
-    font-size: 20px; /* 放大字体 */
-    font-weight: bold; /* 加粗 */
-}/*用来显示标出这个轴是意识形态的轴*/
 
 .choices-text {
     position: absolute;
@@ -1148,3 +1245,266 @@ input[type="range"]::-moz-range-thumb {
     display: flex; /* 使用 flexbox 进行横向排列 */
     gap: 5px; /* 设置文本之间的间隔 */
 }/*用来在左上角显示谁选的是什么*/
+
+.name-with-dot {
+    position: absolute;
+    transform: translateX(-50%);
+    width: 100%;
+    height: 100%;
+    top: 0px;
+}
+
+.name {
+    position: absolute;
+    width: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    top: -30px; /* 默认情况下，姓名标签在上方 */
+    font-size: 16px; /* 调整字体大小 */
+}
+
+.arrow-down-name {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    color: black;
+    border-left: 1px dashed black;
+    height: 100px; /* 设置虚线箭头的高度 */
+    width: 0;
+    background: transparent;
+    border: none;
+}
+
+.arrow-down-name::after {
+    content: '';
+    position: absolute;
+    bottom: -10px; /* 根据箭头高度调整 */
+    left: 50%;
+    transform: translateX(-50%);
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid black;
+}
+
+.short-line {
+    position: absolute;
+    width: 1px;
+    height: 20px;
+    background-color: black;
+    top: 0;
+    left: -0.5px;
+}
+
+.full-line {
+    position: absolute;
+    height: 1.5px;
+    top: 10px; /* 确保横线穿过竖线的中点 */
+    background-color: black;
+    z-index: -1; /* 确保横线在竖线后面 */
+}
+
+.small-arrow {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 2.5px solid transparent;
+    border-bottom: 2.5px solid transparent;
+    border-left: 5px solid black;
+    top: 8px; /* 根据需要调整 */
+}
+
+.small-arrow-left {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 2.5px solid transparent;
+    border-bottom: 2.5px solid transparent;
+    border-right: 5px solid black; /* 改为右箭头 */
+    top: 8px; /* 根据需要调整 */
+}
+
+.range-labels-container {
+    position: relative;
+    top: 0;
+}
+
+/*.range-labels-container {*/
+/*    position: relative;*/
+/*    top: 20px;*/
+/*}*/
+
+.phase3-label {
+    position: absolute;
+    display: flex;
+    align-items: center; /* 垂直居中 */
+    justify-content: center; /* 水平居中 */
+    text-align: center;
+    width: 15.38%;
+    top: 40px; /* 向下移动 */
+    font-size: 12px; /* 字体大小 */
+}
+
+.phase3-label.blue {
+    color: #133bff;
+}
+
+.phase3-label.red {
+    color: #ff3317;
+}
+
+.question-text {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.agree-disagree {
+    font-weight: bold;
+}
+
+/*.footer-note {*/
+/*    font-size: 18px;*/
+    /*bottom: 5%;*/
+    /*left: 0;*/
+    /*right: 0;*/
+    /*width: 100%;*/
+    /*padding: 10px;*/
+    /*box-sizing: border-box; !* 确保内边距包含在宽度内 *!*/
+    /*word-wrap: break-word; !* 自动换行 *!*/
+    /*overflow-wrap: break-word;*/
+    /*margin: auto;*/
+    /*position: absolute;*/
+/*}*/
+
+.option-wrapper {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-start; /* 调整对齐方式 */
+    width: 100%;
+    margin-top: 20px;
+}
+
+
+
+.circles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    margin-top: 10px; /* 圆圈和按钮间距 */
+    /*align-items: center; !* 垂直对齐 *!*/
+}
+
+.circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin: 5px;
+    border: 1px solid black;
+}
+
+/*#submit_button_phase2 {*/
+/*    margin-top: 12px;*/
+/*    padding: 10px 20px;*/
+/*    cursor: pointer;*/
+/*    border: 1px solid black;*/
+/*    background-color: white; !* 设置按钮背景颜色 *!*/
+/*    color: black; !* 设置按钮字体颜色 *!*/
+/*    width: 100px;*/
+/*    height: 40px;*/
+/*}*/
+
+/*#submit_button_phase2:disabled {*/
+/*    cursor: not-allowed;*/
+/*}*/
+
+.group-color-left {
+    color: var(--left-color);
+}
+
+.group-color-right {
+    color: var(--right-color);
+}
+
+.user-color {
+    color: var(--user-color);
+}
+
+.container {
+    display: flex;
+    height: 100%;
+}
+
+.left-side {
+    width: 50%;
+    padding: 20px;
+}
+
+.right-side {
+    width:50%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.divider {
+    width: 2px;
+    background-color: black;
+    height: 100%;
+}
+
+#right_content_phase_II {
+    text-align: center;
+    padding: 0px 50px 0px 50px;
+}
+
+#answer_area_phase_II {
+    margin-top: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.option-button {
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    width: 150px;
+    height: 40px;
+    cursor: pointer;
+    margin: 0px 30px;
+}
+
+#option-with-profile-1 .option-button {
+    margin-right: 50px; /* 这里增加右侧的间距 */
+}
+
+.submit-button {
+    margin-top: 0;
+    height: 40px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-left: auto;
+    display: flex;             /* 使按钮内部成为弹性盒子 */
+    align-items: center;       /* 垂直居中 */
+    justify-content: center;   /* 水平居中 */
+}
+
+.footer-note {
+    font-size: 18px;
+    margin-top: 50px;
+    text-align: left;
+}
+
+.info-text {
+    text-align: left; /* 确保左对齐 */
+    font-size: 18px; /* 设置字体大小 */
+    margin-bottom: 15px; /* 设置段落与下方内容之间的间隔 */
+}
+
+.info-text p {
+    margin-bottom: 10px; /* 设置段落之间的间隔 */
+}

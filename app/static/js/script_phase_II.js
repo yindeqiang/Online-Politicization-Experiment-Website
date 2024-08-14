@@ -41,33 +41,63 @@ for循环从数组的最后一个元素开始，逐步向前遍历。
 最后，函数返回打乱后的数组。 */
 
 
-function determine_phase_3_order() {//确定phaseII的顺序
-    // const num_of_sets = Object.keys(phase_2_statements).length;
-    const num_of_sets = 1;
-    // phase_2_orders.set_order = shuffleArray([...Array(num_of_sets).keys()]);
+// function determine_phase_3_order() {//确定phaseII的顺序
+//     // const num_of_sets = Object.keys(phase_2_statements).length;
+//     const num_of_sets = 1;
+//     // phase_2_orders.set_order = shuffleArray([...Array(num_of_sets).keys()]);
+//
+//     phase_2_orders.set_order = [2];//启用的是第三个问题组
+//     for (const set_index of phase_2_orders.set_order) {
+//         const key = set_index_to_name[set_index];
+//         let enabled_length = 0;
+//         phase_2_statements[key].forEach((question_info) => {
+//             if (question_info.enabled) { enabled_length += 1; }
+//         });
+//         // console.log(`[DEBUG] Number of questions in ${key}: ${enabled_length}`);
+//         const enabledQuestions = phase_2_statements[key].filter(question_info => question_info.enabled);
+//         const enabledQuestionsIndexes = enabledQuestions.map(question_info => question_info.index);
+//         if (enabledQuestionsIndexes.length != 6) {//之前是5，现在换成6个问题2*3
+//             console.error('Assertion failed: enabledQuestionsIndexes does not have a length of 2');
+//         }
+//         phase_2_orders.question_order.push(shuffleArray(enabledQuestionsIndexes));
+//     }
+//     /*let randomNumber = Math.random();
+//     randomNumber = randomNumber < 0.5 ? 0 : 2;*/
+//     //这里的随机数random number换成了全局变量，一开始就决定好发言顺序，这样phaseII里先回答的bot就是前面掉线的bot
+//     // phase_2_orders.participant_order = [randomNumber, 1, 2 - randomNumber, randomNumber];
+//     phase_2_orders.participant_order = [null, null, null];
+//     //这里是随机设置的回答
+//     //phase_2_orders.participant_order = random_order;
+// }
 
-    phase_2_orders.set_order = [2];//启用的是第三个问题组
+function determine_phase_3_order() {
+    const num_of_sets = 1;
+    phase_2_orders.set_order = [2]; // 启用的是第三个问题组
     for (const set_index of phase_2_orders.set_order) {
         const key = set_index_to_name[set_index];
         let enabled_length = 0;
         phase_2_statements[key].forEach((question_info) => {
             if (question_info.enabled) { enabled_length += 1; }
         });
-        // console.log(`[DEBUG] Number of questions in ${key}: ${enabled_length}`);
+
         const enabledQuestions = phase_2_statements[key].filter(question_info => question_info.enabled);
         const enabledQuestionsIndexes = enabledQuestions.map(question_info => question_info.index);
-        if (enabledQuestionsIndexes.length != 6) {//之前是5，现在换成6个问题2*3
-            console.error('Assertion failed: enabledQuestionsIndexes does not have a length of 2');
+
+        if (enabledQuestionsIndexes.length != 6) {
+            console.error('Assertion failed: enabledQuestionsIndexes does not have a length of 6');
         }
-        phase_2_orders.question_order.push(shuffleArray(enabledQuestionsIndexes));
+
+        let shuffledQuestions;
+        do {
+            shuffledQuestions = shuffleArray(enabledQuestionsIndexes);
+        } while (
+            shuffledQuestions[0] === 15 || shuffledQuestions[1] === 15 ||
+            shuffledQuestions[0] === 16 || shuffledQuestions[1] === 16
+        );
+
+        phase_2_orders.question_order.push(shuffledQuestions);
     }
-    /*let randomNumber = Math.random();
-    randomNumber = randomNumber < 0.5 ? 0 : 2;*/
-    //这里的随机数random number换成了全局变量，一开始就决定好发言顺序，这样phaseII里先回答的bot就是前面掉线的bot
-    // phase_2_orders.participant_order = [randomNumber, 1, 2 - randomNumber, randomNumber];
     phase_2_orders.participant_order = [null, null, null];
-    //这里是随机设置的回答
-    //phase_2_orders.participant_order = random_order;
 }
 
 determine_phase_3_order();
@@ -99,208 +129,166 @@ phase_2_orders.set_order 被硬编码为 [2]，这意味着它只考虑索引为
 
 let selectedOption; // 记录当前选中的选项
 
-function selectOptionHelper(index) {
-    index = 1 - index;
-    initBotHelper();
-    // change the style of dots, names and arrows
-    if (overlap_1_2_3) {
-        if (!choice1 && !index && !choice3) {
-            document.getElementById('arrow_down_1').style.translate = bias_for_3_arrows_left;
-            document.getElementById('arrow_down_2').style.translate = 0;
-            document.getElementById('arrow_down_3').style.translate = bias_for_3_arrows_right;
-        } else if (!choice1 && !index && choice3) {
-            document.getElementById('arrow_down_1').style.translate = bias_for_2_arrows_left;
-            document.getElementById('arrow_down_2').style.translate = bias_for_2_arrows_right;
-            document.getElementById('arrow_up_3').style.translate = 0;
-        } else if (!choice1 && index && !choice3) {
-            document.getElementById('arrow_down_1').style.translate = bias_for_2_arrows_left;
-            document.getElementById('arrow_up_2').style.translate = 0;
-            document.getElementById('arrow_down_3').style.translate = bias_for_2_arrows_right;
-        } else if (!choice1 && index && choice3) {
-            document.getElementById('arrow_down_1').style.translate = 0;
-            document.getElementById('arrow_up_2').style.translate = bias_for_2_arrows_left;
-            document.getElementById('arrow_up_3').style.translate = bias_for_2_arrows_right;
-        } else if (choice1 && !index && !choice3) {
-            document.getElementById('arrow_up_1').style.translate = 0;
-            document.getElementById('arrow_down_2').style.translate = bias_for_2_arrows_left;
-            document.getElementById('arrow_down_3').style.translate = bias_for_2_arrows_right;
-        } else if (choice1 && !index && choice3) {
-            document.getElementById('arrow_up_1').style.translate = bias_for_2_arrows_left;
-            document.getElementById('arrow_down_2').style.translate = 0;
-            document.getElementById('arrow_up_3').style.translate = bias_for_2_arrows_right;
-        } else if (choice1 && index && !choice3) {
-            document.getElementById('arrow_up_1').style.translate = bias_for_2_arrows_left;
-            document.getElementById('arrow_up_2').style.translate = bias_for_2_arrows_right;
-            document.getElementById('arrow_down_3').style.translate = 0;
-        } else if (choice1 && index && choice3) {
-            document.getElementById('arrow_up_1').style.translate = bias_for_3_arrows_left;
-            document.getElementById('arrow_up_2').style.translate = 0;
-            document.getElementById('arrow_up_3').style.translate = bias_for_3_arrows_right;
-        }
-    } else if (overlap_1_2) {
-        if (choice1 && index) {
-            document.getElementById('arrow_up_1').style.translate = bias_for_2_arrows_left;
-            document.getElementById('arrow_up_2').style.translate = bias_for_2_arrows_right;
-        } else if (!choice1 && !index) {
-            document.getElementById('arrow_down_1').style.translate = bias_for_2_arrows_left;
-            document.getElementById('arrow_down_2').style.translate = bias_for_2_arrows_right;
-        } else if (choice1 && !index) {
-            document.getElementById('arrow_up_1').style.translate = 0;
-            document.getElementById('arrow_down_2').style.translate = 0;
-        } else if (!choice1 && index) {
-            document.getElementById('arrow_down_1').style.translate = 0;
-            document.getElementById('arrow_up_2').style.translate = 0;
-        }
-    } else if (overlap_2_3) {
-        if (choice3 && index) {
-            document.getElementById('arrow_up_3').style.translate = bias_for_2_arrows_left;
-            document.getElementById('arrow_up_2').style.translate = bias_for_2_arrows_right;
-        } else if (!choice3 && !index) {
-            document.getElementById('arrow_down_3').style.translate = bias_for_2_arrows_left;
-            document.getElementById('arrow_down_2').style.translate = bias_for_2_arrows_right;
-        } else if (choice3 && !index) {
-            document.getElementById('arrow_up_3').style.translate = 0;
-            document.getElementById('arrow_down_2').style.translate = 0;
-        } else if (!choice3 && index) {
-            document.getElementById('arrow_down_3').style.translate = 0;
-            document.getElementById('arrow_up_2').style.translate = 0;
-        }
-    }
-
-    if (index) {
-        document.getElementById('arrow_up_2').style.visibility = "visible";
-        document.getElementById('arrow_down_2').style.visibility = "hidden";
-    } else {
-        document.getElementById('arrow_up_2').style.visibility = "hidden";
-        document.getElementById('arrow_down_2').style.visibility = "visible";
-    }
-}
-
-function initBotHelper() {
-    document.getElementById('arrow_up_1').style.translate = 0;
-    document.getElementById('arrow_down_1').style.translate = 0;
-    document.getElementById('arrow_up_3').style.translate = 0;
-    document.getElementById('arrow_down_3').style.translate = 0;
-    if (overlap_1_2_3) {
-        document.getElementById('name-with-dot1').style.left = document.getElementById('name-with-dot2').style.left;
-        document.getElementById('name-with-dot3').style.left = document.getElementById('name-with-dot2').style.left;
-        document.getElementById('dot1').style.visibility = "hidden";
-        document.getElementById('dot3').style.visibility = "hidden";
-        document.getElementById('name1').style.visibility = "hidden";
-        document.getElementById('name3').style.visibility = "hidden";
-        document.getElementById('name2').innerText = "Alex, Blair, You";
-        if (choice1 === choice3) {
-            document.getElementById('arrow_up_1').style.translate = bias_for_2_arrows_left;
-            document.getElementById('arrow_down_1').style.translate = bias_for_2_arrows_left;
-            document.getElementById('arrow_up_3').style.translate = bias_for_2_arrows_right;
-            document.getElementById('arrow_down_3').style.translate = bias_for_2_arrows_right;
-        }
-        document.getElementById('arrow_down_1').style.top = bias_for_1line;
-        document.getElementById('arrow_down_2').style.top = bias_for_1line;
-        document.getElementById('arrow_down_3').style.top = bias_for_1line;
-    } else if (overlap_1_2) {
-        document.getElementById('name-with-dot1').style.left = document.getElementById('name-with-dot2').style.left;
-        document.getElementById('dot1').style.visibility = "hidden";
-        document.getElementById('name2').style.left = document.getElementById('name1').style.left;
-        document.getElementById('name2').style.top = bias_for_second_name;
-        document.getElementById('arrow_down_1').style.top = bias_for_2line;
-        document.getElementById('arrow_down_2').style.top = bias_for_2line;
-        document.getElementById('arrow_down_3').style.top = bias_for_1line;
-    } else if (overlap_1_3) {
-        document.getElementById('name-with-dot1').style.left = document.getElementById('name-with-dot3').style.left;
-        document.getElementById('dot3').style.visibility = "hidden";
-        document.getElementById('name3').style.left = document.getElementById('name1').style.left;
-        document.getElementById('name3').style.top = bias_for_second_name;
-        if (choice1 === choice3) {
-            document.getElementById('arrow_up_1').style.translate = bias_for_2_arrows_left;
-            document.getElementById('arrow_down_1').style.translate = bias_for_2_arrows_left;
-            document.getElementById('arrow_up_3').style.translate = bias_for_2_arrows_right;
-            document.getElementById('arrow_down_3').style.translate = bias_for_2_arrows_right;
-        }
-        document.getElementById('arrow_down_1').style.top = bias_for_2line;
-        document.getElementById('arrow_down_2').style.top = bias_for_1line;
-        document.getElementById('arrow_down_3').style.top = bias_for_2line;
-    } else if (overlap_2_3) {
-        document.getElementById('name-with-dot3').style.left = document.getElementById('name-with-dot2').style.left;
-        document.getElementById('dot3').style.visibility = "hidden";
-        document.getElementById('name2').style.left = document.getElementById('name3').style.left;
-        document.getElementById('name2').style.top = bias_for_second_name;
-
-        document.getElementById('arrow_down_1').style.top = bias_for_1line;
-        document.getElementById('arrow_down_2').style.top = bias_for_2line;
-        document.getElementById('arrow_down_3').style.top = bias_for_2line;
-    } else {
-        document.getElementById('arrow_down_1').style.top = bias_for_1line;
-        document.getElementById('arrow_down_2').style.top = bias_for_1line;
-        document.getElementById('arrow_down_3').style.top = bias_for_1line;
-    }
-
-    document.getElementById('arrow_up_2').style.visibility = "hidden";
-    document.getElementById('arrow_down_2').style.visibility = "hidden";
-}
-
-
-function selectOption(index) {
-    const left_option = document.querySelector("#left_option");
-    const right_option = document.querySelector("#right_option");
-    document.querySelector(".submit-button").disabled = false;
-    selectOptionHelper(index);
-    document.getElementById("arrow_up_2").style.opacity = 1;
-    document.getElementById("arrow_down_2").style.opacity = 1;
-    const new_color = interpolateColor((split_answers[0][1] + 2) / 4);
-    if (index == 0) {
-        left_option.classList.add("selected");
-        if (new_color != "white") {
-            left_option.style.backgroundColor = new_color;
-            left_option.style.color = 'white';
-        } else {
-            left_option.style.backgroundColor = "white";
-            left_option.style.color = "black";
-        }
-        right_option.classList.remove("selected");
-        right_option.style.backgroundColor = 'rgb(239, 239, 239)';
-        right_option.style.color = 'black'; // 未选中时文本颜色变为黑色
-        selectedOption = 0;
-    } else {
-        right_option.classList.add("selected");
-        if (new_color != "white") {
-            right_option.style.backgroundColor = new_color;
-            right_option.style.color = 'white';
-        } else {
-            right_option.style.backgroundColor = "white";
-            right_option.style.color = "black";
-        }
-        left_option.classList.remove("selected");
-        left_option.style.backgroundColor = 'rgb(239, 239, 239)';
-        left_option.style.color = 'black';
-        selectedOption = 1;
-    }
-
-    // 如果 index 等于 0，则给 left_option 元素添加 selected 类，并从 right_option 元素中移除 selected 类。这意味着 left_option 将显示被选中的样式，而 right_option 则不会。
-
-    //如果 index 不等于 0（即等于 1 或其他非零值），则给 right_option 元素添加 selected 类，并从 left_option 元素中移除 selected 类。这意味着 right_option 将显示被选中的样式，而 left_option 则不会。
-    temp_answers[human_index] = index;//在选项点击位置处已经保存了人的回答
-    //将 temp_answers 数组在 human_index 索引位置的值设置为 index。
-    //这里假设 temp_answers 是一个已经定义好的数组，而 human_index 是一个全局变量或在这段代码之前已经定义好的变量
-}
+// function selectOptionHelper(index) {
+//     index = 1 - index;
+//     initBotHelper();
+//     // change the style of dots, names and arrows
+//     if (overlap_1_2_3) {
+//         if (!choice1 && !index && !choice3) {
+//             document.getElementById('arrow_down_1').style.translate = bias_for_3_arrows_left;
+//             document.getElementById('arrow_down_2').style.translate = 0;
+//             document.getElementById('arrow_down_3').style.translate = bias_for_3_arrows_right;
+//         } else if (!choice1 && !index && choice3) {
+//             document.getElementById('arrow_down_1').style.translate = bias_for_2_arrows_left;
+//             document.getElementById('arrow_down_2').style.translate = bias_for_2_arrows_right;
+//             document.getElementById('arrow_up_3').style.translate = 0;
+//         } else if (!choice1 && index && !choice3) {
+//             document.getElementById('arrow_down_1').style.translate = bias_for_2_arrows_left;
+//             document.getElementById('arrow_up_2').style.translate = 0;
+//             document.getElementById('arrow_down_3').style.translate = bias_for_2_arrows_right;
+//         } else if (!choice1 && index && choice3) {
+//             document.getElementById('arrow_down_1').style.translate = 0;
+//             document.getElementById('arrow_up_2').style.translate = bias_for_2_arrows_left;
+//             document.getElementById('arrow_up_3').style.translate = bias_for_2_arrows_right;
+//         } else if (choice1 && !index && !choice3) {
+//             document.getElementById('arrow_up_1').style.translate = 0;
+//             document.getElementById('arrow_down_2').style.translate = bias_for_2_arrows_left;
+//             document.getElementById('arrow_down_3').style.translate = bias_for_2_arrows_right;
+//         } else if (choice1 && !index && choice3) {
+//             document.getElementById('arrow_up_1').style.translate = bias_for_2_arrows_left;
+//             document.getElementById('arrow_down_2').style.translate = 0;
+//             document.getElementById('arrow_up_3').style.translate = bias_for_2_arrows_right;
+//         } else if (choice1 && index && !choice3) {
+//             document.getElementById('arrow_up_1').style.translate = bias_for_2_arrows_left;
+//             document.getElementById('arrow_up_2').style.translate = bias_for_2_arrows_right;
+//             document.getElementById('arrow_down_3').style.translate = 0;
+//         } else if (choice1 && index && choice3) {
+//             document.getElementById('arrow_up_1').style.translate = bias_for_3_arrows_left;
+//             document.getElementById('arrow_up_2').style.translate = 0;
+//             document.getElementById('arrow_up_3').style.translate = bias_for_3_arrows_right;
+//         }
+//     } else if (overlap_1_2) {
+//         if (choice1 && index) {
+//             document.getElementById('arrow_up_1').style.translate = bias_for_2_arrows_left;
+//             document.getElementById('arrow_up_2').style.translate = bias_for_2_arrows_right;
+//         } else if (!choice1 && !index) {
+//             document.getElementById('arrow_down_1').style.translate = bias_for_2_arrows_left;
+//             document.getElementById('arrow_down_2').style.translate = bias_for_2_arrows_right;
+//         } else if (choice1 && !index) {
+//             document.getElementById('arrow_up_1').style.translate = 0;
+//             document.getElementById('arrow_down_2').style.translate = 0;
+//         } else if (!choice1 && index) {
+//             document.getElementById('arrow_down_1').style.translate = 0;
+//             document.getElementById('arrow_up_2').style.translate = 0;
+//         }
+//     } else if (overlap_2_3) {
+//         if (choice3 && index) {
+//             document.getElementById('arrow_up_3').style.translate = bias_for_2_arrows_left;
+//             document.getElementById('arrow_up_2').style.translate = bias_for_2_arrows_right;
+//         } else if (!choice3 && !index) {
+//             document.getElementById('arrow_down_3').style.translate = bias_for_2_arrows_left;
+//             document.getElementById('arrow_down_2').style.translate = bias_for_2_arrows_right;
+//         } else if (choice3 && !index) {
+//             document.getElementById('arrow_up_3').style.translate = 0;
+//             document.getElementById('arrow_down_2').style.translate = 0;
+//         } else if (!choice3 && index) {
+//             document.getElementById('arrow_down_3').style.translate = 0;
+//             document.getElementById('arrow_up_2').style.translate = 0;
+//         }
+//     }
+//
+//     if (index) {
+//         document.getElementById('arrow_up_2').style.visibility = "visible";
+//         document.getElementById('arrow_down_2').style.visibility = "hidden";
+//     } else {
+//         document.getElementById('arrow_up_2').style.visibility = "hidden";
+//         document.getElementById('arrow_down_2').style.visibility = "visible";
+//     }
+// }
+//
+// function initBotHelper() {
+//     document.getElementById('arrow_up_1').style.translate = 0;
+//     document.getElementById('arrow_down_1').style.translate = 0;
+//     document.getElementById('arrow_up_3').style.translate = 0;
+//     document.getElementById('arrow_down_3').style.translate = 0;
+//     if (overlap_1_2_3) {
+//         document.getElementById('name-with-dot1').style.left = document.getElementById('name-with-dot2').style.left;
+//         document.getElementById('name-with-dot3').style.left = document.getElementById('name-with-dot2').style.left;
+//         document.getElementById('dot1').style.visibility = "hidden";
+//         document.getElementById('dot3').style.visibility = "hidden";
+//         document.getElementById('name1').style.visibility = "hidden";
+//         document.getElementById('name3').style.visibility = "hidden";
+//         document.getElementById('name2').innerText = "Alex, Blair, You";
+//         if (choice1 === choice3) {
+//             document.getElementById('arrow_up_1').style.translate = bias_for_2_arrows_left;
+//             document.getElementById('arrow_down_1').style.translate = bias_for_2_arrows_left;
+//             document.getElementById('arrow_up_3').style.translate = bias_for_2_arrows_right;
+//             document.getElementById('arrow_down_3').style.translate = bias_for_2_arrows_right;
+//         }
+//         document.getElementById('arrow_down_1').style.top = bias_for_1line;
+//         document.getElementById('arrow_down_2').style.top = bias_for_1line;
+//         document.getElementById('arrow_down_3').style.top = bias_for_1line;
+//     } else if (overlap_1_2) {
+//         document.getElementById('name-with-dot1').style.left = document.getElementById('name-with-dot2').style.left;
+//         document.getElementById('dot1').style.visibility = "hidden";
+//         document.getElementById('name2').style.left = document.getElementById('name1').style.left;
+//         document.getElementById('name2').style.top = bias_for_second_name;
+//         document.getElementById('arrow_down_1').style.top = bias_for_2line;
+//         document.getElementById('arrow_down_2').style.top = bias_for_2line;
+//         document.getElementById('arrow_down_3').style.top = bias_for_1line;
+//     } else if (overlap_1_3) {
+//         document.getElementById('name-with-dot1').style.left = document.getElementById('name-with-dot3').style.left;
+//         document.getElementById('dot3').style.visibility = "hidden";
+//         document.getElementById('name3').style.left = document.getElementById('name1').style.left;
+//         document.getElementById('name3').style.top = bias_for_second_name;
+//         if (choice1 === choice3) {
+//             document.getElementById('arrow_up_1').style.translate = bias_for_2_arrows_left;
+//             document.getElementById('arrow_down_1').style.translate = bias_for_2_arrows_left;
+//             document.getElementById('arrow_up_3').style.translate = bias_for_2_arrows_right;
+//             document.getElementById('arrow_down_3').style.translate = bias_for_2_arrows_right;
+//         }
+//         document.getElementById('arrow_down_1').style.top = bias_for_2line;
+//         document.getElementById('arrow_down_2').style.top = bias_for_1line;
+//         document.getElementById('arrow_down_3').style.top = bias_for_2line;
+//     } else if (overlap_2_3) {
+//         document.getElementById('name-with-dot3').style.left = document.getElementById('name-with-dot2').style.left;
+//         document.getElementById('dot3').style.visibility = "hidden";
+//         document.getElementById('name2').style.left = document.getElementById('name3').style.left;
+//         document.getElementById('name2').style.top = bias_for_second_name;
+//
+//         document.getElementById('arrow_down_1').style.top = bias_for_1line;
+//         document.getElementById('arrow_down_2').style.top = bias_for_2line;
+//         document.getElementById('arrow_down_3').style.top = bias_for_2line;
+//     } else {
+//         document.getElementById('arrow_down_1').style.top = bias_for_1line;
+//         document.getElementById('arrow_down_2').style.top = bias_for_1line;
+//         document.getElementById('arrow_down_3').style.top = bias_for_1line;
+//     }
+//
+//     document.getElementById('arrow_up_2').style.visibility = "hidden";
+//     document.getElementById('arrow_down_2').style.visibility = "hidden";
+// }
 
 
 
-function onMouseEnter(index) {
-    if (selectedOption == null) {
-        selectOptionHelper(index);
-        document.getElementById("arrow_up_2").style.opacity = 0.3;
-        document.getElementById("arrow_down_2").style.opacity = 0.3;
-    }
-}
-
-
-
-function onMouseLeave(index) {
-    if (selectedOption == null) {
-        initBotHelper();
-    }
-}
+//
+//
+//
+// function onMouseEnter(index) {
+//     if (selectedOption == null) {
+//         selectOptionHelper(index);
+//         document.getElementById("arrow_up_2").style.opacity = 0.3;
+//         document.getElementById("arrow_down_2").style.opacity = 0.3;
+//     }
+// }
+//
+//
+//
+// function onMouseLeave(index) {
+//     if (selectedOption == null) {
+//         initBotHelper();
+//     }
+// }
 
 
 
@@ -474,13 +462,8 @@ function test_phase_3() {
 }
 
 
-
-function init_phase_3() {//对应着phase II回答问题的部分，包括了选择4种主题其1等操作
+function init_phase_3() {
     phase = 3;
- 
-    //没有抽签也就没有监听器了document.querySelector("button").removeEventListener("click", init_phase_3);
-    // 在这里调用删除提示的函数
-    // change DOM
     document.querySelector(".quiz_body").innerHTML = `
         <div class="split" id="left_part_phase_II">
             <div id="left_content_phase_II">
@@ -491,56 +474,110 @@ function init_phase_3() {//对应着phase II回答问题的部分，包括了选
 
         <div class="split" id="right_part_phase_II">
             <div id="right_content_phase_II">
-
-                <!--<div id="instruction_right_phase_II"></div>-->
-                <div class="question_phase_3"></div>
-
-                <div class="statement_phase_3"></div>
-                <div class="padding_title" id="ideology spectrum"></div>
-
-                <div class="padding_line_phaseII">
-                    <div class="legend"> <strong>Answers:</strong> ⇧Agree ⇩Disagree </div>
-                    <div class="choices-text">
-                        <div id="choice1"> <strong>${pseudonyms_chosen[0]} chose </strong> </div>
-                        <div id="choice3"> <strong>${pseudonyms_chosen[2]} chose </strong> </div>
-                    </div>
-                    ${phase_3_range_string}
-                    <div class="ideology-spectrum">
-                        <div class="bracket">[</div>
-                        <div class="spectrum-text"><strong>Ideology spectrum</strong></div>
-                    </div>
-                </div>
-
-                <!-- <div id="choice mention"></div> -->
-
-                <div id="answer_area_phase_II">
-                    <div id="pictures_container">
-                        <img src="/static/data/design_pictures/default.jpg" class="picture_phase_II" id="left_picture">
-                        <img src="/static/data/design_pictures/default.jpg" class="picture_phase_II" id="right_picture">
-                    </div>
-                    <div id="choice-mention"></div>
-                    <div id="operations">
-                        <div id="options_container">
-                            <div class="option-with-profile" id="option-with-profile-0">
-                                <button class="option-button" onclick="selectOption(0)" id="left_option">Option 1</button>
+                <div class="container">
+                    <div class="left-side">
+<!--        <div class="padding_title" id="ideology_spectrum"></div>-->
+                            <div class="info-text">
+                                <p><b>For you information</b>:</p>
+                                <p>1. From our database, we randomly sampled 20 previous participants who gave exactly the answers as Alex to the questions in Phase 1. We call them the Alex group.</p>
+                                <p>2. Similarly, we randomly sampled 20 previous participants who gave exactly the answers as Blair to the questions in Phase 1. We call them the Blair group.</p>
+                                <p>3. The ideologies of Alex, Blair, and yourself are positioned on the following ideology spectrum.</p>
                             </div>
-                            <div class="option-with-profile" id="option-with-profile-1">
-                                <button class="option-button" onclick="selectOption(1)" id="right_option">Option 2</button>
+                        <div>
+                            ${phase_3_range_string}
+                        </div>
+                    </div>
+
+                    <div class="divider"></div>
+
+                    <div class="right-side" id="right_part_phase_II">
+                        <div id="right_content_phase_II">
+                            <div class="question_phase_3"></div>
+                            <br><br>
+                            <div class="statement_phase_3"></div>
+                            <div id="answer_area_phase_II">
+                                <div id="operations">
+                                    <div id="options_container">
+                                        <div class="option-with-profile" id="option-with-profile-0">
+                                            <button class="option-button" onclick="selectOption(0)" id="left_option">Option 1</button>
+                                        </div>
+                                        <div class="option-with-profile" id="option-with-profile-1">
+                                            <button class="option-button" onclick="selectOption(1)" id="right_option">Option 2</button>
+                                        </div>
+                                        <button type="button" class="submit-button" id="submit_button_phase2" disabled="true">Submit</button>
+                                    </div>
+                                </div>
+                <!--                <div id="buttons_container">-->
+                <!--                    <button type="button" class="submit-button" id="submit_button_phase2" disabled="true">Submit</button>-->
+                <!--                </div>-->
+                                <div class="footer-note">
+                                    Each option is marked in the ideology color of the group whose majority chose it. Please choose your opinion by clicking the corresponding option and then click "Submit" to proceed to the next question.
+                                </div>
                             </div>
                         </div>
-                        <!-- <div id="buttons_container">
-                            <button class="submit-button" id="submit_button_phase2" disabled>Submit</button>  -->
                     </div>
-                    <div id="buttons_container">
-                        <button class="submit-button" id="submit_button_phase2" disabled>Submit</button>
-                    </div>
-                </div>
+                </div>  
             </div>
         </div>
     `;
 
+
+
+// function init_phase_3() {//对应着phase II回答问题的部分，包括了选择4种主题其1等操作
+//     phase = 3;
+//
+//     document.querySelector(".quiz_body").innerHTML = `
+//         <div class="split" id="left_part_phase_II">
+//             <div id="left_content_phase_II">
+//                 <div class="instruction_phase_3"></div>
+//                 <div id="identity_wrap_phase_II"></div>
+//             </div>
+//         </div>
+//
+//         <div class="split" id="right_part_phase_II">
+//             <div id="right_content_phase_II">
+//
+//                 <!--<div id="instruction_right_phase_II"></div>-->
+//                 <div class="question_phase_3"></div>
+//
+//                 <div class="statement_phase_3"></div>
+//                 <div class="padding_title" id="ideology spectrum"></div>
+//
+//                 <div class="padding_line_phaseII">
+//                     <div class="legend"> <strong>Answers:</strong> ⇧Agree ⇩Disagree </div>
+//                     <div class="choices-text">
+//                         <div id="choice1"> <strong>${pseudonyms_chosen[0]} chose </strong> </div>
+//                         <div id="choice3"> <strong>${pseudonyms_chosen[2]} chose </strong> </div>
+//                     </div>
+//                     ${phase_3_range_string}
+//                 </div>
+//
+//                 <div id="answer_area_phase_II">
+//                     <div class="options-wrapper">
+//                     <div class="option" id="agree" onmouseover="highlightOption('agree')" onmouseout="unhighlightOption('agree')" onclick="selectOption('agree')">
+//                         <div class="option-text" id="agree-text">Agree</div>
+//                         <div class="circles" id="agree-circles"></div>
+//                     </div>
+//                     <div class="option" id="disagree" onmouseover="highlightOption('disagree')" onmouseout="unhighlightOption('disagree')" onclick="selectOption('disagree')">
+//                         <div class="option-text" id="disagree-text">Disagree</div>
+//                         <div class="circles" id="disagree-circles"></div>
+//                     </div>
+//                     </div>
+//
+//                     <div id="buttons_container">
+//                         <button class="submit-button" id="submit_button_phase2" disabled>Submit</button>
+//                     </div>
+//                 </div>
+//             </div>
+//         </div>
+//     `;
+
     const question = document.querySelector(".question_phase_3");
     const statement = document.querySelector(".statement_phase_3");
+
+    const left_option = document.querySelector("#left_option");
+    const right_option = document.querySelector("#right_option");
+
     const instruction = document.querySelector(".instruction_phase_3");
     const instruction_right = document.getElementById("instruction_right_phase_II");
     const answer_area = document.querySelector("#answer_area_phase_II");
@@ -558,93 +595,138 @@ function init_phase_3() {//对应着phase II回答问题的部分，包括了选
     //这些行计算当前问题的集合编号（set_num）和问题编号（question_num）。
     //然后，它们从phase_2_orders对象中检索设置和问题索引，并从set_index_to_name对象中检索问题类型。
 
-    const ideology_spectrum = document.getElementById("ideology spectrum");
-    ideology_spectrum.innerHTML = `
-            <p style="font-weight: bold;">
-                Participants' ideologies and answers
-            </p>
-        `;
-    const mention_chioce = document.getElementById("choice-mention");
-    mention_chioce.innerHTML = `
-                        Do you agree or disagree with the statement above?
-                `;
-
-    selectedOption = null;
+    // 计算滑块位置
     let dot_pos_1 = (split_answers[0][0] + 2) / 4;
     let dot_pos_2 = (split_answers[0][1] + 2) / 4;
     let dot_pos_3 = (split_answers[0][2] + 2) / 4;
 
-    document.getElementById('name-with-dot1').style.left = (dot_pos_1) * 100 - (dot_pos_1 - 0.5) * 2.39 * 2 + '%';
-    document.getElementById('name-with-dot2').style.left = (dot_pos_2) * 100 - (dot_pos_2 - 0.5) * 2.39 * 2 + '%';
-    document.getElementById('name-with-dot3').style.left = (dot_pos_3) * 100 - (dot_pos_3 - 0.5) * 2.39 * 2 + '%';
+    const color_0 = interpolateColor(dot_pos_1);
+    const color_2 = interpolateColor(dot_pos_3);
+    // selectedOption = null;
+    const randomNum = Math.random();
+        let leftColor, rightColor, leftGroup, rightGroup;
 
-    document.getElementById('dot1').style.background = interpolateColor(dot_pos_1);
-    document.getElementById('dot2').style.background = interpolateColor(dot_pos_2);
-    document.getElementById('dot3').style.background = interpolateColor(dot_pos_3);
+        if (randomNum < 0.5) {
+            leftColor = color_0;
+            rightColor = color_2;
+            leftGroup = pseudonyms_chosen[0];
+            rightGroup = pseudonyms_chosen[2];
+        } else {
+            leftColor = color_2;
+            rightColor = color_0;
+            leftGroup = pseudonyms_chosen[2];
+            rightGroup = pseudonyms_chosen[0];
+        }
 
-    if (split_answers[0][0] == split_answers[0][1] && split_answers[0][1] == split_answers[0][2]) {
-        document.getElementById("name2").style.width = "max-content";
-        document.getElementById("name2").style.left = "calc(50% - 45px)";
-    }
+    left_option.style.backgroundColor = leftColor;
+    left_option.style.color = leftColor !== "#ededed" ? 'white' : 'black';
+    right_option.style.backgroundColor = rightColor;
+    right_option.style.color = rightColor !== "#ededed" ? 'white' : 'black';
 
-    choice1 = Math.random() < 0.5 ? 0 : 1;
-    choice3 = ((next_question_seqNum - 12) == num1 || (next_question_seqNum - 12) == num2) ? choice1 : 1 - choice1;
+    const new_color = interpolateColor((split_answers[0][1] + 2) / 4);
 
-    temp_answers[0] = 1 - choice1;
-    temp_answers[2] = 1 - choice3;
+    document.documentElement.style.setProperty('--left-color', leftColor);
+    document.documentElement.style.setProperty('--right-color', rightColor);
+    document.documentElement.style.setProperty('--user-color', new_color);
 
+    // 设置姓名标签的位置
+    document.getElementById('name-with-dot1').style.left = (dot_pos_1) * 100 - (dot_pos_1 - 0.5) * 4.78 + '%';
+    document.getElementById('name-with-dot2').style.left = (dot_pos_2) * 100 - (dot_pos_2 - 0.5) * 4.78 + '%';
+    document.getElementById('name-with-dot3').style.left = (dot_pos_3) * 100 - (dot_pos_3 - 0.5) * 4.78 + '%';
 
-    // 1 for bot, 2 for you, 3 for bot
-    let distance_1_3 = parseInt(document.getElementById('name-with-dot1').style.left) - parseInt(document.getElementById('name-with-dot3').style.left);
-    let distance_1_2 = parseInt(document.getElementById('name-with-dot2').style.left) - parseInt(document.getElementById('name-with-dot1').style.left);
-    let distance_2_3 = parseInt(document.getElementById('name-with-dot2').style.left) - parseInt(document.getElementById('name-with-dot3').style.left);
-    let threshold = 2;
+// 设置姓名标签的颜色
+    document.getElementById('name1').innerText = `${pseudonyms_chosen[0]}`;
+    document.getElementById('name1').style.color = interpolateColor(dot_pos_1);
 
+    document.getElementById('name2').innerText = `${pseudonyms_chosen[1]}`;
+    document.getElementById('name2').style.color = interpolateColor(dot_pos_2);
 
-    overlap_1_3 = (distance_1_3 > -threshold && distance_1_3 < threshold);
-    overlap_1_2 = (distance_1_2 > -threshold && distance_1_2 < threshold);
-    overlap_2_3 = (distance_2_3 > -threshold && distance_2_3 < threshold);
-    overlap_1_2_3 = (overlap_1_2 && overlap_1_3) || (overlap_1_2 && overlap_2_3) || (overlap_2_3 && overlap_1_3);
+    document.getElementById('name3').innerText = `${pseudonyms_chosen[2]}`;
+    document.getElementById('name3').style.color = interpolateColor(dot_pos_3);
 
-    if (choice1) {
-        document.getElementById('arrow_down_1').style.visibility = "hidden";
-        document.getElementById('choice1').innerText += " \"Agree\"; "
+    // 检查重叠情况并调整位置
+    let nameWithDotElements = [
+        { elem: document.getElementById('name-with-dot1'), pos: dot_pos_1 },
+        { elem: document.getElementById('name-with-dot2'), pos: dot_pos_2 },
+        { elem: document.getElementById('name-with-dot3'), pos: dot_pos_3 }
+    ];
+
+    nameWithDotElements.sort((a, b) => a.pos - b.pos);
+
+    // 检查是否三个标签重叠
+    if (Math.abs(nameWithDotElements[0].pos - nameWithDotElements[1].pos) < 0.01 &&
+        Math.abs(nameWithDotElements[1].pos - nameWithDotElements[2].pos) < 0.01) {
+        nameWithDotElements[0].elem.querySelector('.name').style.top = '-30px';
+        nameWithDotElements[1].elem.querySelector('.name').style.top = '-50px';
+        nameWithDotElements[2].elem.querySelector('.name').style.top = '-70px';
     } else {
-        document.getElementById('arrow_up_1').style.visibility = "hidden";
-        document.getElementById('choice1').innerText += " \"Disagree\"; "
+        // 检查两个标签重叠的情况
+        for (let i = 0; i < nameWithDotElements.length - 1; i++) {
+            if (Math.abs(nameWithDotElements[i].pos - nameWithDotElements[i + 1].pos) < 0.01) {
+                nameWithDotElements[i].elem.querySelector('.name').style.top = '-30px';
+                nameWithDotElements[i + 1].elem.querySelector('.name').style.top = '-50px';
+            }
+        }
     }
 
-    if (choice3) {
-        document.getElementById('arrow_down_3').style.visibility = "hidden";
-        document.getElementById('choice3').innerText += " \"Agree\";"
-    } else {
-        document.getElementById('arrow_up_3').style.visibility = "hidden";
-        document.getElementById('choice3').innerText += " \"Disagree\"; "
+
+    question.innerHTML = `<b>Q${next_question_seqNum}. </b>`;
+    switch (question_type) {
+        case "issue":
+            question.innerHTML += `<b>For the Statement below, the majority of the <span class="group-color-left">${leftGroup} group</span> chose "Agree", while the majority of the <span class="group-color-right">${rightGroup} group</span> chose "Disagree". As a (mild liberal), do <span class="user-color">you</span> agree or disagree with this statement?</b>`;
+            // question.innerHTML += `<b>For the Statement below, the majority of the ${leftGroup} group chose "Agree", while the majority of the ${rightGroup} group chose "Disagree". As a (), do you agree or disagree with this statement?</b>`;
+            left_option.textContent = "Agree";
+            right_option.textContent = "Disagree"
+            break;
+        case "prediction":
+            question.innerHTML += `Do you think the following prediction is to be true?`;
+            left_option.textContent = "Yes";
+            right_option.textContent = "No";
+            break;
+        case "fact":
+            question.innerHTML += `Do you think the following statement is true?`;
+            left_option.textContent = "Yes";
+            right_option.textContent = "No";
+            break;
+        case "design":
+            question.innerHTML += "Which design do you prefer?";
+            left_option.textContent = "Left";
+            right_option.textContent = "Right";
+            break;
+        default:
+            break;
     }
 
-    initBotHelper();
 
-    /*let evaluation1 = document.getElementById(`custom-range1`);
-    console.log("evaluation1",evaluation1);
-    evaluation1.innerHTML += `<div>${slider_string_short}</div>`;
-    console.log("evaluation1",evaluation1);
-    add_mark_texts([`Liberal`, 'Somewhat<br>Liberal', `Neutral`, `Somewhat<br>Conservative`, `Conservative`], evaluation1);
-    console.log("evaluation1",evaluation1);*/
+    statement_text = phase_2_statements[question_type][question_index].text;
+    //console.log("question_index:", question_index); // 使用字符串拼接
+    //console.log("randomNumber_phaseII_text:", randomNumber_phaseII_text);
 
-    /////注意，展示资料卡片的操作每过一个题就要调用一次！！
 
-    const leftOption = document.getElementById('option-with-profile-0');
-    const rightOption = document.getElementById('option-with-profile-1');
-    const submitbutton = document.getElementById('submit_button_phase2');
+    //statement.innerHTML = `Q${next_question_seqNum}. <b style="color: ${color_name[answers_first]};">${pseudonyms_chosen[answers_first]}</b> thinks that `+ statement_text;
+    /**将问题文本（存储在 question 变量中）更新为新的序列号（由 next_question_seqNum 定义）。
+根据 question_type（问题的类型）的不同，更新左右选项的文本内容：
+如果是 "issue" 类型，选项为 "Agree" 和 "Disagree"。
+如果是 "prediction" 类型，选项为 "Yes" 和 "No"。
+如果是 "fact" 类型，选项也为 "Yes" 和 "No"。
+如果是 "design" 类型，选项为 "Left" 和 "Right"。
+从 phase_2_statements 对象中获取与当前 question_type 和 question_index 对应的 text，
+并将其赋值给 statement_text 变量（虽然该变量在这段代码中没有进一步使用）。 */
 
-    // 添加事件监听器
-    leftOption.addEventListener('mouseenter', () => onMouseEnter(0));
-    leftOption.addEventListener('mouseleave', () => onMouseLeave(0));
-    //leftOption.addEventListener('click', () => onClickOption(0));
+    // initBotHelper();
 
-    rightOption.addEventListener('mouseenter', () => onMouseEnter(1));
-    rightOption.addEventListener('mouseleave', () => onMouseLeave(1));//鼠标在对应区域上的效果
-    //rightOption.addEventListener('click', () => onClickOption(1));
+    // const leftOption = document.getElementById('option-with-profile-0');
+    // const rightOption = document.getElementById('option-with-profile-1');
+    // const submitbutton = document.getElementById('submit_button_phase2');
+    //
+    // // 添加事件监听器
+    // leftOption.addEventListener('mouseenter', () => onMouseEnter(0));
+    // leftOption.addEventListener('mouseleave', () => onMouseLeave(0));
+    // //leftOption.addEventListener('click', () => onClickOption(0));
+    //
+    // rightOption.addEventListener('mouseenter', () => onMouseEnter(1));
+    // rightOption.addEventListener('mouseleave', () => onMouseLeave(1));//鼠标在对应区域上的效果
+    // //rightOption.addEventListener('click', () => onClickOption(1));
 
     //add_identity_status();//放置页面显示的labels，实质上在这里展示的头像，名字和label////////////////////////////////////////////到这里左半部分
 
@@ -701,49 +783,6 @@ function init_phase_3() {//对应着phase II回答问题的部分，包括了选
     对于其他所有参与者，给对应的 HTML 元素（ID 为 profile_${index}）添加一个 CSS 类 not_answering_now，以标识这些参与者没有回答问题 */
     // text
     ////////20240509////////////////////////////////////////////////////////////////////////////////////////
-    question.innerHTML = `Q${next_question_seqNum}. `;
-    const left_option = document.querySelector("#left_option");//20240509////////////////////////
-    const right_option = document.querySelector("#right_option");
-    switch (question_type) {
-        case "issue":
-            question.innerHTML += `Please choose whether you agree or disagree with the following statement. For your reference, <b>${pseudonyms_chosen[0]}</b> and <b>${pseudonyms_chosen[2]}</b>’s previous answers and their positions on the ideology spectrum are displayed in the figure below.`;//20240626
-            left_option.textContent = "⇧Agree";
-            right_option.textContent = "⇩Disagree"
-            break;
-        case "prediction":
-            question.innerHTML += `Do you think the following prediction is to be true?`;
-            left_option.textContent = "Yes";
-            right_option.textContent = "No";
-            break;
-        case "fact":
-            question.innerHTML += `Do you think the following statement is true?`;
-            left_option.textContent = "Yes";
-            right_option.textContent = "No";
-            break;
-        case "design":
-            question.innerHTML += "Which design do you prefer?";
-            left_option.textContent = "Left";
-            right_option.textContent = "Right";
-            break;
-        default:
-            break;
-    }
-
-
-    statement_text = phase_2_statements[question_type][question_index].text;
-    //console.log("question_index:", question_index); // 使用字符串拼接
-    //console.log("randomNumber_phaseII_text:", randomNumber_phaseII_text);
-
-
-    //statement.innerHTML = `Q${next_question_seqNum}. <b style="color: ${color_name[answers_first]};">${pseudonyms_chosen[answers_first]}</b> thinks that `+ statement_text;
-    /**将问题文本（存储在 question 变量中）更新为新的序列号（由 next_question_seqNum 定义）。
-根据 question_type（问题的类型）的不同，更新左右选项的文本内容：
-如果是 "issue" 类型，选项为 "Agree" 和 "Disagree"。
-如果是 "prediction" 类型，选项为 "Yes" 和 "No"。
-如果是 "fact" 类型，选项也为 "Yes" 和 "No"。
-如果是 "design" 类型，选项为 "Left" 和 "Right"。
-从 phase_2_statements 对象中获取与当前 question_type 和 question_index 对应的 text，
-并将其赋值给 statement_text 变量（虽然该变量在这段代码中没有进一步使用）。 */
 
     // pictures
     if (question_type == "design") {//选择左右图片类的问题//20240509//////////////////////////////////////
@@ -762,6 +801,7 @@ function init_phase_3() {//对应着phase II回答问题的部分，包括了选
 
 
         //提交按钮被点击时,计算并存储用户从开始回答问题到点击提交按钮所用的时间,将除了当前用户外的所有参与者的答案设置为 null
+        // document.querySelector(".submit-button").addEventListener("click", () => {
         document.querySelector(".submit-button").addEventListener("click", () => {
             each_answer.time_to_answer[human_index] = (Date.now() - start_time[human_index]) / 1000;
             for (let i = 0; i < num_of_participants; i++) {
@@ -843,9 +883,351 @@ function init_phase_3() {//对应着phase II回答问题的部分，包括了选
 
 
     }
-}
+
 //这段代码处理了一个多人问答环节的两种情况：人类首先回答和机器人首先回答。
 //在这两种情况下，它都会更新页面元素、禁用按钮、启动计时器，并监听时间结束事件。
+
+    // setupOptions();
+    // setupEventHandlers();
+}
+
+
+// function selectOption(index) {
+//     const left_option = document.querySelector("#left_option");
+//     const right_option = document.querySelector("#right_option");
+//     document.querySelector(".submit-button").disabled = false;
+//
+//     const color_0 = interpolateColor((split_answers[0][0] + 2) / 4);
+//     const new_color = interpolateColor((split_answers[0][1] + 2) / 4);
+//     const color_2 = interpolateColor((split_answers[0][2] + 2) / 4);
+//
+//     if (index == 0) {
+//         left_option.classList.add("selected");
+//         if (color_0 != "#ededed") {
+//             left_option.style.backgroundColor = color_0;
+//             left_option.style.color = 'white';
+//         } else {
+//             left_option.style.backgroundColor = "#ededed";
+//             left_option.style.color = "black";
+//         }
+//         left_option.style.outline = `11px solid ${new_color}`;
+//
+//         right_option.classList.remove("selected");
+//         right_option.style.backgroundColor = color_2;
+//         right_option.style.color = 'white';
+//         right_option.style.outline = 'none';
+//
+//         selectedOption = 0;
+//     } else {
+//         right_option.classList.add("selected");
+//         if (color_2 != "#ededed") {
+//             right_option.style.backgroundColor = color_2;
+//             right_option.style.color = 'white';
+//         } else {
+//             right_option.style.backgroundColor = "#ededed";
+//             right_option.style.color = "black";
+//         }
+//         right_option.style.outline = `11px solid ${new_color}`;
+//
+//         left_option.classList.remove("selected");
+//         left_option.style.backgroundColor = color_0;
+//         left_option.style.color = 'white';
+//         left_option.style.outline = 'none';
+//
+//         selectedOption = 1;
+//     }
+// }
+
+// function selectOption(index) {
+//     const left_option = document.querySelector("#left_option");
+//     const right_option = document.querySelector("#right_option");
+//     document.querySelector(".submit-button").disabled = false;
+//
+//     // const color_0 = interpolateColor((split_answers[0][0] + 2) / 4);
+//     // const new_color = interpolateColor((split_answers[0][1] + 2) / 4);
+//     // const color_2 = interpolateColor((split_answers[0][2] + 2) / 4);
+//
+//     if (index == 0) {
+//         left_option.classList.add("selected");
+//         if (leftColor != "#ededed") {
+//             left_option.style.backgroundColor = leftColor;
+//             left_option.style.color = 'white';
+//         } else {
+//             left_option.style.backgroundColor = "#ededed";
+//             left_option.style.color = "black";
+//         }
+//         left_option.style.outline = `11px solid ${new_color}`;
+//
+//         right_option.classList.remove("selected");
+//         right_option.style.backgroundColor = rightColor;
+//         right_option.style.color = 'white';
+//         right_option.style.outline = 'none';
+//
+//         selectedOption = 0;
+//     } else {
+//         right_option.classList.add("selected");
+//         if (rightColor != "#ededed") {
+//             right_option.style.backgroundColor = rightColor;
+//             right_option.style.color = 'white';
+//         } else {
+//             right_option.style.backgroundColor = "#ededed";
+//             right_option.style.color = "black";
+//         }
+//         right_option.style.outline = `11px solid ${new_color}`;
+//
+//         left_option.classList.remove("selected");
+//         left_option.style.backgroundColor = leftColor;
+//         left_option.style.color = 'white';
+//         left_option.style.outline = 'none';
+//
+//         selectedOption = 1;
+//     }
+// }
+
+function selectOption(index) {
+    // document.querySelector(".submit-button").disabled = false;
+    document.querySelector(".submit-button").disabled = false;
+    const left_option = document.querySelector("#left_option");
+    const right_option = document.querySelector("#right_option");
+    const new_color = interpolateColor((split_answers[0][1] + 2) / 4);
+
+    if (index == 0) {
+        left_option.classList.add("selected");
+        left_option.style.outline = `11px solid ${new_color}`;
+        right_option.classList.remove("selected");
+        right_option.style.outline = 'none';
+        selectedOption = 0;
+    } else {
+        right_option.classList.add("selected");
+        right_option.style.outline = `11px solid ${new_color}`;
+        left_option.classList.remove("selected");
+        left_option.style.outline = 'none';
+        selectedOption = 1;
+    }
+
+    // 如果 index 等于 0，则给 left_option 元素添加 selected 类，并从 right_option 元素中移除 selected 类。这意味着 left_option 将显示被选中的样式，而 right_option 则不会。
+
+    //如果 index 不等于 0（即等于 1 或其他非零值），则给 right_option 元素添加 selected 类，并从 left_option 元素中移除 selected 类。这意味着 right_option 将显示被选中的样式，而 left_option 则不会。
+    temp_answers[human_index] = index; //在选项点击位置处已经保存了人的回答
+    //将 temp_answers 数组在 human_index 索引位置的值设置为 index。
+    //这里假设 temp_answers 是一个已经定义好的数组，而 human_index 是一个全局变量或在这段代码之前已经定义好的变量
+}
+
+// function setupOptions() {
+//     const { default_0, default_2, deviationProbability_0, deviationProbability_2 } = initializeGroups();
+//
+//     const choices_0 = memberChoice(default_0, deviationProbability_0);
+//     const choices_2 = memberChoice(default_2, deviationProbability_2);
+//
+//     const choiceCounts = storeChoices(choices_0, choices_2);
+//
+//     const agreeButton = document.getElementById('agree');
+//     const disagreeButton = document.getElementById('disagree');
+//     const agreeText = document.getElementById('agree-text');
+//     const disagreeText = document.getElementById('disagree-text');
+//
+//     let dot_pos_1 = (split_answers[0][0] + 2) / 4;
+//     let dot_pos_3 = (split_answers[0][2] + 2) / 4;
+//
+//
+//     agreeButton.style.backgroundColor = interpolateColor(dot_pos_1);
+//     disagreeButton.style.backgroundColor = interpolateColor(dot_pos_3);
+//
+//     setCircles('agree-circles', [
+//         { count: choiceCounts.agreeCount_0, color: interpolateColor(dot_pos_1) },
+//         { count: choiceCounts.agreeCount_2, color: interpolateColor(dot_pos_3) }
+//     ]);
+//     setCircles('disagree-circles', [
+//         { count: choiceCounts.disagreeCount_0, color: interpolateColor(dot_pos_1) },
+//         { count: choiceCounts.disagreeCount_2, color: interpolateColor(dot_pos_3) }
+//     ]);
+
+
+ // Determine dominant group and generate the question text
+ //    const agreeDominantGroup = choiceCounts.agreeCount_0 > choiceCounts.agreeCount_2 ? 0 : 2;
+ //    const disagreeDominantGroup = choiceCounts.disagreeCount_0 > choiceCounts.disagreeCount_2 ? 0 : 2;
+ //
+ //    const agreeCount = agreeDominantGroup === 0 ? choiceCounts.agreeCount_0 : choiceCounts.agreeCount_2;
+ //    const disagreeCount = disagreeDominantGroup === 0 ? choiceCounts.disagreeCount_0 : choiceCounts.disagreeCount_2;
+ //
+ //    const agreeGroup = agreeDominantGroup === 0 ? pseudonyms_chosen[0] : pseudonyms_chosen[2];
+ //    const disagreeGroup = disagreeDominantGroup === 0 ? pseudonyms_chosen[0] : pseudonyms_chosen[2];
+ //
+ //    const agreeColor = agreeDominantGroup === 0 ? interpolateColor(dot_pos_1) : interpolateColor(dot_pos_3);
+ //    const disagreeColor = disagreeDominantGroup === 0 ? interpolateColor(dot_pos_1) : interpolateColor(dot_pos_3);
+ //    const youColor = interpolateColor(dot_pos_2);
+ //
+ //    const questionContainer = document.createElement('div');
+ //    questionContainer.innerHTML = `
+ //        <p class="question-text">
+ //            Q11. For the statement below, ${agreeCount} out of 10 people from the
+ //            <span class="alex-group" style="color: ${agreeColor};">${agreeGroup} group</span> chose
+ //            <span class="agree-disagree">“Agree”</span>; ${disagreeCount} out of 10 people from the
+ //            <span class="blair-group" style="color: ${disagreeColor};">${disagreeGroup} group</span> chose
+ //            <span class="agree-disagree">“Disagree”</span>. Based on the information above, do
+ //            <span class="you" style="color: ${youColor};">you</span> agree or disagree with the following statement?
+ //        </p>
+ //    `;
+ //    document.getElementById('answer_area_phase_II').prepend(questionContainer);
+
+
+
+//
+// function setCircles(containerId, circles) {
+//     const container = document.getElementById(containerId);
+//     container.innerHTML = ''; // 清空容器内的内容
+//     circles.forEach(({ count, color }) => {
+//         for (let i = 0; i < count; i++) {
+//             const circle = document.createElement('div');
+//             circle.classList.add('circle');
+//             circle.style.backgroundColor = color;
+//             container.appendChild(circle);
+//         }
+//     });
+// }
+//
+//
+// function setupEventHandlers() {
+//     let selectedOption = null;
+//     let isOptionSelected = false;
+//     let dot_pos_2 = (split_answers[0][1] + 2) / 4;
+//     const userColor = interpolateColor(dot_pos_2);
+//
+//     function highlightOption(optionId) {
+//         if (!isOptionSelected && optionId !== selectedOption) {
+//             document.getElementById(optionId).style.outline = `11px solid ${userColor}`;
+//         }
+//     }
+//
+//     function unhighlightOption(optionId) {
+//         if (!isOptionSelected && optionId !== selectedOption) {
+//             document.getElementById(optionId).style.outline = 'none';
+//         }
+//     }
+//
+//     function selectOption(optionId) {
+//         if (selectedOption && selectedOption !== optionId) {
+//             document.getElementById(selectedOption).style.outline = 'none';
+//         }
+//         selectedOption = optionId;
+//         document.getElementById(optionId).style.outline = `11px solid ${userColor}`;
+//         document.getElementById('submit_button_phase2').disabled = false;
+//         isOptionSelected = true;
+//     }
+//
+//     document.getElementById('agree').addEventListener('mouseover', () => highlightOption('agree'));
+//     document.getElementById('agree').addEventListener('mouseout', () => unhighlightOption('agree'));
+//     document.getElementById('agree').addEventListener('click', () => selectOption('agree'));
+//
+//     document.getElementById('disagree').addEventListener('mouseover', () => highlightOption('disagree'));
+//     document.getElementById('disagree').addEventListener('mouseout', () => unhighlightOption('disagree'));
+//     document.getElementById('disagree').addEventListener('click', () => selectOption('disagree'));
+//
+//     document.getElementById('submit_button_phase2').addEventListener('click', () => {
+//         if (selectedOption) {
+//             alert(`You selected: ${selectedOption}`);
+//             const userChoice = selectedOption;
+//             console.log('User choice:', userChoice);
+//         } else {
+//             alert('Please select an option.');
+//         }
+//     });
+// }
+//
+// function initializeGroups() {
+//     const defaultOptions = ['agree', 'disagree'];
+//     const probabilities = [0.1, 0.15, 0.2];
+//
+//     const default_0 = defaultOptions[Math.floor(Math.random() * defaultOptions.length)];
+//     const default_2 = default_0 === 'agree' ? 'disagree' : 'agree';
+//
+//     const deviationProbability_0 = probabilities[Math.floor(Math.random() * probabilities.length)];
+//     const deviationProbability_2 = probabilities[Math.floor(Math.random() * probabilities.length)];
+//
+//     return {
+//         default_0,
+//         default_2,
+//         deviationProbability_0,
+//         deviationProbability_2
+//     };
+// }
+//
+// function memberChoice(defaultOption, deviationProbability, groupSize = 10) {
+//     const choices = [];
+//     for (let i = 0; i < groupSize; i++) {
+//         const randomValue = Math.random();
+//         const choice = (randomValue < deviationProbability)
+//             ? (defaultOption === 'agree' ? 'disagree' : 'agree')
+//             : defaultOption;
+//         choices.push(choice);
+//     }
+//     return choices;
+// }
+//
+// function storeChoices(choices_0, choices_2) {
+//     const agreeCount_0 = choices_0.filter(choice => choice === 'agree').length;
+//     const disagreeCount_0 = choices_0.length - agreeCount_0;
+//
+//     const agreeCount_2 = choices_2.filter(choice => choice === 'agree').length;
+//     const disagreeCount_2 = choices_2.length - agreeCount_2;
+//
+//     return {
+//         agreeCount_0,
+//         disagreeCount_0,
+//         agreeCount_2,
+//         disagreeCount_2
+//     };
+// }
+
+
+    // 检查是否三个标签重叠
+    // if (Math.abs(nameWithDotElements[0].pos - nameWithDotElements[1].pos) < 0.01 &&
+    //     Math.abs(nameWithDotElements[1].pos - nameWithDotElements[2].pos) < 0.01) {
+    //     nameWithDotElements[0].elem.querySelector('.name').style.top = '-80px';
+    //     nameWithDotElements[1].elem.querySelector('.name').style.top = '-50px';
+    //     nameWithDotElements[2].elem.querySelector('.name').style.top = '-20px';
+    //     // nameWithDotElements[0].elem.querySelector('.arrow-down-name').style.height = '80px';
+    //     // nameWithDotElements[1].elem.querySelector('.arrow-down-name').style.height = '50px';
+    //     // nameWithDotElements[2].elem.querySelector('.arrow-down-name').style.height = '20px';
+    // } else {
+    //     // 检查两个标签重叠的情况
+    //     for (let i = 0; i < nameWithDotElements.length - 1; i++) {
+    //         if (Math.abs(nameWithDotElements[i].pos - nameWithDotElements[i + 1].pos) < 0.01) {
+    //             nameWithDotElements[i].elem.querySelector('.name').style.top = '-80px';
+    //             nameWithDotElements[i + 1].elem.querySelector('.name').style.top = '-50px';
+    //             // nameWithDotElements[i].elem.querySelector('.arrow-down-name').style.height = '80px';
+    //             // nameWithDotElements[i + 1].elem.querySelector('.arrow-down-name').style.height = '50px';
+    //         }
+    //     }
+    // }
+    //
+    // // 单个标签
+    // for (let i = 0; i < nameWithDotElements.length; i++) {
+    //     if (nameWithDotElements[i].elem.querySelector('.name').style.top === '') {
+    //         nameWithDotElements[i].elem.querySelector('.name').style.top = '-80px';
+    //         // nameWithDotElements[i].elem.querySelector('.arrow-down-name').style.height = '80px';
+    //     }
+    // }
+
+
+    // let dot_pos_1 = (split_answers[0][0] + 2) / 4;
+    // let dot_pos_2 = (split_answers[0][1] + 2) / 4;
+    // let dot_pos_3 = (split_answers[0][2] + 2) / 4;
+    //
+    // document.getElementById('name-with-dot1').style.left = (dot_pos_1) * 100 - (dot_pos_1 - 0.5) * 3.85 * 2 + '%';
+    // document.getElementById('name-with-dot2').style.left = (dot_pos_2) * 100 - (dot_pos_2 - 0.5) * 3.85 * 2 + '%';
+    // document.getElementById('name-with-dot3').style.left = (dot_pos_3) * 100 - (dot_pos_3 - 0.5) * 3.85 * 2 + '%';
+    //
+    // document.getElementById('dot1').style.background = interpolateColor(dot_pos_1);
+    // document.getElementById('dot2').style.background = interpolateColor(dot_pos_2);
+    // document.getElementById('dot3').style.background = interpolateColor(dot_pos_3);
+
+    // if (split_answers[0][0] == split_answers[0][1] && split_answers[0][1] == split_answers[0][2]) {
+    //     document.getElementById("name2").style.width = "max-content";
+    //     document.getElementById("name2").style.left = "calc(50% - 45px)";
+    // }
+
+
 
 
 
@@ -951,6 +1333,7 @@ function after_bot_input_phase_3() {//在bot回答结束后,20240509直接跳过
 
         // after the user clicks the button
         document.querySelector(".submit-button").addEventListener("click", () => {
+        // document.querySelector(".submit-button").addEventListener("click", () => {
             //当页面上的 .submit-button 元素被点击时，会触发一个匿名函数
             /*let profile = document.getElementById(`profile_${human_index}`);
             profile.classList.remove("answering_now");

@@ -268,19 +268,19 @@ function display_values(index = null, question_type = null) {///////重要！这
                 if (temp_answers[index] == 0) {
                     profile.innerHTML += `
                         <div class="bubble" id="bubble_${index}">
-                            <p>Agree</p>
-                            ${up_arrow_svg}
+                            <p>Agree √</p>
+                            
                         </div>
                     `;
                 } else {
                     profile.innerHTML += `
                         <div class="bubble" id="bubble_${index}">
-                            <p>Disagree</p>
-                            ${down_arrow_svg}
+                            <p>Disagree X</p>
+                            
                         </div>
                     `;
                 }
-                profile.querySelector(".arrow").classList.add("arrow-answer");
+                // profile.querySelector(".arrow").classList.add("arrow-answer");
                 if (temp_answers[index] == temp_answers[human_index]) {
                     const bubble = document.getElementById(`bubble_${index}`)
                     bubble.style["background-color"] = "lightgrey";
@@ -649,9 +649,9 @@ function track_answers() {
     for (let i = 0; i < num_of_participants; i++) {
         let block = document.getElementById(`ans${index}_${i}`);
         if (temp_answers[i] == 0)
-            block.innerHTML = up_arrow_svg;
+            block.innerHTML = `√`;
         else
-            block.innerHTML = down_arrow_svg;
+            block.innerHTML = `X`;
         block.querySelectorAll(".arrow").forEach((arrow) => {
             arrow.classList.add("arrow-history");
         });
@@ -769,7 +769,7 @@ function click_on_choice(e) {
 
 function interpolateColor(normalizedX) {
     if (normalizedX == 0.5)
-        return "white";
+        return '#ededed';
 
     // 将颜色字符串转换为RGB对象（这里为了简单起见，我们使用固定的RGB值）
     function hexToRgb(hex) {
@@ -786,10 +786,14 @@ function interpolateColor(normalizedX) {
         return a + t * (b - a);
     }
 
-    // 假设的颜色值（你可以根据需要更改这些值）
-    let blue = hexToRgb('#0000ff');
-    let white = hexToRgb('#ffffff');
-    let red = hexToRgb('#ff0000');
+    // // 假设的颜色值（你可以根据需要更改这些值）
+    // let blue = hexToRgb('#0000ff');
+    // let white = hexToRgb('#ffffff');
+    // let red = hexToRgb('#ff0000');
+
+    let blue = hexToRgb('#133bff');
+    let white = hexToRgb('#ededed');
+    let red = hexToRgb('#ff3317');
 
     // 根据normalizedX的值决定插值哪种颜色对
     if (normalizedX < 0.5) {
@@ -1245,19 +1249,23 @@ function add_identity_status() {
                 if (newAvatarIndextmp[index] != 0) { break; }
             }// 获取标签文本对应的颜色 ///////////////////////////这里和下面的括号是新加的
             document.querySelector("#identity_wrap_phase_II").innerHTML += `  
-        <div id="profile_${index}" class="profile_with_labels profile_labeling">  
-            <div class="profile_content">  
-                <div class="identity_part">  
-                    <!-- <img src="/static/avatars/label_${avatars_index_chosen[index]}_${newAvatarIndextmp[index]}.png">  -->
-                    <h2 class="name" style="font-weight: bold; font-size: larger; color: ${color_name[index]};">${name}</h2>  
-                    <div class="status" id="status_${index}"></div> 
-                </div>  
-                <div class="labels_part" id="list_${index}">  
-                    <ul class="labels_list"></ul>  
-                     
-                </div>  
-            </div>  
-        </div>  
+<div class="splits_wrap">
+            <div class="split left" id="left_part_phase_II">
+                <div id="left_content_phase_II">
+                    <div class="instruction_phase_3">
+                        <strong>For your information:</strong>
+                        <ol>
+                            <li>From our database, we randomly sampled 20 previous participants who gave exactly the answers as Alex to the questions in Phase 1. We call them the Alex group.</li>
+                            <li>Similarly, we randomly sampled 20 previous participants who gave exactly the answers as Blair to the questions in Phase 1. We call them the Blair group.</li>
+                            <li>The ideologies of Alex, Blair, and yourself are positioned on the following ideology spectrum.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+
+
+
     `;  /////20240509这个括号如果在这，每个label都创建一个新卡片！不合理！
             //使用document.querySelector选择新添加的<div>中的<ul>元素。这个<ul>元素的ID是动态生成的，格式为list_${index}。,class="img"可以让上边是一个类
             let list = document.querySelector(`#list_${index} > ul`);

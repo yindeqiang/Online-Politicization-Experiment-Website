@@ -78,7 +78,7 @@ const phase_1_liberal = [//这是phaseI对应每个问题在piolt1中抽取的�
 
     [1, 0, 1, 0, 1, 0, 1, 0, 0, 1],[0, 0, 1, 0, 1, 1, 1, 0, 0, 1],[0, 0, 1, 0, 1, 0, 1, 1, 0, 1],
 
-[0, 0, 1, 0, 1, 0, 1, 1, 0, 1],
+[0, 0, 1, 0, 1, 0, 1, 0, 0, 1],
 [0, 0, 1, 0, 1, 0, 1, 0, 0, 1],
 [0, 0, 1, 0, 1, 0, 1, 0, 0, 1],
 [0, 0, 1, 0, 1, 0, 1, 0, 0, 1]
@@ -90,16 +90,22 @@ const time_configurations = {
     'phase_3_question': [7, 11],//对phaseII的问题回答
     'preference': [0, 0],//偏好类的问题这是phaseII里面对四种不同类的问题的时间设定，20240517从1，4变成0，0
     'issue': 5,//政治类的问题10个，phaseI.这里是agree&disagree类型的问题,政治类。
-    'lag': 1,//用在每次确认回答的OK上的延时，1秒钟
+    // 'lag': 1,//用在每次确认回答的OK上的延时，1秒钟
     'confirm': [10, 10],
 };
 //定义了各种时间配置，如测试时间、等待时间、阶段3问题时间等
 
+// const style_configurations = {
+//     'finish_opacity': 0.2,
+//     'clicked_choice_background_color': 'grey',
+//     'disagree': 'Disagree ⇩',
+//     'agree': 'Agree ⇧',
+// };
 const style_configurations = {
     'finish_opacity': 0.2,
     'clicked_choice_background_color': 'grey',
-    'disagree': 'Disagree ⇩',
-    'agree': 'Agree ⇧',
+    'disagree': 'Disagree X',
+    'agree': 'Agree √',
 };
 //一个对象，定义了样式配置，如完成后的透明度、点击选择后的背景颜色，以及不同意和同意的文本标签
 
@@ -185,7 +191,7 @@ let num1 = [];let num2 = [];
 
 function enter_next() {
     // attention check
-    if (phase == 3 && question_seqNum_in_phase == 2 && !attention_checked) {
+    if (phase == 3 && question_seqNum_in_phase == 1 && !attention_checked) {
         attention_check(); // 这里原有的逻辑
         attention_checked = true;
         return;
@@ -695,22 +701,23 @@ function init_phase_1() {
         else
             statement_text = phase_1_statements[1][index_of_question - phase_1_statements[0].length].statement;
         document.querySelector(".statement").innerHTML = `"` + statement_text + `"`;
+        add_ans_choices(['Agree √', 'Disagree X']);
         //设置问题的内容，并从 phase_1_statements 数组中获取对应的声明文本。
         //这个数组可能包含两组不同的声明，根据 index_of_question 的值，从其中一组或另一组中选择声明。
-        const answer_choices = document.querySelector(".answer_choices");
-        answer_choices.innerHTML += `
-            <div class="answer_choice" id="choice_0">
-                <p>Agree</p>
-                ${up_arrow_svg}
-            </div>
-            <div class="answer_choice" id="choice_1">
-                <p>Disagree</p>
-                ${down_arrow_svg}
-            </div?
-        `;
-        answer_choices.querySelectorAll(".arrow").forEach((arrow) => {
-            arrow.classList.add("arrow-option")
-        })
+        // const answer_choices = document.querySelector(".answer_choices");
+        // answer_choices.innerHTML += `
+        //     <div class="answer_choice" id="choice_0">
+        //         <p>Agree</p>
+        //         ${up_arrow_svg}
+        //     </div>
+        //     <div class="answer_choice" id="choice_1">
+        //         <p>Disagree</p>
+        //         ${down_arrow_svg}
+        //     </div?
+        // `;
+        // answer_choices.querySelectorAll(".arrow").forEach((arrow) => {
+        //     arrow.classList.add("arrow-option")
+        // })
 
         // for the ith question, pretend that the last participant is offline for some time
         if (question_seqNum_in_phase == phase_1_special_question_index) {
@@ -849,12 +856,12 @@ function init_phase_2() {
     });
 
     document.addEventListener('mousemove', (event) => {
-        const segment_percentage = 4.76;
+        const segment_percentage = 7.69;
         let range_idx = -1;
         for (let idx = 0; idx < 3; idx++) {
             if (isDragging[idx]) {
                 range_idx = idx;
-                break; 
+                break;
             }
         }
         if (range_idx >= 0) {
@@ -864,14 +871,14 @@ function init_phase_2() {
             x = Math.min(x, rect.width);
             const percentage = (x / rect.width) * 100;
             let segmentIndex = Math.floor(percentage / segment_percentage);
-            segmentIndex = Math.min(segmentIndex, 20);
+            segmentIndex = Math.min(segmentIndex, 12);
             const marker = document.getElementById(`marker_${range_idx}`);
-            marker.style.left = `${50 + (segmentIndex - 10) * segment_percentage}%`;
+            marker.style.left = `${50 + (segmentIndex - 6) * segment_percentage}%`;
             const color = getComputedStyle(document.documentElement).getPropertyValue(`--color${segmentIndex}`);
             marker.style.backgroundColor = color;
             // document.getElementById(`name_${range_idx}`).style.border = `2px solid ${color}`;
             marker_dragged[range_idx] = true;
-            split_answers[0][range_idx] = (segmentIndex - 10) / 5;
+            split_answers[0][range_idx] = (segmentIndex - 6) / 3;
             if (marker_dragged[0] && marker_dragged[1] && marker_dragged[2]) {
                 const button = document.querySelector("button")
                 button.disabled = false;
@@ -931,11 +938,13 @@ function all_finish_answering() {
         `;//这一行更新了页面上具有类名 instruction 的元素的内部 HTML。它提示用户检查他们的答案，并在完成后点击一个“OK”按钮。
         display_values();
         document.querySelector("button").addEventListener('click', enter_next);//给页面上的第一个 button 元素添加了一个点击事件监听器。当用户点击这个按钮时，会调用 enter_next 函数。
+    },);
+}
         //从函数名可以推测，这可能是进入下一个阶段或进行下一步操作的函数
-    }, time_configurations['lag'] * 1000);//lag对应数值是1，所以是延时了1秒钟来完成检查和确认的提示
+    //lag对应数值是1，所以是延时了1秒钟来完成检查和确认的提示
     //使用 setTimeout 设置了一个延迟执行的操作。这个延迟的时间由 time_configurations['lag'] 的值乘以 1000（转换为毫秒）决定。
     //在延迟结束后，会执行提供的箭头函数
-}
+
 
 
 
