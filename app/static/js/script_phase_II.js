@@ -779,8 +779,9 @@ function getIdeologyLabel(color) {
 
 
     // Populate the text for the left option
-    document.getElementById('group-info-left').innerHTML = `The majority of $<span class="group-color-left">${leftGroup} group</span> chose this.`;
-
+    document.getElementById('group-info-left').innerHTML = `The majority of <span class="group-color-left">${leftGroup} group</span> chose this.`;
+console.log(leftGroup)
+debugger
     // Populate the text for the right option
     document.getElementById('group-info-right').innerHTML = `The majority of <span class="group-color-right">${rightGroup} group</span> chose this.`;
 
