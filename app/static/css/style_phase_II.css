@@ -1556,5 +1556,6 @@ input[type="range"]::-moz-range-thumb {
     margin-top: 20px;
     color: black;
     width: 130px;
+    display: inline-block; 
 }
 
