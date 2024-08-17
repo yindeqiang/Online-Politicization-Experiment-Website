@@ -500,19 +500,15 @@ function init_phase_3() {
                                     <div id="options_container">
                                         <div class="option-with-profile" id="option-with-profile-0">
                                             <button class="option-button" onclick="selectOption(0)" id="left_option">Option 1</button>
+                                            <div class="group-info" id="group-info-left"></div>
                                         </div>
                                         <div class="option-with-profile" id="option-with-profile-1">
                                             <button class="option-button" onclick="selectOption(1)" id="right_option">Option 2</button>
+                                            <div class="group-info" id="group-info-right"></div>
                                         </div>
                                         <button type="button" class="submit-button" id="submit_button_phase2" disabled="true">Submit</button>
                                     </div>
                                 </div>
-                <!--                <div id="buttons_container">-->
-                <!--                    <button type="button" class="submit-button" id="submit_button_phase2" disabled="true">Submit</button>-->
-                <!--                </div>-->
-                                <div class="footer-note">
-                                    Each option is marked in the ideology color of the group whose majority chose it. Please choose your opinion by clicking the corresponding option and then click "Submit" to proceed to the next question.
-                                </div>  
                             </div>
                         </div>
                     </div>
@@ -607,31 +603,10 @@ function init_phase_3() {
 //     </div>
 // `;
 //
-// document.addEventListener('DOMContentLoaded', function() {
-//     if (next_question_seqNum === 12) {
-//         document.querySelector("#right_content_phase_II").insertAdjacentHTML('beforeend', additionalQuestionHTML);
-//     }
-// });
-
-// 初始化时检查 Local Storage 中的标志变量
-function checkAndGenerateAdditionalQuestion() {
-    const additionalQuestionInserted = localStorage.getItem('additionalQuestionInserted');
-
-    if (!additionalQuestionInserted) {
-        // 生成 additional question 的 HTML
         const additionalQuestionHTML = `
-<!--            <div class="additional-question-container">-->
-<!--                <p><strong>Additional question:</strong></p>-->
-<!--                <p>Do you think Alex and Blair group's answers are ideology driven?</p>-->
-<!--                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">-->
-<!--                    <button style="flex-grow: 1; margin-right: 10px;" class="option-button">Yes, they are ideology driven.</button>-->
-<!--                    <button style="flex-grow: 1; margin-right: 10px;" class="option-button">No, they are not.</button>-->
-<!--                    <button style="flex-grow: 0;" type="button" class="submit-button">Submit</button>-->
-<!--                </div>-->
-<!--            </div>-->
             <div class="additional-question-container">
                 <p><strong>Additional question:</strong></p>
-                <p>Do you think Alex and Blair group's answers are ideology driven?</p>
+                <p>Do you think the difference in Alex group's and Blair group's answers reflect their ideological difference?</p>
                 <div id="additional-options" style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
                     <button id="yes_button" style="flex-grow: 1; margin-right: 10px;" class="option-button" onclick="selectAdditionalOption('yes')">Yes, they are ideology driven.</button>
                     <button id="no_button" style="flex-grow: 1; margin-right: 10px;" class="option-button" onclick="selectAdditionalOption('no')">No, they are not.</button>
@@ -639,17 +614,47 @@ function checkAndGenerateAdditionalQuestion() {
             </div>
         `;
 
-        // 插入到指定位置
-        document.querySelector("#right_content_phase_II").insertAdjacentHTML('beforeend', additionalQuestionHTML);
-
-        // 将标志变量存储在 Local Storage 中
-        localStorage.setItem('additionalQuestionInserted', 'true');
-    }
+if (next_question_seqNum === 12) {
+    document.querySelector("#right_content_phase_II").insertAdjacentHTML('beforeend', additionalQuestionHTML);
 }
 
-// 在页面加载时调用检查函数
-checkAndGenerateAdditionalQuestion();
+// 初始化时检查 Local Storage 中的标志变量
+// function checkAndGenerateAdditionalQuestion() {
+//     const additionalQuestionInserted = localStorage.getItem('additionalQuestionInserted');
 
+//     if (!additionalQuestionInserted) {
+//         // 生成 additional question 的 HTML
+//         const additionalQuestionHTML = `
+// <!--            <div class="additional-question-container">-->
+// <!--                <p><strong>Additional question:</strong></p>-->
+// <!--                <p>Do you think Alex and Blair group's answers are ideology driven?</p>-->
+// <!--                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">-->
+// <!--                    <button style="flex-grow: 1; margin-right: 10px;" class="option-button">Yes, they are ideology driven.</button>-->
+// <!--                    <button style="flex-grow: 1; margin-right: 10px;" class="option-button">No, they are not.</button>-->
+// <!--                    <button style="flex-grow: 0;" type="button" class="submit-button">Submit</button>-->
+// <!--                </div>-->
+// <!--            </div>-->
+//             <div class="additional-question-container">
+//                 <p><strong>Additional question:</strong></p>
+//                 <p>Do you think Alex and Blair group's answers are ideology driven?</p>
+//                 <div id="additional-options" style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+//                     <button id="yes_button" style="flex-grow: 1; margin-right: 10px;" class="option-button" onclick="selectAdditionalOption('yes')">Yes, they are ideology driven.</button>
+//                     <button id="no_button" style="flex-grow: 1; margin-right: 10px;" class="option-button" onclick="selectAdditionalOption('no')">No, they are not.</button>
+//                 </div>
+//             </div>
+//         `;
+
+//         // 插入到指定位置
+//         document.querySelector("#right_content_phase_II").insertAdjacentHTML('beforeend', additionalQuestionHTML);
+
+//         // 将标志变量存储在 Local Storage 中
+//         localStorage.setItem('additionalQuestionInserted', 'true');
+//     }
+// }
+
+// 在页面加载时调用检查函数
+// checkAndGenerateAdditionalQuestion();
+ 
 // 监听提交按钮点击事件
 document.querySelector("#submit_button_phase2").addEventListener('click', function() {
     // 标记第一个问题已提交
@@ -683,10 +688,13 @@ document.querySelector("#submit_button_phase2").addEventListener('click', functi
             rightGroup = pseudonyms_chosen[0];
         }
 
-    left_option.style.backgroundColor = leftColor;
-    left_option.style.color = leftColor !== "#ededed" ? 'white' : 'black';
-    right_option.style.backgroundColor = rightColor;
-    right_option.style.color = rightColor !== "#ededed" ? 'white' : 'black';
+    // left_option.style.backgroundColor = leftColor;
+    // left_option.style.color = leftColor !== "#ededed" ? 'white' : 'black';
+    // right_option.style.backgroundColor = rightColor;
+    // right_option.style.color = rightColor !== "#ededed" ? 'white' : 'black';
+
+    left_option.style.backgroundColor = "white";
+    right_option.style.backgroundColor = "white";
 
     const new_color = interpolateColor((split_answers[0][1] + 2) / 4);
 
@@ -767,11 +775,20 @@ function getIdeologyLabel(color) {
     const new_label = getIdeologyLabel(new_color);
     const rightlabel = getIdeologyLabel(rightColor);
 
+
+
+
+    // Populate the text for the left option
+    document.getElementById('group-info-left').innerHTML = `The majority of $<span class="group-color-left">${leftGroup} group</span> chose this.`;
+
+    // Populate the text for the right option
+    document.getElementById('group-info-right').innerHTML = `The majority of <span class="group-color-right">${rightGroup} group</span> chose this.`;
+
+
     question.innerHTML = `<b>Q${next_question_seqNum}. </b>`;
     switch (question_type) {
         case "issue":
             question.innerHTML += `<b>For the Statement below, the majority of the <span class="group-color-left">${leftGroup} group (${leftlabel})</span> chose "Agree", while the majority of the <span class="group-color-right">${rightGroup} group (${rightlabel})</span> chose "Disagree". As a <span class="user-color">${new_label}</span>, do <span class="user-color">you</span> agree or disagree with this statement?</b>`;
-            // question.innerHTML += `<b>For the Statement below, the majority of the ${leftGroup} group chose "Agree", while the majority of the ${rightGroup} group chose "Disagree". As a (), do you agree or disagree with this statement?</b>`;
             left_option.textContent = "Agree";
             right_option.textContent = "Disagree"
             break;
@@ -1086,7 +1103,6 @@ let agreeDisagreeSelected = false;
 let yesNoSelected = false;
 
 function selectOption(index) {
-    // document.querySelector(".submit-button").disabled = false;
     const left_option = document.querySelector("#left_option");
     const right_option = document.querySelector("#right_option");
     const new_color = interpolateColor((split_answers[0][1] + 2) / 4);
