@@ -185,6 +185,7 @@ attention_checked
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 let split_answers = [[]];
+window.split_answers = [[]];
 let num1 = [];let num2 = [];
 
 
@@ -285,6 +286,10 @@ function enter_next() {
         do {
             num2 = Math.floor(Math.random() * 6);
         } while (num2 === num1);
+
+        // 将结果存储到全局变量 window.split_answers
+        window.split_answers = split_answers;
+        document.dispatchEvent(new Event('splitAnswersReady'));
     }
 
     // restore status
@@ -892,16 +897,134 @@ function init_phase_2() {
 
 var evaluation_types = [];
 
+// 全局变量标志
+let phase4DataReady = false;
+
+document.addEventListener('splitAnswersReady', function() {
+    console.log(window.split_answers); // 这时 split_answers 已经初始化，应该能正确打印
+
+    let dot_pos_1 = (window.split_answers[0][0] + 2) / 4;
+    let dot_pos_3 = (window.split_answers[0][2] + 2) / 4;
+
+    const color_0 = interpolateColor(dot_pos_1);
+    const color_2 = interpolateColor(dot_pos_3);
+
+    function getIdeologyLabel(color) {
+        switch (color.toLowerCase()) {
+            case 'rgb(19, 59, 255)':
+            case 'rgb(55, 89, 252)':
+                return 'strongly liberal';
+            case 'rgb(92, 118, 249)':
+            case 'rgb(128, 148, 246)':
+                return 'liberal';
+            case 'rgb(164, 178, 243)':
+            case 'rgb(201, 207, 240)':
+                return 'mildly liberal';
+            case '#ededed':
+                return 'neutral';
+            case 'rgb(240, 206, 201)':
+            case 'rgb(243, 175, 166)':
+                return 'mildly conservative';
+            case 'rgb(246, 144, 130)':
+            case 'rgb(249, 113, 94)':
+                return 'conservative';
+            case 'rgb(252, 82, 59)':
+            case 'rgb(255, 51, 23)':
+                return 'strongly conservative';
+            default:
+                return 'unknown';  // 处理未知颜色的情况
+        }
+    }
+
+    const label_0 = getIdeologyLabel(color_0);
+    const label_2 = getIdeologyLabel(color_2);
+
+    // 动态创建 phase_4_body_string 并存储
+    window.phase_4_body_string = `
+        <h1>Additional questions</h1>
+        <p>
+            Now you have completed the main part of this survey experiment. Before you are redirected to the Connect platform, we would like to ask you some additional questions. Your answers will <b>NOT</b> be disclosed to the other two participants. After answering these questions, please click “Submit”. Then you will be directed to the last page of this survey.
+        </p>
+        <hr>
+        <div class="question_phase_4" id="question_4">
+            <p>Q1. In phase 2, to what extent were your answers influenced by ${pseudonyms_chosen[0]} group's (${label_0}) answers?</p>
+            <div class="detection_wrap">
+                <div class="each_detection">
+                    <form>
+                        <input type="radio" id="detection_2_0" value="0" name="detection_2">
+                        <label for="detection_2_0">Strongly influenced</label>
+                        <br>
+                        <input type="radio" id="detection_2_1" value="1" name="detection_2">
+                        <label for="detection_2_1">Somewhat influenced</label>
+                        <br>
+                        <input type="radio" id="detection_2_2" value="2" name="detection_2">
+                        <label for="detection_2_2">Not influenced at all</label>
+                        <br>
+                    </form>
+                </div class="each_detection">
+            </div>
+        </div>
+        
+        <div class="question_phase_4" id="question_5">
+            <p>Q2. In phase 2, to what extent were your answers influenced by ${pseudonyms_chosen[2]} group's (${label_2}) answers?</p>
+            <div class="detection_wrap">
+                <div class="each_detection">
+                    <form>
+                        <input type="radio" id="detection_3_0" value="0" name="detection_3">
+                        <label for="detection_3_0">Strongly influenced</label>
+                        <br>
+                        <input type="radio" id="detection_3_1" value="1" name="detection_3">
+                        <label for="detection_3_1">Somewhat influenced</label>
+                        <br>
+                        <input type="radio" id="detection_3_2" value="2" name="detection_3">
+                        <label for="detection_3_2">Not influenced at all</label>
+                        <br>
+                    </form>
+                </div class="each_detection">
+            </div>
+        </div>
+        
+        <div class="question_phase_4" id="question_6">
+            <p>Q3. How important is ideology in forming your opinions on public issues?</p>
+            <div class="detection_wrap">
+                <div class="each_detection">
+                    <form>
+                        <input type="radio" id="detection_4_0" value="0" name="detection_4">
+                        <label for="detection_4_0">Very important</label>
+                        <br>
+                        <input type="radio" id="detection_4_1" value="1" name="detection_4">
+                        <label for="detection_4_1">Moderately important</label>
+                        <br>
+                        <input type="radio" id="detection_4_2" value="2" name="detection_4">
+                        <label for="detection_4_2">Not important at all</label>
+                        <br>
+                    </form>
+                </div class="each_detection">
+            </div>
+        </div>
+        
+        <button type="button" class="button_big" disabled="true">Submit</button>
+    `;
+
+    // 标志 phase 4 数据准备就绪
+    phase4DataReady = true;
+});
+
+// 在需要时调用 init_phase_4
 function init_phase_4() {
+    if (!phase4DataReady) {
+        console.error("Phase 4 data is not ready yet.");
+        return;
+    }
+
     if (userData.quiz_type == "pilot_1")
         evaluation_types = ['ideology', 'competence', 'warmth'];
     else if (userData.quiz_type == 'condition_1' || userData.quiz_type == 'condition_2' || userData.quiz_type == 'condition_3')
         evaluation_types = ['ideology'];
+
     const body = document.querySelector(".quiz_body");
-    body.innerHTML = phase_4_body_string;
-    // document.querySelectorAll("input[type=range]").forEach((input) => {
-    //     input.addEventListener('input', display_values);
-    // });
+    body.innerHTML = window.phase_4_body_string;
+
     const inputs = document.querySelectorAll('input[type="radio"]');
     const button = document.querySelector('.button_big');
     data.type_D_answers = [null, null];
@@ -918,6 +1041,158 @@ function init_phase_4() {
     });
     document.querySelector("button").addEventListener("click", enter_next);
 }
+
+// document.addEventListener('splitAnswersReady', function() {
+//     console.log(window.split_answers); // 这时 split_answers 已经初始化，应该能正确打印
+//
+//     let dot_pos_1 = (window.split_answers[0][0] + 2) / 4;
+//     let dot_pos_3 = (window.split_answers[0][2] + 2) / 4;
+//
+//     const color_0 = interpolateColor(dot_pos_1);
+//     const color_2 = interpolateColor(dot_pos_3);
+//
+//     function getIdeologyLabel(color) {
+//         switch (color.toLowerCase()) {
+//             case 'rgb(19, 59, 255)':
+//             case 'rgb(55, 89, 252)':
+//                 return 'strongly liberal';
+//             case 'rgb(92, 118, 249)':
+//             case 'rgb(128, 148, 246)':
+//                 return 'liberal';
+//             case 'rgb(164, 178, 243)':
+//             case 'rgb(201, 207, 240)':
+//                 return 'mildly liberal';
+//             case '#ededed':
+//                 return 'neutral';
+//             case 'rgb(240, 206, 201)':
+//             case 'rgb(243, 175, 166)':
+//                 return 'mildly conservative';
+//             case 'rgb(246, 144, 130)':
+//             case 'rgb(249, 113, 94)':
+//                 return 'conservative';
+//             case 'rgb(252, 82, 59)':
+//             case 'rgb(255, 51, 23)':
+//                 return 'strongly conservative';
+//             default:
+//                 return 'unknown';  // 处理未知颜色的情况
+//         }
+//     }
+//
+//     const label_0 = getIdeologyLabel(color_0);
+//     const label_2 = getIdeologyLabel(color_2);
+//     // 在这里继续使用 label_0 和 label_2 进行后续操作
+// });
+//
+// const phase_4_body_string = `
+//         <h1>Additional questions</h1>
+//         <p>
+//             Now you have completed the main part of this survey experiment. Before you are redirected to the Connect platform, we would like to ask you some additional questions. Your answers will <b>NOT</b> be disclosed to the other two participants. After answering these questions, please click “Submit”. Then you will be directed to the last page of this survey.
+//         </p>
+//         <hr>
+//         <!--<div class="question_phase_4" id="question_1">
+//             <p>Q. Based on previous answers in Phase I, please choose the ideology of yourself and the other participants.</p>
+//             <div id="evaluation_ideology" class="evaluation"></div>
+//         </div>
+//
+//         <div class="pilot_1_additional_questions">
+//             <div class="question_phase_4" id="question_2">
+//                 <p>Q. How competent do you think the other participants are?
+//                 <div id="evaluation_competence" class="evaluation"></div>
+//             </div>
+//             <div class="question_phase_4" id="question_3">
+//                 <p>Q. Do you think the other participants would be friendly to you?
+//                 <div id="evaluation_warmth" class="evaluation"></div>
+//             </div>
+//         </div>  注释了文字显示部分-->
+//
+//
+//
+//     <div class="question_phase_4" id="question_4">
+//         <p>Q1. In phase 2, to what extent were your answers influenced by ${pseudonyms_chosen[0]} group's (${label_0}) answers?</p>
+//         <div class="detection_wrap">
+//             <div class="each_detection">
+//                 <form>
+//                     <input type="radio" id="detection_2_0" value="0" name="detection_2">
+//                     <label for="detection_2_0">Strongly influenced</label>
+//                     <br>
+//                     <input type="radio" id="detection_2_1" value="1" name="detection_2">
+//                     <label for="detection_2_1">Somewhat influenced</label>
+//                     <br>
+//                     <input type="radio" id="detection_2_2" value="2" name="detection_2">
+//                     <label for="detection_2_2">Not influenced at all</label>
+//                     <br>
+//                 </form>
+//             </div class="each_detection">
+//         </div>
+//     </div>
+//
+//     <div class="question_phase_4" id="question_5">
+//         <p>Q2. In phase 2, to what extent were your answers influenced by ${pseudonyms_chosen[2]} group's (${label_2}) answers?</p>
+//         <div class="detection_wrap">
+//             <div class="each_detection">
+//                 <form>
+//                     <input type="radio" id="detection_3_0" value="0" name="detection_3">
+//                     <label for="detection_3_0">Strongly influenced</label>
+//                     <br>
+//                     <input type="radio" id="detection_3_1" value="1" name="detection_3">
+//                     <label for="detection_3_1">Somewhat influenced</label>
+//                     <br>
+//                     <input type="radio" id="detection_3_2" value="2" name="detection_3">
+//                     <label for="detection_3_2">Not influenced at all</label>
+//                     <br>
+//                 </form>
+//             </div class="each_detection">
+//         </div>
+//     </div>
+//
+//     <div class="question_phase_4" id="question_6">
+//         <p>Q3. How important is ideology in forming your opinions on public issues?</p>
+//         <div class="detection_wrap">
+//             <div class="each_detection">
+//                 <form>
+//                     <input type="radio" id="detection_4_0" value="0" name="detection_4">
+//                     <label for="detection_4_0">Very important</label>
+//                     <br>
+//                     <input type="radio" id="detection_4_1" value="1" name="detection_4">
+//                     <label for="detection_4_1">Moderately important</label>
+//                     <br>
+//                     <input type="radio" id="detection_4_2" value="2" name="detection_4">
+//                     <label for="detection_4_2">Not important at all</label>
+//                     <br>
+//                 </form>
+//             </div class="each_detection">
+//         </div>
+//     </div>
+//
+//     <button type="button" class="button_big" disabled="true">Submit</button>
+//     `;
+//
+// function init_phase_4() {
+//     if (userData.quiz_type == "pilot_1")
+//         evaluation_types = ['ideology', 'competence', 'warmth'];
+//     else if (userData.quiz_type == 'condition_1' || userData.quiz_type == 'condition_2' || userData.quiz_type == 'condition_3')
+//         evaluation_types = ['ideology'];
+//     const body = document.querySelector(".quiz_body");
+//     body.innerHTML = phase_4_body_string;
+//     // document.querySelectorAll("input[type=range]").forEach((input) => {
+//     //     input.addEventListener('input', display_values);
+//     // });
+//     const inputs = document.querySelectorAll('input[type="radio"]');
+//     const button = document.querySelector('.button_big');
+//     data.type_D_answers = [null, null];
+//     inputs.forEach(input => {
+//         input.addEventListener('change', () => {
+//             if (input.name == "detection_2")
+//                 data.type_D_answers[0] = parseInt(input.value);
+//             else
+//                 data.type_D_answers[1] = parseInt(input.value);
+//             if (data.type_D_answers[0] !== null && data.type_D_answers[1] !== null) {
+//                 button.disabled = false;
+//             }
+//         });
+//     });
+//     document.querySelector("button").addEventListener("click", enter_next);
+// }
 
 
 

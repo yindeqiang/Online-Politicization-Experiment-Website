@@ -25,21 +25,23 @@
         <script src="{{ url_for('static', filename="data/phase_2_statements.js") }}" defer></script>
         <script src="{{ url_for('static', filename="js/utils.js") }}" defer></script>
         <script src="{{ url_for('static', filename="js/DOM.js") }}" defer></script>
-        
-        {% if quiz_type == 'pilot_2' %}
-            <script>
-                var ask_ideology_first = true;
-            </script>
-            <script src="{{ url_for('static', filename="js/script_pilot_2.js") }}" defer></script>
-        {% elif quiz_type == 'pilot_2_2' %}
-            <script>
-                var ask_ideology_first = false;
-            </script>
-            <script src="{{ url_for('static', filename="js/script_pilot_2.js") }}" defer></script>
-        {% else %}
-            <script src="{{ url_for('static', filename="js/script.js") }}" defer></script>
-            <script src="{{ url_for('static', filename="js/script_phase_II.js") }}" defer></script>
-        {% endif %}
+        <script src="{{ url_for('static', filename="js/script.js") }}" defer></script>
+        <script src="{{ url_for('static', filename="js/script_phase_II.js") }}" defer></script>
+
+{#        {% if quiz_type == 'pilot_2' %}#}
+{#            <script>#}
+{#                var ask_ideology_first = true;#}
+{#            </script>#}
+{#            <script src="{{ url_for('static', filename="js/script_pilot_2.js") }}" defer></script>#}
+{#        {% elif quiz_type == 'pilot_2_2' %}#}
+{#            <script>#}
+{#                var ask_ideology_first = false;#}
+{#            </script>#}
+{#            <script src="{{ url_for('static', filename="js/script_pilot_2.js") }}" defer></script>#}
+{#        {% else %}#}
+{#            <script src="{{ url_for('static', filename="js/script.js") }}" defer></script>#}
+{#            <script src="{{ url_for('static', filename="js/script_phase_II.js") }}" defer></script>#}
+{#        {% endif %}#}
 
     </head>
     <body>

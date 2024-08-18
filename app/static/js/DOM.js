@@ -329,91 +329,94 @@ const phase_4_evaluate_string = `
     </form>
 `;
 
+// const phase_4_body_string = `
+//         <h1>Additional questions</h1>
+//         <p>
+//             Now you have completed the main part of this survey experiment. Before you are redirected to the Connect platform, we would like to ask you some additional questions. Your answers will <b>NOT</b> be disclosed to the other two participants. After answering these questions, please click “Submit”. Then you will be directed to the last page of this survey.
+//         </p>
+//         <hr>
+//         <!--<div class="question_phase_4" id="question_1">
+//             <p>Q. Based on previous answers in Phase I, please choose the ideology of yourself and the other participants.</p>
+//             <div id="evaluation_ideology" class="evaluation"></div>
+//         </div>
+//
+//         <div class="pilot_1_additional_questions">
+//             <div class="question_phase_4" id="question_2">
+//                 <p>Q. How competent do you think the other participants are?
+//                 <div id="evaluation_competence" class="evaluation"></div>
+//             </div>
+//             <div class="question_phase_4" id="question_3">
+//                 <p>Q. Do you think the other participants would be friendly to you?
+//                 <div id="evaluation_warmth" class="evaluation"></div>
+//             </div>
+//         </div>  注释了文字显示部分-->
+//
+//
+//
+//     <div class="question_phase_4" id="question_4">
+//         <p>Q1. In phase 2, to what extent were your answers influenced by ${pseudonyms_chosen[0]} group's (${label_0}) answers?</p>
+//         <div class="detection_wrap">
+//             <div class="each_detection">
+//                 <form>
+//                     <input type="radio" id="detection_2_0" value="0" name="detection_2">
+//                     <label for="detection_2_0">Strongly influenced</label>
+//                     <br>
+//                     <input type="radio" id="detection_2_1" value="1" name="detection_2">
+//                     <label for="detection_2_1">Somewhat influenced</label>
+//                     <br>
+//                     <input type="radio" id="detection_2_2" value="2" name="detection_2">
+//                     <label for="detection_2_2">Not influenced at all</label>
+//                     <br>
+//                 </form>
+//             </div class="each_detection">
+//         </div>
+//     </div>
+//
+//     <div class="question_phase_4" id="question_5">
+//         <p>Q2. In phase 2, to what extent were your answers influenced by ${pseudonyms_chosen[2]} group's (${label_2}) answers?</p>
+//         <div class="detection_wrap">
+//             <div class="each_detection">
+//                 <form>
+//                     <input type="radio" id="detection_3_0" value="0" name="detection_3">
+//                     <label for="detection_3_0">Strongly influenced</label>
+//                     <br>
+//                     <input type="radio" id="detection_3_1" value="1" name="detection_3">
+//                     <label for="detection_3_1">Somewhat influenced</label>
+//                     <br>
+//                     <input type="radio" id="detection_3_2" value="2" name="detection_3">
+//                     <label for="detection_3_2">Not influenced at all</label>
+//                     <br>
+//                 </form>
+//             </div class="each_detection">
+//         </div>
+//     </div>
+//
+//     <div class="question_phase_4" id="question_6">
+//         <p>Q3. How important is ideology in forming your opinions on public issues?</p>
+//         <div class="detection_wrap">
+//             <div class="each_detection">
+//                 <form>
+//                     <input type="radio" id="detection_4_0" value="0" name="detection_4">
+//                     <label for="detection_4_0">Very important</label>
+//                     <br>
+//                     <input type="radio" id="detection_4_1" value="1" name="detection_4">
+//                     <label for="detection_4_1">Moderately important</label>
+//                     <br>
+//                     <input type="radio" id="detection_4_2" value="2" name="detection_4">
+//                     <label for="detection_4_2">Not important at all</label>
+//                     <br>
+//                 </form>
+//             </div class="each_detection">
+//         </div>
+//     </div>
+//
+//     <button type="button" class="button_big" disabled="true">Submit</button>
+//     `;
 //问题1，拖轴；问题2，3是piolt1独有；问题4，选职业,问题5，6是多大程度受到影响。
 //20240506:选职业部分删掉bot选项
-const phase_4_body_string = `
-    <h1>Additional questions</h1>
-    <p>
-        Now you have completed the main part of this survey experiment. Before you are redirected to the Connect platform, we would like to ask you some additional questions. Your answers will <b>NOT</b> be disclosed to the other two participants. After answering these questions, please click “Submit”. Then you will be directed to the last page of this survey.
-    </p>
-    <hr>
-    <!--<div class="question_phase_4" id="question_1">
-        <p>Q. Based on previous answers in Phase I, please choose the ideology of yourself and the other participants.</p>
-        <div id="evaluation_ideology" class="evaluation"></div>
-    </div>
 
-    <div class="pilot_1_additional_questions">
-        <div class="question_phase_4" id="question_2">
-            <p>Q. How competent do you think the other participants are?
-            <div id="evaluation_competence" class="evaluation"></div>
-        </div>
-        <div class="question_phase_4" id="question_3">
-            <p>Q. Do you think the other participants would be friendly to you?
-            <div id="evaluation_warmth" class="evaluation"></div>
-        </div>
-    </div>  注释了文字显示部分-->
 
-    
-
-<div class="question_phase_4" id="question_4">
-    <p>Q1. In phase 2, to what extent were your answers influenced by Alex group's answers?</p>
-    <div class="detection_wrap">
-        <div class="each_detection">
-            <form>
-                <input type="radio" id="detection_2_0" value="0" name="detection_2">
-                <label for="detection_2_0">Strongly influenced</label>
-                <br>
-                <input type="radio" id="detection_2_1" value="1" name="detection_2">
-                <label for="detection_2_1">Somewhat influenced</label>
-                <br>
-                <input type="radio" id="detection_2_2" value="2" name="detection_2">
-                <label for="detection_2_2">Not influenced at all</label>
-                <br>
-            </form>
-        </div class="each_detection">
-    </div>
-</div>
-
-<div class="question_phase_4" id="question_5">
-    <p>Q2. In phase 2, to what extent were your answers influenced by Blair group's answers?</p>
-    <div class="detection_wrap">
-        <div class="each_detection">
-            <form>
-                <input type="radio" id="detection_3_0" value="0" name="detection_3">
-                <label for="detection_3_0">Strongly influenced</label>
-                <br>
-                <input type="radio" id="detection_3_1" value="1" name="detection_3">
-                <label for="detection_3_1">Somewhat influenced</label>
-                <br>
-                <input type="radio" id="detection_3_2" value="2" name="detection_3">
-                <label for="detection_3_2">Not influenced at all</label>
-                <br>
-            </form>
-        </div class="each_detection">
-    </div>
-</div>
-
-<div class="question_phase_4" id="question_6">
-    <p>Q3. How important is ideology in forming your opinions on public issues?</p>
-    <div class="detection_wrap">
-        <div class="each_detection">
-            <form>
-                <input type="radio" id="detection_4_0" value="0" name="detection_4">
-                <label for="detection_4_0">Very important</label>
-                <br>
-                <input type="radio" id="detection_4_1" value="1" name="detection_4">
-                <label for="detection_4_1">Moderately important</label>
-                <br>
-                <input type="radio" id="detection_4_2" value="2" name="detection_4">
-                <label for="detection_4_2">Not important at all</label>
-                <br>
-            </form>
-        </div class="each_detection">
-    </div>
-</div>
-
-<button type="button" class="button_big" disabled="true">Submit</button>
-`;// phase4是结束后的addition question,后面两个是新加入的问题
+// phase4是结束后的addition question,后面两个是新加入的问题
 
 /**HTML结构：
 <div class="each_detection">：这是一个外部容器，它有一个类名each_detection，这个类名可能用于CSS样式化或者JavaScript操作。

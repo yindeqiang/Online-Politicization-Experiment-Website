@@ -771,17 +771,40 @@ function getIdeologyLabel(color) {
     }
 }
 
+function getIdeologyLabel2(color) {
+    switch (color.toLowerCase()) {
+        case 'rgb(19, 59, 255)':
+        case 'rgb(55, 89, 252)':
+            return 'strong liberal';
+        case 'rgb(92, 118, 249)':
+        case 'rgb(128, 148, 246)':
+            return 'liberal';
+        case 'rgb(164, 178, 243)':
+        case 'rgb(201, 207, 240)':
+            return 'mild liberal';
+        case '#ededed':
+            return 'neutral';
+        case 'rgb(240, 206, 201)':
+        case 'rgb(243, 175, 166)':
+            return 'mild conservative';
+        case 'rgb(246, 144, 130)':
+        case 'rgb(249, 113, 94)':
+            return 'conservative';
+        case 'rgb(252, 82, 59)':
+        case 'rgb(255, 51, 23)':
+            return 'strong conservative';
+        default:
+            return 'unknown';  // 处理未知颜色的情况
+    }
+}
+
     const leftlabel = getIdeologyLabel(leftColor);
-    const new_label = getIdeologyLabel(new_color);
+    const new_label = getIdeologyLabel2(new_color);
     const rightlabel = getIdeologyLabel(rightColor);
-
-
 
 
     // Populate the text for the left option
     document.getElementById('group-info-left').innerHTML = `The majority of <span class="group-color-left">${leftGroup} group</span> chose this.`;
-console.log(leftGroup)
-debugger
     // Populate the text for the right option
     document.getElementById('group-info-right').innerHTML = `The majority of <span class="group-color-right">${rightGroup} group</span> chose this.`;
 
