@@ -1027,7 +1027,7 @@ function init_phase_4() {
 
     const inputs = document.querySelectorAll('input[type="radio"]');
     const button = document.querySelector('.button_big');
-    data.type_D_answers = [null, null];
+    data.type_D_answers = [null, null, null];
     inputs.forEach(input => {
         input.addEventListener('change', () => {
             if (input.name == "detection_2")

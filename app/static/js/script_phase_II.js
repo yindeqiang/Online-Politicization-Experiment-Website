@@ -681,12 +681,18 @@ document.querySelector("#submit_button_phase2").addEventListener('click', functi
             rightColor = color_2;
             leftGroup = pseudonyms_chosen[0];
             rightGroup = pseudonyms_chosen[2];
+            temp_answers[0] = 0;
+            temp_answers[2] = 1;
         } else {
             leftColor = color_2;
             rightColor = color_0;
             leftGroup = pseudonyms_chosen[2];
             rightGroup = pseudonyms_chosen[0];
+            temp_answers[0] = 1;
+            temp_answers[2] = 0;
         }
+
+
 
     // left_option.style.backgroundColor = leftColor;
     // left_option.style.color = leftColor !== "#ededed" ? 'white' : 'black';
