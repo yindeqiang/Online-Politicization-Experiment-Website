@@ -42,24 +42,27 @@ if not app.config["DEBUG"]:
         identity_choices = Column(JSON)
         ideologies = Column(JSON)
         bot_detected = Column(Integer)
-        submit_time=Column(DateTime)
+        submit_time = Column(DateTime)
         reason = Column(String(MAX_REASON_LEN))
-        # driven_answers = Column(JSON)
+
 
     class Pilot_1(Base):
         __tablename__ = "pilot_1"
         ideology_answers = Column(JSON)
         additional_answers = Column(JSON)
+        driven_answers = Column(JSON)
 
     class Pilot_2(Base):
         __tablename__ = "pilot_2"
         pilot_2_answers = Column(JSON)
         ideology_label = Column(Float)
+        driven_answers = Column(JSON)
 
     class Condition_1(Base):
         __tablename__ = "condition_1"
         non_ideology_answers = Column(JSON)
         additional_answers = Column(JSON)
+        driven_answers = Column(JSON)
     
     class Condition_2(Base):
         __tablename__ = "condition_2"
@@ -67,6 +70,7 @@ if not app.config["DEBUG"]:
         non_ideology_answers = Column(JSON)
         additional_answers = Column(JSON)
         labels = Column(JSON)
+        driven_answers = Column(JSON)
 
         
     class Condition_3(Base):
@@ -75,6 +79,7 @@ if not app.config["DEBUG"]:
         non_ideology_answers = Column(JSON)
         additional_answers = Column(JSON)
         labels = Column(JSON)
+        driven_answers = Column(JSON)
 
 
 # default webpage, condition 2
@@ -148,7 +153,9 @@ def quiz(quiz_type):
                     additional_answers=post_data.get('type_D_answers'),
                     bot_detected=post_data.get('bot_detected'),
                     submit_time=datetime.now(),
-                    reason=post_data.get("reason")
+                    reason=post_data.get("reason"),
+                    driven_answers=post_data.get("driven_answers"),
+
                 )
                 db.session.add(pilot_1_data)
 
@@ -162,7 +169,8 @@ def quiz(quiz_type):
                     pilot_2_answers=post_data.get('pilot_2_answers'),
                     ideology_label=post_data.get('ideology_label'),
                     bot_detected=0 if quiz_type == "pilot_2" else 1,
-                    submit_time=datetime.now()
+                    submit_time=datetime.now(),
+                    driven_answers=post_data.get("driven_answers"),
                 )
                 db.session.add(pilot_2_data)
 
@@ -180,6 +188,7 @@ def quiz(quiz_type):
                     bot_detected=post_data.get("bot_detected"),
                     reason=post_data.get("reason"),
                     ideologies=post_data.get('ideologies'),
+                    driven_answers=post_data.get("driven_answers"),
                 )
                 db.session.add(condition_1_data)
             
@@ -199,6 +208,7 @@ def quiz(quiz_type):
                     bot_detected=post_data.get("bot_detected"),
                     reason=post_data.get("reason"),
                     ideologies=post_data.get('ideologies'),
+                    driven_answers=post_data.get("driven_answers"),
                 )
                 db.session.add(condition_2_data)
             
@@ -218,6 +228,7 @@ def quiz(quiz_type):
                     bot_detected=post_data.get("bot_detected"),
                     reason=post_data.get("reason"),
                     ideologies=post_data.get('ideologies'),
+                    driven_answers=post_data.get("driven_answers"),
                 )
                 db.session.add(condition_3_data)
 
