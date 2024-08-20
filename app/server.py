@@ -50,6 +50,7 @@ if not app.config["DEBUG"]:
         __tablename__ = "pilot_1"
         ideology_answers = Column(JSON)
         additional_answers = Column(JSON)
+        driven_answers = Column(JSON)
 
     class Pilot_2(Base):
         __tablename__ = "pilot_2"
@@ -149,7 +150,8 @@ def quiz(quiz_type):
                     additional_answers=post_data.get('type_D_answers'),
                     bot_detected=post_data.get('bot_detected'),
                     submit_time=datetime.now(),
-                    reason=post_data.get("reason"),
+                    reason=post_data.get('reason'),
+                    driven_answers=post_data.get('driven_answers'),
                 )
                 db.session.add(pilot_1_data)
 
@@ -200,7 +202,7 @@ def quiz(quiz_type):
                     bot_detected=post_data.get("bot_detected"),
                     reason=post_data.get("reason"),
                     ideologies=post_data.get('ideologies'),
-                    driven_answers=post_data.get("driven_answers"),
+                    driven_answers=post_data.get('driven_answers'),
                 )
                 db.session.add(condition_2_data)
             

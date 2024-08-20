@@ -132,7 +132,7 @@ var data = {//这些数据将会记录在数据库中
     type_B_answers: [],         // non-ideological questions in phase II
     type_D_answers: [],         // post-quiz questions，存拖动轴的数值
     reason: "",
-    driven_answers: []
+    driven_answers: [],
 };
 ///////////////////////////////////////////////////////////////////
 let firstBotIndex = (human_index == 0) ? 1 : 0;
