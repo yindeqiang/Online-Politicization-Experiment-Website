@@ -66,6 +66,7 @@ if not app.config["DEBUG"]:
         non_ideology_answers = Column(JSON)
         additional_answers = Column(JSON)
         labels = Column(JSON)
+        driven_answers = Column(JSON)
         
     class Condition_3(Base):
         __tablename__ = "condition_3"

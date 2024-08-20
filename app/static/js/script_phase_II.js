@@ -4,7 +4,6 @@ var phase_2_orders = {
     participant_order: [null, 1, null, null],
 };
 
-
 const set_index_to_name = {
     0: "fact",
     1: "prediction",
