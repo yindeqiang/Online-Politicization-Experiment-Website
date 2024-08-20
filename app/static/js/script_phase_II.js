@@ -4,6 +4,7 @@ var phase_2_orders = {
     participant_order: [null, 1, null, null],
 };
 
+
 const set_index_to_name = {
     0: "fact",
     1: "prediction",
@@ -441,7 +442,13 @@ const bias_for_3_arrows_right = "60%";
 const bias_for_1line = "80px", bias_for_2line = "95px";
 const bias_for_second_name = "65px";
 
-
+// function selectDrivenOption(option) {
+//     if (option === 'yes') {
+//         data.driven_answers[0] = 0;  // 选择 Yes, 记录为 0
+//     } else if (option === 'no') {
+//         data.driven_answers[0] = 1;  // 选择 No, 记录为 1
+//     }
+// }
 
 function test_phase_3() {
     test_mode = true;
@@ -590,20 +597,8 @@ function init_phase_3() {
     const question_type = set_index_to_name[set_index];
     //这些行计算当前问题的集合编号（set_num）和问题编号（question_num）。
     //然后，它们从phase_2_orders对象中检索设置和问题索引，并从set_index_to_name对象中检索问题类型。
-    // 定义 additionalQuestionHTML 变量
-// const additionalQuestionHTML = `
-//     <div style="margin-top: 20px; text-align: left; padding: 10px; display: block; visibility: visible;">
-//         <p><strong>Additional question:</strong></p>
-//         <p>Do you think Alex and Blair group's answers are ideology driven?</p>
-//         <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">
-//             <button style="flex-grow: 1; margin-right: 10px;" class="option-button">Yes, they are ideology driven.</button>
-//             <button style="flex-grow: 1; margin-right: 10px;" class="option-button">No, they are not.</button>
-//             <button style="flex-grow: 0;" type="button" class="submit-button">Submit</button>
-//         </div>
-//     </div>
-// `;
-//
-        const additionalQuestionHTML = `
+
+    const additionalQuestionHTML = `
             <div class="additional-question-container">
                 <p><strong>Additional question:</strong></p>
                 <p>Do you think the difference in Alex group's and Blair group's answers reflect their ideological difference?</p>
@@ -614,54 +609,32 @@ function init_phase_3() {
             </div>
         `;
 
+
+
 if (next_question_seqNum === 12) {
     document.querySelector("#right_content_phase_II").insertAdjacentHTML('beforeend', additionalQuestionHTML);
+
+    data.driven_answers = [null];
+        // 添加事件监听器来捕捉按钮点击事件
+    document.getElementById('yes_button').addEventListener('click', function() {
+        data.driven_answers[0] = 0;  // 选择 Yes, 记录为 0
+    });
+
+    document.getElementById('no_button').addEventListener('click', function() {
+        data.driven_answers[0] = 1;  // 选择 No, 记录为 1
+    });
 }
 
-// 初始化时检查 Local Storage 中的标志变量
-// function checkAndGenerateAdditionalQuestion() {
-//     const additionalQuestionInserted = localStorage.getItem('additionalQuestionInserted');
-
-//     if (!additionalQuestionInserted) {
-//         // 生成 additional question 的 HTML
-//         const additionalQuestionHTML = `
-// <!--            <div class="additional-question-container">-->
-// <!--                <p><strong>Additional question:</strong></p>-->
-// <!--                <p>Do you think Alex and Blair group's answers are ideology driven?</p>-->
-// <!--                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px;">-->
-// <!--                    <button style="flex-grow: 1; margin-right: 10px;" class="option-button">Yes, they are ideology driven.</button>-->
-// <!--                    <button style="flex-grow: 1; margin-right: 10px;" class="option-button">No, they are not.</button>-->
-// <!--                    <button style="flex-grow: 0;" type="button" class="submit-button">Submit</button>-->
-// <!--                </div>-->
-// <!--            </div>-->
-//             <div class="additional-question-container">
-//                 <p><strong>Additional question:</strong></p>
-//                 <p>Do you think Alex and Blair group's answers are ideology driven?</p>
-//                 <div id="additional-options" style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
-//                     <button id="yes_button" style="flex-grow: 1; margin-right: 10px;" class="option-button" onclick="selectAdditionalOption('yes')">Yes, they are ideology driven.</button>
-//                     <button id="no_button" style="flex-grow: 1; margin-right: 10px;" class="option-button" onclick="selectAdditionalOption('no')">No, they are not.</button>
-//                 </div>
-//             </div>
-//         `;
-
-//         // 插入到指定位置
-//         document.querySelector("#right_content_phase_II").insertAdjacentHTML('beforeend', additionalQuestionHTML);
-
-//         // 将标志变量存储在 Local Storage 中
-//         localStorage.setItem('additionalQuestionInserted', 'true');
-//     }
-// }
-
-// 在页面加载时调用检查函数
-// checkAndGenerateAdditionalQuestion();
- 
 // 监听提交按钮点击事件
 document.querySelector("#submit_button_phase2").addEventListener('click', function() {
-    // 标记第一个问题已提交
-    localStorage.setItem('additionalQuestionInserted', 'true');
-
-    // 后续问题不会再显示 additional question
+        // localStorage.setItem('additionalQuestionInserted', 'true');
 });
+
+
+
+
+
+
 
 
 

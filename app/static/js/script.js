@@ -131,7 +131,8 @@ var data = {//这些数据将会记录在数据库中
     type_A_answers: [],         // ideological questions in phase I
     type_B_answers: [],         // non-ideological questions in phase II
     type_D_answers: [],         // post-quiz questions，存拖动轴的数值
-    reason: ""
+    reason: "",
+    driven_answers: []
 };
 ///////////////////////////////////////////////////////////////////
 let firstBotIndex = (human_index == 0) ? 1 : 0;
@@ -1030,11 +1031,17 @@ function init_phase_4() {
     data.type_D_answers = [null, null, null];
     inputs.forEach(input => {
         input.addEventListener('change', () => {
-            if (input.name == "detection_2")
+            if (input.name == "detection_2") {
                 data.type_D_answers[0] = parseInt(input.value);
-            else
+            } else if (input.name == "detection_3") {
                 data.type_D_answers[1] = parseInt(input.value);
-            if (data.type_D_answers[0] !== null && data.type_D_answers[1] !== null) {
+            } else if (input.name == "detection_4") {
+                data.type_D_answers[2] = parseInt(input.value);
+            }
+
+            if (data.type_D_answers[0] !== null &&
+                data.type_D_answers[1] !== null &&
+                data.type_D_answers[2] !== null) {
                 button.disabled = false;
             }
         });
