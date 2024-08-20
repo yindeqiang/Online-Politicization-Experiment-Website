@@ -56,13 +56,11 @@ if not app.config["DEBUG"]:
         __tablename__ = "pilot_2"
         pilot_2_answers = Column(JSON)
         ideology_label = Column(Float)
-        driven_answers = Column(JSON)
 
     class Condition_1(Base):
         __tablename__ = "condition_1"
         non_ideology_answers = Column(JSON)
         additional_answers = Column(JSON)
-        driven_answers = Column(JSON)
     
     class Condition_2(Base):
         __tablename__ = "condition_2"
@@ -79,7 +77,6 @@ if not app.config["DEBUG"]:
         non_ideology_answers = Column(JSON)
         additional_answers = Column(JSON)
         labels = Column(JSON)
-        driven_answers = Column(JSON)
 
 
 # default webpage, condition 2
@@ -170,7 +167,6 @@ def quiz(quiz_type):
                     ideology_label=post_data.get('ideology_label'),
                     bot_detected=0 if quiz_type == "pilot_2" else 1,
                     submit_time=datetime.now(),
-                    driven_answers=post_data.get("driven_answers"),
                 )
                 db.session.add(pilot_2_data)
 
@@ -188,7 +184,6 @@ def quiz(quiz_type):
                     bot_detected=post_data.get("bot_detected"),
                     reason=post_data.get("reason"),
                     ideologies=post_data.get('ideologies'),
-                    driven_answers=post_data.get("driven_answers"),
                 )
                 db.session.add(condition_1_data)
             
@@ -228,7 +223,6 @@ def quiz(quiz_type):
                     bot_detected=post_data.get("bot_detected"),
                     reason=post_data.get("reason"),
                     ideologies=post_data.get('ideologies'),
-                    driven_answers=post_data.get("driven_answers"),
                 )
                 db.session.add(condition_3_data)
 
