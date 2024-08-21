@@ -50,6 +50,7 @@ if not app.config["DEBUG"]:
         __tablename__ = "pilot_1"
         ideology_answers = Column(JSON)
         additional_answers = Column(JSON)
+        trust_answers = Column(JSON)
 
     class Pilot_2(Base):
         __tablename__ = "pilot_2"
@@ -68,6 +69,7 @@ if not app.config["DEBUG"]:
         additional_answers = Column(JSON)
         labels = Column(JSON)
         driven_answers = Column(JSON)
+        trust_answers = Column(JSON)
 
         
     class Condition_3(Base):
@@ -151,6 +153,7 @@ def quiz(quiz_type):
                     submit_time=datetime.now(),
                     reason=post_data.get('reason'),
                     driven_answers=post_data.get('driven_answers'),
+                    trust_answers=post_data.get('trust_answers'),
                 )
                 db.session.add(pilot_1_data)
 
@@ -202,6 +205,7 @@ def quiz(quiz_type):
                     reason=post_data.get("reason"),
                     ideologies=post_data.get('ideologies'),
                     driven_answers=post_data.get('driven_answers'),
+                    trust_answers=post_data.get('trust_answers'),
                 )
                 db.session.add(condition_2_data)
             
