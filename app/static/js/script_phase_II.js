@@ -441,14 +441,6 @@ const bias_for_3_arrows_right = "60%";
 const bias_for_1line = "80px", bias_for_2line = "95px";
 const bias_for_second_name = "65px";
 
-// function selectDrivenOption(option) {
-//     if (option === 'yes') {
-//         data.driven_answers[0] = 0;  // 选择 Yes, 记录为 0
-//     } else if (option === 'no') {
-//         data.driven_answers[0] = 1;  // 选择 No, 记录为 1
-//     }
-// }
-
 function test_phase_3() {
     test_mode = true;
     phase = 3;
@@ -610,18 +602,18 @@ function init_phase_3() {
 
 
 
-if (next_question_seqNum === 12) {
-    document.querySelector("#right_content_phase_II").insertAdjacentHTML('beforeend', additionalQuestionHTML);
+    if (next_question_seqNum === 12) {
+        document.querySelector("#right_content_phase_II").insertAdjacentHTML('beforeend', additionalQuestionHTML);
 
-    data.driven_answers = [null];
-        // 添加事件监听器来捕捉按钮点击事件
-    document.getElementById('yes_button').addEventListener('click', function() {
-        data.driven_answers[0] = 0;  // 选择 Yes, 记录为 0
-    });
+        data.driven_answers = [null];
+            // 添加事件监听器来捕捉按钮点击事件
+        document.getElementById('yes_button').addEventListener('click', function() {
+            data.driven_answers[0] = 0;  // 选择 Yes, 记录为 0
+        });
 
-    document.getElementById('no_button').addEventListener('click', function() {
-        data.driven_answers[0] = 1;  // 选择 No, 记录为 1
-    });
+        document.getElementById('no_button').addEventListener('click', function() {
+            data.driven_answers[0] = 1;  // 选择 No, 记录为 1
+        });
 }
 
 // 监听提交按钮点击事件

@@ -133,6 +133,7 @@ var data = {//这些数据将会记录在数据库中
     type_D_answers: [],         // post-quiz questions，存拖动轴的数值
     reason: "",
     driven_answers: [],
+    trust_answers: [],
 };
 ///////////////////////////////////////////////////////////////////
 let firstBotIndex = (human_index == 0) ? 1 : 0;
@@ -847,6 +848,9 @@ function init_phase_2() {
     const range = document.querySelector('.custom-range');
     let isDragging = [false, false, false];
     let marker_dragged = [false, false, false];
+    let trust_answers_filled = [false, false];
+
+    data.trust_answers = [null, null];
 
     for (let marker_idx = 0; marker_idx < 3; marker_idx++) {
         const marker = document.getElementById(`marker_${marker_idx}`);
@@ -885,14 +889,37 @@ function init_phase_2() {
             // document.getElementById(`name_${range_idx}`).style.border = `2px solid ${color}`;
             marker_dragged[range_idx] = true;
             split_answers[0][range_idx] = (segmentIndex - 6) / 3;
-            if (marker_dragged[0] && marker_dragged[1] && marker_dragged[2]) {
-                const button = document.querySelector("button")
-                button.disabled = false;
-                button.addEventListener("click", enter_next);
-            }
+
+            checkIfAllConditionsMet(marker_dragged, trust_answers_filled);
         }
     });
+
+    const inputs = document.querySelectorAll('input[type="radio"]');
+    inputs.forEach(input => {
+        input.addEventListener('change', () => {
+            if (input.name == "detection_5") {
+                data.trust_answers[0] = parseInt(input.value);
+                trust_answers_filled[0] = true;
+            } else if (input.name == "detection_6") {
+                data.trust_answers[1] = parseInt(input.value);
+                trust_answers_filled[1] = true;
+            }
+
+            checkIfAllConditionsMet(marker_dragged, trust_answers_filled);
+        });
+    });
 }
+
+// 检查是否所有条件都满足，如果满足则启用按钮
+function checkIfAllConditionsMet(marker_dragged, trust_answers_filled) {
+    const button = document.querySelector(".button_big");
+    if (marker_dragged.every(Boolean) && trust_answers_filled.every(Boolean)) {
+        button.disabled = false;
+        button.addEventListener("click", enter_next);
+    }
+}
+
+
 
 
 

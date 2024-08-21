@@ -1273,3 +1273,29 @@ margin-bottom: 50px;：设置元素的下外边距为 50 像素。这会在元�
     --color11: rgb(252, 82, 59);
     --color12: rgb(255, 51, 23);
 }
+
+.trust-question-container {
+    width: 80%;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto; /* 添加这一行，使容器水平居中 */
+    padding: 10px;
+    background-color: white;
+    box-shadow: 0px -2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: 5px;
+}
+
+.trust_detection {
+    margin: 0px 50px 0px 50px;
+}
+
+.trust_detection form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.trust_detection label {
+    margin-right: 10px; /* 调整选项之间的间距 */
+    flex: 1; /* 让每个选项占据相等的空间 */
+}

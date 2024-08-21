@@ -311,6 +311,37 @@ const phase_2_label_string = `
             </div>
         </div>
     </div>
+    <div class="trust-question-container">
+            <p><strong>Question:</strong> Which kind of persons do you think are on average <b>morally</b> more trustworthy?</p>
+                <div class="trust_detection">
+                    <form>
+                        <input type="radio" id="detection_5_0" value="0" name="detection_5">
+                        <label for="detection_5_0">People like ${pseudonyms_chosen[0]}</label>
+                        <br>
+                        <input type="radio" id="detection_5_1" value="1" name="detection_5">
+                        <label for="detection_5_1">People like ${pseudonyms_chosen[2]}</label>
+                        <br>
+                        <input type="radio" id="detection_5_2" value="2" name="detection_5">
+                        <label for="detection_5_2">Cannot answer</label>
+                        <br>
+                    </form>
+                </div class="trust_detection">
+            <p><strong>Question:</strong> Which kind of persons do you think are on average <b>intellectually</b> more trustworthy?</p>
+                <div class="trust_detection">
+                    <form>
+                        <input type="radio" id="detection_6_0" value="0" name="detection_6">
+                        <label for="detection_6_0">People like ${pseudonyms_chosen[0]}</label>
+                        <br>
+                        <input type="radio" id="detection_6_1" value="1" name="detection_6">
+                        <label for="detection_6_1">People like ${pseudonyms_chosen[2]}</label>
+                        <br>
+                        <input type="radio" id="detection_6_2" value="2" name="detection_6">
+                        <label for="detection_6_2">Cannot answer</label>
+                        <br>
+                    </form>
+                </div class="trust_detection">
+    </div>
+    
     <button type="button" class="button_big" disabled="true">Submit</button>
 `;
 

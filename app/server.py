@@ -50,7 +50,6 @@ if not app.config["DEBUG"]:
         __tablename__ = "pilot_1"
         ideology_answers = Column(JSON)
         additional_answers = Column(JSON)
-        driven_answers = Column(JSON)
 
     class Pilot_2(Base):
         __tablename__ = "pilot_2"
