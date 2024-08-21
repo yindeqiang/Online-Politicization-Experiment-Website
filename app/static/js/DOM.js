@@ -311,7 +311,7 @@ const phase_2_label_string = `
             </div>
         </div>
     </div>
-    <div class="trust-question-container">
+    <div class="trust-question-container" style="font-size: 16px;">
             <p><strong>Question:</strong> Which kind of persons do you think are on average <b>morally</b> more trustworthy?</p>
                 <div class="trust_detection">
                     <form>
