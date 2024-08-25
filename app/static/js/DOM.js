@@ -217,50 +217,36 @@ const phase_2_label_string = `
                 
                     <!-- 绘制短竖线 -->
                     <div class="phase2-short-line" style="left: 0%;"></div>
-                    <div class="phase2-short-line" style="left: 15.38%;"></div>
-                    <div class="phase2-short-line" style="left: 30.77%;"></div>
-                    <div class="phase2-short-line" style="left: 46.15%;"></div>
-                    <div class="phase2-short-line" style="left: 53.85%;"></div>
-                    <div class="phase2-short-line" style="left: 69.23%;"></div>
-                    <div class="phase2-short-line" style="left: 84.62%;"></div>
+                    <div class="phase2-short-line" style="left: 23.81%;"></div>
+                    <div class="phase2-short-line" style="left: 47.62%;"></div>
+                    <div class="phase2-short-line" style="left: 52.38%;"></div>
+                    <div class="phase2-short-line" style="left: 76.19%;"></div>
                     <div class="phase2-short-line" style="left: 100%;"></div>
                 
                     <!-- 绘制左右箭头 -->
-                    <div class="phase2-small-arrow" style="left: 14.88%;"></div>
-                    <div class="phase2-small-arrow-left" style="left: 15.38%;"></div>
+                    <div class="phase2-small-arrow" style="left: 23.31%;"></div>
+                    <div class="phase2-small-arrow-left" style="left: 23.81%;"></div>
                 
-                    <div class="phase2-small-arrow" style="left: 30.27%;"></div>
-                    <div class="phase2-small-arrow-left" style="left: 30.77%;"></div>
-                
-                    <div class="phase2-small-arrow" style="left: 68.73%;"></div>
-                    <div class="phase2-small-arrow-left" style="left: 69.23%;"></div>
-                
-                    <div class="phase2-small-arrow" style="left: 84.12%;"></div>
-                    <div class="phase2-small-arrow-left" style="left: 84.62%;"></div>
+                    <div class="phase2-small-arrow" style="left: 75.69%;"></div>
+                    <div class="phase2-small-arrow-left" style="left: 76.19%;"></div>
                 
                     <!-- 绘制单侧小箭头 -->
                     <div class="phase2-small-arrow-left" style="left: 0%;"></div>
-                    <div class="phase2-small-arrow-left" style="left: 53.85%;"></div>
-                    <div class="phase2-small-arrow" style="left: 45.65%;"></div>
+                    <div class="phase2-small-arrow-left" style="left: 52.38%;"></div>
+                    <div class="phase2-small-arrow" style="left: 47.12%;"></div>
                     <div class="phase2-small-arrow" style="left: 99.5%;"></div>         
                 </div>
                 
-                    <div class="phase2-label-container" style="left: 3.69%; width: 9%;">
+                    <div class="phase2-label-container" style="left: 7.4%; width: 9%;">
                         <div class="phase2-label">strongly<br>liberal</div>
                     </div>
-                    <div class="phase2-label-container" style="left: 19.07%; width: 9%;">
-                        <div class="phase2-label">liberal</div>
+                    <div class="phase2-label-container" style="left: 31.21%; width: 9%;">
+                        <div class="phase2-label">Somewhat<br>liberal</div>
                     </div>
-                    <div class="phase2-label-container" style="left: 34.45%; width: 9%;">
-                        <div class="phase2-label">mildly<br>liberal</div>
+                    <div class="phase2-label-container" style="left: 59.79%; width: 9%;">
+                        <div class="phase2-label">Somewhat<br>conservative</div>
                     </div>
-                    <div class="phase2-label-container" style="left: 57.53%; width: 9%;">
-                        <div class="phase2-label">mildly<br>conservative</div>
-                    </div>
-                    <div class="phase2-label-container" style="left: 72.91%; width: 9%;">
-                        <div class="phase2-label">conservative</div>
-                    </div>
-                    <div class="phase2-label-container" style="left: 88.29%; width: 9%;">
+                    <div class="phase2-label-container" style="left: 83.6%; width: 9%;">
                         <div class="phase2-label">strongly<br>conservative</div>
                     </div>
 
