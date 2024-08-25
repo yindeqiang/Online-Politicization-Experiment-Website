@@ -267,13 +267,11 @@ const phase_2_label_string = `
                 <div class="range-marker-phase-2" id="marker_0"></div>
                 <div class="range-scale-phase-2"></div>
                 <div class="range-text-phase-2">
-                    <p>-3</p>
                     <p>-2</p>
                     <p>-1</p>
                     <p>0</p>
                     <p>1</p>
                     <p>2</p>
-                    <p>3</p>
                 </div>
             </div>
         </div>
@@ -283,13 +281,11 @@ const phase_2_label_string = `
                 <div class="range-marker-phase-2" id="marker_1"></div>
                 <div class="range-scale-phase-2"></div>
                 <div class="range-text-phase-2">
-                    <p>-3</p>
                     <p>-2</p>
                     <p>-1</p>
                     <p>0</p>
                     <p>1</p>
                     <p>2</p>
-                    <p>3</p>
                 </div>
             </div>
         </div>
@@ -300,13 +296,11 @@ const phase_2_label_string = `
                 <div class="range-scale-phase-2"></div>
                 <div class="range-scale-phase-2"></div>
                 <div class="range-text-phase-2">
-                    <p>-3</p>
                     <p>-2</p>
                     <p>-1</p>
                     <p>0</p>
                     <p>1</p>
                     <p>2</p>
-                    <p>3</p>
                 </div>
             </div>
         </div>

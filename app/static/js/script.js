@@ -866,7 +866,7 @@ function init_phase_2() {
     });
 
     document.addEventListener('mousemove', (event) => {
-        const segment_percentage = 7.69;
+        const segment_percentage = 4.76;
         let range_idx = -1;
         for (let idx = 0; idx < 3; idx++) {
             if (isDragging[idx]) {
@@ -881,14 +881,14 @@ function init_phase_2() {
             x = Math.min(x, rect.width);
             const percentage = (x / rect.width) * 100;
             let segmentIndex = Math.floor(percentage / segment_percentage);
-            segmentIndex = Math.min(segmentIndex, 12);
+            segmentIndex = Math.min(segmentIndex, 20);
             const marker = document.getElementById(`marker_${range_idx}`);
-            marker.style.left = `${50 + (segmentIndex - 6) * segment_percentage}%`;
+            marker.style.left = `${50 + (segmentIndex - 10) * segment_percentage}%`;
             const color = getComputedStyle(document.documentElement).getPropertyValue(`--color${segmentIndex}`);
             marker.style.backgroundColor = color;
             // document.getElementById(`name_${range_idx}`).style.border = `2px solid ${color}`;
             marker_dragged[range_idx] = true;
-            split_answers[0][range_idx] = (segmentIndex - 6) / 3;
+            split_answers[0][range_idx] = (segmentIndex - 10) / 2;
 
             checkIfAllConditionsMet(marker_dragged, trust_answers_filled);
         }
