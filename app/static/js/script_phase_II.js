@@ -24,11 +24,20 @@ set_index_to_name: 这是一个对象，它将数字索引映射到字符串名�
 phase_2_starting_question_index: 这是一个常量，其值为12。它可能表示第二阶段问题的起始索引。
 
 instruction_background_color: 这是一个颜色字符串，表示某种指令或背景的颜色。其值为"#d3d3d354"，这是一个带有透明度的灰色。 */
-// 0 为自己 出现概率20%，1为blair 出现概率40%, 2为alex 出现概率40%
-function getRandom() {
-    const userRandomArray = [0,0,1,1,2,2,1,1,2,2];
+// 1 为自己 出现概率20%，2为blair 出现概率40%, 0为alex 出现概率40%
+function getRandomUser() {
+    const userRandomArray = [0,0,1,0,2,2,1,0,2,2];
     const r = parseInt(Math.random() * 10);
     return userRandomArray[r];
+}
+// 获取一个随机值，一位小数，且小数位为偶数
+function getRandomValue(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    let value = Math.random() * (max - min) + min;
+    value = Math.round(value * 10) / 10;
+    if (value * 10 % 2 === 0) return value;
+    return Math.round(value * 10 + 1) / 10;
 }
 
 function shuffleArray(array) {
@@ -166,9 +175,8 @@ function init_phase_3() {
 <!--        <div class="padding_title" id="ideology_spectrum"></div>-->
                             <div class="info-text">
                                 <p><b>For you information</b>:</p>
-                                <p>1. From our database, we randomly sampled 20 previous participants who gave exactly the answers as Alex to the questions in Phase 1. We call them the Alex group.</p>
-                                <p>2. Similarly, we randomly sampled 20 previous participants who gave exactly the answers as Blair to the questions in Phase 1. We call them the Blair group.</p>
-                                <p>3. The ideologies of Alex, Blair, and yourself are positioned on the following ideology spectrum.</p>
+                                <p class="question-infomation"> From our database, we randomly sampled 20 previous participants who gave exactly the answers as Alex to the questions in Phase 1. We call them the Alex group.</p>
+                                <p> The positions of Alex’s, Blair’s and your ideologies are displayed in the following ideology spectrum:</p>
                             </div>
                         <div>
                             ${phase_3_range_string}
@@ -272,26 +280,13 @@ document.querySelector("#submit_button_phase2").addEventListener('click', functi
     const color_0 = interpolateColor(dot_pos_1);
     const color_2 = interpolateColor(dot_pos_3);
     // selectedOption = null;
-    const randomNum = Math.random();
         let leftColor, rightColor, leftGroup, rightGroup;
-
-        if (randomNum < 0.5) {
-            leftColor = color_0;
-            rightColor = color_2;
-            leftGroup = pseudonyms_chosen[0];
-            rightGroup = pseudonyms_chosen[2];
-            temp_answers[0] = 0;
-            temp_answers[2] = 1;
-        } else {
-            leftColor = color_2;
-            rightColor = color_0;
-            leftGroup = pseudonyms_chosen[2];
-            rightGroup = pseudonyms_chosen[0];
-            temp_answers[0] = 1;
-            temp_answers[2] = 0;
-        }
-
-
+        leftColor = color_0;
+        rightColor = color_2;
+        leftGroup = pseudonyms_chosen[0];
+        rightGroup = pseudonyms_chosen[2];
+        temp_answers[0] = getRandomValue(-2, 2);
+        temp_answers[2] = getRandomValue(-2, 2);
 
     // left_option.style.backgroundColor = leftColor;
     // left_option.style.color = leftColor !== "#ededed" ? 'white' : 'black';
@@ -414,19 +409,27 @@ function getIdeologyLabel2(color) {
 
 
     question.innerHTML = `<b>Q${next_question_seqNum}. </b>`;
+    const random_user = getRandomUser();
+    const random_bot = [leftGroup,'', rightGroup][random_user];
+    const question_infomation = document.querySelector('.question-infomation');
+    if (random_bot) {
+        question_infomation.innerHTML = `For Question ${next_question_seqNum}, you will see ${random_bot}’s answer before submitting your own answer. `;
+    } else {
+        question_infomation.innerHTML = `You will answer Question ${next_question_seqNum} on your own.`;
+    }
     switch (question_type) {
         case "issue":
-            question.innerHTML += `<b>For the Statement below, the majority of the <span class="group-color-left">${leftGroup} group (${leftlabel})</span> chose "Agree", while the majority of the <span class="group-color-right">${rightGroup} group (${rightlabel})</span> chose "Disagree". As a <span class="user-color">${new_label}</span>, do <span class="user-color">you</span> agree or disagree with this statement?</b>`;
+            question.innerHTML += (random_bot ? `${random_bot}’s opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. ${random_bot} (strong conservative) thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a mild liberal, what is your opinion on the following statement`;
             left_option.textContent = "Agree";
             right_option.textContent = "Disagree"
             break;
         case "prediction":
-            question.innerHTML += `Do you think the following prediction is to be true?`;
+            question.innerHTML += (random_bot ? `${random_bot}’s opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. ${random_bot} (strong conservative) thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a mild liberal, what is your opinion on the following statement`;
             left_option.textContent = "Yes";
             right_option.textContent = "No";
             break;
         case "fact":
-            question.innerHTML += `Do you think the following statement is true?`;
+            question.innerHTML += (random_bot ? `${random_bot}’s answer to the following question is shown in the box below, see the rectangle on the answer axis. ${random_bot} (strong conservative) believes that people with ideologies similar to hers/his are more knowledgeable on this question than those with opposite ideologies.` : '') + `As a mild liberal, what is your answer to the following question?`;
             left_option.textContent = "Yes";
             right_option.textContent = "No";
             break;
