@@ -68,7 +68,7 @@ const phase_2_statements = {
             "text": "The average distance between Mars and Earth is larger than that between Mercury and Earth.",
             "index": 1,
             "summary": "Mars vs. Mercury distance to Earth",
-            "enabled": true,
+            "enabled": false,
         },   
         {
             "text": "On average, an adult body produces more than 10 million cells per second.",
@@ -80,7 +80,7 @@ const phase_2_statements = {
             "text": "The human body contains more atoms than there are stars in the Milky Way galaxy.",
             "index": 3,
             "summary": "Body atoms vs. Milky Way stars",
-            "enabled": true,
+            "enabled": false,
         },
         {
             "text": "A honeybee flies faster than the top speed of a running elephant.",
@@ -141,6 +141,18 @@ const phase_2_statements = {
             "index": 13,
             "summary": "Earth's increasing weight from cosmic particles",
             "enabled": false,
+        },
+        {
+            "text": "What was the percentage of the population growth in California from 2010 to 2020?",
+            "index": 14,
+            "summary": "Percentage of the population growth in California",
+            "enabled": true,
+        },
+        {
+            "text": "How many cells on average does an adult body produce every second?",
+            "index": 15,
+            "summary": "The number of cells produced per day by an adult",
+            "enabled": true,
         }
     ],
 
@@ -149,7 +161,7 @@ const phase_2_statements = {
             "text": "If robots and computers were able to perform most of the jobs currently being done by humans, the economy as a whole would be more efficient.",
             "index": 0,
             "summary": "Robots replacing human jobs",
-            "enabled": true,
+            "enabled": false,
         },
         {
             "text": "Within 50 years, self-driving technology will be sufficiently mature that most personal cars will no longer be equipped with a steering wheel.",
@@ -161,7 +173,7 @@ const phase_2_statements = {
             "text": "If scientists invented a non-invasive clinical surgery that could accurately erase people's memory of a certain period, the overall happiness of our society would be greatly improved.",
             "index": 2,
             "summary": "Memory erasure and societal happiness",
-            "enabled": false,
+            "enabled": true,
         },
         {
             "text": "As artificial-intelligence technology develops, most people will eventually live better lives without having to work.",
@@ -173,7 +185,7 @@ const phase_2_statements = {
             "text": "Within the next 100 years, human beings will have contact with intelligent life from other planets.",
             "index": 4,
             "summary": "Contact with extraterrestrial life",
-            "enabled": true,
+            "enabled": false,
         },
         {
             "text": "If virtual reality technology becomes indistinguishable from real life, most people will prefer spending a significant portion of their time in virtual environments for leisure activities.",
@@ -228,6 +240,12 @@ const phase_2_statements = {
             "index": 13,
             "summary": "Genetic engineering and colonization",
             "enabled": false,
+        },
+        {
+            "text": "If robots and computers were able to perform most of the jobs currently being done by humans, the economy as a whole would be more efficient.",
+            "index": 14,
+            "summary": "Robots and computers are more conducive to economic development",
+            "enabled": true,
         }
     ],
 
@@ -242,7 +260,7 @@ const phase_2_statements = {
             "text": "the use of cloning technology should be approved, to provide infertile couples using test-tube fertilization with more embryos to increase their chances of conceiving.",//20240523,变成小写了
             "index": 1,
             "summary": "Cloning technology for infertile couples",
-            "enabled": false,
+            "enabled": true,
         },
         {
             "text": "Everyone should be allowed to use paid advertising to present their point of view on controversial public policy issues, no matter how extreme.",
@@ -284,7 +302,7 @@ const phase_2_statements = {
             "text": "The local government should prioritize recycling programs over waste-to-energy plants in changes to waste management.",//20240523,变成小写了
             "index": 8,
             "summary": "Recycling vs. waste-to-energy",
-            "enabled": true,
+            "enabled": false,
         },
         {
             "text": "For a new fitness initiative, the community should construct outdoor gyms rather than walking trails.",
@@ -326,26 +344,26 @@ const phase_2_statements = {
             "text": "The average distance between Mars and Earth is larger than that between Mercury and Earth.",
             "index": 15,
             "summary": "Mars vs. Mercury distance to Earth",
-            "enabled": true,
+            "enabled": false,
         },   
         
         {
             "text": "The human body contains more atoms than there are stars in the Milky Way galaxy.",
             "index": 16,
             "summary": "Body atoms vs. Milky Way stars",
-            "enabled": true,
+            "enabled": false,
         },
         {
             "text": "If robots and computers were able to perform most of the jobs currently being done by humans, the economy as a whole would be more efficient.",
             "index": 17,
             "summary": "Robots replacing human jobs",
-            "enabled": true,
+            "enabled": false,
         },
         {
             "text": "Within the next 100 years, human beings will have contact with intelligent life from other planets.",
             "index": 18,
             "summary": "Contact with extraterrestrial life",
-            "enabled": true,
+            "enabled": false,
         },
     ],
 
