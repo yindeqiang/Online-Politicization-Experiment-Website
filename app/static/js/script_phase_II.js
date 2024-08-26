@@ -40,6 +40,18 @@ function getRandomValue(min, max) {
     return Math.round(value * 10 + 1) / 10;
 }
 
+function getOpinionByValue(val) {
+    if (val > 1 && val <= 2) {
+        return 'strongly agree';
+    } else if (val > 0 && val <= 1) {
+        return 'somewhat agree';
+    } else if (val >= -1 && val < 0) {
+        return 'somewhat disagree';
+    } else if (val => -2 && val < -1) {
+        return  'strongly disagree';
+    }
+}
+
 function shuffleArray(array) {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -189,7 +201,7 @@ function init_phase_3() {
                         <div id="right_content_phase_II">
                             <div class="question_phase_3"></div>
                             <br><br>
-                            <div class="statement_phase_3 haha"></div>
+                            <div class="statement_phase_3"></div>
                             <div id="answer_area_phase_II">
                                 <div id="operations">
                                     <div id="options_container">
@@ -201,8 +213,8 @@ function init_phase_3() {
                                             <button class="option-button" onclick="selectOption(1)" id="right_option">Option 2</button>
                                             <div class="group-info" id="group-info-right"></div>
                                         </div>
-                                        <button type="button" class="submit-button" id="submit_button_phase2" disabled="true">Submit</button>
                                     </div>
+                                    <button type="button" class="submit-button" id="submit_button_phase2" disabled="true">Submit</button>
                                 </div>
                             </div>
                         </div>
@@ -403,14 +415,16 @@ function getIdeologyLabel2(color) {
     const rightlabel = getIdeologyLabel(rightColor);
 
     // Populate the text for the left option
-    document.getElementById('group-info-left').innerHTML = `The majority of <span class="group-color-left">${leftGroup} group</span> chose this.`;
+    // document.getElementById('group-info-left').innerHTML = `The majority of <span class="group-color-left">${leftGroup} group</span> chose this.`;
     // Populate the text for the right option
-    document.getElementById('group-info-right').innerHTML = `The majority of <span class="group-color-right">${rightGroup} group</span> chose this.`;
+    // document.getElementById('group-info-right').innerHTML = `The majority of <span class="group-color-right">${rightGroup} group</span> chose this.`;
+
+    document.getElementById('options_container').innerHTML = phase_3_custom_range_1_string;
 
 
     question.innerHTML = `<b>Q${next_question_seqNum}. </b>`;
     const random_user = getRandomUser();
-    const random_bot = [leftGroup,'', rightGroup][random_user];
+    const random_bot = [leftGroup,'', rightGroup][random_user]; // 随机出现一个机器人（可无）
     const question_infomation = document.querySelector('.question-infomation');
     if (random_bot) {
         question_infomation.innerHTML = `For Question ${next_question_seqNum}, you will see ${random_bot}’s answer before submitting your own answer. `;
@@ -419,17 +433,17 @@ function getIdeologyLabel2(color) {
     }
     switch (question_type) {
         case "issue":
-            question.innerHTML += (random_bot ? `${random_bot}’s opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. ${random_bot} (strong conservative) thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a mild liberal, what is your opinion on the following statement`;
+            question.innerHTML += (random_bot ? `${random_bot}’s opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. ${random_bot} (${getOpinionByValue(temp_answers[random_user])}) thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a mild liberal, what is your opinion on the following statement`;
             left_option.textContent = "Agree";
             right_option.textContent = "Disagree"
             break;
         case "prediction":
-            question.innerHTML += (random_bot ? `${random_bot}’s opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. ${random_bot} (strong conservative) thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a mild liberal, what is your opinion on the following statement`;
+            question.innerHTML += (random_bot ? `${random_bot}’s opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. ${random_bot} (${getOpinionByValue(temp_answers[random_user])}) thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a mild liberal, what is your opinion on the following statement`;
             left_option.textContent = "Yes";
             right_option.textContent = "No";
             break;
         case "fact":
-            question.innerHTML += (random_bot ? `${random_bot}’s answer to the following question is shown in the box below, see the rectangle on the answer axis. ${random_bot} (strong conservative) believes that people with ideologies similar to hers/his are more knowledgeable on this question than those with opposite ideologies.` : '') + `As a mild liberal, what is your answer to the following question?`;
+            question.innerHTML += (random_bot ? `${random_bot}’s answer to the following question is shown in the box below, see the rectangle on the answer axis. ${random_bot} (${getOpinionByValue(temp_answers[random_user])}) believes that people with ideologies similar to hers/his are more knowledgeable on this question than those with opposite ideologies.` : '') + `As a mild liberal, what is your answer to the following question?`;
             left_option.textContent = "Yes";
             right_option.textContent = "No";
             break;

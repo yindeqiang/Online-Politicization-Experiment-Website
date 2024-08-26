@@ -45,8 +45,9 @@
     justify-content: flex-start; /* 使选项按钮向左对齐 */
     justify-content: space-between;
     margin: auto;
-    width: 500px; /* 调整总宽度以适应三个按钮 */
+    width: 100%; 
     margin-top: 10px;
+    border: 2px solid #000;
 }
 
 
@@ -241,7 +242,6 @@ right: 61px; 和 top: -13px;：设置伪元素距离 .bubble_down 元素的右�
 
 #right_content_phase_II {
     /* height: 100%; */
-    padding: 0px 50px 0px 50px;
     text-align: center;
 }
 
@@ -1474,9 +1474,6 @@ input[type="range"]::-moz-range-thumb {
 
 #answer_area_phase_II {
     margin-top: 5%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 
@@ -1567,3 +1564,25 @@ input[type="range"]::-moz-range-thumb {
     display: inline-block; 
 }
 
+.phase_3_custom-range {
+    width: 100%;
+    position: relative;
+}
+
+.phase_3_custom-range .phase2-dotted-line {
+    top: 10px;
+} 
+.phase_3_custom-range .phase2-short-line {
+    top: 0;
+}
+.phase_3_custom-range .phase2-small-arrow, .phase_3_custom-range .phase2-small-arrow-left {
+    top: 8.5px;
+}
+
+.phase_3_custom-range .range-labels-container {
+    height: 30px;
+}
+
+.phase_3_custom-range .phase2-label-container {
+    top: 0px;
+}
