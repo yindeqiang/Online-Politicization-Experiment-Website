@@ -658,41 +658,50 @@ const down_arrow_svg = `
 
 const phase_3_custom_range_1_string = `
 <div class="phase_3_custom-range">
-    <div class="range-marker-phase-2" id="marker_0" style="cursor: grab; left: 73.8%; background-color: rgb(255, 128, 128);"></div>
+    <div class="range-marker-phase-2" id="marker_0" style="cursor: grab; left: calc(50% - 50px); background-color: #fff;"><span>You</span></div>
     <div class="range-scale-phase-2"></div>
-    <div class="range-text-phase-2">
-        <p>-2</p>
-        <p>-1</p>
-        <p>0</p>
-        <p>1</p>
-        <p>2</p>
+    <div class="range-number-line">
+        <span style="left: 0"></span>
+        <span style="left: 25%"></span>
+        <span style="left: 50%"></span>
+        <span style="left: 75%"></span>
+        <span style="left: 100%"></span>
+        <i class="phase2-small-arrow-left"></i>
+        <i class="phase2-small-arrow"></i>
     </div>
+    <div class="range-text-phase-2">
+        <p style="left: -2.5%">-2</p>
+        <p style="left: -1%">-1</p>
+        <p>0</p>
+        <p style="left: 1%">1</p>
+        <p style="left: 2.5%">2</p>
+    </div>
+
+    <div class="number-line-desc">Opinion<br />axis</div>
 
     <div class="range-labels-container">
         <!-- 绘制虚线 -->
-        <div class="phase2-dotted-line" style="left: 0%; width: 46.15%;"></div>
-        <div class="phase2-dotted-line" style="left: 53.85%; width: 46.15%;"></div>
+        <div class="phase2-dotted-line" style="left: 0%; width: 100%; border-top: 1.5px solid black;"></div>
     
         <!-- 绘制短竖线 -->
         <div class="phase2-short-line" style="left: 0%;"></div>
-        <div class="phase2-short-line" style="left: 23.81%;"></div>
-        <div class="phase2-short-line" style="left: 47.62%;"></div>
-        <div class="phase2-short-line" style="left: 52.38%;"></div>
-        <div class="phase2-short-line" style="left: 76.19%;"></div>
+        <div class="phase2-short-line" style="left: 25%;"></div>
+        <div class="phase2-short-line" style="left: 50%;"></div>
+        <div class="phase2-short-line" style="left: 75%;"></div>
         <div class="phase2-short-line" style="left: 100%;"></div>
     
         <!-- 绘制左右箭头 -->
-        <div class="phase2-small-arrow" style="left: 23.31%;"></div>
-        <div class="phase2-small-arrow-left" style="left: 23.81%;"></div>
+        <div class="phase2-small-arrow" style="left: calc(25% - 4px);"></div>
+        <div class="phase2-small-arrow-left" style="left: 25%;"></div>
     
-        <div class="phase2-small-arrow" style="left: 75.69%;"></div>
-        <div class="phase2-small-arrow-left" style="left: 76.19%;"></div>
+        <div class="phase2-small-arrow" style="left: calc(75% - 4px);"></div>
+        <div class="phase2-small-arrow-left" style="left: 75%;"></div>
     
         <!-- 绘制单侧小箭头 -->
         <div class="phase2-small-arrow-left" style="left: 0%;"></div>
-        <div class="phase2-small-arrow-left" style="left: 52.38%;"></div>
-        <div class="phase2-small-arrow" style="left: 47.12%;"></div>
-        <div class="phase2-small-arrow" style="left: 99.5%;"></div>         
+        <div class="phase2-small-arrow-left" style="left: 50%;"></div>
+        <div class="phase2-small-arrow" style="left: calc(50% - 4px);"></div>
+        <div class="phase2-small-arrow" style="left: calc(100% - 4px);"></div>         
     </div>
     <div style="position: relative; height: 40px;">
         <div class="phase2-label-container" style="left: 7.4%; width: 9%;">
