@@ -919,10 +919,6 @@ function checkIfAllConditionsMet(marker_dragged, trust_answers_filled) {
     }
 }
 
-
-
-
-
 var evaluation_types = [];
 
 // 全局变量标志

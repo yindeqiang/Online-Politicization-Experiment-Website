@@ -147,12 +147,14 @@ const phase_2_statements = {
             "index": 14,
             "summary": "Percentage of the population growth in California",
             "enabled": true,
+            "range": [0, 0.1]
         },
         {
             "text": "How many cells on average does an adult body produce every second?",
             "index": 15,
             "summary": "The number of cells produced per day by an adult",
             "enabled": true,
+            "range": [0, 100],
         }
     ],
 

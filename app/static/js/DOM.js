@@ -658,7 +658,6 @@ const down_arrow_svg = `
 
 const phase_3_custom_range_1_string = `
 <div class="phase_3_custom-range">
-    <div class="range-marker-phase-2" id="marker_0" style="cursor: grab; left: calc(50% - 50px); background-color: #fff;"><span>You</span></div>
     <div class="range-scale-phase-2"></div>
     <div class="range-number-line">
         <span style="left: 0"></span>
@@ -668,6 +667,7 @@ const phase_3_custom_range_1_string = `
         <span style="left: 100%"></span>
         <i class="phase2-small-arrow-left"></i>
         <i class="phase2-small-arrow"></i>
+        <div class="range-marker-phase-2" id="marker_0" style="cursor: grab; left: 50%; background-color: #fff;"><span>You</span></div>
     </div>
     <div class="range-text-phase-2">
         <p style="left: -2.5%">-2</p>

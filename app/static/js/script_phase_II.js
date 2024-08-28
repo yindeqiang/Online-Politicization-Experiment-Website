@@ -421,6 +421,43 @@ function getIdeologyLabel2(color) {
 
     document.getElementById('options_container').innerHTML = phase_3_custom_range_1_string;
 
+    // 拖拽滑块
+    const marker = document.querySelector('.range-marker-phase-2');
+    const range = document.querySelector('.range-number-line');
+    let isDragging = false;
+    marker.addEventListener('mousedown', () => {
+        isDragging = true;
+        marker.style.cursor = 'grabbing';
+        document.addEventListener('mouseup', handleMouseUp, false);
+        document.addEventListener('mousemove', handleMouseMove, false);
+        document.addEventListener('blur', handleMouseUp, false);
+    });
+
+    function handleMouseUp() {
+        isDragging = false;
+        marker.style.cursor = 'grab';
+        document.removeEventListener('mouseup', handleMouseUp, false);
+        document.removeEventListener('mousemove', handleMouseMove, false);
+        document.removeEventListener('blur', handleMouseUp, false);
+    }
+
+    function handleMouseMove(event) {
+        const segment_percentage = 2.5;
+
+        const rect = range.getBoundingClientRect();
+        let x = event.clientX - rect.left;
+        console.log(event.clientX, rect.left, x);
+        x = Math.max(x, 0);
+        x = Math.min(x, rect.width);
+        const percentage = (x / rect.width) * 100;
+        let segmentIndex = Math.floor(percentage / segment_percentage);
+        segmentIndex = Math.min(segmentIndex, 40);
+        marker.style.left = `${segmentIndex * segment_percentage}%`;
+        const rangeValue = phase_2_statements[question_type][question_index].range || [-2, 2];
+        const value = (rangeValue[1] - rangeValue[0]) * (segmentIndex * segment_percentage / 100) + rangeValue[0];
+        temp_answers[human_index] = value;
+        console.log(rangeValue, value)
+    }
 
     question.innerHTML = `<b>Q${next_question_seqNum}. </b>`;
     const random_user = getRandomUser();
