@@ -214,7 +214,10 @@ function init_phase_3() {
                                             <div class="group-info" id="group-info-right"></div>
                                         </div>
                                     </div>
-                                    <button type="button" class="submit-button" id="submit_button_phase2" disabled="true">Submit</button>
+                                    <div class="additional-wrapper"></div>
+                                    <div style="display: flex; justify-content: flex-end;">
+                                        <button type="button" class="submit-button" id="submit_button_phase2" disabled="true" style="margin: 0">Submit</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -255,18 +258,19 @@ function init_phase_3() {
 
     const additionalQuestionHTML = `
             <div class="additional-question-container">
-                <p><strong>Additional question:</strong></p>
-                <p>Do you think the difference in Alex group's and Blair group's answers reflect their ideological difference?</p>
-                <div id="additional-options" style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
-                    <button id="yes_button" style="flex-grow: 1; margin-right: 10px;" class="option-button" onclick="selectAdditionalOption('yes')">Yes, they are ideology driven.</button>
-                    <button id="no_button" style="flex-grow: 1; margin-right: 10px;" class="option-button" onclick="selectAdditionalOption('no')">No, they are not.</button>
+                <p sytle="line-height: 1.8"><strong>Additional question:</strong> Do you think your opinion reflects the typical standpoint of people with similar ideologies to yours?</p>
+                <div id="additional-options" style="display: flex; align-items: center; margin-top: 5px;">
+                    <!-- <button id="yes_button" style="flex-grow: 1; margin-right: 10px;" class="option-button" onclick="selectAdditionalOption('yes')">Yes, they are ideology driven.</button> -->
+                    <!-- <button id="no_button" style="flex-grow: 1; margin-right: 10px;" class="option-button" onclick="selectAdditionalOption('no')">No, they are not.</button> -->
+                    <label style="display: flex; align-items: center; font-weight: bold; margin: 0 50px 0 0;"><input id="yes_button" type="radio" name="additional-options" value="yes" style="width: 20px; height: 20px;  margin: 0 10px 0 0;" />YES</label>
+                    <label style="display: flex; align-items: center; font-weight: bold; margin: 0 30px 0 0"><input id="no_button" type="radio" name="additional-options" value="no" style="width: 20px; height: 20px; margin: 0 10px 0 0;" />NO</label>
                 </div>
             </div>
         `;
 
 
     if (next_question_seqNum === 12) {
-        document.querySelector("#right_content_phase_II").insertAdjacentHTML('beforeend', additionalQuestionHTML);
+        document.querySelector(".additional-wrapper").insertAdjacentHTML('beforeend', additionalQuestionHTML);
 
         data.driven_answers = [null];
             // 添加事件监听器来捕捉按钮点击事件
@@ -297,8 +301,9 @@ document.querySelector("#submit_button_phase2").addEventListener('click', functi
         rightColor = color_2;
         leftGroup = pseudonyms_chosen[0];
         rightGroup = pseudonyms_chosen[2];
-        temp_answers[0] = getRandomValue(-2, 2);
-        temp_answers[2] = getRandomValue(-2, 2);
+        const question_range = phase_2_statements[question_type][question_index].range || [-2, 2];
+        temp_answers[0] = getRandomValue(question_range[0], question_range[1]);
+        temp_answers[2] = getRandomValue(question_range[0], question_range[1]);
 
     // left_option.style.backgroundColor = leftColor;
     // left_option.style.color = leftColor !== "#ededed" ? 'white' : 'black';
@@ -441,8 +446,8 @@ function getIdeologyLabel2(color) {
         document.removeEventListener('blur', handleMouseUp, false);
     }
 
-    function handleMouseMove(event) {
-        const segment_percentage = 2.5;
+    const segment_percentage = 2.5;
+    function handleMouseMove(event) 
 
         const rect = range.getBoundingClientRect();
         let x = event.clientX - rect.left;
@@ -463,24 +468,33 @@ function getIdeologyLabel2(color) {
     const random_user = getRandomUser();
     const random_bot = [leftGroup,'', rightGroup][random_user]; // 随机出现一个机器人（可无）
     const question_infomation = document.querySelector('.question-infomation');
+    const botAnswer = getOpinionByValue(temp_answers[random_user]);
     if (random_bot) {
         question_infomation.innerHTML = `For Question ${next_question_seqNum}, you will see ${random_bot}’s answer before submitting your own answer. `;
+        const range = phase_2_statements[question_type][question_index].range || [-2, 2];
+        const botMarker = document.querySelector('.range-marker-bot');
+        botMarker.querySelector('span').innerHTML = `${random_bot}'s<br/>answer`;
+        const percentage = temp_answers[random_user] / (range[1] - range[0]) * 100;
+        let segmentIndex = Math.floor(percentage / segment_percentage);
+        segmentIndex = Math.min(segmentIndex, 40);
+        botMarker.style.left = segmentIndex * segment_percentage + '%';
+        botMarker.style.display = 'block';
     } else {
         question_infomation.innerHTML = `You will answer Question ${next_question_seqNum} on your own.`;
     }
     switch (question_type) {
         case "issue":
-            question.innerHTML += (random_bot ? `${random_bot}’s opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. ${random_bot} (${getOpinionByValue(temp_answers[random_user])}) thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a mild liberal, what is your opinion on the following statement`;
+            question.innerHTML += (random_bot ? `${random_bot}’s opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. ${random_bot} (${botAnswer}) thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a mild liberal, what is your opinion on the following statement`;
             left_option.textContent = "Agree";
             right_option.textContent = "Disagree"
             break;
         case "prediction":
-            question.innerHTML += (random_bot ? `${random_bot}’s opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. ${random_bot} (${getOpinionByValue(temp_answers[random_user])}) thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a mild liberal, what is your opinion on the following statement`;
+            question.innerHTML += (random_bot ? `${random_bot}’s opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. ${random_bot} (${botAnswer}) thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a mild liberal, what is your opinion on the following statement`;
             left_option.textContent = "Yes";
             right_option.textContent = "No";
             break;
         case "fact":
-            question.innerHTML += (random_bot ? `${random_bot}’s answer to the following question is shown in the box below, see the rectangle on the answer axis. ${random_bot} (${getOpinionByValue(temp_answers[random_user])}) believes that people with ideologies similar to hers/his are more knowledgeable on this question than those with opposite ideologies.` : '') + `As a mild liberal, what is your answer to the following question?`;
+            question.innerHTML += (random_bot ? `${random_bot}’s answer to the following question is shown in the box below, see the rectangle on the answer axis. ${random_bot} (${botAnswer}) believes that people with ideologies similar to hers/his are more knowledgeable on this question than those with opposite ideologies.` : '') + `As a mild liberal, what is your answer to the following question?`;
             left_option.textContent = "Yes";
             right_option.textContent = "No";
             break;

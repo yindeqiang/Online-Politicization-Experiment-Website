@@ -668,6 +668,7 @@ const phase_3_custom_range_1_string = `
         <i class="phase2-small-arrow-left"></i>
         <i class="phase2-small-arrow"></i>
         <div class="range-marker-phase-2" id="marker_0" style="cursor: grab; left: 50%; background-color: #fff;"><span>You</span></div>
+        <div class="range-marker-bot" style="display: none; background:#fff;"><span></span></div>
     </div>
     <div class="range-text-phase-2">
         <p style="left: -2.5%">-2</p>
