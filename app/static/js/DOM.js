@@ -720,3 +720,51 @@ const phase_3_custom_range_1_string = `
     </div>
 </div>
 `;
+
+const phase_3_custom_range_2_string = `
+<div class="phase_3_custom-range">
+    <div class="range-scale-phase-2"></div>
+    <div class="range-number-line">
+        <span style="left: 0"></span>
+        <span style="left: 25%"></span>
+        <span style="left: 50%"></span>
+        <span style="left: 75%"></span>
+        <span style="left: 100%"></span>
+        <i class="phase2-small-arrow-left"></i>
+        <i class="phase2-small-arrow"></i>
+        <div class="range-marker-phase-2" id="marker_0" style="cursor: grab; left: 50%; background-color: #fff;"><span>You</span></div>
+        <div class="range-marker-bot" style="display: none; background:#fff;"><span></span></div>
+    </div>
+    <div class="range-text-phase-2">
+        <p style="left: -2.5%">0%</p>
+        <p>5%</p>
+        <p style="left: 2.5%">10%</p>
+    </div>
+
+    <div class="number-line-desc">Opinion<br />axis</div>
+</div>
+`;
+
+const phase_3_custom_range_3_string = `
+<div class="phase_3_custom-range">
+    <div class="range-scale-phase-2"></div>
+    <div class="range-number-line">
+        <span style="left: 0"></span>
+        <span style="left: 25%"></span>
+        <span style="left: 50%"></span>
+        <span style="left: 75%"></span>
+        <span style="left: 100%"></span>
+        <i class="phase2-small-arrow-left"></i>
+        <i class="phase2-small-arrow"></i>
+        <div class="range-marker-phase-2" id="marker_0" style="cursor: grab; left: 50%; background-color: #fff;"><span>You</span></div>
+        <div class="range-marker-bot" style="display: none; background:#fff;"><span></span></div>
+    </div>
+    <div class="range-text-phase-2">
+        <p style="left: -2.5%">0</p>
+        <p>50</p>
+        <p style="left: 2.5%">100</p>
+    </div>
+
+    <div class="number-line-desc">Opinion<br />axis</div>
+</div>
+`;
