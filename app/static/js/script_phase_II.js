@@ -248,8 +248,8 @@ function init_phase_3() {
             <div class="additional-question-container">
                 <p sytle="line-height: 1.8"><strong>Additional question:</strong> Do you think your opinion reflects the typical standpoint of people with similar ideologies to yours?</p>
                 <div id="additional-options" style="display: flex; align-items: center; margin-top: 5px;">
-                    <label style="display: flex; align-items: center; font-weight: bold; margin: 0 50px 0 0;"><input id="yes_button" type="radio" name="additional-options" value="yes" style="width: 20px; height: 20px;  margin: 0 10px 0 0;" />YES</label>
-                    <label style="display: flex; align-items: center; font-weight: bold; margin: 0 30px 0 0"><input id="no_button" type="radio" name="additional-options" value="no" style="width: 20px; height: 20px; margin: 0 10px 0 0;" />NO</label>
+                    <label style="display: flex; align-items: center; font-weight: bold; margin: 0 50px 0 0;"><input id="yes_button" type="radio" name="additional-options" value="yes" style="width: 20px; height: 20px;  margin: 0 10px 0 0;" onclick="selectAdditionalOption('yes')" />YES</label>
+                    <label style="display: flex; align-items: center; font-weight: bold; margin: 0 30px 0 0"><input id="no_button" type="radio" name="additional-options" value="no" style="width: 20px; height: 20px; margin: 0 10px 0 0;" onclick="selectAdditionalOption('no')" />NO</label>
                 </div>
             </div>
         `;
@@ -507,17 +507,7 @@ let agreeDisagreeSelected = false;
 let yesNoSelected = false;
 
 function selectAdditionalOption(option) {
-    const yes_button = document.querySelector("#yes_button");
-    const no_button = document.querySelector("#no_button");
-
-    if (option === 'yes') {
-        yes_button.classList.add("selected");
-        no_button.classList.remove("selected");
-    } else {
-        no_button.classList.add("selected");
-        yes_button.classList.remove("selected");
-    }
-
+    console.log(option);
     yesNoSelected = true;
     checkIfSubmitCanBeEnabled();
 }
