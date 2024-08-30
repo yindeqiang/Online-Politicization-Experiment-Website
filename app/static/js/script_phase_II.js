@@ -221,9 +221,6 @@ function init_phase_3() {
     const question = document.querySelector(".question_phase_3");
     const statement = document.querySelector(".statement_phase_3");
 
-    const left_option = document.querySelector("#left_option");
-    const right_option = document.querySelector("#right_option");
-
     const instruction = document.querySelector(".instruction_phase_3");
     const instruction_right = document.getElementById("instruction_right_phase_II");
     const answer_area = document.querySelector("#answer_area_phase_II");
@@ -292,14 +289,6 @@ document.querySelector("#submit_button_phase2").addEventListener('click', functi
         const question_range = phase_2_statements[question_type][question_index].range || [-2, 2];
         temp_answers[0] = getRandomValue(question_range[0], question_range[1]);
         temp_answers[2] = getRandomValue(question_range[0], question_range[1]);
-
-    // left_option.style.backgroundColor = leftColor;
-    // left_option.style.color = leftColor !== "#ededed" ? 'white' : 'black';
-    // right_option.style.backgroundColor = rightColor;
-    // right_option.style.color = rightColor !== "#ededed" ? 'white' : 'black';
-
-    left_option.style.backgroundColor = "white";
-    right_option.style.backgroundColor = "white";
 
     const new_color = interpolateColor((split_answers[0][1] + 2) / 4);
 
@@ -469,23 +458,15 @@ function getIdeologyLabel2(color) {
     switch (question_type) {
         case "issue":
             question.innerHTML += (random_bot ? `${random_bot}’s opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. ${random_bot} (${botAnswer}) thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a mild liberal, what is your opinion on the following statement`;
-            left_option.textContent = "Agree";
-            right_option.textContent = "Disagree"
             break;
         case "prediction":
             question.innerHTML += (random_bot ? `${random_bot}’s opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. ${random_bot} (${botAnswer}) thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a mild liberal, what is your opinion on the following statement`;
-            left_option.textContent = "Yes";
-            right_option.textContent = "No";
             break;
         case "fact":
             question.innerHTML += (random_bot ? `${random_bot}’s answer to the following question is shown in the box below, see the rectangle on the answer axis. ${random_bot} (${botAnswer}) believes that people with ideologies similar to hers/his are more knowledgeable on this question than those with opposite ideologies.` : '') + `As a mild liberal, what is your answer to the following question?`;
-            left_option.textContent = "Yes";
-            right_option.textContent = "No";
             break;
         case "design":
             question.innerHTML += "Which design do you prefer?";
-            left_option.textContent = "Left";
-            right_option.textContent = "Right";
             break;
         default:
             break;
