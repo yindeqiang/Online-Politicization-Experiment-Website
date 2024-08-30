@@ -112,10 +112,6 @@ phase_2_orders.set_order 被硬编码为 [2]，这意味着它只考虑索引为
 确保启用的问题索引数量是 5，如果不是，则输出错误。
 随机确定一个参与者顺序，其中某些位置是固定的（例如第二个位置总是 1），而其他位置则基于生成的随机数。 */
 
-
-let selectedOption; // 记录当前选中的选项
-
-
 function toggle_image_display(question_index) {//对选图片类的问题进行问答
     //toggle_image_display 函数根据当前图片是否为默认图片来切换显示。如果两个图片都是默认图片，则显示与 question_index 相关的两张图片；
     //否则，将两个图片都重置为默认图片。
@@ -204,15 +200,10 @@ function init_phase_3() {
                             <div class="statement_phase_3"></div>
                             <div id="answer_area_phase_II">
                                 <div id="operations">
-                                    <div id="options_container">
-                                        <div class="option-with-profile" id="option-with-profile-0">
-                                            <button class="option-button" onclick="selectOption(0)" id="left_option">Option 1</button>
-                                            <div class="group-info" id="group-info-left"></div>
-                                        </div>
-                                        <div class="option-with-profile" id="option-with-profile-1">
-                                            <button class="option-button" onclick="selectOption(1)" id="right_option">Option 2</button>
-                                            <div class="group-info" id="group-info-right"></div>
-                                        </div>
+                                    <div id="options_container" style="margin: 0 0 20px;">
+                                    </div>
+                                    <div>
+                                        <p style="text-align: left; margin: 0;">Please pull the scrollbar above to the position that best represents your opinion, and answer the question below. After that, click “Submit” to proceed to the next question.</p>
                                     </div>
                                     <div class="additional-wrapper"></div>
                                     <div style="display: flex; justify-content: flex-end;">
@@ -260,8 +251,6 @@ function init_phase_3() {
             <div class="additional-question-container">
                 <p sytle="line-height: 1.8"><strong>Additional question:</strong> Do you think your opinion reflects the typical standpoint of people with similar ideologies to yours?</p>
                 <div id="additional-options" style="display: flex; align-items: center; margin-top: 5px;">
-                    <!-- <button id="yes_button" style="flex-grow: 1; margin-right: 10px;" class="option-button" onclick="selectAdditionalOption('yes')">Yes, they are ideology driven.</button> -->
-                    <!-- <button id="no_button" style="flex-grow: 1; margin-right: 10px;" class="option-button" onclick="selectAdditionalOption('no')">No, they are not.</button> -->
                     <label style="display: flex; align-items: center; font-weight: bold; margin: 0 50px 0 0;"><input id="yes_button" type="radio" name="additional-options" value="yes" style="width: 20px; height: 20px;  margin: 0 10px 0 0;" />YES</label>
                     <label style="display: flex; align-items: center; font-weight: bold; margin: 0 30px 0 0"><input id="no_button" type="radio" name="additional-options" value="no" style="width: 20px; height: 20px; margin: 0 10px 0 0;" />NO</label>
                 </div>
@@ -295,7 +284,6 @@ document.querySelector("#submit_button_phase2").addEventListener('click', functi
 
     const color_0 = interpolateColor(dot_pos_1);
     const color_2 = interpolateColor(dot_pos_3);
-    // selectedOption = null;
         let leftColor, rightColor, leftGroup, rightGroup;
         leftColor = color_0;
         rightColor = color_2;
@@ -419,11 +407,6 @@ function getIdeologyLabel2(color) {
     const new_label = getIdeologyLabel2(new_color);
     const rightlabel = getIdeologyLabel(rightColor);
 
-    // Populate the text for the left option
-    // document.getElementById('group-info-left').innerHTML = `The majority of <span class="group-color-left">${leftGroup} group</span> chose this.`;
-    // Populate the text for the right option
-    // document.getElementById('group-info-right').innerHTML = `The majority of <span class="group-color-right">${rightGroup} group</span> chose this.`;
-
     document.getElementById('options_container').innerHTML = phase_3_custom_range_1_string;
 
     // 拖拽滑块
@@ -447,8 +430,7 @@ function getIdeologyLabel2(color) {
     }
 
     const segment_percentage = 2.5;
-    function handleMouseMove(event) 
-
+    function handleMouseMove(event) {
         const rect = range.getBoundingClientRect();
         let x = event.clientX - rect.left;
         console.log(event.clientX, rect.left, x);
@@ -461,7 +443,9 @@ function getIdeologyLabel2(color) {
         const rangeValue = phase_2_statements[question_type][question_index].range || [-2, 2];
         const value = (rangeValue[1] - rangeValue[0]) * (segmentIndex * segment_percentage / 100) + rangeValue[0];
         temp_answers[human_index] = value;
-        console.log(rangeValue, value)
+
+        agreeDisagreeSelected = true;
+        checkIfSubmitCanBeEnabled();
     }
 
     question.innerHTML = `<b>Q${next_question_seqNum}. </b>`;
@@ -470,7 +454,7 @@ function getIdeologyLabel2(color) {
     const question_infomation = document.querySelector('.question-infomation');
     const botAnswer = getOpinionByValue(temp_answers[random_user]);
     if (random_bot) {
-        question_infomation.innerHTML = `For Question ${next_question_seqNum}, you will see ${random_bot}’s answer before submitting your own answer. `;
+        question_infomation.innerHTML = `For <strong>Question ${next_question_seqNum}</strong>, you will see ${random_bot}’s answer before submitting your own answer. `;
         const range = phase_2_statements[question_type][question_index].range || [-2, 2];
         const botMarker = document.querySelector('.range-marker-bot');
         botMarker.querySelector('span').innerHTML = `${random_bot}'s<br/>answer`;
@@ -480,7 +464,7 @@ function getIdeologyLabel2(color) {
         botMarker.style.left = segmentIndex * segment_percentage + '%';
         botMarker.style.display = 'block';
     } else {
-        question_infomation.innerHTML = `You will answer Question ${next_question_seqNum} on your own.`;
+        question_infomation.innerHTML = `You will answer <strong>Question ${next_question_seqNum}</strong> on your own.`;
     }
     switch (question_type) {
         case "issue":
@@ -541,35 +525,6 @@ function getIdeologyLabel2(color) {
 let agreeDisagreeSelected = false;
 let yesNoSelected = false;
 
-function selectOption(index) {
-    const left_option = document.querySelector("#left_option");
-    const right_option = document.querySelector("#right_option");
-    const new_color = interpolateColor((split_answers[0][1] + 2) / 4);
-
-    if (index == 0) {
-        left_option.classList.add("selected");
-        left_option.style.outline = `11px solid ${new_color}`;
-        right_option.classList.remove("selected");
-        right_option.style.outline = 'none';
-        selectedOption = 0;
-    } else {
-        right_option.classList.add("selected");
-        right_option.style.outline = `11px solid ${new_color}`;
-        left_option.classList.remove("selected");
-        left_option.style.outline = 'none';
-        selectedOption = 1;
-    }
-    agreeDisagreeSelected = true;
-    checkIfSubmitCanBeEnabled();
-
-    // 如果 index 等于 0，则给 left_option 元素添加 selected 类，并从 right_option 元素中移除 selected 类。这意味着 left_option 将显示被选中的样式，而 right_option 则不会。
-
-    //如果 index 不等于 0（即等于 1 或其他非零值），则给 right_option 元素添加 selected 类，并从 left_option 元素中移除 selected 类。这意味着 right_option 将显示被选中的样式，而 left_option 则不会。
-    temp_answers[human_index] = index; //在选项点击位置处已经保存了人的回答
-    //将 temp_answers 数组在 human_index 索引位置的值设置为 index。
-    //这里假设 temp_answers 是一个已经定义好的数组，而 human_index 是一个全局变量或在这段代码之前已经定义好的变量
-}
-
 function selectAdditionalOption(option) {
     const yes_button = document.querySelector("#yes_button");
     const no_button = document.querySelector("#no_button");
@@ -629,9 +584,6 @@ function after_bot_input_phase_3() {//在bot回答结束后,20240509直接跳过
         answer_area.classList.remove("concealed");
         //将 statement 元素的 innerHTML 设置为 statement_text，
         //并在其前后添加引号。同时，移除 statement 和 answer_area 元素的 concealed 类，使它们可见。
-        document.querySelectorAll(".option-button").forEach((button) => {
-            button.disabled = false;
-        });//通过查询所有的 .option-button 元素，并遍历它们，将每个按钮的 disabled 属性设置为 false，从而启用它们。
         if (set_index_to_name[set_index] == "design") {
             toggle_image_display(question_index);
         }//如果当前问题的类型是 "design"，则调用 toggle_image_display 函数，根据 question_index 来显示或隐藏相关的图片。
