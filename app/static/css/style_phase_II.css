@@ -1569,6 +1569,8 @@ input[type="range"]::-moz-range-thumb {
     user-select: none;
 }
 
+
+
 .phase_3_custom-range .phase2-dotted-line {
     top: 10px;
 } 
@@ -1605,6 +1607,7 @@ input[type="range"]::-moz-range-thumb {
     content: ' ';
     border-bottom: 2px solid #000;
     width: 20px;
+    z-index: 1;
 }
 
 .range-number-line::before {
@@ -1631,8 +1634,6 @@ input[type="range"]::-moz-range-thumb {
     top: -3px;
     display: block;
     position: relative;
-
-
     height: 40px;
 }
 .phase_3_custom-range .range-text-phase-2 > p {
@@ -1670,6 +1671,7 @@ input[type="range"]::-moz-range-thumb {
     top: -13.5px;
     background: #fff;
     transform: translateX(-50%);
+    z-index: 2;
 }
 
 .phase_3_custom-range .range-marker-bot span {
