@@ -671,11 +671,11 @@ const phase_3_custom_range_1_string = `
         <div class="range-marker-bot" style="display: none; background:#fff;"><span></span></div>
     </div>
     <div class="range-text-phase-2">
-        <p style="left: -2.5%">-2</p>
-        <p style="left: -1%">-1</p>
-        <p>0</p>
-        <p style="left: 1%">1</p>
-        <p style="left: 2.5%">2</p>
+        <p style="left: 0"><span>-2</span></p>
+        <p style="left:25%"><span>-1</span></p>
+        <p style="left:50%"><span>0</span></p>
+        <p style="left: 75%"><span>1</span></p>
+        <p style="left: 100%"><span>2</span></p>
     </div>
 
     <div class="number-line-desc">Opinion<br />axis</div>
@@ -736,9 +736,9 @@ const phase_3_custom_range_2_string = `
         <div class="range-marker-bot" style="display: none; background:#fff;"><span></span></div>
     </div>
     <div class="range-text-phase-2">
-        <p style="left: -2.5%">0%</p>
-        <p>5%</p>
-        <p style="left: 2.5%">10%</p>
+        <p style="left: 0"><span>0%</span></p>
+        <p style="left: 50%"><span>50%</span></p>
+        <p style="left: 100%"><span>100%</span></p>
     </div>
 
     <div class="number-line-desc">Opinion<br />axis</div>
@@ -760,9 +760,9 @@ const phase_3_custom_range_3_string = `
         <div class="range-marker-bot" style="display: none; background:#fff;"><span></span></div>
     </div>
     <div class="range-text-phase-2">
-        <p style="left: -2.5%">0</p>
-        <p>50</p>
-        <p style="left: 2.5%">100</p>
+        <p style="left: 0%"><span>0</span></p>
+        <p style="left: 50%"><span>50<br/>millions</span></p>
+        <p style="left: 100%"><span>100<br/>millions</span></p>
     </div>
 
     <div class="number-line-desc">Opinion<br />axis</div>

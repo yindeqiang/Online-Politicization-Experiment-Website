@@ -1629,10 +1629,20 @@ input[type="range"]::-moz-range-thumb {
 
 .phase_3_custom-range .range-text-phase-2 {
     top: -3px;
+    display: block;
+    position: relative;
+
+
+    height: 40px;
 }
 .phase_3_custom-range .range-text-phase-2 > p {
-    width: calc(100% / 20);
-    position: relative;
+    width: calc(100% / 40);
+    position: absolute;
+}
+.phase_3_custom-range .range-text-phase-2 > p span {
+    position: absolute;
+    left: 0;
+    transform: translateX(-50%);
 }
 .phase_3_custom-range .range-marker-phase-2 {
     width: calc(5% - 2px);
@@ -1659,6 +1669,7 @@ input[type="range"]::-moz-range-thumb {
     text-align: center;
     top: -13.5px;
     background: #fff;
+    transform: translateX(-50%);
 }
 
 .phase_3_custom-range .range-marker-bot span {

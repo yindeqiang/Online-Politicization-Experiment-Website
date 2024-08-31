@@ -147,7 +147,8 @@ const phase_2_statements = {
             "index": 14,
             "summary": "Percentage of the population growth in California",
             "enabled": true,
-            "range": [0, 0.1]
+            "range": [0, 0.1],
+            "axis": 'percentage'
         },
         {
             "text": "How many cells on average does an adult body produce every second?",
@@ -155,6 +156,7 @@ const phase_2_statements = {
             "summary": "The number of cells produced per day by an adult",
             "enabled": true,
             "range": [0, 100],
+            "axis": 'number'
         }
     ],
 
@@ -163,7 +165,7 @@ const phase_2_statements = {
             "text": "If robots and computers were able to perform most of the jobs currently being done by humans, the economy as a whole would be more efficient.",
             "index": 0,
             "summary": "Robots replacing human jobs",
-            "enabled": false,
+            "enabled": true,
         },
         {
             "text": "Within 50 years, self-driving technology will be sufficiently mature that most personal cars will no longer be equipped with a steering wheel.",
@@ -242,12 +244,6 @@ const phase_2_statements = {
             "index": 13,
             "summary": "Genetic engineering and colonization",
             "enabled": false,
-        },
-        {
-            "text": "If robots and computers were able to perform most of the jobs currently being done by humans, the economy as a whole would be more efficient.",
-            "index": 14,
-            "summary": "Robots and computers are more conducive to economic development",
-            "enabled": true,
         }
     ],
 

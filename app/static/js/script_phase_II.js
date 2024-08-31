@@ -396,7 +396,13 @@ function getIdeologyLabel2(color) {
     const new_label = getIdeologyLabel2(new_color);
     const rightlabel = getIdeologyLabel(rightColor);
 
-    document.getElementById('options_container').innerHTML = phase_3_custom_range_1_string;
+    const axisMap = {
+        'opinion': phase_3_custom_range_1_string,
+        'percentage': phase_3_custom_range_2_string,
+        'number': phase_3_custom_range_3_string,
+    }
+    const current_question = phase_2_statements[question_type][question_index];
+    document.getElementById('options_container').innerHTML = axisMap[current_question.axis || 'opinion'];
 
     // 拖拽滑块
     const marker = document.querySelector('.range-marker-phase-2');
@@ -447,7 +453,7 @@ function getIdeologyLabel2(color) {
         const range = phase_2_statements[question_type][question_index].range || [-2, 2];
         const botMarker = document.querySelector('.range-marker-bot');
         botMarker.querySelector('span').innerHTML = `${random_bot}'s<br/>answer`;
-        const percentage = temp_answers[random_user] / (range[1] - range[0]) * 100;
+        const percentage = (temp_answers[random_user] - range[0]) / (range[1] - range[0]) * 100;
         let segmentIndex = Math.floor(percentage / segment_percentage);
         segmentIndex = Math.min(segmentIndex, 40);
         botMarker.style.left = segmentIndex * segment_percentage + '%';
