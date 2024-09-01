@@ -205,7 +205,7 @@ const phase_1_body_string = `
 
 
 const phase_2_label_string = `
-    <p class="instruction-phase-2"> Q11. Below you will see three scrollbars, for the two previous participants and yourself respectively.  Based on the answers in Phase 1, please pull each scrollbar to the position that best describes the corresponding person's ideology.</p>
+    <p class="instruction-phase-2"> Below you will see three scrollbars, for the two previous participants and yourself respectively.  Based on the answers in Phase 1, please pull each scrollbar to the position that best describes the corresponding person's ideology.</p>
     <div class="ranges-phase-2">          
         <div class="range-container-phase-2">
             <p id="name_0">${pseudonyms_chosen[0]}</p>
