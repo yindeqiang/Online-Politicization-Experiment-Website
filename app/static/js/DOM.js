@@ -531,7 +531,7 @@ const end_quiz_string = `
             <p>Thanks again for your participation. By clicking “Finish”, you will be redirected back to the Connect platform and get your rewards.</p>
         </p>
         <!--<button type="button" class="button_big" disabled="true">Finish</button>-->
-        <button type="button" class="button_big" disabled="false">Finish</button>
+        <button type="button" class="button_big">Finish</button>
     </div>
 `;
 
