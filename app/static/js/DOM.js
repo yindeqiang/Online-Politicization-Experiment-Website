@@ -520,17 +520,18 @@ const end_quiz_string = `
         <p>
         Thank you for completing this survey!
             <span class="br_small"></span>
-            <p>At the end of this survey, we would like to inform you that we took a deceptive measure in our experiment: <b>${pseudonyms_chosen[0]}</b> and <b>${pseudonyms_chosen[2]}</b>’s answers in Phase 1 are indeed drawn from two real persons. But the Alex group and Blair group’s answers are manipulated by us as experiment signals. We sincerely ask for your pardon and hope you understand that this is a necessary measure to achieve the objective of our study.</p>
+
+            <p>At the end of this survey, we would like to inform you that we took a deceptive measure in our experiment: <b>${pseudonyms_chosen[0]}</b> and <b>${pseudonyms_chosen[2]}</b>’s answers in Phase 1 are indeed drawn from two real persons. But their answers in Phase 2 are randomly generated as our experiment treatments. The goal of our experiment is to test how people react to others’ opinions when they know other people’s ideologies. We sincerely ask for your pardon and hope you understand that the deceptive measure is necessary to achieve the objective of our study.</p>
             <span class="br_big"></span>
             <div class="bot_detection">
-                <p>It would be greatly appreciated if you could provide some feedback below about the experiment procedure or how you feel during the experiment. Your comments will greatly contribute to improving the effectiveness of our experiment.</p>
+                <p>It would be greatly appreciated if you could provide some feedback about the experiment procedure or how you feel during the experiment. Your comments will greatly contribute to improving the effectiveness of our experiment.</p>
                 <textarea id="reason" maxlength="100"></textarea>
                 <span class="br_big"></span>
             </div>
             <p>Thanks again for your participation. By clicking “Finish”, you will be redirected back to the Connect platform and get your rewards.</p>
         </p>
-        <button type="button" class="button_big" disabled="true">Finish</button>
-<!--        <button type="button" class="button_big" disabled="false">Finish</button>-->
+        <!--<button type="button" class="button_big" disabled="true">Finish</button>-->
+        <button type="button" class="button_big" disabled="false">Finish</button>
     </div>
 `;
 

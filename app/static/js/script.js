@@ -194,11 +194,12 @@ let num1 = [];let num2 = [];
 
 function enter_next() {
     // attention check
-    if (phase == 3 && question_seqNum_in_phase == 1 && !attention_checked) {
-        attention_check(); // 这里原有的逻辑
-        attention_checked = true;
-        return;
-    }
+    // 不再进行检查
+    // if (phase == 3 && question_seqNum_in_phase == 1 && !attention_checked) {
+    //     attention_check(); // 这里原有的逻辑
+    //     attention_checked = true;
+    //     return;
+    // }
 //这段代码检查当前是否处于第三阶段（phase == 3），并且是否是该阶段的第三个问题（question_seqNum_in_phase == 2），
 //并且之前还没有进行过注意力检查（!attention_checked）。如果这三个条件都满足，那么调用 attention_check() 函数来执行注意力检查，
 //并将 attention_checked 设置为 true 以表示已经进行了注意力检查。最后，函数返回，不再执行后续的代码。
@@ -435,6 +436,7 @@ function show_instructions() {//1,3开始前要有一个instruction的展示
                     //init_phase_31();//在进入phase3后给出一个提示,然后开始抽签/////////////////////////////////////
                     // attention_check();
                     //20240509现在不要抽签，直接attention_check后进入答题//////////////////////////////////////////////
+                    next_question_seqNum -= 1; //应该为12，强制改为11
                     init_phase_3();
                     break;
             }
@@ -967,16 +969,17 @@ document.addEventListener('splitAnswersReady', function() {
     window.phase_4_body_string = `
         <h1>Additional questions</h1>
         <p>
-            Now you have completed the main part of this survey experiment. Before you are redirected to the Connect platform, we would like to ask you some additional questions. Your answers will <b>NOT</b> be disclosed to the other two participants. After answering these questions, please click “Submit”. Then you will be directed to the last page of this survey.
+            Now you have completed the main part of this experiment. Before you are redirected to the Connect platform, we would like to ask you some additional questions. Your answers will not be disclosed to any later participant. After answering these 
+questions, please click “Submit”. Then you will proceed to the last page of this experiment.
         </p>
         <hr>
         <div class="question_phase_4" id="question_4">
-            <p>Q1. In phase 2, to what extent were your answers influenced by ${pseudonyms_chosen[0]} group's (${label_0}) answers?</p>
+            <p>Q17. In phase 2, to what extent were your answers influenced by ${pseudonyms_chosen[0]} or ${pseudonyms_chosen[2]}?</p>
             <div class="detection_wrap">
                 <div class="each_detection">
                     <form>
                         <input type="radio" id="detection_2_0" value="0" name="detection_2">
-                        <label for="detection_2_0">Strongly influenced</label>
+                        <label for="detection_2_0">Influenced a lot</label>
                         <br>
                         <input type="radio" id="detection_2_1" value="1" name="detection_2">
                         <label for="detection_2_1">Somewhat influenced</label>
@@ -990,37 +993,18 @@ document.addEventListener('splitAnswersReady', function() {
         </div>
         
         <div class="question_phase_4" id="question_5">
-            <p>Q2. In phase 2, to what extent were your answers influenced by ${pseudonyms_chosen[2]} group's (${label_2}) answers?</p>
+            <p>Q18. How important is ideology in forming your opinion?</p>
             <div class="detection_wrap">
                 <div class="each_detection">
                     <form>
                         <input type="radio" id="detection_3_0" value="0" name="detection_3">
-                        <label for="detection_3_0">Strongly influenced</label>
+                        <label for="detection_3_0">Very important</label>
                         <br>
                         <input type="radio" id="detection_3_1" value="1" name="detection_3">
-                        <label for="detection_3_1">Somewhat influenced</label>
+                        <label for="detection_3_1">Moderately important</label>
                         <br>
                         <input type="radio" id="detection_3_2" value="2" name="detection_3">
-                        <label for="detection_3_2">Not influenced at all</label>
-                        <br>
-                    </form>
-                </div class="each_detection">
-            </div>
-        </div>
-        
-        <div class="question_phase_4" id="question_6">
-            <p>Q3. How important is ideology in forming your opinions on public issues?</p>
-            <div class="detection_wrap">
-                <div class="each_detection">
-                    <form>
-                        <input type="radio" id="detection_4_0" value="0" name="detection_4">
-                        <label for="detection_4_0">Very important</label>
-                        <br>
-                        <input type="radio" id="detection_4_1" value="1" name="detection_4">
-                        <label for="detection_4_1">Moderately important</label>
-                        <br>
-                        <input type="radio" id="detection_4_2" value="2" name="detection_4">
-                        <label for="detection_4_2">Not important at all</label>
+                        <label for="detection_3_2">Not important at all</label>
                         <br>
                     </form>
                 </div class="each_detection">
@@ -1058,13 +1042,10 @@ function init_phase_4() {
                 data.type_D_answers[0] = parseInt(input.value);
             } else if (input.name == "detection_3") {
                 data.type_D_answers[1] = parseInt(input.value);
-            } else if (input.name == "detection_4") {
-                data.type_D_answers[2] = parseInt(input.value);
             }
 
             if (data.type_D_answers[0] !== null &&
-                data.type_D_answers[1] !== null &&
-                data.type_D_answers[2] !== null) {
+                data.type_D_answers[1] !== null) {
                 button.disabled = false;
             }
         });

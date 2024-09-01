@@ -11,7 +11,7 @@ const set_index_to_name = {
     3: "design",
 };
 
-const phase_2_starting_question_index = 11;//从第11个题号开始起始索引
+const phase_2_starting_question_index = 12;//从第12个题号开始起始索引
 const instruction_background_color = "#d3d3d354";
 
 /**phase_2_orders: 这是一个对象，包含三个数组属性。
@@ -21,7 +21,7 @@ question_order: 一个空数组。
 participant_order: 一个包含四个元素的数组，其中有两个元素是null，一个元素是1。
 set_index_to_name: 这是一个对象，它将数字索引映射到字符串名称。例如，数字0对应字符串"fact"，数字1对应字符串"prediction"等。
 
-phase_2_starting_question_index: 这是一个常量，其值为11。它可能表示第二阶段问题的起始索引。
+phase_2_starting_question_index: 这是一个常量，其值为12。它可能表示第二阶段问题的起始索引。
 
 instruction_background_color: 这是一个颜色字符串，表示某种指令或背景的颜色。其值为"#d3d3d354"，这是一个带有透明度的灰色。 */
 // 1 为自己 出现概率20%，2为blair 出现概率40%, 0为alex 出现概率40%
