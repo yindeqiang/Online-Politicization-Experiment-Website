@@ -324,15 +324,15 @@ document.querySelector("#submit_button_phase2").addEventListener('click', functi
     nameWithDotElements.sort((a, b) => a.pos - b.pos);
 
     // 检查是否三个标签重叠
-    if (Math.abs(nameWithDotElements[0].pos - nameWithDotElements[1].pos) < 0.01 &&
-        Math.abs(nameWithDotElements[1].pos - nameWithDotElements[2].pos) < 0.01) {
+    if (Math.abs(nameWithDotElements[0].pos - nameWithDotElements[1].pos) < 0.06 &&
+        Math.abs(nameWithDotElements[1].pos - nameWithDotElements[2].pos) < 0.06) {
         nameWithDotElements[0].elem.querySelector('.name').style.top = '-30px';
         nameWithDotElements[1].elem.querySelector('.name').style.top = '-50px';
         nameWithDotElements[2].elem.querySelector('.name').style.top = '-70px';
     } else {
         // 检查两个标签重叠的情况
         for (let i = 0; i < nameWithDotElements.length - 1; i++) {
-            if (Math.abs(nameWithDotElements[i].pos - nameWithDotElements[i + 1].pos) < 0.01) {
+            if (Math.abs(nameWithDotElements[i].pos - nameWithDotElements[i + 1].pos) < 0.06) {
                 nameWithDotElements[i].elem.querySelector('.name').style.top = '-30px';
                 nameWithDotElements[i + 1].elem.querySelector('.name').style.top = '-50px';
             }

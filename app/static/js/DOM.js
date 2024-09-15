@@ -666,7 +666,7 @@ const phase_3_custom_range_1_string = `
         <span style="left: 50%"></span>
         <span style="left: 75%"></span>
         <span style="left: 100%"></span>
-        <i class="phase2-small-arrow-left"></i>
+        <--i class="phase2-small-arrow-left"></i-->
         <i class="phase2-small-arrow"></i>
         <div class="range-marker-phase-2" id="marker_0" style="cursor: grab; left: 50%; background-color: #fff;"><span>You</span></div>
         <div class="range-marker-bot" style="display: none; background:#fff;"><span></span></div>
@@ -707,16 +707,16 @@ const phase_3_custom_range_1_string = `
     </div>
     <div style="position: relative; height: 40px;">
         <div class="phase2-label-container" style="left: 7.4%; width: 9%;">
-            <div class="phase2-label">strongly<br>liberal</div>
+            <div class="phase2-label">strongly<br>disagree</div>
         </div>
         <div class="phase2-label-container" style="left: 31.21%; width: 9%;">
-            <div class="phase2-label">Somewhat<br>liberal</div>
+            <div class="phase2-label">Somewhat<br>disagree</div>
         </div>
         <div class="phase2-label-container" style="left: 59.79%; width: 9%;">
-            <div class="phase2-label">Somewhat<br>conservative</div>
+            <div class="phase2-label">Somewhat<br>agree</div>
         </div>
         <div class="phase2-label-container" style="left: 83.6%; width: 9%;">
-            <div class="phase2-label">strongly<br>conservative</div>
+            <div class="phase2-label">strongly<br>agree</div>
         </div>
     </div>
 </div>
