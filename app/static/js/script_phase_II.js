@@ -448,8 +448,23 @@ function getIdeologyLabel2(color) {
     const random_bot = [leftGroup,'', rightGroup][random_user]; // 随机出现一个机器人（可无）
     const question_infomation = document.querySelector('.question-infomation');
     const botAnswer = getOpinionByValue(temp_answers[random_user]);
+    let bot_color;
+    switch (random_user) {
+        case 0:
+            bot_color = interpolateColor(dot_pos_1);
+            break;
+        case 1:
+            bot_color = interpolateColor(dot_pos_2);
+            break;
+        case 3:
+            bot_color = interpolateColor(dot_pos_3);
+            break;
+        default: 
+            bot_color = '';
+    }
+
     if (random_bot) {
-        question_infomation.innerHTML = `For <strong>Question ${next_question_seqNum}</strong>, you will see ${random_bot}’s answer before submitting your own answer. `;
+        question_infomation.innerHTML = `For <strong>Question ${next_question_seqNum}</strong>, you will see <span style="color: ${bot_color}">${random_bot}’s</span> answer before submitting your own answer. `;
         const range = phase_2_statements[question_type][question_index].range || [-2, 2];
         const botMarker = document.querySelector('.range-marker-bot');
         botMarker.querySelector('span').innerHTML = `${random_bot}'s<br/>answer`;
@@ -463,13 +478,13 @@ function getIdeologyLabel2(color) {
     }
     switch (question_type) {
         case "issue":
-            question.innerHTML += (random_bot ? `${random_bot}’s opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. ${random_bot} (${botAnswer}) thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a mild liberal, what is your opinion on the following statement`;
+            question.innerHTML += (random_bot ? `<span style="color: ${bot_color}">${random_bot}’s</span> opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. <span style="color: ${bot_color}">${random_bot} (${botAnswer})</span> thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a <span style="color:${new_color}">mild liberal</span>, what is <span style="color:${new_color}">your</span> opinion on the following statement`;
             break;
         case "prediction":
-            question.innerHTML += (random_bot ? `${random_bot}’s opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. ${random_bot} (${botAnswer}) thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a mild liberal, what is your opinion on the following statement`;
+            question.innerHTML += (random_bot ? `<span style="color: ${bot_color}">${random_bot}’s</span> opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis.<span style="color: ${bot_color}"> ${random_bot} (${botAnswer})</span> thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a <span style="color:${new_color}">mild liberal</span>, what is <span style="color:${new_color}">your</span> opinion on the following statement`;
             break;
         case "fact":
-            question.innerHTML += (random_bot ? `${random_bot}’s answer to the following question is shown in the box below, see the rectangle on the answer axis. ${random_bot} (${botAnswer}) believes that people with ideologies similar to hers/his are more knowledgeable on this question than those with opposite ideologies.` : '') + `As a mild liberal, what is your answer to the following question?`;
+            question.innerHTML += (random_bot ? `<span style="color: ${bot_color}">${random_bot}’s</span> answer to the following question is shown in the box below, see the rectangle on the answer axis. <span style="color: ${bot_color}">${random_bot} (${botAnswer})</span> believes that people with ideologies similar to hers/his are more knowledgeable on this question than those with opposite ideologies.` : '') + `As a <span style="color:${new_color}">mild liberal</span>, what is <span style="color:${new_color}">your</span> answer to the following question?`;
             break;
         case "design":
             question.innerHTML += "Which design do you prefer?";
