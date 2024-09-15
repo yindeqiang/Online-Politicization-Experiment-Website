@@ -186,7 +186,6 @@ let num1 = [];let num2 = [];
 
 function enter_next() {
     // attention check
-    // 不再进行检查
     // if (phase == 3 && question_seqNum_in_phase == 1 && !attention_checked) {
     //     attention_check(); // 这里原有的逻辑
     //     attention_checked = true;

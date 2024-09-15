@@ -666,7 +666,7 @@ const phase_3_custom_range_1_string = `
         <span style="left: 50%"></span>
         <span style="left: 75%"></span>
         <span style="left: 100%"></span>
-        <--i class="phase2-small-arrow-left"></i-->
+        <!--i class="phase2-small-arrow-left"></i-->
         <i class="phase2-small-arrow"></i>
         <div class="range-marker-phase-2" id="marker_0" style="cursor: grab; left: 50%; background-color: #fff;"><span>You</span></div>
         <div class="range-marker-bot" style="display: none; background:#fff;"><span></span></div>
@@ -731,15 +731,15 @@ const phase_3_custom_range_2_string = `
         <span style="left: 50%"></span>
         <span style="left: 75%"></span>
         <span style="left: 100%"></span>
-        <i class="phase2-small-arrow-left"></i>
+        <!--i class="phase2-small-arrow-left"></i-->
         <i class="phase2-small-arrow"></i>
         <div class="range-marker-phase-2" id="marker_0" style="cursor: grab; left: 50%; background-color: #fff;"><span>You</span></div>
         <div class="range-marker-bot" style="display: none; background:#fff;"><span></span></div>
     </div>
     <div class="range-text-phase-2">
         <p style="left: 0"><span>0%</span></p>
-        <p style="left: 50%"><span>50%</span></p>
-        <p style="left: 100%"><span>100%</span></p>
+        <p style="left: 50%"><span>5%</span></p>
+        <p style="left: 100%"><span>10%</span></p>
     </div>
 
     <div class="number-line-desc">Opinion<br />axis</div>
@@ -755,7 +755,7 @@ const phase_3_custom_range_3_string = `
         <span style="left: 50%"></span>
         <span style="left: 75%"></span>
         <span style="left: 100%"></span>
-        <i class="phase2-small-arrow-left"></i>
+        <!--i class="phase2-small-arrow-left"></i-->
         <i class="phase2-small-arrow"></i>
         <div class="range-marker-phase-2" id="marker_0" style="cursor: grab; left: 50%; background-color: #fff;"><span>You</span></div>
         <div class="range-marker-bot" style="display: none; background:#fff;"><span></span></div>

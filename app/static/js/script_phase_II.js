@@ -456,7 +456,7 @@ function getIdeologyLabel2(color) {
         case 1:
             bot_color = interpolateColor(dot_pos_2);
             break;
-        case 3:
+        case 2:
             bot_color = interpolateColor(dot_pos_3);
             break;
         default: 
