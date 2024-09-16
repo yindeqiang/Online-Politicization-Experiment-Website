@@ -449,8 +449,11 @@ function getIdeologyLabel2(color) {
     const random_user = getRandomUser();
     const random_bot = [leftGroup,'', rightGroup][random_user]; // 随机出现一个机器人（可无）
     const question_infomation = document.querySelector('.question-infomation');
-    const botAnswer = getOpinionByValue(temp_answers[random_user]);
-    const userAnswer = getOpinionByValue(temp_answers[1]);
+    let botAnswer;
+    if (random_bot) {
+        botAnswer = getOpinionByValue(split_answers[0][random_user]);
+    }
+    const userAnswer = getOpinionByValue(split_answers[0][1]);
     let bot_color;
     switch (random_user) {
         case 0:
