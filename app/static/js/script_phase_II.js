@@ -244,9 +244,11 @@ function init_phase_3() {
     //这些行计算当前问题的集合编号（set_num）和问题编号（question_num）。
     //然后，它们从phase_2_orders对象中检索设置和问题索引，并从set_index_to_name对象中检索问题类型。
 
+    
+    // 主观题和客观题 对应的附加题题干不同
     const additionalQuestionHTML = `
             <div class="additional-question-container">
-                <p sytle="line-height: 1.8"><strong>Additional question:</strong> Do you think your opinion reflects the typical standpoint of people with similar ideologies to yours?</p>
+                <p sytle="line-height: 1.8"><strong>Additional question:</strong> ${question_type === 'fact' ? 'Do you think that people with ideologies similar to yours are more knowledgeable on this question than those with opposite ideologies?' : 'Do you think your opinion reflects the typical standpoint of people with similar ideologies to yours?'}</p>
                 <div id="additional-options" style="display: flex; align-items: center; margin-top: 5px;">
                     <label style="display: flex; align-items: center; font-weight: bold; margin: 0 50px 0 0;"><input id="yes_button" type="radio" name="additional-options" value="yes" style="width: 20px; height: 20px;  margin: 0 10px 0 0;" onclick="selectAdditionalOption('yes')" />YES</label>
                     <label style="display: flex; align-items: center; font-weight: bold; margin: 0 30px 0 0"><input id="no_button" type="radio" name="additional-options" value="no" style="width: 20px; height: 20px; margin: 0 10px 0 0;" onclick="selectAdditionalOption('no')" />NO</label>
@@ -448,6 +450,7 @@ function getIdeologyLabel2(color) {
     const random_bot = [leftGroup,'', rightGroup][random_user]; // 随机出现一个机器人（可无）
     const question_infomation = document.querySelector('.question-infomation');
     const botAnswer = getOpinionByValue(temp_answers[random_user]);
+    const userAnswer = getOpinionByValue(temp_answers[1]);
     let bot_color;
     switch (random_user) {
         case 0:
@@ -478,13 +481,13 @@ function getIdeologyLabel2(color) {
     }
     switch (question_type) {
         case "issue":
-            question.innerHTML += (random_bot ? `<span style="color: ${bot_color}">${random_bot}’s</span> opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. <span style="color: ${bot_color}">${random_bot} (${botAnswer})</span> thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a <span style="color:${new_color}">mild liberal</span>, what is <span style="color:${new_color}">your</span> opinion on the following statement`;
+            question.innerHTML += (random_bot ? `<span style="color: ${bot_color}">${random_bot}’s</span> opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. <span style="color: ${bot_color}">${random_bot} (${botAnswer})</span> thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a <span style="color:${new_color}">${userAnswer}</span>, what is <span style="color:${new_color}">your</span> opinion on the following statement`;
             break;
         case "prediction":
-            question.innerHTML += (random_bot ? `<span style="color: ${bot_color}">${random_bot}’s</span> opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis.<span style="color: ${bot_color}"> ${random_bot} (${botAnswer})</span> thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a <span style="color:${new_color}">mild liberal</span>, what is <span style="color:${new_color}">your</span> opinion on the following statement`;
+            question.innerHTML += (random_bot ? `<span style="color: ${bot_color}">${random_bot}’s</span> opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis.<span style="color: ${bot_color}"> ${random_bot} (${botAnswer})</span> thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a <span style="color:${new_color}">${userAnswer}</span>, what is <span style="color:${new_color}">your</span> opinion on the following statement`;
             break;
         case "fact":
-            question.innerHTML += (random_bot ? `<span style="color: ${bot_color}">${random_bot}’s</span> answer to the following question is shown in the box below, see the rectangle on the answer axis. <span style="color: ${bot_color}">${random_bot} (${botAnswer})</span> believes that people with ideologies similar to hers/his are more knowledgeable on this question than those with opposite ideologies.` : '') + `As a <span style="color:${new_color}">mild liberal</span>, what is <span style="color:${new_color}">your</span> answer to the following question?`;
+            question.innerHTML += (random_bot ? `<span style="color: ${bot_color}">${random_bot}’s</span> answer to the following question is shown in the box below, see the rectangle on the answer axis. <span style="color: ${bot_color}">${random_bot} (${botAnswer})</span> believes that people with ideologies similar to hers/his are more knowledgeable on this question than those with opposite ideologies.` : '') + `As a <span style="color:${new_color}">${userAnswer}</span>, what is <span style="color:${new_color}">your</span> answer to the following question?`;
             break;
         case "design":
             question.innerHTML += "Which design do you prefer?";
