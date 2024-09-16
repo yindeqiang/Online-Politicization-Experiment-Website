@@ -104,6 +104,7 @@ const style_configurations = {
 var each_answer = {//对于每个问题存储了问题序号，谁先回答，三个人回答的list和分别花费的时间。
     idx_of_question: -1,        // index of the question in the array of questions
     who_answers_first: -1,
+    type: '', // 问题的类型
     answers: [],
     time_to_answer: []
 };
@@ -215,11 +216,23 @@ function enter_next() {
 //使用 JSON.parse(JSON.stringify(each_answer)) 对 each_answer 进行深拷贝，以生成一个新的答案对象。
     } else if (phase == 3) {
         each_answer.answers = temp_answers;
-        const set_num = Math.floor(question_seqNum_in_phase / 6);//属于第几个问题组，每5个为一组，20240626换成6个问题
-        const question_num = question_seqNum_in_phase % 6;//5个问题中的第几个，20240626是6个问题
+
+        let set_num = 0; //属于第几个问题组
+        let question_num = 0; // 第几个问题
+        let question_count = 0;
+        for (let i=0; i<phase_2_orders.question_order.length; i++) {
+            question_count += phase_2_orders.question_order[i].length;
+            if (question_count >= question_seqNum_in_phase + 1) {
+                set_num = i;
+                question_num =  phase_2_orders.question_order[i].length - (question_count - question_seqNum_in_phase);
+                break;
+            }
+        }
+        
         const set_index = phase_2_orders.set_order[set_num];
         const question_index = phase_2_orders.question_order[set_num][question_num];
-        each_answer.idx_of_question = set_index * 20 + question_index;//问题组乘20+在本问题组里的索引
+        each_answer.type = set_index_to_name[set_index];
+        each_answer.idx_of_question = question_index;
         each_answer.who_answers_first = phase_2_orders.participant_order[set_num];//who_answer_first根据random选出来
         data.type_B_answers.push(each_answer);//存phaseII答案
         each_answer = JSON.parse(JSON.stringify(each_answer));
