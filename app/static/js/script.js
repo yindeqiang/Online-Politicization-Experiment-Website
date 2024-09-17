@@ -232,7 +232,8 @@ function enter_next() {
         const set_index = phase_2_orders.set_order[set_num];
         const question_index = phase_2_orders.question_order[set_num][question_num];
         each_answer.type = set_index_to_name[set_index];
-        each_answer.idx_of_question = question_index;
+        each_answer.idx_of_question = set_index * 20 + question_index;
+        // each_answer.idx_of_question = question_index;
         each_answer.who_answers_first = phase_2_orders.participant_order[set_num];//who_answer_first根据random选出来
         data.type_B_answers.push(each_answer);//存phaseII答案
         each_answer = JSON.parse(JSON.stringify(each_answer));
