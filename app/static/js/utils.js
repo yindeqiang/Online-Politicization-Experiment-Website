@@ -265,7 +265,7 @@ function display_values(index = null, question_type = null) {///////重要！这
         if (index_of_question < phase_1_statements[0].length + phase_1_statements[1].length) {
             for (let index = 0; index < num_of_participants; index++) {
                 const profile = document.getElementById(`profile_${index}`);
-                if (temp_answers[index] == 0) {
+                if (temp_answers[index] == 1) {
                     profile.innerHTML += `
                         <div class="bubble" id="bubble_${index}">
                             <p>Agree √</p>
@@ -648,7 +648,7 @@ function track_answers() {
     `;
     for (let i = 0; i < num_of_participants; i++) {
         let block = document.getElementById(`ans${index}_${i}`);
-        if (temp_answers[i] == 0)
+        if (temp_answers[i] == 1)
             block.innerHTML = `√`;
         else
             block.innerHTML = `X`;
