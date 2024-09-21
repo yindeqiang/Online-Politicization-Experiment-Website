@@ -630,12 +630,12 @@ const phase_3_range_string = `
 <!--            <div class="small-arrow" style="left: 45.65%;"></div>-->
 <!--            <div class="small-arrow" style="left: 99.5%;"></div>         -->
 <!--        </div>-->
-        <div class="phase3-label blue" style="left: 0%;">strong liberal</div>
+        <div class="phase3-label blue" style="left: 0%;">Strongly liberal</div>
 <!--        <div class="phase3-label blue" style="left: 15.38%;">Liberal</div>-->
 <!--        <div class="phase3-label blue" style="left: 30.77%;">Mildly liberal</div>-->
 <!--        <div class="phase3-label red" style="left: 53.85%;">Mildly conservative</div>-->
 <!--        <div class="phase3-label red" style="left: 69.23%;">Conservative</div>-->
-        <div class="phase3-label red" style="left: 84.62%;">strong conservative</div>
+        <div class="phase3-label red" style="left: 84.62%;">Strongly conservative</div>
          
     </div>
     </div>
