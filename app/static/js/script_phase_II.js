@@ -42,13 +42,13 @@ function getRandomValue(min, max) {
 
 function getOpinionByValue(val) {
     if (val > 1 && val <= 2) {
-        return 'strongly liberal';
+        return 'strong conservative';
     } else if (val > 0 && val <= 1) {
-        return 'somewhat liberal';
+        return 'mild conservative';
     } else if (val >= -1 && val < 0) {
-        return 'somewhat conservative';
+        return 'mild liberal';
     } else if (val => -2 && val < -1) {
-        return  'strongly conservative';
+        return  'strong liberal';
     }
 }
 
