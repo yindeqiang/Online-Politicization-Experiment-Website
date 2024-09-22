@@ -244,6 +244,8 @@ function init_phase_3() {
     //这些行计算当前问题的集合编号（set_num）和问题编号（question_num）。
     //然后，它们从phase_2_orders对象中检索设置和问题索引，并从set_index_to_name对象中检索问题类型。
 
+    yesNoSelected = false;
+    agreeDisagreeSelected = false;
     
     // 主观题和客观题 对应的附加题题干不同
     const additionalQuestionHTML = `
@@ -257,19 +259,19 @@ function init_phase_3() {
         `;
 
 
-    if (next_question_seqNum === 11) {
+    // if (next_question_seqNum === 11) {
         document.querySelector(".additional-wrapper").insertAdjacentHTML('beforeend', additionalQuestionHTML);
 
-        data.driven_answers = [null];
+        data.driven_answers = data.driven_answers || [null];
             // 添加事件监听器来捕捉按钮点击事件
         document.getElementById('yes_button').addEventListener('click', function() {
-            data.driven_answers[0] = 0;  // 选择 Yes, 记录为 0
+            data.driven_answers[question_seqNum_in_phase] = 0;  // 选择 Yes, 记录为 0
         });
 
         document.getElementById('no_button').addEventListener('click', function() {
-            data.driven_answers[0] = 1;  // 选择 No, 记录为 1
+            data.driven_answers[question_seqNum_in_phase] = 1;  // 选择 No, 记录为 1
         });
-}
+// }
 
 // 监听提交按钮点击事件
 document.querySelector("#submit_button_phase2").addEventListener('click', function() {
