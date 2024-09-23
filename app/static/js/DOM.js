@@ -72,7 +72,11 @@ const section_rule_string = [
         "default":
             `In what follows, you will be asked 10-13 questions. For each question, please choose your answer and then click “Submit”.<br><br>
 
-            We have randomly drawn two previous participants from our earlier experiment dataset. They are randomly assigned alias names <b>${pseudonyms_chosen[0]}</b> and <b>${pseudonyms_chosen[2]}</b> respectively. For each question in Phase 1, their answers will be shown to you after you submit your own answer. `,
+            We have randomly drawn two previous participants from our earlier experiment dataset. They are randomly assigned alias names <b>${pseudonyms_chosen[0]}</b> and <b>${pseudonyms_chosen[2]}</b> respectively. For each question in Phase 1, their answers will be shown to you after you submit your own answer. 
+            <br>
+            <br>
+            When you have read the above instructions, please check the box below and press continue:
+            `,
     },
 
 
@@ -82,9 +86,9 @@ const section_rule_string = [
     In Phase 2, you will be asked 6 questions on hard facts, future predictions, or public issues. Previous experiments indicate that all of these 6 questions are controversial. Namely, for each question, approximately 50% of the previous participants were on the “Agree” side and the other 50% were on the “Disagree” side.
     </p>
     <span class="br_big"></span>
-    From our database, we randomly pick 10 previous participants who gave the same answers as Alex in Phase 1. We refer to these participants as <b>"Alex group"</b>. We also randomly pick 10 previous participants who gave the same answers as Blair in Phase 1. We refer to these participants as <b>"Blair group"</b>.<br>
+    For each question in Phase 2, either you will answer it by your own, or we will show you the answer by Alex or Blair for your reference. Based on the provided information, please choose your answer by pulling the scrollbar to the position that represents your opinion. Then you will need to answer one additional question on how your answer is related to your ideology. After that, click “Submit” to proceed to the next question.<br>
     <span class="br_big"></span>
-    For each question in Phase 2, we will show you Alex group and Blair group’s answers for your reference. Based on the provided information, please choose your answer to the question by clicking the option and then click “Submit”.<br>
+    After reading the above instructions, please check the box below and press continue.<br>
     `,
 
     `<p class="p_instruction">
@@ -113,7 +117,6 @@ const rule_string = `
         <div class="specific_rules"></div>
 
         <span class="br_big"></span>
-        When you have read the above instructions, please check the box below and press continue:
         <span class="br_small"></span>
         <input type="checkbox" id="i0">
         <label for="i0">I have carefully read the instructions and am ready to continue with the survey.</label>
@@ -710,10 +713,10 @@ const phase_3_custom_range_1_string = `
             <div class="phase2-label">strongly<br>disagree</div>
         </div>
         <div class="phase2-label-container" style="left: 31.21%; width: 9%;">
-            <div class="phase2-label">Somewhat<br>disagree</div>
+            <div class="phase2-label">somewhat<br>disagree</div>
         </div>
         <div class="phase2-label-container" style="left: 59.79%; width: 9%;">
-            <div class="phase2-label">Somewhat<br>agree</div>
+            <div class="phase2-label">somewhat<br>agree</div>
         </div>
         <div class="phase2-label-container" style="left: 83.6%; width: 9%;">
             <div class="phase2-label">strongly<br>agree</div>
