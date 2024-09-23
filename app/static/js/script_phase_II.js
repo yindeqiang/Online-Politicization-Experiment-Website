@@ -25,10 +25,25 @@ phase_2_starting_question_index: 这是一个常量，其值为12。它可能表
 
 instruction_background_color: 这是一个颜色字符串，表示某种指令或背景的颜色。其值为"#d3d3d354"，这是一个带有透明度的灰色。 */
 // 1 为自己 出现概率20%，2为blair 出现概率40%, 0为alex 出现概率40%
+let userRandomCount = [0, 0, 0];
 function getRandomUser() {
-    const userRandomArray = [0,0,1,0,2,2,1,0,2,2];
-    const r = parseInt(Math.random() * 10);
-    return userRandomArray[r];
+    // const userRandomArray = [0,0,1,0,2,2,1,0,2,2];
+    // const r = parseInt(Math.random() * 10);
+    // return userRandomArray[r];
+
+    // 人为控制出现的概率
+    const r = parseInt(Math.random() * 3);
+    let ratio = 0.4;
+    if (r === 1) {
+        ratio = 0.2;
+    } 
+    // 6道题，20%的情况下，最多不超过2道题
+    if (userRandomCount[r] >= Math.ceil(6 * ratio)) {
+        return getRandomUser();
+    }
+    // 如果随机数小于等于6*ratio，则返回随机数r
+    userRandomCount[r] += 1;
+    return r;
 }
 // 获取一个随机值，一位小数，且小数位为偶数
 function getRandomValue(min, max) {
