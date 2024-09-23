@@ -37,6 +37,7 @@ function getRandomUser() {
     if (r === 1) {
         ratio = 0.2;
     } 
+    userRandomCount[r] = userRandomCount[r] || 0;
     // 6道题，20%的情况下，最多不超过2道题
     if (userRandomCount[r] >= Math.ceil(6 * ratio)) {
         return getRandomUser();
