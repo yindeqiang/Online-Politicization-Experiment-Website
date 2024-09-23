@@ -244,10 +244,10 @@ const phase_2_label_string = `
                         <div class="phase2-label">strongly<br>liberal</div>
                     </div>
                     <div class="phase2-label-container" style="left: 31.21%; width: 9%;">
-                        <div class="phase2-label">Somewhat<br>liberal</div>
+                        <div class="phase2-label">somewhat<br>liberal</div>
                     </div>
                     <div class="phase2-label-container" style="left: 59.79%; width: 9%;">
-                        <div class="phase2-label">Somewhat<br>conservative</div>
+                        <div class="phase2-label">somewhat<br>conservative</div>
                     </div>
                     <div class="phase2-label-container" style="left: 83.6%; width: 9%;">
                         <div class="phase2-label">strongly<br>conservative</div>
