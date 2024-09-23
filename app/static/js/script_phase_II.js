@@ -47,8 +47,10 @@ function getOpinionByValue(val) {
         return 'mild conservative';
     } else if (val >= -1 && val < 0) {
         return 'mild liberal';
-    } else if (val => -2 && val < -1) {
+    } else if (val >= -2 && val < -1) {
         return  'strong liberal';
+    } else {
+        return '';
     }
 }
 
@@ -451,9 +453,10 @@ function getIdeologyLabel2(color) {
     const random_user = getRandomUser();
     const random_bot = [leftGroup,'', rightGroup][random_user]; // 随机出现一个机器人（可无）
     const question_infomation = document.querySelector('.question-infomation');
+    let botAnswerValue = split_answers[0][random_user];
     let botAnswer;
     if (random_bot) {
-        botAnswer = getOpinionByValue(split_answers[0][random_user]);
+        botAnswer = getOpinionByValue(botAnswerValue);
     }
     const userAnswer = getOpinionByValue(split_answers[0][1]);
     let bot_color;
@@ -486,13 +489,13 @@ function getIdeologyLabel2(color) {
     }
     switch (question_type) {
         case "issue":
-            question.innerHTML += (random_bot ? `<span style="color: ${bot_color}">${random_bot}’s</span> opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. <span style="color: ${bot_color}">${random_bot} (${botAnswer})</span> thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a <span style="color:${new_color}">${userAnswer}</span>, what is <span style="color:${new_color}">your</span> opinion on the following statement`;
+            question.innerHTML += (random_bot ? `<span style="color: ${bot_color}">${random_bot}’s</span> opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis. <span style="color: ${bot_color}">${random_bot} ` + (botAnswer ? `(${botAnswer})` : '') +`</span> thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + (userAnswer ? `As a <span style="color:${new_color}">${userAnswer}</span>,w` : 'W' + `hat is <span style="color:${new_color}">your</span> opinion on the following statement`);
             break;
         case "prediction":
-            question.innerHTML += (random_bot ? `<span style="color: ${bot_color}">${random_bot}’s</span> opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis.<span style="color: ${bot_color}"> ${random_bot} (${botAnswer})</span> thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + `As a <span style="color:${new_color}">${userAnswer}</span>, what is <span style="color:${new_color}">your</span> opinion on the following statement`;
+            question.innerHTML += (random_bot ? `<span style="color: ${bot_color}">${random_bot}’s</span> opinion towards the following statement is shown in the opinion spectrum below, see the rectangle on the opinion axis.<span style="color: ${bot_color}"> ${random_bot}` + (botAnswer ?  `(${botAnswer})` : '') + `</span> thinks that her/his opinion reflects the typical standpoint of people with similar ideologies to hers/his.` : '') + (userAnswer ? `As a <span style="color:${new_color}">${userAnswer}</span>,w` : 'W' + `hat is <span style="color:${new_color}">your</span> opinion on the following statement`);
             break;
         case "fact":
-            question.innerHTML += (random_bot ? `<span style="color: ${bot_color}">${random_bot}’s</span> answer to the following question is shown in the box below, see the rectangle on the answer axis. <span style="color: ${bot_color}">${random_bot} (${botAnswer})</span> believes that people with ideologies similar to hers/his are more knowledgeable on this question than those with opposite ideologies.` : '') + `As a <span style="color:${new_color}">${userAnswer}</span>, what is <span style="color:${new_color}">your</span> answer to the following question?`;
+            question.innerHTML += (random_bot ? `<span style="color: ${bot_color}">${random_bot}’s</span> answer to the following question is shown in the box below, see the rectangle on the answer axis. <span style="color: ${bot_color}">${random_bot} ` + (botAnswer ?  `(${botAnswer})` : '') + `</span> believes that people with ideologies similar to hers/his are more knowledgeable on this question than those with opposite ideologies.` : '') + (userAnswer ? `As a <span style="color:${new_color}">${userAnswer}</span>,w` : 'W' + `hat is <span style="color:${new_color}">your</span> answer to the following question?`);
             break;
         case "design":
             question.innerHTML += "Which design do you prefer?";
