@@ -716,7 +716,7 @@ function init_phase_1() {
         else
             statement_text = phase_1_statements[1][index_of_question - phase_1_statements[0].length].statement;
         document.querySelector(".statement").innerHTML = `"` + statement_text + `"`;
-        add_ans_choices(['Agree √', 'Disagree X']);
+        add_ans_choices([{label: 'Agree √', value: 1}, {label: 'Disagree X', value: 0}]);
         //设置问题的内容，并从 phase_1_statements 数组中获取对应的声明文本。
         //这个数组可能包含两组不同的声明，根据 index_of_question 的值，从其中一组或另一组中选择声明。
         // const answer_choices = document.querySelector(".answer_choices");

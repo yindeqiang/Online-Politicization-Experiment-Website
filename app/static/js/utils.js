@@ -720,11 +720,20 @@ function add_ans_choices(name_list) {
     let index = 0;
     let flex = document.querySelector(".answer_choices");
     for (let name of name_list) {
-        flex.innerHTML += `
-            <div class="answer_choice" id="choice_${index}">
-                <p>${name}</p>
-            </div>
-        `;
+        if (typeof name === 'string') {
+            flex.innerHTML += `
+                <div class="answer_choice" id="choice_${index}">
+                    <p>${name}</p>
+                </div>
+            `;
+        } else {
+            flex.innerHTML += `
+                <div class="answer_choice" id="choice_${name.value}">
+                    <p>${name.label}</p>
+                </div>
+            `;
+        }
+
         index++;
     }
 }
