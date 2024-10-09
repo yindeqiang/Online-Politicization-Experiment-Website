@@ -829,7 +829,7 @@ function interpolateColor(normalizedX) {
 
 
 function toggle_choice(choice, click_or_unclick) {
-    if (phase == 0) {
+    if (phase == -1) {
         if (click_or_unclick)
             choice.style.outline = style_configurations.clicked_identity_outline;
         else
@@ -966,7 +966,7 @@ function bot_timeup(index, last_bot_index) {
             status.innerHTML = tickmark_string;
     }
 
-    /*if (phase == 0) {///进入phase1答题前的选头像!!注意现在都是png图像！！！！
+    /*if (phase == -1) {///进入phase1答题前的选头像!!注意现在都是png图像！！！！
         let name = pseudonyms_chosen[index];//进入phase1答题前的选头像
         document.getElementById(`profile_${index}`).innerHTML = `
             <img src="/static/avatars/avatar_${avatars_index_chosen[index]}.png" class="img_big" >
@@ -1185,7 +1185,7 @@ function add_identity_status() {
         /*if (index == human_index) {
             if (phase == 4) {
                 continue;
-            } else if (phase == 2 || phase == 0) {
+            } else if (phase == 2 || phase == -1) {
                 name += ' <b>(You)</b>';
             } else
                 name += '<br><b>(You)</b>';

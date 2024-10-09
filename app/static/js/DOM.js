@@ -1,7 +1,15 @@
 const pseudonyms = ["Alex", "Blair"];// 这是进入实验时选的名字，原来是"Alice", "Alex", "Betty", "Bob", "Catherine", "Charlie", "Emily", "David", "Grace", "Edward","Jane", "Frank", "Laura", "Henry", "Maria", "John", "Nicole", "Kevin", "Sandra", "Michael"
 
 //const phase_length = [1, [6, 4, 3], 1, 5, 1];//原来是5道题，现在换成6个问题
-const phase_length = [1, [6, 4, 3], 1, 6, 1];//phase0选头像名字（已弃用），phase1答题，phase2标签，phase3答题，phase4 additional question
+// const phase_length = [1, [6, 4, 3], 1, 6, 1];//phase0选头像名字（已弃用），phase1答题，phase2标签，phase3答题，phase4 additional question
+const phase_length = {
+    '-1': 1,
+    '0': 1,
+    '1': [6, 4, 3], 
+    '2': 1, 
+    '3': 6, 
+    '4': 1
+}
 
 const avatar_num = 6;//新的实验是6个空白头像，原来是有6个卡通图像
 //const avatar_num = 3;
@@ -53,7 +61,22 @@ const tickmark_string = `<div class="tick-mark"></div>`;//包含了一个 tick m
 const loader_string = `<div class="loader"></div>`;//实现了一个“正在加载转圈”效果
 
 const section_rule_string = [
-    ``,
+    {
+        "pilot_1":
+            `In what follows, you will be asked 10 questions on public issues.
+            <span class="br_small"></span>
+            <input type="checkbox" id="checkbox_1">
+            <label for="checkbox_1">
+                For each question, please provide your own answer by clicking the option that represent your own attitude and then click “Submit”.
+            </label>
+            <span class="br_small"></span>
+            <input type="checkbox" id="checkbox_2">
+            <label for="checkbox_2">
+                After answering each question, all the participants' answers will be shown to each other.
+            </label>`,
+        "default": 
+            `In what follows, you will be asked 18 questions. Each page contains 3 questions. Please choose your answers by pulling the scrollbars and then click “Continue” to proceed to the next page. <br> <br> When you have read the above instructions, please check the box below and press continue`
+    },
 
     {
         "pilot_1":

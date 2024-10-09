@@ -138,7 +138,7 @@ let lastBotIndex = (human_index == num_of_participants - 1) ? num_of_participant
 // status
 var all_bots_timeup = false;        // whether all bots are time up,表示是否所有机器人都已经超时
 /////
-var phase = 0;                     //这里的phase变量对应的是网站的第几个阶段
+var phase = -1;                     //这里的phase变量对应的是网站的第几个阶段
 ///////////////
 var temp_answers = [];             //用于临时存储答案
 
@@ -334,7 +334,7 @@ function enter_next() {
 检查当前问题是否是该阶段的最后一个问题。如果是，则执行以下操作：
 如果当前阶段是第四阶段，调用 end_quiz() 函数来结束测试。
 如果当前阶段不是第四阶段且 userData.quiz_type 为 'pilot_1'，则将阶段设置为第四阶段，重置问题序列号，并调用 show_instructions() 函数显示说明。*/
-            } else if (userData.quiz_type == 'condition_1' && phase == 0) {
+            } else if (userData.quiz_type == 'condition_1' && phase == -1) {
                 phase = 3;//condition1直接进入phase3的阶段
                 question_seqNum_in_phase = 0;
                 next_question_seqNum = 1;
@@ -350,7 +350,7 @@ function enter_next() {
                 question_seqNum_in_phase = 0;
                 phase += 1;
                 // for phase 0, do not increase index of the next question
-                if (phase != 0)
+                if (phase != -1)
                 {if(phase != 31)
                     {next_question_seqNum += 1;}}
                 show_instructions();
@@ -394,7 +394,7 @@ function show_instructions() {//1,3开始前要有一个instruction的展示
     if (phase == 1)
         set_bots_behavior();
 
-    if (phase == 1 || phase == 3) {
+    if (phase == 0 || phase == 1 || phase == 3) {
         // DOM change
         document.querySelector(".quiz_body").innerHTML = rule_string;
         let title = document.querySelector("h1");
@@ -404,10 +404,13 @@ function show_instructions() {//1,3开始前要有一个instruction的展示
         if (userData.quiz_type == "pilot_1") {
             title.innerHTML = `Instruction`;
         } else {
-            if (phase == 1)
+            if (phase === 0) {
                 title.innerHTML = 'Instruction for Phase 1';
+            }
+            else if (phase == 1)
+                title.innerHTML = 'Instruction for Phase 2';
             else if (phase == 3)
-                title.innerHTML = "Instruction for Phase 2";
+                title.innerHTML = "Instruction for Phase 3";
         }
 /*** 如果 `userData.quiz_type` 为 `"pilot_1"`，则标题为 `Instruction`。  
 * 否则，根据 `phase` 的值，标题会被设置为 `Instruction for Phase I` 或 `Instruction for Phase II`。 */
@@ -416,7 +419,7 @@ function show_instructions() {//1,3开始前要有一个instruction的展示
         //修改 .specific_rules 元素的内容，用于显示特定阶段的规则
         // modify the rules
         let rule = document.querySelector(".specific_rules");
-        if (phase == 1) {
+        if (phase == 0) {
             if (userData.quiz_type == 'pilot_1')
                 rule.innerHTML = section_rule_string[phase][userData.quiz_type];
             else
@@ -434,6 +437,9 @@ function show_instructions() {//1,3开始前要有一个instruction的展示
         document.querySelector("button").addEventListener("click", () => {
             document.removeEventListener("change", after_check);
             switch (phase) {
+                case 0:
+                    init_phase_0();
+                    break;
                 case 1:
                     init_phase_1();
                     break;
@@ -611,7 +617,7 @@ function set_bots_behavior() {
 function all_timeup() {
     document.removeEventListener("timeup", all_timeup);
     document.querySelector(".instruction").textContent = ``;
-    if (phase == 0) {
+    if (phase == -1) {
         let button = document.querySelector("button");
         button.disabled = false;
         button.addEventListener("click", enter_next);
@@ -629,7 +635,7 @@ document.querySelector(".instruction").textContent = ``;
 这行代码使用 querySelector 方法查找页面上类名为 instruction 的元素，并将其文本内容设置为空字符串，即清空这个元素的内容。
 
 检查阶段并启用按钮：
-if (phase == 0) { ... }
+if (phase == -1) { ... }
 这个 if 语句检查一个名为 phase 的变量是否等于 0。如果是，它执行以下操作：
 
 let button = document.querySelector("button");
@@ -679,7 +685,7 @@ let phase_1_distances = generate_zero_array(num_of_bots);
 
 function init_phase_1() {
     // change DOM
-    if (question_seqNum_in_phase == 0)
+    if (question_seqNum_in_phase == -1)
         document.querySelector(".quiz_body").innerHTML = phase_1_body_string;
     //如果 question_seqNum_in_phase 的值为0（表示这是该阶段的第一个问题），
     //那么会将 .quiz_body 元素的内容设置为 phase_1_body_string 变量的值。这可能是为了显示该阶段特有的内容或布局。
