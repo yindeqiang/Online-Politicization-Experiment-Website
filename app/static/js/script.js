@@ -364,9 +364,14 @@ function enter_next() {
     }
 
     else {//如果不是本phase里面的最后一题。
-        question_seqNum_in_phase += 1;
-        next_question_seqNum += 1;
+        if (phase !== 0 ) {
+            next_question_seqNum += 1;
+            question_seqNum_in_phase += 1;
+        }
         switch (phase) {
+            case 0:
+                init_phase_0();
+                break;
             case 1:
                 init_phase_1();
                 break;
