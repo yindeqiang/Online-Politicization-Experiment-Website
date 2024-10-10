@@ -1,0 +1,32 @@
+
+.phase_0_wrapper {
+    width: 100%;
+    margin: 0 auto;
+    max-width: 1000px;
+}
+
+.phase_0_custom-range {
+    padding: 40px;
+    border: none;
+}
+
+.phase_0_custom-range .range-marker-phase-2 {
+    width: 35px;
+}
+
+.phase_0_wrapper .question_item {
+    margin: 0 0 60px;
+}
+
+.phase_0_wrapper .question_item .question_title {
+    margin: 0 0 20px;
+}
+
+.phase_0_wrapper .question_item .range-number-line span {
+    border-left: 2px solid #000;
+}
+
+.phase_0_custom-range .range-text-phase-2 > p {
+    font-size: 14px;
+    font-weight: 500;
+}

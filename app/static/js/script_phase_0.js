@@ -5,6 +5,9 @@ function init_phase_0() {
         <div class="phase_0_wrapper">
             <h1 class="questions_block_title"></h1>
             <div class="questions_list"></div>
+            <div class="button">
+                <button class="button_big continue_btn">Continue</button>
+            </div>
         </div>
     `;
     document.querySelector(".quiz_body").innerHTML = body_string;
@@ -37,9 +40,65 @@ function init_phase_0() {
         div.innerHTML = dom;
         questions_list.appendChild(div);
 
-
         next_question_seqNum += 1;
     });
+
+    function checkIfSubmitCanBeEnabled() {
+        if (marker_dragged.every(o => o === true)) {
+            continue_btn.removeAttribute('disabled');
+        } else {
+            continue_btn.setAttribute('disabled', 'disabled');
+        }
+    }
+    const continue_btn = document.querySelector('.continue_btn');
+    // 拖拽滑块
+    const markers = document.querySelectorAll('.range-marker-phase-2');
+    const range = document.querySelector('.range-number-line');
+    let marker_dragged = [];
+    let dragger = null;
+    let current = -1;
+    markers.forEach((marker, index) => {
+        marker_dragged[index] = false;
+        marker.addEventListener('mousedown', () => {
+            dragger = marker;
+            current = index;
+            console.log(current);
+            marker.style.cursor = 'grabbing';
+            document.addEventListener('mouseup', handleMouseUp, false);
+            document.addEventListener('mousemove', handleMouseMove, false);
+            document.addEventListener('blur', handleMouseUp, false);
+        });
+    })
+    
+
+    function handleMouseUp() {
+        current = -1;
+        dragger.style.cursor = 'grab';
+        document.removeEventListener('mouseup', handleMouseUp, false);
+        document.removeEventListener('mousemove', handleMouseMove, false);
+        document.removeEventListener('blur', handleMouseUp, false);
+    }
+
+    const segment_percentage = 2.5;
+    function handleMouseMove(event) {
+        if (current === -1) return;
+
+        const rect = range.getBoundingClientRect();
+        let x = event.clientX - rect.left;
+        x = Math.max(x, 0);
+        x = Math.min(x, rect.width);
+        const percentage = (x / rect.width) * 100;
+        let segmentIndex = Math.floor(percentage / segment_percentage);
+        segmentIndex = Math.min(segmentIndex, 40);
+        dragger.style.left = `${segmentIndex * segment_percentage}%`;
+
+        const rangeValue = questions[current].range || [-2, 2];
+        const value = (rangeValue[1] - rangeValue[0]) * (segmentIndex * segment_percentage / 100) + rangeValue[0];
+        // temp_answers[human_index] = value;
+        // console.log(value);
+        marker_dragged[current] = true;
+        checkIfSubmitCanBeEnabled();
+    }
 }
 
 function generateAxis(info) {
