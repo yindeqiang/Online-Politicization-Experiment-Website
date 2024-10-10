@@ -485,90 +485,6 @@ function removeNotification() {
     }
 }*/
 
-function choose_identity() {
-    document.querySelector(".quiz_body").innerHTML = phase_0_body_string;
-    //这行代码将.quiz_body类的元素的内容重置为phase_0_body_string变量的值。这可能是一个字符串，代表某个特定阶段或状态的页面内容。
-    adjust_button_size(document.querySelector(".button_checked"));
-    //调用adjust_button_size函数，并传递.button_checked类的元素作为参数。这个函数可能是用来调整按钮的大小的。
-
-    let avatars_list = document.querySelector(".avatars_list");//选中头像列表
-
-    let pseudonyms_list = document.querySelector(".pseudonyms_list");
-
-    let notification_choose_identity = document.querySelector(".avatar_notification");
-
-
-    for (let index = 0; index < pseudonyms.length; index++) {
-        pseudonyms_list.innerHTML += `
-            <div class="pseudonym_choice" id="pseudonym_${index}">
-                <p>${pseudonyms[index]}</p>
-            </div>
-        `;
-    }
-    /*首先，选择.pseudonyms_list类的元素，然后遍历pseudonyms数组（这个数组在这段代码之外定义）。对于数组中的每个化名，它都会向
-pseudonyms_list元素的innerHTML添加一个新的div元素，该元素包含一个段落元素，显示当前的化名。*/
-
-notification_choose_identity.innerHTML += `
-            <div class="avatar_notification">
-                <p style="color: red;padding-left: 70px;margin-bottom: 100px;">The names and avatars in light grey have been chosen by other participants.</p>
-            </div>
-        `;
-
-    for (let index = 0; index < avatar_num; index++) {
-        avatars_list.innerHTML += `
-            <div class="avatar_choice" id="avatar_${index}">
-                <img src="/static/avatars/avatar_${index}.png" alt="avatar_${index}" >
-            </div>
-        `;
-    }
-    /*for (let index = 0; index < 1; index++) {//原来代码在上面，新逻辑是只有一个黑色人头图像，默认选第0个
-        avatars_list.innerHTML += `
-            <div class="avatar_choice" id="avatar_${index}">
-                <img src="/static/avatars/avatar_${index}.svg" alt="avatar_${index}" >
-            </div>
-        `;
-    }*/
-
-//该元素包含一个图像元素，其源src是根据当前的索引动态生成的，并指向一个 SVG 格式的头像。
-
-//下面是设定好第一个头像和名字禁用不可选的状态的设定
-/////////////////////////////////////////////////////////////////////////////////////////////////
- // 获取第一个伪名和头像的元素
- const firstPseudonymChoice = document.getElementById("pseudonym_6");/**默认第二个（1）头像和第七个（6）名字 */
- const firstAvatarChoice = document.getElementById("avatar_1");
- 
- // 设置第一个伪名和头像显示灰色，并禁止用户选择
- firstPseudonymChoice.style.backgroundColor = "light-grey";
- firstPseudonymChoice.style.opacity = "0.2"; // 设置透明度为0.2
- firstPseudonymChoice.style.pointerEvents = "none";
- firstAvatarChoice.style.backgroundColor = "light-grey";
- firstAvatarChoice.style.opacity = "0.2";
- firstAvatarChoice.style.pointerEvents = "none";
- 
- // 调用创建提示的函数
-//createNotification();
- 
- // 禁止用户点击第一个名字和头像
- const disableFirstChoices = () => {
-     firstPseudonymChoice.style.pointerEvents = "none";
-     firstAvatarChoice.style.pointerEvents = "none";
- };
- 
- // 禁止用户点击某个名字和头像
- disableFirstChoices();
-////////////////////////////////////////////////////////////////////////////////////////////////////////
-document.querySelector(".splits_wrap").addEventListener("click", click_pseudonym_or_avatar_handler);
-document.querySelector("button").addEventListener("click", wait_for_participants);//选好后进入等待环节
-    
-    
-    /* `.splits_wrap` 类的元素：当点击此元素时，会调用 `click_pseudonym_or_avatar_handler` 函数。
-    从名称上看，这个函数可能是用来处理用户点击化名或头像时的逻辑。`button` 类的元素（这里似乎没有指定具体的类名，可能是一个错误，除非页面确实只有一个 `button` 元素）：
-当点击此按钮时，会调用 `wait_for_participants` 函数。这个函数可能是用来等待其他参与者加入或开始某个过程。*/
-
-}
-
-
-
 
 var bots_answer_set_phase_1 = [null, null];
 var first_bot_is_liberal;
@@ -1292,7 +1208,6 @@ function end_quiz() {//end_quiz 函数主要用于在测验结束时收集数据
     
     如果请求失败，执行 .fail 里的回调函数，并在控制台输出错误信息。 */
 }
-
 
 
 function attention_check() {//注意力检测

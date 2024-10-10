@@ -184,36 +184,6 @@ const input_select_string = `
     <div class="identity_wrap answer_status"></div>
 `;
 
-const phase_0_body_string = `
-    <h1>Please choose your pseudonym and cartoon avatar</h1>
-    <div class="splits_wrap">
-        <div class="split phase_0_left">
-        <!-- 这是一个HTML注释:下面分别是提示+选名字、头像 -->
-            <p>Before the experiment, please pick a pseudonym for yourself from the following list:</p>
-            <div class="pseudonyms_list"></div>
-            <p>Please click a cartoon avatar from the following:</p>
-            <div class="identity_wrap avatars_list"></div>
-            <div class="avatar_notification"></div>
-        </div>
-        <div class="split phase_0_right">
-            <p class="p_centered">
-                Your identity will be displayed as:
-            </p>
-            <div class="identity_chosen">
-                <img src="/static/avatars/avatar_default.png" />
-                <span>Name</span>
-            </div>
-            <form>
-                <input type="checkbox" id="cb_0">
-                <label for="cb_0">The other two participants will see your pseudonym and carton avatar.</label>
-                <button type="button" class="button_big button_checked" disabled="true">Proceed to Phase I</button>
-            </form>
-        </div>
-    </div>
-`;
-
-
-
 const phase_1_body_string = `
     <div class="split left">
         ${input_select_string}
