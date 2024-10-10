@@ -105,8 +105,7 @@ function init_phase_0() {
 
 function generateAxis(info) {
     if (info.axis === 'attitude') {
-        return phase_0_axis_string_0;
-    } else {
-        return phase_0_axis_string_1(info);
+        return phase_0_axis_string_0(info);
     }
+    return phase_0_axis_string_1(info);
 }
