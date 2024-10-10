@@ -7,6 +7,7 @@
         <link href="{{ url_for('static', filename="css/style.css") }}" rel="stylesheet">
         <link href="{{ url_for('static', filename="css/style_pilot_2.css") }}" rel="stylesheet">
         <link href="{{ url_for('static', filename="css/style_phase_II.css") }}" rel="stylesheet">
+        <link href="{{ url_for('static', filename="css/style_phase_0.css") }}" rel="stylesheet">
         <script>
             var userData = {
                 participantId: '{{ participantId }}',
@@ -21,6 +22,7 @@
                 idExisted = false;
         </script>
         <script src="{{ url_for('static', filename="js/jquery-3.6.1.min.js") }}"></script>
+        <script src="{{ url_for('static', filename="data/phase_0_statements.js") }}" defer></script>
         <script src="{{ url_for('static', filename="data/phase_1_statements.js") }}" defer></script>
         <script src="{{ url_for('static', filename="data/phase_2_statements.js") }}" defer></script>
         <script src="{{ url_for('static', filename="js/utils.js") }}" defer></script>

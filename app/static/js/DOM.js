@@ -765,3 +765,109 @@ const phase_3_custom_range_3_string = `
     <div class="number-line-desc">Opinion<br />axis</div>
 </div>
 `;
+
+const phase_0_axis_string_0 = `
+<div class="phase_3_custom-range">
+    <div class="range-scale-phase-2"></div>
+    <div class="range-number-line">
+        <span style="left: 0"></span>
+        <span style="left: 25%"></span>
+        <span style="left: 50%"></span>
+        <span style="left: 75%"></span>
+        <span style="left: 100%"></span>
+        <!--i class="phase2-small-arrow-left"></i-->
+        <i class="phase2-small-arrow"></i>
+        <div class="range-marker-phase-2" id="marker_0" style="cursor: grab; left: 50%; background-color: #fff;"><span>You</span></div>
+        <div class="range-marker-bot" style="display: none; background:#fff;"><span></span></div>
+    </div>
+    <div class="range-text-phase-2">
+        <p style="left: 0"><span>-2</span></p>
+        <p style="left:25%"><span>-1</span></p>
+        <p style="left:50%"><span>0</span></p>
+        <p style="left: 75%"><span>1</span></p>
+        <p style="left: 100%"><span>2</span></p>
+    </div>
+
+    <div class="number-line-desc">Opinion<br />axis</div>
+
+    <div class="range-labels-container">
+        <!-- 绘制虚线 -->
+        <div class="phase2-dotted-line" style="left: 0%; width: 100%; border-top: 1.5px solid black;"></div>
+    
+        <!-- 绘制短竖线 -->
+        <div class="phase2-short-line" style="left: 0%;"></div>
+        <div class="phase2-short-line" style="left: 25%;"></div>
+        <div class="phase2-short-line" style="left: 50%;"></div>
+        <div class="phase2-short-line" style="left: 75%;"></div>
+        <div class="phase2-short-line" style="left: 100%;"></div>
+    
+        <!-- 绘制左右箭头 -->
+        <div class="phase2-small-arrow" style="left: calc(25% - 4px);"></div>
+        <div class="phase2-small-arrow-left" style="left: 25%;"></div>
+    
+        <div class="phase2-small-arrow" style="left: calc(75% - 4px);"></div>
+        <div class="phase2-small-arrow-left" style="left: 75%;"></div>
+    
+        <!-- 绘制单侧小箭头 -->
+        <div class="phase2-small-arrow-left" style="left: 0%;"></div>
+        <div class="phase2-small-arrow-left" style="left: 50%;"></div>
+        <div class="phase2-small-arrow" style="left: calc(50% - 4px);"></div>
+        <div class="phase2-small-arrow" style="left: calc(100% - 4px);"></div>         
+    </div>
+    <div style="position: relative; height: 40px;">
+        <div class="phase2-label-container" style="left: 7.4%; width: 9%;">
+            <div class="phase2-label">strongly<br>disagree</div>
+        </div>
+        <div class="phase2-label-container" style="left: 31.21%; width: 9%;">
+            <div class="phase2-label">somewhat<br>disagree</div>
+        </div>
+        <div class="phase2-label-container" style="left: 59.79%; width: 9%;">
+            <div class="phase2-label">somewhat<br>agree</div>
+        </div>
+        <div class="phase2-label-container" style="left: 83.6%; width: 9%;">
+            <div class="phase2-label">strongly<br>agree</div>
+        </div>
+    </div>
+</div>
+`;
+
+const phase_0_axis_string_1 = function(info) {
+    function format (axis, value, suffix) {
+        let res = '';
+        if (axis === 'number') {
+            res = value;
+        } else if (axis === 'percentage') {
+            res =  value * 100 + '%';
+        }
+        if (suffix) {
+            res += '<br>' + suffix;
+        }
+        return res;
+    }
+
+    return `
+        <div class="phase_3_custom-range phase_0_custom-range">
+            <div class="range-scale-phase-2"></div>
+            <div class="range-number-line">
+                <span style="left: 0"></span>
+                <span style="left: 10%"></span>
+                <span style="left: 20%"></span>
+                <span style="left: 30%"></span>
+                <span style="left: 40%"></span>
+                <span style="left: 50%"></span>
+                <span style="left: 60%"></span>
+                <span style="left: 70%"></span>
+                <span style="left: 80%"></span>
+                <span style="left: 90%"></span>
+                <span style="left: 100%"></span>
+                <i class="phase2-small-arrow"></i>
+                <div class="range-marker-phase-2" id="marker_0" style="cursor: grab; left: 50%; background-color: #fff;"></div>
+            </div>
+            <div class="range-text-phase-2">
+                <p style="left: 0"><span>${format(info.axis, info.range[0], info.suffix)}</span></p>
+                <p style="left: 50%"><span>${format(info.axis,  info.range[0] + (info.range[1] - info.range[0]) / 2, info.suffix)}</span></p>
+                <p style="left: 100%"><span>${format(info.axis, info.range[1], info.suffix)}</span></p>
+            </div>
+        </div>
+    `
+};

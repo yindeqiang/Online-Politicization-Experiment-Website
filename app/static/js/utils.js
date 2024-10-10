@@ -1,3 +1,18 @@
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+/**shuffleArray(array): 这是一个函数，用于随机打乱传入的数组。
+
+函数使用Fisher-Yates洗牌算法来打乱数组。
+for循环从数组的最后一个元素开始，逐步向前遍历。
+在每次迭代中，它都会生成一个随机数j，该数在0到当前索引i（包括i）之间。
+然后，它使用ES6的解构赋值来交换array[i]和array[j]的值。
+最后，函数返回打乱后的数组。 */
+
 function generate_sequence_array(start, num) {
     let ret = [];
     for (let i = 0; i < num; i++) {
