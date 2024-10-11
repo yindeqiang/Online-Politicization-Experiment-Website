@@ -495,13 +495,13 @@ const attention_check_string = `
                     <div class="item_label">X is</div>
                     <div>
                         <label>
-                            <input type="radio" name="question_1" value="A">Alice
+                            <input type="radio" name="X" value="${pseudonyms_chosen[0]}">${pseudonyms_chosen[0]}
                         </label>
                         <label>
-                            <input type="radio" name="question_1" value="B">Bob
+                            <input type="radio" name="X" value="${pseudonyms_chosen[2]}">${pseudonyms_chosen[2]}
                         </label>
                         <label>
-                            <input type="radio" name="question_1" value="C">You
+                            <input type="radio" name="X" value="${pseudonyms_chosen[1]}">${pseudonyms_chosen[1]}
                         </label>
                     </div>
                 </div>
@@ -509,13 +509,13 @@ const attention_check_string = `
                     <div class="item_label">Y is</div>
                     <div>
                         <label>
-                            <input type="radio" name="question_1" value="A">Alice
+                            <input type="radio" name="Y" value="${pseudonyms_chosen[0]}">${pseudonyms_chosen[0]}
                         </label>
                         <label>
-                            <input type="radio" name="question_1" value="B">Bob
+                            <input type="radio" name="Y" value="${pseudonyms_chosen[2]}">${pseudonyms_chosen[2]}
                         </label>
                         <label>
-                            <input type="radio" name="question_1" value="C">You
+                            <input type="radio" name="Y" value="${pseudonyms_chosen[1]}">${pseudonyms_chosen[1]}
                         </label>
                     </div>
                 </div>
@@ -523,19 +523,19 @@ const attention_check_string = `
                     <div class="item_label">Z is</div>
                     <div>
                         <label>
-                            <input type="radio" name="question_1" value="A">Alice
+                            <input type="radio" name="Z" value="${pseudonyms_chosen[0]}">${pseudonyms_chosen[0]}
                         </label>
                         <label>
-                            <input type="radio" name="question_1" value="B">Bob
+                            <input type="radio" name="Z" value="${pseudonyms_chosen[2]}">${pseudonyms_chosen[2]}
                         </label>
                         <label>
-                            <input type="radio" name="question_1" value="C">You
+                            <input type="radio" name="Z" value="${pseudonyms_chosen[1]}">${pseudonyms_chosen[1]}
                         </label>
                     </div>
                 </div>
             </div>
             
-            <button class="button_big" disabled>Submit</button>
+            <button class="button_big" disabled="disabled">Submit</button>
         </div>
     </div>
 `;//attention check,可以用来设置选项的文本

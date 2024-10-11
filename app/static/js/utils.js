@@ -1578,14 +1578,14 @@ let attention_passed = false;
 
 function attention_check_click_handler() {
     let temp_answers = [-1, -1, -1];
-    const names = ['question_1', 'question_2', 'question_3'];
+    const names = ['X', 'Y', 'Z'];
     let index_of_question = 0
     for (let name of names) {
         inputs = document.querySelectorAll(`input[name="${name}"]`);
         index_of_choice = 0;
         for (let input of inputs) {
             if (input.checked) {
-                temp_answers[index_of_question] = index_of_choice;
+                temp_answers[index_of_question] = input.value;
             }
             index_of_choice += 1;
         }
@@ -1594,7 +1594,7 @@ function attention_check_click_handler() {
     if (temp_answers[0] != -1 && temp_answers[1] != -1 && temp_answers[2] != -1) {
         document.querySelector("button").disabled = false;
     }
-    if (temp_answers[0] == 3 && temp_answers[1] == 1 && temp_answers[2] == 3) {
+    if (temp_answers[0] == attention_data['X'].name && temp_answers[1] == attention_data['Y'].name && temp_answers[2] == attention_data['Z'].name) {
         attention_passed = true;//只有三个全部回答正确的才会记为true
     }
     data.attention_passed = attention_passed;//将取值传给data
