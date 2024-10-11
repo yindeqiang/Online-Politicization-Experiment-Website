@@ -106,10 +106,10 @@ const section_rule_string = [
     ``,
 
     `<p class="p_instruction">
-    In Phase 2, you will be asked 6 questions on hard facts, future predictions, or public issues. Previous experiments indicate that all of these 6 questions are controversial. Namely, for each question, approximately 50% of the previous participants were on the “Agree” side and the other 50% were on the “Disagree” side.
+    In Phase 3, you will be asked 6 questions on hard facts, future predictions, or public issues. Previous experiments indicate that all of these 6 questions are controversial. Namely, for each question, approximately 50% of the previous participants were on the “Agree” side and the other 50% were on the “Disagree” side.
     </p>
     <span class="br_big"></span>
-    For each question in Phase 2, either you will answer it by your own, or we will show you the answer by Alex or Blair for your reference. Based on the provided information, please choose your answer by pulling the scrollbar to the position that represents your opinion. Then you will need to answer one additional question on how your answer is related to your ideology. After that, click “Submit” to proceed to the next question.<br>
+    For each question in Phase 3, either you will answer it by your own, or we will show you the answer by Alex or Blair for your reference. Based on the provided information, please choose your answer by pulling the scrollbar to the position that represents your opinion. Then you will need to answer one additional question on how your answer is related to your ideology. After that, click “Submit” to proceed to the next question.<br>
     <span class="br_big"></span>
     After reading the above instructions, please check the box below and press continue.<br>
     `,
