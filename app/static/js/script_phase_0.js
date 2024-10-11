@@ -47,6 +47,8 @@ function init_phase_0() {
         }
     });
 
+    const start_time = Date.now();
+
     function checkIfSubmitCanBeEnabled() {
         if (marker_dragged.every(o => o === true)) {
             continue_btn.removeAttribute('disabled');
@@ -98,7 +100,12 @@ function init_phase_0() {
 
         const rangeValue = questions[current].range || [-2, 2];
         const value = (rangeValue[1] - rangeValue[0]) * (segmentIndex * segment_percentage / 100) + rangeValue[0];
-        // temp_answers[human_index] = value;
+
+        temp_answers[current] = {
+            index_of_question: questions[current].index,
+            answer: value,
+            time_to_answer: (Date.now() - start_time) / 1000
+        }
         // console.log(value);
         marker_dragged[current] = true;
         checkIfSubmitCanBeEnabled();

@@ -124,6 +124,7 @@ var data = {//这些数据将会记录在数据库中
     type_A_answers: [],         // ideological questions in phase I
     type_B_answers: [],         // non-ideological questions in phase II
     type_D_answers: [],         // post-quiz questions，存拖动轴的数值
+    type_E_answers: [],         // phase 0
     reason: "",
     driven_answers: [],
     trust_answers: [],
@@ -196,7 +197,9 @@ function enter_next() {
 //并且之前还没有进行过注意力检查（!attention_checked）。如果这三个条件都满足，那么调用 attention_check() 函数来执行注意力检查，
 //并将 attention_checked 设置为 true 以表示已经进行了注意力检查。最后，函数返回，不再执行后续的代码。
     // deal with data
-    if (phase == 1) {
+    if (phase == 0) {
+        data.type_E_answers.push(temp_answers);
+    } else if (phase == 1) {
         // track answers and display them
         track_answers();
         phase_1_answers_HTML = document.querySelector(".right").innerHTML;
