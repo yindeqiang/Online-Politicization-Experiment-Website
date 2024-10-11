@@ -1218,6 +1218,58 @@ function end_quiz() {//end_quiz 函数主要用于在测验结束时收集数据
 function attention_check() {//注意力检测
     console.log("Attention Check!");
     document.querySelector(".quiz_body").innerHTML = attention_check_string;
+
+    // 计算滑块位置
+    const list = [...split_answers[0]].sort();
+    let dot_pos_1 = (list[0] + 2) / 4;
+    let dot_pos_2 = (list[1] + 2) / 4;
+    let dot_pos_3 = (list[2] + 2) / 4;
+
+    const color_0 = interpolateColor(dot_pos_1);
+    const color_2 = interpolateColor(dot_pos_3);
+        let leftColor, rightColor, leftGroup, rightGroup;
+        leftColor = color_0;
+        rightColor = color_2;
+        leftGroup = pseudonyms_chosen[0];
+        rightGroup = pseudonyms_chosen[2];
+    function getPosition(val) {
+        return (val + 2) * 5 * (1 / 21);
+    }
+    // 设置姓名标签的位置
+    document.getElementById('attention_marker_1').style.left = getPosition(list[0]) * 100 + '%';
+    document.getElementById('attention_marker_2').style.left = getPosition(list[1]) * 100 + '%';
+    document.getElementById('attention_marker_3').style.left = getPosition(list[2]) * 100 + '%';
+
+// 设置姓名标签的颜色
+    document.getElementById('attention_marker_1').style.backgroundColor = interpolateColor(dot_pos_1);
+    document.getElementById('attention_marker_2').style.backgroundColor = interpolateColor(dot_pos_2);
+    document.getElementById('attention_marker_3').style.backgroundColor = interpolateColor(dot_pos_3);
+
+    // 检查重叠情况并调整位置
+    let nameWithDotElements = [
+        { elem: document.getElementById('attention_marker_1').querySelector('span'), pos: dot_pos_1 },
+        { elem: document.getElementById('attention_marker_2').querySelector('span'), pos: dot_pos_2 },
+        { elem: document.getElementById('attention_marker_3').querySelector('span'), pos: dot_pos_3 }
+    ];
+
+    nameWithDotElements.sort((a, b) => a.pos - b.pos);
+
+    // 检查是否三个标签重叠
+    if (Math.abs(nameWithDotElements[0].pos - nameWithDotElements[1].pos) < 0.06 &&
+        Math.abs(nameWithDotElements[1].pos - nameWithDotElements[2].pos) < 0.06) {
+        nameWithDotElements[0].elem.style.top = '0';
+        nameWithDotElements[1].elem.style.top = '-20px';
+        nameWithDotElements[2].elem.style.top = '-40px';
+    } else {
+        // 检查两个标签重叠的情况
+        for (let i = 0; i < nameWithDotElements.length - 1; i++) {
+            if (Math.abs(nameWithDotElements[i].pos - nameWithDotElements[i + 1].pos) < 0.06) {
+                nameWithDotElements[i].elem.style.top = '0';
+                nameWithDotElements[i + 1].elem.style.top = '-20px';
+            }
+        }
+    }
+
     document.querySelector(".attention_check").addEventListener("change", attention_check_click_handler);
     document.querySelector("button").addEventListener("click",() => {
         document.querySelector(".attention_check").removeEventListener("change", attention_check_click_handler);

@@ -458,47 +458,84 @@ I have no idea：表示没有想法或不确定。
 const attention_check_string = `
     <div class="attention_check">
         <div>
-            <h1>Attention check questions</h1>
-            <p>1. Please select "Strongly Disagree" to show you are paying attention to this question.</p>
-            <form>
-                <label>
-                    <input type="radio" name="question_1" value="A">Strongly Agree
-                </label><br>
-                <label>
-                    <input type="radio" name="question_1" value="B">Agree
-                </label><br>
-                <label>
-                    <input type="radio" name="question_1" value="C">Disagree
-                </label><br>
-                <label>
-                    <input type="radio" name="question_1" value="D">Strongly Disagree
-                </label><br>
-            </form>
-            <p>2. I work fourteen months a year.</p>
-            <form>
-                <label>
-                    <input type="radio" name="question_2" value="A">Yes, this is true of me.
-                </label><br>
-                <label>
-                    <input type="radio" name="question_2" value="B">No, this is not true of me.
-                </label><br>
-            </form>
-            <p>3. Which of the following country names start with the letter "D"?</p>
-            <form>
-                <label>
-                    <input type="radio" name="question_3" value="A">Chile
-                </label><br>
-                <label>
-                    <input type="radio" name="question_3" value="B">Austria
-                </label><br>
-                <label>
-                    <input type="radio" name="question_3" value="C">Japan
-                </label><br>
-                <label>
-                    <input type="radio" name="question_3" value="D">Denmark
-                </label><br>
-            </form>
-            <button class="button_big" disabled="true">Continue</button>
+            <h1>Attention check</h1>
+            <p>According to how you placed Alice, Bob and yourself on the ideology spectrum in the previous page, please identify below who X, Y and Z are respectively. You will NOT get paid if your answers are inconsistent with those in the previous page.</p>
+
+            <div class="range-container-phase-2">
+                <div class="custom-range" id="range_1">
+                    <div class="range-marker-phase-2" id="attention_marker_1"><span class="label-1">X</span></div>
+                    <div class="range-marker-phase-2" id="attention_marker_2"><span class="label-1">Y</span></div>
+                    <div class="range-marker-phase-2" id="attention_marker_3"><span class="label-1">Z</span></div>
+                    <div class="range-scale-phase-2"></div>
+                    <div class="range-text-phase-2">
+                        <p>-2</p>
+                        <p>-1</p>
+                        <p>0</p>
+                        <p>1</p>
+                        <p>2</p>
+                    </div>
+                    <div style="position: relative; height: 40px;">
+                        <div class="phase2-label-container" style="left: 7.4%; width: 9%;">
+                            <div class="phase2-label">strongly<br>disagree</div>
+                        </div>
+                        <div class="phase2-label-container" style="left: 31.21%; width: 9%;">
+                            <div class="phase2-label">somewhat<br>disagree</div>
+                        </div>
+                        <div class="phase2-label-container" style="left: 59.79%; width: 9%;">
+                            <div class="phase2-label">somewhat<br>agree</div>
+                        </div>
+                        <div class="phase2-label-container" style="left: 83.6%; width: 9%;">
+                            <div class="phase2-label">strongly<br>agree</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="attention_form">
+                <div class="form_item">
+                    <div class="item_label">X is</div>
+                    <div>
+                        <label>
+                            <input type="radio" name="question_1" value="A">Alice
+                        </label>
+                        <label>
+                            <input type="radio" name="question_1" value="B">Bob
+                        </label>
+                        <label>
+                            <input type="radio" name="question_1" value="C">You
+                        </label>
+                    </div>
+                </div>
+                <div class="form_item">
+                    <div class="item_label">Y is</div>
+                    <div>
+                        <label>
+                            <input type="radio" name="question_1" value="A">Alice
+                        </label>
+                        <label>
+                            <input type="radio" name="question_1" value="B">Bob
+                        </label>
+                        <label>
+                            <input type="radio" name="question_1" value="C">You
+                        </label>
+                    </div>
+                </div>
+                <div class="form_item">
+                    <div class="item_label">Z is</div>
+                    <div>
+                        <label>
+                            <input type="radio" name="question_1" value="A">Alice
+                        </label>
+                        <label>
+                            <input type="radio" name="question_1" value="B">Bob
+                        </label>
+                        <label>
+                            <input type="radio" name="question_1" value="C">You
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="button_big" disabled>Submit</button>
         </div>
     </div>
 `;//attention check,可以用来设置选项的文本

@@ -996,15 +996,56 @@ margin-bottom: 50px;：设置元素的下外边距为 50 像素。这会在元�
 }
 
 .attention_check {
-    padding: 50px 100px 50px 100px;
+    padding: 50px 80px;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 800px;
+    border: 2px solid #000;
+    margin: 0 auto;
 }
 
 
 .attention_check > div > h1 {
-    margin-bottom: 80px;
+    margin-bottom: 60px;
+}
+
+.attention_check > div > p {
+    margin: 0 0 60px;
+}
+
+.attention_check .phase2-label-container {
+    top: 0;
+    font-weight: bold;
+}
+
+.attention_check .range-text-phase-2 {
+    top: 15px;
+    font-weight: bold;
+}
+
+.attention_check .range-container-phase-2 {
+    width: 100%;
+    margin: 0 0 80px;
+}
+
+.attention_check .range-marker-phase-2 {
+    transform: translate(0, -50%);
+}
+
+.attention_form {
+    font-size: 24px;
+}
+
+.attention_form .form_item {
+    display: flex;
+    align-items: center;
+    margin: 0 20px 0 0;
+    padding: 15px 0;
+}
+
+.attention_form .form_item .item_label {
+
 }
 
 .detection_wrap {
@@ -1199,6 +1240,14 @@ margin-bottom: 50px;：设置元素的下外边距为 50 像素。这会在元�
     background-color: #ededed;
     cursor: grab;
     z-index: 10;
+}
+
+.range-marker-phase-2 span.label-1 {
+    left: 50%;
+    top: 0;
+    transform: translate(-50%, -150%);
+    position: absolute;
+    font-size: 20px;
 }
 
 .range-text-phase-2 {
