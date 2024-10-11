@@ -187,11 +187,11 @@ let num1 = [];let num2 = [];
 
 function enter_next() {
     // attention check
-    // if (phase == 3 && question_seqNum_in_phase == 1 && !attention_checked) {
-    //     attention_check(); // 这里原有的逻辑
-    //     attention_checked = true;
-    //     return;
-    // }
+    if (phase == 2 && question_seqNum_in_phase == 0 && !attention_checked) {
+        attention_check(); // 这里原有的逻辑
+        attention_checked = true;
+        return;
+    }
 //这段代码检查当前是否处于第三阶段（phase == 3），并且是否是该阶段的第三个问题（question_seqNum_in_phase == 2），
 //并且之前还没有进行过注意力检查（!attention_checked）。如果这三个条件都满足，那么调用 attention_check() 函数来执行注意力检查，
 //并将 attention_checked 设置为 true 以表示已经进行了注意力检查。最后，函数返回，不再执行后续的代码。
