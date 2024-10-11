@@ -364,8 +364,8 @@ function enter_next() {
     }
 
     else {//如果不是本phase里面的最后一题。
+        next_question_seqNum += 1;
         if (phase !== 0 ) {
-            next_question_seqNum += 1;
             question_seqNum_in_phase += 1;
         }
         switch (phase) {
@@ -424,7 +424,7 @@ function show_instructions() {//1,3开始前要有一个instruction的展示
         //修改 .specific_rules 元素的内容，用于显示特定阶段的规则
         // modify the rules
         let rule = document.querySelector(".specific_rules");
-        if (phase == 0) {
+        if (phase == 0 || phase == 1) {
             if (userData.quiz_type == 'pilot_1')
                 rule.innerHTML = section_rule_string[phase][userData.quiz_type];
             else
@@ -606,7 +606,7 @@ let phase_1_distances = generate_zero_array(num_of_bots);
 
 function init_phase_1() {
     // change DOM
-    if (question_seqNum_in_phase == -1)
+    if (question_seqNum_in_phase == 0)
         document.querySelector(".quiz_body").innerHTML = phase_1_body_string;
     //如果 question_seqNum_in_phase 的值为0（表示这是该阶段的第一个问题），
     //那么会将 .quiz_body 元素的内容设置为 phase_1_body_string 变量的值。这可能是为了显示该阶段特有的内容或布局。

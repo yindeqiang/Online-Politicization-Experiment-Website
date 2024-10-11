@@ -5,13 +5,21 @@
     max-width: 1000px;
 }
 
+h1.questions_block_title {
+    text-align: left;
+    font-size: 26px;
+    margin: 0 0 60px;
+}
+
 .phase_0_custom-range {
     padding: 40px;
     border: none;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .phase_0_custom-range .range-marker-phase-2 {
-    width: 35px;
+    /* width: 35px; */
 }
 
 .phase_0_wrapper .question_item {
@@ -29,4 +37,18 @@
 .phase_0_custom-range .range-text-phase-2 > p {
     font-size: 14px;
     font-weight: 500;
+}
+
+.phase_0_wrapper .button_block {
+    display: flex;
+    justify-content: flex-end;
+
+}
+
+.phase_0_wrapper .button_block .continue_btn {
+    margin: 0;
+}
+
+.phase_0_custom-range .range-text-phase-2 {
+    top: 10px;
 }

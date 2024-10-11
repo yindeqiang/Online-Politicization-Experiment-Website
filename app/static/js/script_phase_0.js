@@ -10,7 +10,7 @@ function init_phase_0() {
         <div class="phase_0_wrapper">
             <h1 class="questions_block_title"></h1>
             <div class="questions_list"></div>
-            <div class="button">
+            <div class="button_block">
                 <button class="button_big continue_btn" disabled onclick="enter_next()">Continue</button>
             </div>
         </div>
@@ -24,6 +24,7 @@ function init_phase_0() {
 
     // 每页三道题
     if (question_seqNum_in_phase + 3 > statements[0].length) {
+        title.innerHTML = `Q${next_question_seqNum}-Q${next_question_seqNum + 2}. Do you agree or disagree with the following statement?`
         questions = statements[1].slice(question_seqNum_in_phase - statements[0].length, question_seqNum_in_phase - statements[0].length + 3);
     } else {
         questions = statements[0].slice(question_seqNum_in_phase, question_seqNum_in_phase + 3);
@@ -32,7 +33,7 @@ function init_phase_0() {
     question_seqNum_in_phase += 3;
 
     // 将三道题的dom添加到页面上
-    questions.forEach(q => {
+    questions.forEach((q, i) => {
         const dom = `
             <div class="question_title">Q${next_question_seqNum}. “${q.text}”</div>
             <div>${generateAxis(q)}</div>
@@ -41,8 +42,9 @@ function init_phase_0() {
         div.className = 'question_item';
         div.innerHTML = dom;
         questions_list.appendChild(div);
-
-        next_question_seqNum += 1;
+        if (i !== questions.length - 1) {
+            next_question_seqNum += 1;
+        }
     });
 
     function checkIfSubmitCanBeEnabled() {

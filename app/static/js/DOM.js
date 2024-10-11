@@ -4,7 +4,7 @@ const pseudonyms = ["Alex", "Blair"];// 这是进入实验时选的名字，原�
 // const phase_length = [1, [6, 4, 3], 1, 6, 1];//phase0选头像名字（已弃用），phase1答题，phase2标签，phase3答题，phase4 additional question
 const phase_length = {
     '-1': 1,
-    '0': 1,
+    '0': 19,
     '1': [6, 4, 3], 
     '2': 1, 
     '3': 6, 
@@ -789,31 +789,7 @@ const phase_0_axis_string_0 = function() {
             <p style="left: 100%"><span>2</span></p>
         </div>
 
-        <div class="range-labels-container">
-            <!-- 绘制虚线 -->
-            <div class="phase2-dotted-line" style="left: 0%; width: 100%; border-top: 1.5px solid black;"></div>
-        
-            <!-- 绘制短竖线 -->
-            <div class="phase2-short-line" style="left: 0%;"></div>
-            <div class="phase2-short-line" style="left: 25%;"></div>
-            <div class="phase2-short-line" style="left: 50%;"></div>
-            <div class="phase2-short-line" style="left: 75%;"></div>
-            <div class="phase2-short-line" style="left: 100%;"></div>
-        
-            <!-- 绘制左右箭头 -->
-            <div class="phase2-small-arrow" style="left: calc(25% - 4px);"></div>
-            <div class="phase2-small-arrow-left" style="left: 25%;"></div>
-        
-            <div class="phase2-small-arrow" style="left: calc(75% - 4px);"></div>
-            <div class="phase2-small-arrow-left" style="left: 75%;"></div>
-        
-            <!-- 绘制单侧小箭头 -->
-            <div class="phase2-small-arrow-left" style="left: 0%;"></div>
-            <div class="phase2-small-arrow-left" style="left: 50%;"></div>
-            <div class="phase2-small-arrow" style="left: calc(50% - 4px);"></div>
-            <div class="phase2-small-arrow" style="left: calc(100% - 4px);"></div>         
-        </div>
-        <div style="position: relative; height: 40px;">
+        <div style="position: relative; height: 40px; top: -20px;">
             <div class="phase2-label-container" style="left: 7.4%; width: 9%;">
                 <div class="phase2-label">strongly<br>disagree</div>
             </div>
