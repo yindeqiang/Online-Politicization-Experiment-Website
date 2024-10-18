@@ -1333,7 +1333,7 @@ input[type="range"]::-moz-range-thumb {
 
 .range-labels-container {
     position: relative;
-    top: 0;
+    top: 10px;
 }
 
 /*.range-labels-container {*/
@@ -1631,7 +1631,7 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .phase_3_custom-range .range-text-phase-2 {
-    top: -3px;
+    top: 10px;
     display: block;
     position: relative;
     height: 40px;
@@ -1668,9 +1668,9 @@ input[type="range"]::-moz-range-thumb {
     width: calc(5% - 4px);
     padding-top: calc(5% - 4px);
     text-align: center;
-    top: -13.5px;
+    top: 0;
     background: #fff;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     z-index: 2;
 }
 
